@@ -10,7 +10,8 @@ denton_modelbased(
   differencing = 1,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
   conversion.obsposition = 1,
-  outliers = NULL
+  outliers = NULL,
+  fixedBIratios = NULL
 )
 }
 \arguments{
@@ -27,6 +28,10 @@ denton_modelbased(
 \item{outliers}{a list of structured definition of the outlier periods and their intensity. The period must be submitted
 first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an equal sign and
 the intensity of the outlier, defined as the relative value of the 'innovation variances' (1= normal situation)}
+
+\item{fixedBIratios}{a list of structured definition of the periods where the BI ratios must be fixed. The period must be 
+submitted first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an 
+equal sign and the value of the BI ratio.}
 }
 \value{
 an object of class 'JD3MBDenton'
@@ -52,8 +57,8 @@ data("qna_data")
 Y<-ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency=1, start=c(2009,1))
 x<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency=4, start=c(2009,1))
 
-td1<-rjd3bench::denton_modelbased(Y,x)
-td2<-rjd3bench::denton_modelbased(Y, x, outliers = list("2020-04-01"=100))
+td1<-rjd3bench::denton_modelbased(Y, x)
+td2<-rjd3bench::denton_modelbased(Y, x, outliers=list("2020-04-01"=100), fixedBIratios=list("2021-04-01"=39.0))
 
 bi1<-td1$estimation$biratio
 bi2<-td2$estimation$biratio
