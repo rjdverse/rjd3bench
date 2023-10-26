@@ -51,7 +51,7 @@ denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum
 
   conversion=match.arg(conversion)
 
-  jseries=rjd3toolkit::.r2jd_ts(series)
+  jseries=rjd3toolkit::.r2jd_tsdata(series)
   if (is.null(outliers)){
     odates=.jcast(.jnull(), "[Ljava/lang/String;")
     ovars=.jnull("[D")
@@ -59,7 +59,7 @@ denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum
     odates=.jarray(names(outliers))
     ovars=.jarray(as.numeric(outliers))
   }
-  jindicator<-rjd3toolkit::.r2jd_ts(indicator)
+  jindicator<-rjd3toolkit::.r2jd_tsdata(indicator)
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/ModelBasedDentonResults;",
                 "processModelBasedDenton", jseries, jindicator, as.integer(1), conversion, as.integer(conversion.obsposition), odates, ovars, 
                 .jcast(.jnull(), "[Ljava/lang/String;"), .jnull("[D"))
