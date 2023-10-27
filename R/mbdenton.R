@@ -19,6 +19,9 @@ NULL
 #' @param outliers a list of structured definition of the outlier periods and their intensity. The period must be submitted
 #'                 first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an equal sign and
 #'                 the intensity of the outlier, defined as the relative value of the 'innovation variances' (1= normal situation)
+#' @param fixedBIratios a list of structured definition of the periods where the BI ratios must be fixed. The period must be 
+#'                      submitted first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an 
+#'                      equal sign and the value of the BI ratio.
 #' @return an object of class 'JD3MBDenton'
 #' @export
 #'
@@ -34,8 +37,8 @@ NULL
 #' Y<-ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency=1, start=c(2009,1))
 #' x<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency=4, start=c(2009,1))
 #'
-#' td1<-rjd3bench::denton_modelbased(Y,x)
-#' td2<-rjd3bench::denton_modelbased(Y, x, outliers = list("2020-04-01"=100))
+#' td1<-rjd3bench::denton_modelbased(Y, x)
+#' td2<-rjd3bench::denton_modelbased(Y, x, outliers=list("2020-04-01"=100), fixedBIratios=list("2021-04-01"=39.0))
 #'
 #' bi1<-td1$estimation$biratio
 #' bi2<-td2$estimation$biratio
@@ -47,11 +50,12 @@ NULL
 #' }
 #'
 denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
-                            outliers=NULL){
+                            outliers=NULL, fixedBIratios=NULL){
 
   conversion=match.arg(conversion)
 
   jseries=rjd3toolkit::.r2jd_tsdata(series)
+  jindicator<-rjd3toolkit::.r2jd_tsdata(indicator)
   if (is.null(outliers)){
     odates=.jcast(.jnull(), "[Ljava/lang/String;")
     ovars=.jnull("[D")
@@ -59,10 +63,16 @@ denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum
     odates=.jarray(names(outliers))
     ovars=.jarray(as.numeric(outliers))
   }
-  jindicator<-rjd3toolkit::.r2jd_tsdata(indicator)
+  if (is.null(fixedBIratios)){
+    fdates=.jcast(.jnull(), "[Ljava/lang/String;")
+    fvars=.jnull("[D")
+  }else{
+    fdates=.jarray(names(fixedBIratios))
+    fvars=.jarray(as.numeric(fixedBIratios))
+  }
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/ModelBasedDentonResults;",
                 "processModelBasedDenton", jseries, jindicator, as.integer(1), conversion, as.integer(conversion.obsposition), odates, ovars, 
-                .jcast(.jnull(), "[Ljava/lang/String;"), .jnull("[D"))
+                fdates, fvars)
   # Build the S3 result
   estimation<-list(
     disagg=rjd3toolkit::.proc_ts(jrslt, "disagg"),
