@@ -54,8 +54,8 @@ denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum
 
   conversion=match.arg(conversion)
 
-  jseries=rjd3toolkit::.r2jd_ts(series)
-  jindicator<-rjd3toolkit::.r2jd_ts(indicator)
+  jseries=rjd3toolkit::.r2jd_tsdata(series)
+  jindicator<-rjd3toolkit::.r2jd_tsdata(indicator)
   if (is.null(outliers)){
     odates=.jcast(.jnull(), "[Ljava/lang/String;")
     ovars=.jnull("[D")

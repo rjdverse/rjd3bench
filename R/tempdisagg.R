@@ -51,15 +51,15 @@ temporaldisaggregation<-function(series, constant=T, trend=F, indicators=NULL,
   if (model!="Ar1" && !zeroinitialization){
     constant=F
   }
-  jseries<-rjd3toolkit::.r2jd_ts(series)
+  jseries<-rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
   if (!is.null(indicators)){
     if (is.list(indicators)){
       for (i in 1:length(indicators)){
-        jlist[[i]]<-rjd3toolkit::.r2jd_ts(indicators[[i]])
+        jlist[[i]]<-rjd3toolkit::.r2jd_tsdata(indicators[[i]])
       }
     }else if (is.ts(indicators)){
-      jlist[[1]]<-rjd3toolkit::.r2jd_ts(indicators)
+      jlist[[1]]<-rjd3toolkit::.r2jd_tsdata(indicators)
     }else{
       stop("Invalid indicators")
     }
@@ -137,9 +137,9 @@ temporaldisaggregationI<-function(series, indicator,
                          rho=0, rho.fixed=F, rho.truncated=0){
   # model=match.arg(model)
   conversion=match.arg(conversion)
-  jseries=rjd3toolkit::.r2jd_ts(series)
+  jseries=rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
-  jindicator<-rjd3toolkit::.r2jd_ts(indicator)
+  jindicator<-rjd3toolkit::.r2jd_tsdata(indicator)
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationIResults;",
                 "processI", jseries, jindicator, "Ar1", conversion, as.integer(conversion.obsposition),rho, rho.fixed, rho.truncated)
   # Build the S3 result
