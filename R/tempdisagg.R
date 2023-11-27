@@ -239,6 +239,7 @@ summary.JD3TempDisagg<-function(object, ...){
     cat("Number of observations: ", object$likelihood$nobs, "\n")
     cat("Number of effective observations: ", object$likelihood$neffective, "\n")
     cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
+    cat("LogLikelihood: ", object$likelihood$ll, "\n")
     cat("Standard error: ", "\n")
     cat("AIC: ", object$likelihood$aic, "\n")
     cat("BIC: ", object$likelihood$bic, "\n")
