@@ -25,6 +25,7 @@ adl_disaggregation<-function(series, constant=T, trend=F, indicators=NULL,
                                  conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
                                  phi=0, phi.fixed=F, phi.truncated=0, xar=c("FREE", "SAME", "NONE")){
   conversion=match.arg(conversion)
+  xar=match.arg(xar)
   jseries<-rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
   if (!is.null(indicators)){
@@ -73,5 +74,58 @@ adl_disaggregation<-function(series, constant=T, trend=F, indicators=NULL,
     regression=regression,
     estimation=estimation,
     likelihood=likelihood),
-    class="JD3TempDisagg"))
+    class="JD3AdlDisagg"))
 }
+
+#' Print function for object of class JD3AdlDisagg
+#'
+#' @param x an object of class JD3AdlDisagg
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' td<-rjd3bench::adl_disaggregation(Y, indicator=x, xar="FREE")
+#' print(td)
+#'
+print.JD3AdlDisagg<-function(x, ...){
+  if (is.null(x$regression$model)){
+    cat("Invalid estimation")
+  }else{
+    cat("Model:", x$regression$type, "\n")
+    print(x$regression$model)
+    
+    cat("\n")
+    cat("Use summary() for more details. \nUse plot() to see the decomposition of the disaggregated series.")
+  }
+}
+
+#' Plot function for object of class JD3AdlDisagg
+#'
+#' @param x an object of class JD3AdlDisagg
+#' @param \dots further arguments to pass to ts.plot.
+#'
+#' @export
+#'
+#' @examples
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' td<-rjd3bench::adl_disaggregation(Y, indicator=x, xar="FREE")
+#' plot(td)
+#'
+plot.JD3AdlDisagg<-function(x, ...){
+  if (is.null(x)){
+    cat("Invalid estimation")
+    
+  }else{
+    td_series <- x$estimation$disagg
+
+    ts.plot(td_series, gpars=list(col=c("orange"), xlab = "", xaxt="n", las=2, ...))
+    axis(side=1, at=start(td_series)[1]:end(td_series)[1])
+    legend("topleft",c("disaggragated series"),lty = c(1,1,1), col=c("orange"), bty="n", cex=0.8)
+  }
+}
+
+
