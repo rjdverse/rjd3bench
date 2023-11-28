@@ -229,34 +229,56 @@ print.JD3TempDisaggI<-function(x, ...){
 #' summary(td)
 #'
 summary.JD3TempDisagg<-function(object, ...){
-  if (is.null(object)){
-    cat("Invalid estimation")
+  summary_disagg(object)
+}
 
-  }else{
-    cat("\n")
-    cat("Likelihood statistics","\n")
-    cat("\n")
-    cat("Number of observations: ", object$likelihood$nobs, "\n")
-    cat("Number of effective observations: ", object$likelihood$neffective, "\n")
-    cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
-    cat("LogLikelihood: ", object$likelihood$ll, "\n")
-    cat("Standard error: ", "\n")
-    cat("AIC: ", object$likelihood$aic, "\n")
-    cat("BIC: ", object$likelihood$bic, "\n")
+#' Summary function for object of class JD3AdlDisagg
+#'
+#' @param object an object of class JD3AdlDisagg
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' td<-rjd3bench::adl_disaggregation(Y, indicator=x)
+#' summary(td)
+#'
+summary.JD3AdlDisagg<-function(object, ...){
+  summary_disagg(object)
+}
 
-    cat("\n")
-    cat("\n")
-    cat("Model:", object$regression$type, "\n")
-    p<-object$estimation$parameter
-    if (! is.nan(p)){
-      cat("Rho :",p," (", object$estimation$eparameter, ")\n")
+
+summary_disagg<-function(object){
+    if (is.null(object)){
+      cat("Invalid estimation")
+      
+    }else{
+      cat("\n")
+      cat("Likelihood statistics","\n")
+      cat("\n")
+      cat("Number of observations: ", object$likelihood$nobs, "\n")
+      cat("Number of effective observations: ", object$likelihood$neffective, "\n")
+      cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
+      cat("LogLikelihood: ", object$likelihood$ll, "\n")
+      cat("Standard error: ", "\n")
+      cat("AIC: ", object$likelihood$aic, "\n")
+      cat("BIC: ", object$likelihood$bic, "\n")
+      
       cat("\n")
       cat("\n")
+      cat("Model:", object$regression$type, "\n")
+      p<-object$estimation$parameter
+      if (! is.nan(p)){
+        cat("Rho :",p," (", object$estimation$eparameter, ")\n")
+        cat("\n")
+        cat("\n")
+      }
+      cat("Regression model","\n")
+      print(object$regression$model)
+      
     }
-    cat("Regression model","\n")
-    print(object$regression$model)
-
-  }
 }
 
 #' Summary function for object of class JD3TempDisaggI
@@ -283,6 +305,7 @@ summary.JD3TempDisaggI<-function(object, ...){
     cat("Number of observations: ", object$likelihood$nobs, "\n")
     cat("Number of effective observations: ", object$likelihood$neffective, "\n")
     cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
+    cat("LogLikelihood: ", object$likelihood$ll, "\n")
     cat("Standard error: ", "\n")
     cat("AIC: ", object$likelihood$aic, "\n")
     cat("BIC: ", object$likelihood$bic, "\n")
