@@ -1,7 +1,7 @@
 Package: rjd3bench
 Type: Package
 Title: Interface to 'JDemetra+ 3.0' Seasonal Adjustment Software
-Version: 1.0.0
+Version: 2.0.0
 Authors@R: c(
   person("Jean", "Palate", role = c("aut", "cre"),
                 email = "jean.palate@nbb.be"))
@@ -10,8 +10,8 @@ Depends:
   R (>= 3.6.0)
 Imports:
   rJava (>= 1.0-6),
-  rjd3toolkit (>= 3.0.1),
-  RProtoBuf (>= 0.4.17)
+  rjd3toolkit (>= 3.2.1),
+  RProtoBuf (>= 0.4.20)
 SystemRequirements: Java SE 8 or higher
 License: EUPL
 URL: https://github.com/jdemetra/rjd3sa
@@ -21,6 +21,7 @@ RoxygenNote: 7.2.3
 BugReports: https://github.com/jdemetra/rjdemetra3/issues
 Encoding: UTF-8
 Collate: 
+    'adl.R'
     'utils.R'
     'benchmark.R'
     'calendarization.R'

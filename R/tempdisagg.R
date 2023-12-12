@@ -51,15 +51,15 @@ temporaldisaggregation<-function(series, constant=T, trend=F, indicators=NULL,
   if (model!="Ar1" && !zeroinitialization){
     constant=F
   }
-  jseries<-rjd3toolkit::.r2jd_ts(series)
+  jseries<-rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
   if (!is.null(indicators)){
     if (is.list(indicators)){
       for (i in 1:length(indicators)){
-        jlist[[i]]<-rjd3toolkit::.r2jd_ts(indicators[[i]])
+        jlist[[i]]<-rjd3toolkit::.r2jd_tsdata(indicators[[i]])
       }
     }else if (is.ts(indicators)){
-      jlist[[1]]<-rjd3toolkit::.r2jd_ts(indicators)
+      jlist[[1]]<-rjd3toolkit::.r2jd_tsdata(indicators)
     }else{
       stop("Invalid indicators")
     }
@@ -137,9 +137,9 @@ temporaldisaggregationI<-function(series, indicator,
                          rho=0, rho.fixed=F, rho.truncated=0){
   # model=match.arg(model)
   conversion=match.arg(conversion)
-  jseries=rjd3toolkit::.r2jd_ts(series)
+  jseries=rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
-  jindicator<-rjd3toolkit::.r2jd_ts(indicator)
+  jindicator<-rjd3toolkit::.r2jd_tsdata(indicator)
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationIResults;",
                 "processI", jseries, jindicator, "Ar1", conversion, as.integer(conversion.obsposition),rho, rho.fixed, rho.truncated)
   # Build the S3 result
@@ -229,33 +229,56 @@ print.JD3TempDisaggI<-function(x, ...){
 #' summary(td)
 #'
 summary.JD3TempDisagg<-function(object, ...){
-  if (is.null(object)){
-    cat("Invalid estimation")
+  summary_disagg(object)
+}
 
-  }else{
-    cat("\n")
-    cat("Likelihood statistics","\n")
-    cat("\n")
-    cat("Number of observations: ", object$likelihood$nobs, "\n")
-    cat("Number of effective observations: ", object$likelihood$neffective, "\n")
-    cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
-    cat("Standard error: ", "\n")
-    cat("AIC: ", object$likelihood$aic, "\n")
-    cat("BIC: ", object$likelihood$bic, "\n")
+#' Summary function for object of class JD3AdlDisagg
+#'
+#' @param object an object of class JD3AdlDisagg
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' td<-rjd3bench::adl_disaggregation(Y, indicator=x)
+#' summary(td)
+#'
+summary.JD3AdlDisagg<-function(object, ...){
+  summary_disagg(object)
+}
 
-    cat("\n")
-    cat("\n")
-    cat("Model:", object$regression$type, "\n")
-    p<-object$estimation$parameter
-    if (! is.nan(p)){
-      cat("Rho :",p," (", object$estimation$eparameter, ")\n")
+
+summary_disagg<-function(object){
+    if (is.null(object)){
+      cat("Invalid estimation")
+      
+    }else{
+      cat("\n")
+      cat("Likelihood statistics","\n")
+      cat("\n")
+      cat("Number of observations: ", object$likelihood$nobs, "\n")
+      cat("Number of effective observations: ", object$likelihood$neffective, "\n")
+      cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
+      cat("LogLikelihood: ", object$likelihood$ll, "\n")
+      cat("Standard error: ", "\n")
+      cat("AIC: ", object$likelihood$aic, "\n")
+      cat("BIC: ", object$likelihood$bic, "\n")
+      
       cat("\n")
       cat("\n")
+      cat("Model:", object$regression$type, "\n")
+      p<-object$estimation$parameter
+      if (! is.nan(p)){
+        cat("Rho :",p," (", object$estimation$eparameter, ")\n")
+        cat("\n")
+        cat("\n")
+      }
+      cat("Regression model","\n")
+      print(object$regression$model)
+      
     }
-    cat("Regression model","\n")
-    print(object$regression$model)
-
-  }
 }
 
 #' Summary function for object of class JD3TempDisaggI
@@ -282,6 +305,7 @@ summary.JD3TempDisaggI<-function(object, ...){
     cat("Number of observations: ", object$likelihood$nobs, "\n")
     cat("Number of effective observations: ", object$likelihood$neffective, "\n")
     cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
+    cat("LogLikelihood: ", object$likelihood$ll, "\n")
     cat("Standard error: ", "\n")
     cat("AIC: ", object$likelihood$aic, "\n")
     cat("BIC: ", object$likelihood$bic, "\n")
