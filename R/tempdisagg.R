@@ -45,11 +45,11 @@ temporaldisaggregation<-function(series, constant = TRUE,  trend = FALSE,  indic
                          conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
                          rho=0, rho.fixed = FALSE,  rho.truncated=0,
                          zeroinitialization = FALSE,  diffuse.algorithm=c("SqrtDiffuse", "Diffuse", "Augmented"), diffuse.regressors=FALSE){
-  model=match.arg(model)
-  conversion=match.arg(conversion)
-  diffuse.algorithm=match.arg(diffuse.algorithm)
+  model <- match.arg(model)
+  conversion <- match.arg(conversion)
+  diffuse.algorithm <- match.arg(diffuse.algorithm)
   if (model!="Ar1" && !zeroinitialization){
-    constant=FALSE
+    constant <- FALSE
   }
   jseries<-rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
@@ -136,8 +136,8 @@ temporaldisaggregationI<-function(series, indicator,
                          conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
                          rho=0, rho.fixed = FALSE,  rho.truncated=0){
   # model=match.arg(model)
-  conversion=match.arg(conversion)
-  jseries=rjd3toolkit::.r2jd_tsdata(series)
+  conversion <- match.arg(conversion)
+  jseries <- rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
   jindicator<-rjd3toolkit::.r2jd_tsdata(indicator)
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationIResults;",

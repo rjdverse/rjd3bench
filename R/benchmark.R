@@ -38,12 +38,12 @@ denton<-function(s=NULL, t, d=1, mul=TRUE, nfreq=4, modified=TRUE,
                  conversion=c("Sum", "Average", "Last", "First", "UserDefined"),
                  obsposition=1){
 
-  conversion=match.arg(conversion)
+  conversion <- match.arg(conversion)
 
-  jd_t<-rjd3toolkit::.r2jd_tsdata(t)
+  jd_t <- rjd3toolkit::.r2jd_tsdata(t)
 
   if (!is.null(s)){
-    jd_s<-rjd3toolkit::.r2jd_tsdata(s)
+    jd_s <- rjd3toolkit::.r2jd_tsdata(s)
   } else{
     jd_s<-as.integer(nfreq)
   }
@@ -79,7 +79,7 @@ grp<-function(s, t,
               conversion=c("Sum", "Average", "Last", "First", "UserDefined"),
               obsposition=1, eps=1e-12, iter=500, denton=TRUE){
 
-  conversion=match.arg(conversion)
+  conversion <- match.arg(conversion)
 
   jd_s<-rjd3toolkit::.r2jd_tsdata(s)
   jd_t<-rjd3toolkit::.r2jd_tsdata(t)
@@ -127,7 +127,7 @@ cubicspline<-function(s=NULL, t, nfreq=4,
                       conversion=c("Sum", "Average", "Last", "First", "UserDefined"),
                       obsposition=1){
 
-  conversion=match.arg(conversion)
+  conversion <- match.arg(conversion)
 
   jd_t<-rjd3toolkit::.r2jd_tsdata(t)
 
@@ -185,12 +185,12 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
     stop("incorrect argument, first argument should be a list of at least 3 time series")}
 
   #create the input
-  jdic=.jnew("jdplus/toolkit/base/r/util/Dictionary")
+  jdic <- .jnew("jdplus/toolkit/base/r/util/Dictionary")
   for(i in seq_along(xlist)){
     .jcall(jdic, "V", "add", names(xlist[i]), rjd3toolkit::.r2jd_tsdata(xlist[[i]]))
   }
   if (is.null(tcvector)){
-    ntc=0
+    ntc <- 0
     jtc<-.jcast(.jnull(), "[Ljava/lang/String;")
   }else if (! is.vector(tcvector)){
     stop("incorrect argument, constraints should be presented within a character vector")
@@ -199,7 +199,7 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
     jtc<-.jarray(tcvector, "java/lang/String")
   }
   if (is.null(ccvector)){
-    ncc=0
+    ncc <- 0
     jcc<-.jcast(.jnull(), "[Ljava/lang/String;")
   }else if (! is.vector(ccvector)){
     stop("incorrect argument, constraints should be presented within a character vector")
@@ -214,8 +214,8 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
                   ,jdic,  jtc, jcc, rho, lambda)
   if (is.jnull(jd_rslt))
     return (NULL)
-  rlist=list()
-  rnames=.jcall(jd_rslt, "[S", "names")
+  rlist <- list()
+  rnames <- .jcall(jd_rslt, "[S", "names")
   for(i in seq_along(rnames)){
     jts<-.jcall(jd_rslt, "Ljdplus/toolkit/base/api/timeseries/TsData;", "get", rnames[i])
     if (! is.jnull(jts)){
