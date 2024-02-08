@@ -40,16 +40,16 @@ NULL
 #' td2<-rjd3bench::temporaldisaggregation(Y, model = "Rw")
 #' mod1<- td1$regression$model
 #'
-temporaldisaggregation<-function(series, constant=T, trend=F, indicators=NULL,
+temporaldisaggregation<-function(series, constant = TRUE,  trend = FALSE,  indicators=NULL,
                          model=c("Ar1", "Rw", "RwAr1"), freq=4,
                          conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
-                         rho=0, rho.fixed=F, rho.truncated=0,
-                         zeroinitialization=F, diffuse.algorithm=c("SqrtDiffuse", "Diffuse", "Augmented"), diffuse.regressors=F){
+                         rho=0, rho.fixed = FALSE,  rho.truncated=0,
+                         zeroinitialization = FALSE,  diffuse.algorithm=c("SqrtDiffuse", "Diffuse", "Augmented"), diffuse.regressors=FALSE){
   model=match.arg(model)
   conversion=match.arg(conversion)
   diffuse.algorithm=match.arg(diffuse.algorithm)
   if (model!="Ar1" && !zeroinitialization){
-    constant=F
+    constant=FALSE
   }
   jseries<-rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
@@ -134,7 +134,7 @@ temporaldisaggregation<-function(series, constant=T, trend=F, indicators=NULL,
 #'
 temporaldisaggregationI<-function(series, indicator,
                          conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
-                         rho=0, rho.fixed=F, rho.truncated=0){
+                         rho=0, rho.fixed = FALSE,  rho.truncated=0){
   # model=match.arg(model)
   conversion=match.arg(conversion)
   jseries=rjd3toolkit::.r2jd_tsdata(series)

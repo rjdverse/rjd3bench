@@ -77,7 +77,7 @@ denton<-function(s=NULL, t, d=1, mul=TRUE, nfreq=4, modified=TRUE,
 #'
 grp<-function(s, t,
               conversion=c("Sum", "Average", "Last", "First", "UserDefined"),
-              obsposition=1, eps=1e-12, iter=500, denton=T){
+              obsposition=1, eps=1e-12, iter=500, denton=TRUE){
 
   conversion=match.arg(conversion)
 

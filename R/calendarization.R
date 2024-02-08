@@ -24,7 +24,7 @@ NULL
 #' cal<-calendarization(obs, 4, end="2003-12-31", stde=TRUE)
 #' Q<-cal$rslt
 #' eQ<-cal$erslt
-calendarization<-function(calendarobs, freq, start=NULL, end=NULL, dailyweights=NULL, stde=F){
+calendarization<-function(calendarobs, freq, start=NULL, end=NULL, dailyweights=NULL, stde=FALSE){
   jcal<-rjd3toolkit::r2jd_calendarts(calendarobs)
   if (is.null(dailyweights)){
     jw<-.jnull("[D")
