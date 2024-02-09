@@ -132,7 +132,7 @@ summary.JD3MBDenton<-function(object, ...){
 
   }else{
     cat("\n")
-    cat("Likelihood statistics","\n")
+    cat("Likelihood statistics", "\n")
     cat("\n")
     cat("Number of observations: ", object$likelihood$nobs, "\n")
     cat("Number of effective observations: ", object$likelihood$neffective, "\n")
@@ -175,8 +175,8 @@ plot.JD3MBDenton<-function(x, ...){
     bi.lb<-bi - 1.96 * bi.sd
     bi.ub<-bi + 1.96 * bi.sd
 
-    par(mfrow=c(2,1))
-    ts.plot(td, td.lb, td.ub, gpars=list(main = "Disaggragated series and BI ratio with confidence interval", xlab="", ylab="disaggragated series", lty=c(1, 3, 3), ...))
+    par(mfrow = c(2, 1))
+    ts.plot(td, td.lb, td.ub, gpars=list(main = "Disaggragated series and BI ratio with confidence interval", xlab="", ylab="disaggragated series", lty = c(1, 3, 3), ...))
     ts.plot(bi, bi.lb, bi.ub, gpars=list(xlab="", ylab="BI ratio", lty=c(1, 3, 3), ...))
   }
 }

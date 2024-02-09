@@ -47,8 +47,8 @@ denton<-function(s=NULL, t, d=1, mul=TRUE, nfreq=4, modified=TRUE,
   } else{
     jd_s<-as.integer(nfreq)
   }
-  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "denton"
-                  ,jd_s, jd_t, as.integer(d), mul, modified, conversion, as.integer(obsposition))
+  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "denton", 
+                  jd_s, jd_t, as.integer(d), mul, modified, conversion, as.integer(obsposition))
   rjd3toolkit::.jd2r_tsdata(jd_rslt)
 }
 
@@ -83,8 +83,8 @@ grp<-function(s, t,
 
   jd_s<-rjd3toolkit::.r2jd_tsdata(s)
   jd_t<-rjd3toolkit::.r2jd_tsdata(t)
-  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "grp"
-                  ,jd_s, jd_t, conversion, as.integer(obsposition), eps, as.integer(iter), as.logical(denton))
+  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "grp",
+                  jd_s, jd_t, conversion, as.integer(obsposition), eps, as.integer(iter), as.logical(denton))
   rjd3toolkit::.jd2r_tsdata(jd_rslt)
 }
 
@@ -136,8 +136,8 @@ cubicspline<-function(s=NULL, t, nfreq=4,
   } else{
     jd_s<-as.integer(nfreq)
   }
-  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "cubicSpline"
-                  ,jd_s, jd_t, conversion, as.integer(obsposition))
+  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "cubicSpline",
+                  jd_s, jd_t, conversion, as.integer(obsposition))
   rjd3toolkit::.jd2r_tsdata(jd_rslt)
 }
 
@@ -163,8 +163,8 @@ cubicspline<-function(s=NULL, t, nfreq=4,
 cholette<-function(s, t, rho=1, lambda=1, bias="None", conversion="Sum", obsposition=1){
   jd_s<-rjd3toolkit::.r2jd_tsdata(s)
   jd_t<-rjd3toolkit::.r2jd_tsdata(t)
-  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "cholette"
-                  ,jd_s, jd_t, rho, lambda, bias, conversion, as.integer(obsposition))
+  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "cholette", 
+                  jd_s, jd_t, rho, lambda, bias, conversion, as.integer(obsposition))
   rjd3toolkit::.jd2r_tsdata(jd_rslt)
 }
 
@@ -210,8 +210,8 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
   if(ntc+ncc==0) {
     stop("both constraint types are empty, include at least one temporal or contemporaneous constraint")}
 
-  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/r/util/Dictionary;", "multiCholette"
-                  ,jdic,  jtc, jcc, rho, lambda)
+  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/r/util/Dictionary;", "multiCholette",
+                  jdic,  jtc, jcc, rho, lambda)
   if (is.jnull(jd_rslt))
     return (NULL)
   rlist <- list()

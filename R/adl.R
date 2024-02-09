@@ -122,8 +122,8 @@ plot.JD3AdlDisagg<-function(x, ...){
   }else{
     td_series <- x$estimation$disagg
 
-    ts.plot(td_series, gpars=list(col=c("orange"), xlab = "", xaxt="n", las=2, ...))
-    axis(side=1, at=start(td_series)[1]:end(td_series)[1])
-    legend("topleft",c("disaggragated series"),lty = c(1,1,1), col=c("orange"), bty="n", cex=0.8)
+    ts.plot(td_series, gpars = list(col=c("orange"), xlab = "", xaxt = "n", las = 2, ...))
+    axis(side = 1, at = start(td_series)[1]:end(td_series)[1])
+    legend("topleft", c("disaggragated series"), lty = c(1, 1, 1), col = c("orange"), bty="n", cex=0.8)
   }
 }
