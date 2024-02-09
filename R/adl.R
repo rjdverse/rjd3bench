@@ -30,7 +30,7 @@ adl_disaggregation<-function(series, constant=TRUE, trend=FALSE, indicators=NULL
   jlist<-list()
   if (!is.null(indicators)){
     if (is.list(indicators)){
-      for (i in 1:length(indicators)){
+      for (i in seq_len(indicators)){
         jlist[[i]]<-rjd3toolkit::.r2jd_tsdata(indicators[[i]])
       }
     }else if (is.ts(indicators)){
