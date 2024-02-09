@@ -180,4 +180,3 @@ plot.JD3MBDenton<-function(x, ...){
     ts.plot(bi, bi.lb, bi.ub, gpars=list(xlab="", ylab="BI ratio", lty=c(1, 3, 3), ...))
   }
 }
-

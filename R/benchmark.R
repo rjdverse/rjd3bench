@@ -224,4 +224,3 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
   }
   return (rlist)
 }
-

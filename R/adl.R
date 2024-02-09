@@ -127,5 +127,3 @@ plot.JD3AdlDisagg<-function(x, ...){
     legend("topleft",c("disaggragated series"),lty = c(1,1,1), col=c("orange"), bty="n", cex=0.8)
   }
 }
-
-

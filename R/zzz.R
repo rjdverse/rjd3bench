@@ -15,4 +15,3 @@ NULL
   # reload extractors
   .jcall("jdplus/toolkit/base/api/information/InformationExtractors", "V", "reloadExtractors")
 }
-
