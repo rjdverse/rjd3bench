@@ -40,26 +40,26 @@ NULL
 #' td2<-rjd3bench::temporaldisaggregation(Y, model = "Rw")
 #' mod1<- td1$regression$model
 #'
-temporaldisaggregation<-function(series, constant=T, trend=F, indicators=NULL,
+temporaldisaggregation<-function(series, constant = TRUE,  trend = FALSE,  indicators=NULL,
                          model=c("Ar1", "Rw", "RwAr1"), freq=4,
                          conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
-                         rho=0, rho.fixed=F, rho.truncated=0,
-                         zeroinitialization=F, diffuse.algorithm=c("SqrtDiffuse", "Diffuse", "Augmented"), diffuse.regressors=F){
-  model=match.arg(model)
-  conversion=match.arg(conversion)
-  diffuse.algorithm=match.arg(diffuse.algorithm)
+                         rho=0, rho.fixed = FALSE,  rho.truncated=0,
+                         zeroinitialization = FALSE,  diffuse.algorithm=c("SqrtDiffuse", "Diffuse", "Augmented"), diffuse.regressors=FALSE){
+  model <- match.arg(model)
+  conversion <- match.arg(conversion)
+  diffuse.algorithm <- match.arg(diffuse.algorithm)
   if (model!="Ar1" && !zeroinitialization){
-    constant=F
+    constant <- FALSE
   }
-  jseries<-rjd3toolkit::.r2jd_ts(series)
+  jseries<-rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
   if (!is.null(indicators)){
     if (is.list(indicators)){
-      for (i in 1:length(indicators)){
-        jlist[[i]]<-rjd3toolkit::.r2jd_ts(indicators[[i]])
+      for (i in seq_len(indicators)){
+        jlist[[i]]<-rjd3toolkit::.r2jd_tsdata(indicators[[i]])
       }
     }else if (is.ts(indicators)){
-      jlist[[1]]<-rjd3toolkit::.r2jd_ts(indicators)
+      jlist[[1]]<-rjd3toolkit::.r2jd_tsdata(indicators)
     }else{
       stop("Invalid indicators")
     }
@@ -68,7 +68,7 @@ temporaldisaggregation<-function(series, constant=T, trend=F, indicators=NULL,
     jindicators<-.jnull("[Ljdplus/toolkit/base/api/timeseries/TsData;")
   }
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
-                "process", jseries, constant, trend, jindicators, model, as.integer(freq), conversion, as.integer(conversion.obsposition),rho, rho.fixed, rho.truncated,
+                "process", jseries, constant, trend, jindicators, model, as.integer(freq), conversion, as.integer(conversion.obsposition), rho, rho.fixed, rho.truncated,
                 zeroinitialization, diffuse.algorithm, diffuse.regressors)
 
   # Build the S3 result
@@ -134,14 +134,14 @@ temporaldisaggregation<-function(series, constant=T, trend=F, indicators=NULL,
 #'
 temporaldisaggregationI<-function(series, indicator,
                          conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
-                         rho=0, rho.fixed=F, rho.truncated=0){
+                         rho=0, rho.fixed = FALSE,  rho.truncated=0){
   # model=match.arg(model)
-  conversion=match.arg(conversion)
-  jseries=rjd3toolkit::.r2jd_ts(series)
+  conversion <- match.arg(conversion)
+  jseries <- rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
-  jindicator<-rjd3toolkit::.r2jd_ts(indicator)
+  jindicator<-rjd3toolkit::.r2jd_tsdata(indicator)
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationIResults;",
-                "processI", jseries, jindicator, "Ar1", conversion, as.integer(conversion.obsposition),rho, rho.fixed, rho.truncated)
+                "processI", jseries, jindicator, "Ar1", conversion, as.integer(conversion.obsposition), rho, rho.fixed, rho.truncated)
   # Build the S3 result
   a<-rjd3toolkit::.proc_numeric(jrslt, "a")
   b<-rjd3toolkit::.proc_numeric(jrslt, "b")
@@ -206,8 +206,8 @@ print.JD3TempDisaggI<-function(x, ...){
   if (is.null(x$estimation$parameter)){
     cat("Invalid estimation")
   }else{
-    model<-data.frame(coef = c(round(x$regression$a,4),round(x$regression$b,4)))
-    row.names(model)<-c("a","b")
+    model<-data.frame(coef = c(round(x$regression$a, 4), round(x$regression$b, 4)))
+    row.names(model)<-c("a", "b")
     print(model)
 
     cat("\n")
@@ -229,33 +229,56 @@ print.JD3TempDisaggI<-function(x, ...){
 #' summary(td)
 #'
 summary.JD3TempDisagg<-function(object, ...){
-  if (is.null(object)){
-    cat("Invalid estimation")
+  summary_disagg(object)
+}
 
-  }else{
-    cat("\n")
-    cat("Likelihood statistics","\n")
-    cat("\n")
-    cat("Number of observations: ", object$likelihood$nobs, "\n")
-    cat("Number of effective observations: ", object$likelihood$neffective, "\n")
-    cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
-    cat("Standard error: ", "\n")
-    cat("AIC: ", object$likelihood$aic, "\n")
-    cat("BIC: ", object$likelihood$bic, "\n")
+#' Summary function for object of class JD3AdlDisagg
+#'
+#' @param object an object of class JD3AdlDisagg
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' td<-rjd3bench::adl_disaggregation(Y, indicator=x)
+#' summary(td)
+#'
+summary.JD3AdlDisagg<-function(object, ...){
+  summary_disagg(object)
+}
 
-    cat("\n")
-    cat("\n")
-    cat("Model:", object$regression$type, "\n")
-    p<-object$estimation$parameter
-    if (! is.nan(p)){
-      cat("Rho :",p," (", object$estimation$eparameter, ")\n")
+
+summary_disagg<-function(object){
+    if (is.null(object)){
+      cat("Invalid estimation")
+      
+    }else{
+      cat("\n")
+      cat("Likelihood statistics", "\n")
+      cat("\n")
+      cat("Number of observations: ", object$likelihood$nobs, "\n")
+      cat("Number of effective observations: ", object$likelihood$neffective, "\n")
+      cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
+      cat("LogLikelihood: ", object$likelihood$ll, "\n")
+      cat("Standard error: ", "\n")
+      cat("AIC: ", object$likelihood$aic, "\n")
+      cat("BIC: ", object$likelihood$bic, "\n")
+      
       cat("\n")
       cat("\n")
+      cat("Model:", object$regression$type, "\n")
+      p<-object$estimation$parameter
+      if (! is.nan(p)){
+        cat("Rho :", p, " (", object$estimation$eparameter, ")\n")
+        cat("\n")
+        cat("\n")
+      }
+      cat("Regression model", "\n")
+      print(object$regression$model)
+      
     }
-    cat("Regression model","\n")
-    print(object$regression$model)
-
-  }
 }
 
 #' Summary function for object of class JD3TempDisaggI
@@ -277,11 +300,12 @@ summary.JD3TempDisaggI<-function(object, ...){
 
   }else{
     cat("\n")
-    cat("Likelihood statistics","\n")
+    cat("Likelihood statistics", "\n")
     cat("\n")
     cat("Number of observations: ", object$likelihood$nobs, "\n")
     cat("Number of effective observations: ", object$likelihood$neffective, "\n")
     cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
+    cat("LogLikelihood: ", object$likelihood$ll, "\n")
     cat("Standard error: ", "\n")
     cat("AIC: ", object$likelihood$aic, "\n")
     cat("BIC: ", object$likelihood$bic, "\n")
@@ -289,8 +313,8 @@ summary.JD3TempDisaggI<-function(object, ...){
     cat("\n")
     cat("\n")
     cat("Model:", object$regression$type, "\n")
-    model<-data.frame(coef = c(round(object$regression$a,4),round(object$regression$b,4)))
-    row.names(model)<-c("a","b")
+    model<-data.frame(coef = c(round(object$regression$a, 4), round(object$regression$b, 4)))
+    row.names(model)<-c("a", "b")
     print(model)
   }
 }
@@ -319,7 +343,7 @@ plot.JD3TempDisagg<-function(x, ...){
 
     ts.plot(td_series, reg_effect, smoothing_effect, gpars=list(col=c("orange", "green", "blue"), xlab = "", xaxt="n", las=2, ...))
     axis(side=1, at=start(td_series)[1]:end(td_series)[1])
-    legend("topleft",c("disaggragated series", "regression effect", "smoothing effect"),lty = c(1,1,1), col=c("orange", "green", "blue"), bty="n", cex=0.8)
+    legend("topleft", c("disaggragated series", "regression effect", "smoothing effect"), lty = c(1, 1, 1), col=c("orange", "green", "blue"), bty="n", cex=0.8)
   }
 }
 

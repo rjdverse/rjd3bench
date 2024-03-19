@@ -40,7 +40,7 @@ We illustrate the various methods using two sets of time series:
 * The **qna_data** contains a list of two data sets. The first data set 'B1G_Y_data' includes three annual benchmark series which are the Belgian annual value added on the period 2009-2020 in chemical industry (CE), construction (FF) and transport  services (HH). The second data set 'TURN_Q_data' includes the corresponding quarterly indicators which are (modified) production indicators derived from VAT statistics and covering the period 2009Q1-2021Q4.
 
 ```{r, data_used}
-library(rjd3toolkit) # for **retail** data
+library("rjd3toolkit") # for **retail** data
 data("qna_data")
 ```
 
@@ -50,7 +50,7 @@ data("qna_data")
 # Application of methods
 
 ```{r setup}
-library(rjd3bench)
+library("rjd3bench")
 ```
 
 ## Temporal disaggregation
@@ -61,8 +61,8 @@ Eurostat (2018) recommends the use of regression-based models for the purpose of
 
 Here is an example of code to use Fernandez variant as method to disaggregate annual value added in construction sector using a quarterly production index as indicator.
 ```{r, chow_lin_example}
-Y<-ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency=1, start=c(2009,1))
-x<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency=4, start=c(2009,1))
+Y<-ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency=1, start=c(2009, 1))
+x<-ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency=4, start=c(2009, 1))
 td_cl<-rjd3bench::temporaldisaggregation(Y, indicators=x, model = "Rw")
 y_cl<-td_cl$estimation$disagg # the disaggregated series
 ```
@@ -114,7 +114,7 @@ preservation: additive first difference (AFD), proportional first difference (PF
 
 Here are a few examples using the table 'B1G_Y_data' from **qna_data**:
 ```{r, denton_example}
-Y<-ts(qna_data$B1G_Y_data[,"B1G_HH"], frequency=1, start=c(2009,1))
+Y<-ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency=1, start=c(2009, 1))
 
 y_d1<-rjd3bench::denton(t=Y, nfreq=4) # example of denton PFD without high frequency series
 

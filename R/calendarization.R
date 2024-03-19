@@ -24,7 +24,7 @@ NULL
 #' cal<-calendarization(obs, 4, end="2003-12-31", stde=TRUE)
 #' Q<-cal$rslt
 #' eQ<-cal$erslt
-calendarization<-function(calendarobs, freq, start=NULL, end=NULL, dailyweights=NULL, stde=F){
+calendarization<-function(calendarobs, freq, start=NULL, end=NULL, dailyweights=NULL, stde=FALSE){
   jcal<-rjd3toolkit::r2jd_calendarts(calendarobs)
   if (is.null(dailyweights)){
     jw<-.jnull("[D")
@@ -50,11 +50,11 @@ calendarization<-function(calendarobs, freq, start=NULL, end=NULL, dailyweights=
     start<-as.Date(rjd3toolkit::.proc_str(jrslt, "start"))
     days<-rjd3toolkit::.proc_vector(jrslt, "days")
     edays<-rjd3toolkit::.proc_vector(jrslt, "edays")
-    return (list(rslt=rslt, erslt=erslt, start=start,days=days, edays=edays))
+    return (list(rslt=rslt, erslt=erslt, start = start, days=days, edays=edays))
   }else{
     rslt<-rjd3toolkit::.proc_ts(jrslt, "agg")
     start<-as.Date(rjd3toolkit::.proc_str(jrslt, "start"))
     days<-rjd3toolkit::.proc_vector(jrslt, "days")
-    return (list(rslt=rslt, start=start,days=days))
+    return (list(rslt=rslt, start=start, days=days))
   }
 }
