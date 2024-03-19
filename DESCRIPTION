@@ -16,7 +16,8 @@ Remotes:
   github::rjdemetra/rjd3toolkit
 SystemRequirements: Java SE 8 or higher
 License: EUPL
-URL: https://github.com/jdemetra/rjd3sa
+URL: https://github.com/jdemetra/rjd3sa,
+    https://rjdemetra.github.io/rjd3bench/
 LazyData: TRUE
 Suggests: knitr, rmarkdown
 RoxygenNote: 7.3.1
