@@ -14,7 +14,8 @@ Imports:
   RProtoBuf (>= 0.4.20)
 SystemRequirements: Java SE 8 or higher
 License: EUPL
-URL: https://github.com/jdemetra/rjd3sa
+URL: https://github.com/jdemetra/rjd3sa,
+    https://rjdemetra.github.io/rjd3bench/
 LazyData: TRUE
 Suggests: knitr, rmarkdown
 RoxygenNote: 7.2.3
