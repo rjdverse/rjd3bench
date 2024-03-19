@@ -12,12 +12,14 @@ Imports:
   rJava (>= 1.0-6),
   rjd3toolkit (>= 3.2.1),
   RProtoBuf (>= 0.4.20)
+Remotes:
+  github::rjdemetra/rjd3toolkit
 SystemRequirements: Java SE 8 or higher
 License: EUPL
 URL: https://github.com/jdemetra/rjd3sa
 LazyData: TRUE
 Suggests: knitr, rmarkdown
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 BugReports: https://github.com/jdemetra/rjdemetra3/issues
 Encoding: UTF-8
 Collate: 
