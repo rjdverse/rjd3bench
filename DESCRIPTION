@@ -14,7 +14,7 @@ Imports:
   RProtoBuf (>= 0.4.20)
 Remotes:
   github::rjdemetra/rjd3toolkit
-SystemRequirements: Java SE 8 or higher
+SystemRequirements: Java (>= 17)
 License: EUPL
 URL: https://github.com/jdemetra/rjd3sa,
     https://rjdemetra.github.io/rjd3bench/
