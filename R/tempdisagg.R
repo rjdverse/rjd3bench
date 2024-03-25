@@ -55,7 +55,7 @@ temporaldisaggregation<-function(series, constant = TRUE,  trend = FALSE,  indic
   jlist<-list()
   if (!is.null(indicators)){
     if (is.list(indicators)){
-      for (i in seq_len(indicators)){
+      for (i in seq_along(indicators)){
         jlist[[i]]<-rjd3toolkit::.r2jd_tsdata(indicators[[i]])
       }
     }else if (is.ts(indicators)){
@@ -253,7 +253,7 @@ summary.JD3AdlDisagg<-function(object, ...){
 summary_disagg<-function(object){
     if (is.null(object)){
       cat("Invalid estimation")
-      
+
     }else{
       cat("\n")
       cat("Likelihood statistics", "\n")
@@ -265,7 +265,7 @@ summary_disagg<-function(object){
       cat("Standard error: ", "\n")
       cat("AIC: ", object$likelihood$aic, "\n")
       cat("BIC: ", object$likelihood$bic, "\n")
-      
+
       cat("\n")
       cat("\n")
       cat("Model:", object$regression$type, "\n")
@@ -277,7 +277,7 @@ summary_disagg<-function(object){
       }
       cat("Regression model", "\n")
       print(object$regression$model)
-      
+
     }
 }
 
