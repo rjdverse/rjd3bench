@@ -11,7 +11,7 @@ grp(
   obsposition = 1,
   eps = 1e-12,
   iter = 500,
-  denton = T
+  denton = TRUE
 )
 }
 \arguments{

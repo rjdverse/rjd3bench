@@ -1,15 +1,15 @@
 #' Title
 #'
-#' @param series 
-#' @param constant 
-#' @param trend 
-#' @param indicators 
-#' @param conversion 
-#' @param conversion.obsposition 
-#' @param phi 
-#' @param phi.fixed 
-#' @param phi.truncated 
-#' @param xar 
+#' @param series
+#' @param constant
+#' @param trend
+#' @param indicators
+#' @param conversion
+#' @param conversion.obsposition
+#' @param phi
+#' @param phi.fixed
+#' @param phi.truncated
+#' @param xar
 #'
 #' @return
 #' @export
@@ -30,7 +30,7 @@ adl_disaggregation<-function(series, constant=TRUE, trend=FALSE, indicators=NULL
   jlist<-list()
   if (!is.null(indicators)){
     if (is.list(indicators)){
-      for (i in seq_len(indicators)){
+      for (i in seq_along(indicators)){
         jlist[[i]]<-rjd3toolkit::.r2jd_tsdata(indicators[[i]])
       }
     }else if (is.ts(indicators)){
@@ -45,7 +45,7 @@ adl_disaggregation<-function(series, constant=TRUE, trend=FALSE, indicators=NULL
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/ADLResults;",
                 "processADL", jseries, constant, trend, jindicators, conversion,
                 phi, phi.fixed, phi.truncated, xar)
-  
+
   # Build the S3 result
   bcov<-rjd3toolkit::.proc_matrix(jrslt, "covar")
   vars<-rjd3toolkit::.proc_vector(jrslt, "regnames")
@@ -54,7 +54,7 @@ adl_disaggregation<-function(series, constant=TRUE, trend=FALSE, indicators=NULL
   t<-coef/se
   m<-data.frame(coef, se, t)
   m<-`row.names<-`(m, vars)
-  
+
   regression<-list(
     type=xar,
     conversion=conversion,
@@ -96,7 +96,7 @@ print.JD3AdlDisagg<-function(x, ...){
   }else{
     cat("Model:", x$regression$type, "\n")
     print(x$regression$model)
-    
+
     cat("\n")
     cat("Use summary() for more details. \nUse plot() to see the decomposition of the disaggregated series.")
   }
@@ -118,7 +118,7 @@ print.JD3AdlDisagg<-function(x, ...){
 plot.JD3AdlDisagg<-function(x, ...){
   if (is.null(x)){
     cat("Invalid estimation")
-    
+
   }else{
     td_series <- x$estimation$disagg
 

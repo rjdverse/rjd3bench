@@ -6,19 +6,19 @@
 \usage{
 temporaldisaggregation(
   series,
-  constant = T,
-  trend = F,
+  constant = TRUE,
+  trend = FALSE,
   indicators = NULL,
   model = c("Ar1", "Rw", "RwAr1"),
   freq = 4,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
   conversion.obsposition = 1,
   rho = 0,
-  rho.fixed = F,
+  rho.fixed = FALSE,
   rho.truncated = 0,
-  zeroinitialization = F,
+  zeroinitialization = FALSE,
   diffuse.algorithm = c("SqrtDiffuse", "Diffuse", "Augmented"),
-  diffuse.regressors = F
+  diffuse.regressors = FALSE
 )
 }
 \arguments{

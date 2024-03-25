@@ -10,7 +10,7 @@ calendarization(
   start = NULL,
   end = NULL,
   dailyweights = NULL,
-  stde = F
+  stde = FALSE
 )
 }
 \arguments{
