@@ -1,5 +1,17 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # rjd3bench
 
@@ -12,7 +24,7 @@ Temporal disaggregation and benchmarking
 
 To get the current stable version (from the latest release):
 
-``` r
+```{r, echo = TRUE, eval = FALSE}
 # install.packages("remotes")
 remotes::install_github("rjdemetra/rjd3toolkit@*release")
 remotes::install_github("rjdemetra/rjd3bench@*release")
@@ -20,17 +32,16 @@ remotes::install_github("rjdemetra/rjd3bench@*release")
 
 To get the current development version from GitHub:
 
-``` r
+```{r, echo = TRUE, eval = FALSE}
 # install.packages("remotes")
 remotes::install_github("rjdemetra/rjd3bench")
 ```
 
+
 ## Contributing
 
-Any contribution is welcome and should be done through pull requests
-and/or issues.
+Any contribution is welcome and should be done through pull requests and/or issues.
 
 ## Licensing
 
-The code of this project is licensed under the [European Union Public
-Licence (EUPL)](https://joinup.ec.europa.eu/page/eupl-text-11-12).
+The code of this project is licensed under the [European Union Public Licence (EUPL)](https://joinup.ec.europa.eu/page/eupl-text-11-12).
