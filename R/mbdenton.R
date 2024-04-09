@@ -59,14 +59,14 @@ denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum
   if (is.null(outliers)){
     odates <- .jcast(.jnull(), "[Ljava/lang/String;")
     ovars <- .jnull("[D")
-  }else{
+  } else{
     odates <- .jarray(names(outliers))
     ovars <- .jarray(as.numeric(outliers))
   }
   if (is.null(fixedBIratios)){
     fdates <- .jcast(.jnull(), "[Ljava/lang/String;")
     fvars <- .jnull("[D")
-  }else{
+  } else{
     fdates <- .jarray(names(fixedBIratios))
     fvars <- .jarray(as.numeric(fixedBIratios))
   }
@@ -104,7 +104,7 @@ denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum
 print.JD3MBDenton<-function(x, ...){
   if (is.null(x$estimation$disagg)){
     cat("Invalid estimation")
-  }else{
+  } else{
     cat("Available estimates:\n")
     print.default(names(x$estimation), ...)
 
@@ -130,7 +130,7 @@ summary.JD3MBDenton<-function(object, ...){
   if (is.null(object)){
     cat("Invalid estimation")
 
-  }else{
+  } else{
     cat("\n")
     cat("Likelihood statistics", "\n")
     cat("\n")
@@ -165,7 +165,7 @@ plot.JD3MBDenton<-function(x, ...){
   if (is.null(x)){
     cat("Invalid estimation")
 
-  }else{
+  } else{
     td<-x$estimation$disagg
     td.sd<-x$estimation$edisagg
     td.lb<-td - 1.96 * td.sd
