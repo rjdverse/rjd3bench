@@ -192,18 +192,18 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
   if (is.null(tcvector)){
     ntc <- 0
     jtc<-.jcast(.jnull(), "[Ljava/lang/String;")
-  }else if (! is.vector(tcvector)){
+  } else if (! is.vector(tcvector)){
     stop("incorrect argument, constraints should be presented within a character vector")
-  }else{
+  } else{
     ntc<-length(tcvector)
     jtc<-.jarray(tcvector, "java/lang/String")
   }
   if (is.null(ccvector)){
     ncc <- 0
     jcc<-.jcast(.jnull(), "[Ljava/lang/String;")
-  }else if (! is.vector(ccvector)){
+  } else if (! is.vector(ccvector)){
     stop("incorrect argument, constraints should be presented within a character vector")
-  }else{
+  } else{
     ncc<-length(ccvector)
     jcc<-.jarray(ccvector, "java/lang/String")
   }
