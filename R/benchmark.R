@@ -181,7 +181,7 @@ cholette<-function(s, t, rho=1, lambda=1, bias="None", conversion="Sum", obsposi
 #'
 #' @examples
 multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambda=1) {
-  if(!is.list(xlist) | length(xlist) < 3) {
+  if (!is.list(xlist) | length(xlist) < 3) {
     stop("incorrect argument, first argument should be a list of at least 3 time series")}
 
   #create the input
@@ -207,7 +207,7 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
     ncc<-length(ccvector)
     jcc<-.jarray(ccvector, "java/lang/String")
   }
-  if(ntc+ncc==0) {
+  if (ntc+ncc==0) {
     stop("both constraint types are empty, include at least one temporal or contemporaneous constraint")}
 
   jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/r/util/Dictionary;", "multiCholette",

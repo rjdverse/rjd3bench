@@ -13,15 +13,15 @@ Imports:
   rjd3toolkit (>= 3.2.2),
   RProtoBuf (>= 0.4.20)
 Remotes:
-  github::rjdemetra/rjd3toolkit
+  github::rjdverse/rjd3toolkit
 SystemRequirements: Java (>= 17)
 License: EUPL
-URL: https://github.com/jdemetra/rjd3sa,
-    https://rjdemetra.github.io/rjd3bench/
+URL: https://github.com/rjdverse/rjd3bench,
+    https://rjdverse.github.io/rjd3bench/
 LazyData: TRUE
 Suggests: knitr, rmarkdown
 RoxygenNote: 7.3.1
-BugReports: https://github.com/jdemetra/rjdemetra3/issues
+BugReports: https://github.com/rjdverse/rjd3bench/issues
 Encoding: UTF-8
 Collate: 
     'adl.R'
