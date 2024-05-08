@@ -3,8 +3,8 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   rjd3bench: rjd3bench.html
-last_built: 2024-05-08T09:37Z
+last_built: 2024-05-08T09:39Z
 urls:
-  reference: https://rjdemetra.github.io/rjd3bench/reference
-  article: https://rjdemetra.github.io/rjd3bench/articles
+  reference: https://rjdverse.github.io/rjd3bench/reference
+  article: https://rjdverse.github.io/rjd3bench/articles
 
