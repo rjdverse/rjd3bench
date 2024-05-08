@@ -6,13 +6,28 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-Temporal disaggregation and benchmarking
+Temporal disaggregation and benchmarking with JDemetra+ v3.x algorithms.
+
+Benchmarking:
+
+- Denton
+- Cholette (incl. multi-variate)
+- Cubic Splines
+- GRP (Growth Rate Preservation)
+- Calendarization
+
+Temporal disaggregation
+
+- Chow-Lin
+- Fernandez
+- Litterman
+- Model Based Denton
+- ADL (Autoregressive Distributed Lag Models)
 
 ## Installation
 
-Running rjd3 packages requires Java 17 or higher. How to set up such a
-configuration in R is explained
-[here](https://jdemetra-new-documentation.netlify.app/#installing-the-software).
+Running rjd3 packages requires **Java 17 or higher**. How to set up such
+a configuration in R is explained
 
 To get the current stable version (from the latest release):
 
