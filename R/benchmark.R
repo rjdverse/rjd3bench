@@ -213,7 +213,7 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
   jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/r/util/Dictionary;", "multiCholette",
                   jdic,  jtc, jcc, rho, lambda)
   if (is.jnull(jd_rslt))
-    return (NULL)
+    return(NULL)
   rlist <- list()
   rnames <- .jcall(jd_rslt, "[S", "names")
   for(i in seq_along(rnames)){
@@ -222,5 +222,5 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
       rlist[[rnames[i]]]<-rjd3toolkit::.jd2r_tsdata(jts)
     }
   }
-  return (rlist)
+  return(rlist)
 }
