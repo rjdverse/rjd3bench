@@ -4,7 +4,9 @@ Title: Interface to 'JDemetra+ 3.x' time series analysis software
 Version: 2.0.1
 Authors@R: c(
   person("Jean", "Palate", role = c("aut", "cre"),
-                email = "jean.palate@nbb.be"))
+                email = "jean.palate@nbb.be"),
+  person("Tanguy", "Barthelemy", role = c("ctb", "art"),
+                 email ="tanguy.barthelemy@insee.fr"))
 Description: R Interface to 'JDemetra+ 3.x' (<https://github.com/jdemetra>) time series analysis software.
 Depends:
   R (>= 4.1.0)
