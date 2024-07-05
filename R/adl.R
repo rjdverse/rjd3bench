@@ -35,11 +35,11 @@ adl_disaggregation<-function(series, constant=TRUE, trend=FALSE, indicators=NULL
       }
     } else if (is.ts(indicators)){
       jlist[[1]]<-rjd3toolkit::.r2jd_tsdata(indicators)
-    } else{
+    } else {
       stop("Invalid indicators")
     }
     jindicators<-.jarray(jlist, contents.class = "jdplus/toolkit/base/api/timeseries/TsData")
-  } else{
+  } else {
     jindicators<-.jnull("[Ljdplus/toolkit/base/api/timeseries/TsData;")
   }
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/ADLResults;",
@@ -93,7 +93,7 @@ adl_disaggregation<-function(series, constant=TRUE, trend=FALSE, indicators=NULL
 print.JD3AdlDisagg<-function(x, ...){
   if (is.null(x$regression$model)){
     cat("Invalid estimation")
-  } else{
+  } else {
     cat("Model:", x$regression$type, "\n")
     print(x$regression$model)
 
@@ -119,7 +119,7 @@ plot.JD3AdlDisagg<-function(x, ...){
   if (is.null(x)){
     cat("Invalid estimation")
 
-  } else{
+  } else {
     td_series <- x$estimation$disagg
 
     ts.plot(td_series, gpars = list(col=c("orange"), xlab = "", xaxt = "n", las = 2, ...))

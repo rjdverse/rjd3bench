@@ -2,5 +2,5 @@
 #' @import RProtoBuf
 #' @importFrom stats frequency is.ts pt start ts
 #' @importFrom graphics axis legend par
-#' @importFrom stats end ts.plot 
+#' @importFrom stats end ts.plot
 NULL
