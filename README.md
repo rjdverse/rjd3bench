@@ -39,13 +39,25 @@ Running rjd3 packages requires **Java 17 or higher**. How to set up such
 a configuration in R is explained
 [here](https://jdemetra-new-documentation.netlify.app/#Rconfig)
 
+### Latest release
+
 To get the current stable version (from the latest release):
+
+- From GitHub:
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("rjdverse/rjd3toolkit@*release")
 remotes::install_github("rjdverse/rjd3bench@*release")
 ```
+
+- From [r-universe](https://rjdverse.r-universe.dev/rjd3bench):
+
+``` r
+install.packages("rjd3bench", repos = c("https://rjdverse.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+### Development version
 
 To get the current development version from GitHub:
 
