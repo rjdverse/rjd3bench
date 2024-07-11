@@ -1,93 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/404.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/calendarization.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/cholette.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/cubicspline.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/denton.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/denton_modelbased.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/grp.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/plot.JD3AdlDisagg.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/plot.JD3MBDenton.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/plot.JD3TempDisagg.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/plot.JD3TempDisaggI.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/print.JD3AdlDisagg.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/print.JD3MBDenton.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/print.JD3TempDisagg.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/print.JD3TempDisaggI.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/summary.JD3AdlDisagg.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/summary.JD3MBDenton.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/summary.JD3TempDisagg.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/summary.JD3TempDisaggI.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregation.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://rjdverse.github.io/rjd3bench/404.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/LICENSE-text.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/articles/index.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/authors.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/index.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/news/index.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/calendarization.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/cholette.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/cubicspline.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/denton.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/denton_modelbased.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/grp.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/index.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/plot.JD3AdlDisagg.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/plot.JD3MBDenton.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/plot.JD3TempDisagg.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/plot.JD3TempDisaggI.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/print.JD3AdlDisagg.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/print.JD3MBDenton.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/print.JD3TempDisagg.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/print.JD3TempDisaggI.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/summary.JD3AdlDisagg.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/summary.JD3MBDenton.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/summary.JD3TempDisagg.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/summary.JD3TempDisaggI.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregation.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.html</loc></url>
 </urlset>
+
