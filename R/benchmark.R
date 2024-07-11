@@ -44,10 +44,10 @@ denton<-function(s=NULL, t, d=1, mul=TRUE, nfreq=4, modified=TRUE,
 
   if (!is.null(s)){
     jd_s <- rjd3toolkit::.r2jd_tsdata(s)
-  } else{
+  } else {
     jd_s<-as.integer(nfreq)
   }
-  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "denton", 
+  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "denton",
                   jd_s, jd_t, as.integer(d), mul, modified, conversion, as.integer(obsposition))
   rjd3toolkit::.jd2r_tsdata(jd_rslt)
 }
@@ -133,7 +133,7 @@ cubicspline<-function(s=NULL, t, nfreq=4,
 
   if (!is.null(s)){
     jd_s<-rjd3toolkit::.r2jd_tsdata(s)
-  } else{
+  } else {
     jd_s<-as.integer(nfreq)
   }
   jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "cubicSpline",
@@ -163,7 +163,7 @@ cubicspline<-function(s=NULL, t, nfreq=4,
 cholette<-function(s, t, rho=1, lambda=1, bias="None", conversion="Sum", obsposition=1){
   jd_s<-rjd3toolkit::.r2jd_tsdata(s)
   jd_t<-rjd3toolkit::.r2jd_tsdata(t)
-  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "cholette", 
+  jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "cholette",
                   jd_s, jd_t, rho, lambda, bias, conversion, as.integer(obsposition))
   rjd3toolkit::.jd2r_tsdata(jd_rslt)
 }
@@ -181,7 +181,7 @@ cholette<-function(s, t, rho=1, lambda=1, bias="None", conversion="Sum", obsposi
 #'
 #' @examples
 multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambda=1) {
-  if (!is.list(xlist) | length(xlist) < 3) {
+  if (!is.list(xlist) || length(xlist) < 3) {
     stop("incorrect argument, first argument should be a list of at least 3 time series")}
 
   #create the input
@@ -194,7 +194,7 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
     jtc<-.jcast(.jnull(), "[Ljava/lang/String;")
   } else if (! is.vector(tcvector)){
     stop("incorrect argument, constraints should be presented within a character vector")
-  } else{
+  } else {
     ntc<-length(tcvector)
     jtc<-.jarray(tcvector, "java/lang/String")
   }
@@ -203,7 +203,7 @@ multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambd
     jcc<-.jcast(.jnull(), "[Ljava/lang/String;")
   } else if (! is.vector(ccvector)){
     stop("incorrect argument, constraints should be presented within a character vector")
-  } else{
+  } else {
     ncc<-length(ccvector)
     jcc<-.jarray(ccvector, "java/lang/String")
   }
