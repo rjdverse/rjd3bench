@@ -19,8 +19,8 @@ NULL
 #' @param outliers a list of structured definition of the outlier periods and their intensity. The period must be submitted
 #'                 first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an equal sign and
 #'                 the intensity of the outlier, defined as the relative value of the 'innovation variances' (1= normal situation)
-#' @param fixedBIratios a list of structured definition of the periods where the BI ratios must be fixed. The period must be 
-#'                      submitted first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an 
+#' @param fixedBIratios a list of structured definition of the periods where the BI ratios must be fixed. The period must be
+#'                      submitted first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
 #'                      equal sign and the value of the BI ratio.
 #' @return an object of class 'JD3MBDenton'
 #' @export
@@ -59,19 +59,19 @@ denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum
   if (is.null(outliers)){
     odates <- .jcast(.jnull(), "[Ljava/lang/String;")
     ovars <- .jnull("[D")
-  } else{
+  } else {
     odates <- .jarray(names(outliers))
     ovars <- .jarray(as.numeric(outliers))
   }
   if (is.null(fixedBIratios)){
     fdates <- .jcast(.jnull(), "[Ljava/lang/String;")
     fvars <- .jnull("[D")
-  } else{
+  } else {
     fdates <- .jarray(names(fixedBIratios))
     fvars <- .jarray(as.numeric(fixedBIratios))
   }
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/ModelBasedDentonResults;",
-                "processModelBasedDenton", jseries, jindicator, as.integer(1), conversion, as.integer(conversion.obsposition), odates, ovars, 
+                "processModelBasedDenton", jseries, jindicator, as.integer(1), conversion, as.integer(conversion.obsposition), odates, ovars,
                 fdates, fvars)
   # Build the S3 result
   estimation<-list(
@@ -104,7 +104,7 @@ denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum
 print.JD3MBDenton<-function(x, ...){
   if (is.null(x$estimation$disagg)){
     cat("Invalid estimation")
-  } else{
+  } else {
     cat("Available estimates:\n")
     print.default(names(x$estimation), ...)
 
@@ -130,7 +130,7 @@ summary.JD3MBDenton<-function(object, ...){
   if (is.null(object)){
     cat("Invalid estimation")
 
-  } else{
+  } else {
     cat("\n")
     cat("Likelihood statistics", "\n")
     cat("\n")
@@ -165,7 +165,7 @@ plot.JD3MBDenton<-function(x, ...){
   if (is.null(x)){
     cat("Invalid estimation")
 
-  } else{
+  } else {
     td<-x$estimation$disagg
     td.sd<-x$estimation$edisagg
     td.lb<-td - 1.96 * td.sd

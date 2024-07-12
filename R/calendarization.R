@@ -28,17 +28,17 @@ calendarization<-function(calendarobs, freq, start=NULL, end=NULL, dailyweights=
   jcal<-rjd3toolkit::r2jd_calendarts(calendarobs)
   if (is.null(dailyweights)){
     jw<-.jnull("[D")
-  } else{
+  } else {
     jw<-.jarray(as.numeric(dailyweights))
   }
   if (is.null(start)){
     jstart<-.jnull("java/lang/String")
-  } else{
+  } else {
     jstart<-as.character(start)
   }
   if (is.null(end)){
     jend<-.jnull("java/lang/String")
-  } else{
+  } else {
     jend<-as.character(end)
   }
   jrslt<-.jcall("jdplus/benchmarking/base/r/Calendarization", "Ljdplus/benchmarking/base/api/calendarization/CalendarizationResults;",
@@ -50,11 +50,11 @@ calendarization<-function(calendarobs, freq, start=NULL, end=NULL, dailyweights=
     start<-as.Date(rjd3toolkit::.proc_str(jrslt, "start"))
     days<-rjd3toolkit::.proc_vector(jrslt, "days")
     edays<-rjd3toolkit::.proc_vector(jrslt, "edays")
-    return (list(rslt=rslt, erslt=erslt, start = start, days=days, edays=edays))
-  } else{
+    return(list(rslt=rslt, erslt=erslt, start = start, days=days, edays=edays))
+  } else {
     rslt<-rjd3toolkit::.proc_ts(jrslt, "agg")
     start<-as.Date(rjd3toolkit::.proc_str(jrslt, "start"))
     days<-rjd3toolkit::.proc_vector(jrslt, "days")
-    return (list(rslt=rslt, start=start, days=days))
+    return(list(rslt=rslt, start=start, days=days))
   }
 }
