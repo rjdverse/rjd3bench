@@ -29,8 +29,8 @@ denton_modelbased(
 first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an equal sign and
 the intensity of the outlier, defined as the relative value of the 'innovation variances' (1= normal situation)}
 
-\item{fixedBIratios}{a list of structured definition of the periods where the BI ratios must be fixed. The period must be 
-submitted first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an 
+\item{fixedBIratios}{a list of structured definition of the periods where the BI ratios must be fixed. The period must be
+submitted first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
 equal sign and the value of the BI ratio.}
 }
 \value{
