@@ -11,7 +11,7 @@ temporaldisaggregationI(
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
   conversion.obsposition = 1,
   rho = 0,
-  rho.fixed = F,
+  rho.fixed = FALSE,
   rho.truncated = 0
 )
 }

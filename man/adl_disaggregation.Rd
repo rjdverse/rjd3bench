@@ -6,36 +6,18 @@
 \usage{
 adl_disaggregation(
   series,
-  constant = T,
-  trend = F,
+  constant = TRUE,
+  trend = FALSE,
   indicators = NULL,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
   conversion.obsposition = 1,
   phi = 0,
-  phi.fixed = F,
+  phi.fixed = FALSE,
   phi.truncated = 0,
   xar = c("FREE", "SAME", "NONE")
 )
 }
 \arguments{
-\item{series}{}
-
-\item{constant}{}
-
-\item{trend}{}
-
-\item{indicators}{}
-
-\item{conversion}{}
-
-\item{conversion.obsposition}{}
-
-\item{phi}{}
-
-\item{phi.fixed}{}
-
-\item{phi.truncated}{}
-
 \item{xar}{}
 }
 \description{

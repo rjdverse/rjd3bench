@@ -11,7 +11,7 @@ vignette: >
   %\VignetteIndexEntry{Part of the interface to 'JDemetra+ 3.0' Seasonal adjustment software related to Temporal disaggregation and Benchmarking methods}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-abstract: The package **rjd3bench** provides a variety of methods for temporal disaggregation, benchmarking, reconciliation and calendarization. It is part of the interface to 'JDemetra+ 3.0' Seasonal adjustement software. Methods of temporal disaggregation and benchmarking are used to derive high frequency time series from low frequency time series with or without the help of high frequency information. Consistency of the high frequency series with the low frequency series can be achieved by either the sum, the average, the first or last value or any other user-defined conversion mode. In addition to temporal constraints, reconciliation methods deals with contemporaneous consistency while adjusting multiple time series. Finally, calendarization method can be used when time series data do not coincide with calendar periods.
+abstract: The package **rjd3bench** provides a variety of methods for temporal disaggregation, benchmarking, reconciliation and calendarization. It is part of the interface to 'JDemetra+ 3.0' Seasonal adjustement software. Methods of temporal disaggregation and benchmarking are used to derive high frequency time series from low frequency time series with or without the help of high frequency information. Consistency of the high frequency series with the low frequency series can be achieved by either the sum, the average, the first or last value or any other user-defined conversion mode. In addition to temporal constraints, reconciliation methods deals with contemporaneous consistency while adjusting multiple time series. Finally, calendarization method can be used when time series data do not coincide with calendar periods. 
 ---
 
 ```{r, include = FALSE}
@@ -61,8 +61,8 @@ Eurostat (2018) recommends the use of regression-based models for the purpose of
 
 Here is an example of code to use Fernandez variant as method to disaggregate annual value added in construction sector using a quarterly production index as indicator.
 ```{r, chow_lin_example}
-Y<-ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency=1, start=c(2009,1))
-x<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency=4, start=c(2009,1))
+Y<-ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency=1, start=c(2009, 1))
+x<-ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency=4, start=c(2009, 1))
 td_cl<-rjd3bench::temporaldisaggregation(Y, indicators=x, model = "Rw")
 y_cl<-td_cl$estimation$disagg # the disaggregated series
 ```
@@ -114,7 +114,7 @@ preservation: additive first difference (AFD), proportional first difference (PF
 
 Here are a few examples using the table 'B1G_Y_data' from **qna_data**:
 ```{r, denton_example}
-Y<-ts(qna_data$B1G_Y_data[,"B1G_HH"], frequency=1, start=c(2009,1))
+Y<-ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency=1, start=c(2009, 1))
 
 y_d1<-rjd3bench::denton(t=Y, nfreq=4) # example of denton PFD without high frequency series
 

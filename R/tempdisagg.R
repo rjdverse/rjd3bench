@@ -40,35 +40,35 @@ NULL
 #' td2<-rjd3bench::temporaldisaggregation(Y, model = "Rw")
 #' mod1<- td1$regression$model
 #'
-temporaldisaggregation<-function(series, constant=T, trend=F, indicators=NULL,
+temporaldisaggregation<-function(series, constant = TRUE,  trend = FALSE,  indicators=NULL,
                          model=c("Ar1", "Rw", "RwAr1"), freq=4,
                          conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
-                         rho=0, rho.fixed=F, rho.truncated=0,
-                         zeroinitialization=F, diffuse.algorithm=c("SqrtDiffuse", "Diffuse", "Augmented"), diffuse.regressors=F){
-  model=match.arg(model)
-  conversion=match.arg(conversion)
-  diffuse.algorithm=match.arg(diffuse.algorithm)
+                         rho=0, rho.fixed = FALSE,  rho.truncated=0,
+                         zeroinitialization = FALSE,  diffuse.algorithm=c("SqrtDiffuse", "Diffuse", "Augmented"), diffuse.regressors=FALSE){
+  model <- match.arg(model)
+  conversion <- match.arg(conversion)
+  diffuse.algorithm <- match.arg(diffuse.algorithm)
   if (model!="Ar1" && !zeroinitialization){
-    constant=F
+    constant <- FALSE
   }
   jseries<-rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
   if (!is.null(indicators)){
     if (is.list(indicators)){
-      for (i in 1:length(indicators)){
+      for (i in seq_along(indicators)){
         jlist[[i]]<-rjd3toolkit::.r2jd_tsdata(indicators[[i]])
       }
-    }else if (is.ts(indicators)){
+    } else if (is.ts(indicators)){
       jlist[[1]]<-rjd3toolkit::.r2jd_tsdata(indicators)
-    }else{
+    } else {
       stop("Invalid indicators")
     }
     jindicators<-.jarray(jlist, contents.class = "jdplus/toolkit/base/api/timeseries/TsData")
-  }else{
+  } else {
     jindicators<-.jnull("[Ljdplus/toolkit/base/api/timeseries/TsData;")
   }
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
-                "process", jseries, constant, trend, jindicators, model, as.integer(freq), conversion, as.integer(conversion.obsposition),rho, rho.fixed, rho.truncated,
+                "process", jseries, constant, trend, jindicators, model, as.integer(freq), conversion, as.integer(conversion.obsposition), rho, rho.fixed, rho.truncated,
                 zeroinitialization, diffuse.algorithm, diffuse.regressors)
 
   # Build the S3 result
@@ -134,14 +134,14 @@ temporaldisaggregation<-function(series, constant=T, trend=F, indicators=NULL,
 #'
 temporaldisaggregationI<-function(series, indicator,
                          conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
-                         rho=0, rho.fixed=F, rho.truncated=0){
+                         rho=0, rho.fixed = FALSE,  rho.truncated=0){
   # model=match.arg(model)
-  conversion=match.arg(conversion)
-  jseries=rjd3toolkit::.r2jd_tsdata(series)
+  conversion <- match.arg(conversion)
+  jseries <- rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
   jindicator<-rjd3toolkit::.r2jd_tsdata(indicator)
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationIResults;",
-                "processI", jseries, jindicator, "Ar1", conversion, as.integer(conversion.obsposition),rho, rho.fixed, rho.truncated)
+                "processI", jseries, jindicator, "Ar1", conversion, as.integer(conversion.obsposition), rho, rho.fixed, rho.truncated)
   # Build the S3 result
   a<-rjd3toolkit::.proc_numeric(jrslt, "a")
   b<-rjd3toolkit::.proc_numeric(jrslt, "b")
@@ -180,7 +180,7 @@ temporaldisaggregationI<-function(series, indicator,
 print.JD3TempDisagg<-function(x, ...){
   if (is.null(x$regression$model)){
     cat("Invalid estimation")
-  }else{
+  } else {
     cat("Model:", x$regression$type, "\n")
     print(x$regression$model)
 
@@ -205,9 +205,9 @@ print.JD3TempDisagg<-function(x, ...){
 print.JD3TempDisaggI<-function(x, ...){
   if (is.null(x$estimation$parameter)){
     cat("Invalid estimation")
-  }else{
-    model<-data.frame(coef = c(round(x$regression$a,4),round(x$regression$b,4)))
-    row.names(model)<-c("a","b")
+  } else {
+    model<-data.frame(coef = c(round(x$regression$a, 4), round(x$regression$b, 4)))
+    row.names(model)<-c("a", "b")
     print(model)
 
     cat("\n")
@@ -253,10 +253,10 @@ summary.JD3AdlDisagg<-function(object, ...){
 summary_disagg<-function(object){
     if (is.null(object)){
       cat("Invalid estimation")
-      
-    }else{
+
+    } else {
       cat("\n")
-      cat("Likelihood statistics","\n")
+      cat("Likelihood statistics", "\n")
       cat("\n")
       cat("Number of observations: ", object$likelihood$nobs, "\n")
       cat("Number of effective observations: ", object$likelihood$neffective, "\n")
@@ -265,19 +265,19 @@ summary_disagg<-function(object){
       cat("Standard error: ", "\n")
       cat("AIC: ", object$likelihood$aic, "\n")
       cat("BIC: ", object$likelihood$bic, "\n")
-      
+
       cat("\n")
       cat("\n")
       cat("Model:", object$regression$type, "\n")
       p<-object$estimation$parameter
       if (! is.nan(p)){
-        cat("Rho :",p," (", object$estimation$eparameter, ")\n")
+        cat("Rho :", p, " (", object$estimation$eparameter, ")\n")
         cat("\n")
         cat("\n")
       }
-      cat("Regression model","\n")
+      cat("Regression model", "\n")
       print(object$regression$model)
-      
+
     }
 }
 
@@ -298,9 +298,9 @@ summary.JD3TempDisaggI<-function(object, ...){
   if (is.null(object)){
     cat("Invalid estimation")
 
-  }else{
+  } else {
     cat("\n")
-    cat("Likelihood statistics","\n")
+    cat("Likelihood statistics", "\n")
     cat("\n")
     cat("Number of observations: ", object$likelihood$nobs, "\n")
     cat("Number of effective observations: ", object$likelihood$neffective, "\n")
@@ -313,8 +313,8 @@ summary.JD3TempDisaggI<-function(object, ...){
     cat("\n")
     cat("\n")
     cat("Model:", object$regression$type, "\n")
-    model<-data.frame(coef = c(round(object$regression$a,4),round(object$regression$b,4)))
-    row.names(model)<-c("a","b")
+    model<-data.frame(coef = c(round(object$regression$a, 4), round(object$regression$b, 4)))
+    row.names(model)<-c("a", "b")
     print(model)
   }
 }
@@ -336,14 +336,14 @@ plot.JD3TempDisagg<-function(x, ...){
   if (is.null(x)){
     cat("Invalid estimation")
 
-  }else{
+  } else {
     td_series <- x$estimation$disagg
     reg_effect <- x$estimation$regeffect
     smoothing_effect <- td_series - reg_effect
 
     ts.plot(td_series, reg_effect, smoothing_effect, gpars=list(col=c("orange", "green", "blue"), xlab = "", xaxt="n", las=2, ...))
     axis(side=1, at=start(td_series)[1]:end(td_series)[1])
-    legend("topleft",c("disaggragated series", "regression effect", "smoothing effect"),lty = c(1,1,1), col=c("orange", "green", "blue"), bty="n", cex=0.8)
+    legend("topleft", c("disaggragated series", "regression effect", "smoothing effect"), lty = c(1, 1, 1), col=c("orange", "green", "blue"), bty="n", cex=0.8)
   }
 }
 
@@ -364,7 +364,7 @@ plot.JD3TempDisaggI<-function(x, ...){
   if (is.null(x)){
     cat("Invalid estimation")
 
-  }else{
+  } else {
     td_series <- x$estimation$disagg
     ts.plot(td_series, gpars=list(xlab="", ylab="disaggragated series", xaxt="n"))
     axis(side=1, at=start(td_series)[1]:end(td_series)[1])

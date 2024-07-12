@@ -1,15 +1,15 @@
 #' Title
 #'
-#' @param series 
-#' @param constant 
-#' @param trend 
-#' @param indicators 
-#' @param conversion 
-#' @param conversion.obsposition 
-#' @param phi 
-#' @param phi.fixed 
-#' @param phi.truncated 
-#' @param xar 
+#' @param series
+#' @param constant
+#' @param trend
+#' @param indicators
+#' @param conversion
+#' @param conversion.obsposition
+#' @param phi
+#' @param phi.fixed
+#' @param phi.truncated
+#' @param xar
 #'
 #' @return
 #' @export
@@ -21,31 +21,31 @@
 #' x<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency=4, start=c(2009,1))
 #' td1<-rjd3bench::adl_disaggregation(Y, indicators=x, xar="FREE")
 #' td2<-rjd3bench::adl_disaggregation(Y, indicators=x, xar="SAME")
-adl_disaggregation<-function(series, constant=T, trend=F, indicators=NULL,
+adl_disaggregation<-function(series, constant=TRUE, trend=FALSE, indicators=NULL,
                                  conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
-                                 phi=0, phi.fixed=F, phi.truncated=0, xar=c("FREE", "SAME", "NONE")){
-  conversion=match.arg(conversion)
-  xar=match.arg(xar)
+                                 phi=0, phi.fixed=FALSE, phi.truncated=0, xar=c("FREE", "SAME", "NONE")){
+  conversion <- match.arg(conversion)
+  xar <- match.arg(xar)
   jseries<-rjd3toolkit::.r2jd_tsdata(series)
   jlist<-list()
   if (!is.null(indicators)){
     if (is.list(indicators)){
-      for (i in 1:length(indicators)){
+      for (i in seq_along(indicators)){
         jlist[[i]]<-rjd3toolkit::.r2jd_tsdata(indicators[[i]])
       }
-    }else if (is.ts(indicators)){
+    } else if (is.ts(indicators)){
       jlist[[1]]<-rjd3toolkit::.r2jd_tsdata(indicators)
-    }else{
+    } else {
       stop("Invalid indicators")
     }
     jindicators<-.jarray(jlist, contents.class = "jdplus/toolkit/base/api/timeseries/TsData")
-  }else{
+  } else {
     jindicators<-.jnull("[Ljdplus/toolkit/base/api/timeseries/TsData;")
   }
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/ADLResults;",
                 "processADL", jseries, constant, trend, jindicators, conversion,
                 phi, phi.fixed, phi.truncated, xar)
-  
+
   # Build the S3 result
   bcov<-rjd3toolkit::.proc_matrix(jrslt, "covar")
   vars<-rjd3toolkit::.proc_vector(jrslt, "regnames")
@@ -54,7 +54,7 @@ adl_disaggregation<-function(series, constant=T, trend=F, indicators=NULL,
   t<-coef/se
   m<-data.frame(coef, se, t)
   m<-`row.names<-`(m, vars)
-  
+
   regression<-list(
     type=xar,
     conversion=conversion,
@@ -93,10 +93,10 @@ adl_disaggregation<-function(series, constant=T, trend=F, indicators=NULL,
 print.JD3AdlDisagg<-function(x, ...){
   if (is.null(x$regression$model)){
     cat("Invalid estimation")
-  }else{
+  } else {
     cat("Model:", x$regression$type, "\n")
     print(x$regression$model)
-    
+
     cat("\n")
     cat("Use summary() for more details. \nUse plot() to see the decomposition of the disaggregated series.")
   }
@@ -118,14 +118,12 @@ print.JD3AdlDisagg<-function(x, ...){
 plot.JD3AdlDisagg<-function(x, ...){
   if (is.null(x)){
     cat("Invalid estimation")
-    
-  }else{
+
+  } else {
     td_series <- x$estimation$disagg
 
-    ts.plot(td_series, gpars=list(col=c("orange"), xlab = "", xaxt="n", las=2, ...))
-    axis(side=1, at=start(td_series)[1]:end(td_series)[1])
-    legend("topleft",c("disaggragated series"),lty = c(1,1,1), col=c("orange"), bty="n", cex=0.8)
+    ts.plot(td_series, gpars = list(col=c("orange"), xlab = "", xaxt = "n", las = 2, ...))
+    axis(side = 1, at = start(td_series)[1]:end(td_series)[1])
+    legend("topleft", c("disaggragated series"), lty = c(1, 1, 1), col = c("orange"), bty="n", cex=0.8)
   }
 }
-
-

@@ -1,24 +1,29 @@
 Package: rjd3bench
 Type: Package
-Title: Interface to 'JDemetra+ 3.0' Seasonal Adjustment Software
-Version: 2.0.0
+Title: Interface to 'JDemetra+ 3.x' time series analysis software
+Version: 2.0.1
 Authors@R: c(
   person("Jean", "Palate", role = c("aut", "cre"),
-                email = "jean.palate@nbb.be"))
-Description: Interface around 'JDemetra+ 3.x' sa-toolkit (<https://github.com/jdemetra/jdemetra-core>), STACE project 
+                email = "jean.palate@nbb.be"),
+  person("Tanguy", "Barthelemy", role = c("ctb", "art"),
+                 email ="tanguy.barthelemy@insee.fr"))
+Description: R Interface to 'JDemetra+ 3.x' (<https://github.com/jdemetra>) time series analysis software.
 Depends:
-  R (>= 3.6.0)
+  R (>= 4.1.0)
 Imports:
   rJava (>= 1.0-6),
-  rjd3toolkit (>= 3.2.1),
+  rjd3toolkit (>= 3.2.2),
   RProtoBuf (>= 0.4.20)
-SystemRequirements: Java SE 8 or higher
+Remotes: 
+    github::rjdverse/rjd3toolkit@*release
+SystemRequirements: Java (>= 17)
 License: EUPL
-URL: https://github.com/jdemetra/rjd3sa
+URL: https://github.com/rjdverse/rjd3bench,
+    https://rjdverse.github.io/rjd3bench/
 LazyData: TRUE
 Suggests: knitr, rmarkdown
-RoxygenNote: 7.2.3
-BugReports: https://github.com/jdemetra/rjdemetra3/issues
+RoxygenNote: 7.3.1
+BugReports: https://github.com/rjdverse/rjd3bench/issues
 Encoding: UTF-8
 Collate: 
     'adl.R'

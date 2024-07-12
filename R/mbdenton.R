@@ -19,8 +19,8 @@ NULL
 #' @param outliers a list of structured definition of the outlier periods and their intensity. The period must be submitted
 #'                 first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an equal sign and
 #'                 the intensity of the outlier, defined as the relative value of the 'innovation variances' (1= normal situation)
-#' @param fixedBIratios a list of structured definition of the periods where the BI ratios must be fixed. The period must be 
-#'                      submitted first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an 
+#' @param fixedBIratios a list of structured definition of the periods where the BI ratios must be fixed. The period must be
+#'                      submitted first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
 #'                      equal sign and the value of the BI ratio.
 #' @return an object of class 'JD3MBDenton'
 #' @export
@@ -52,26 +52,26 @@ NULL
 denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition=1,
                             outliers=NULL, fixedBIratios=NULL){
 
-  conversion=match.arg(conversion)
+  conversion <- match.arg(conversion)
 
-  jseries=rjd3toolkit::.r2jd_tsdata(series)
+  jseries <- rjd3toolkit::.r2jd_tsdata(series)
   jindicator<-rjd3toolkit::.r2jd_tsdata(indicator)
   if (is.null(outliers)){
-    odates=.jcast(.jnull(), "[Ljava/lang/String;")
-    ovars=.jnull("[D")
-  }else{
-    odates=.jarray(names(outliers))
-    ovars=.jarray(as.numeric(outliers))
+    odates <- .jcast(.jnull(), "[Ljava/lang/String;")
+    ovars <- .jnull("[D")
+  } else {
+    odates <- .jarray(names(outliers))
+    ovars <- .jarray(as.numeric(outliers))
   }
   if (is.null(fixedBIratios)){
-    fdates=.jcast(.jnull(), "[Ljava/lang/String;")
-    fvars=.jnull("[D")
-  }else{
-    fdates=.jarray(names(fixedBIratios))
-    fvars=.jarray(as.numeric(fixedBIratios))
+    fdates <- .jcast(.jnull(), "[Ljava/lang/String;")
+    fvars <- .jnull("[D")
+  } else {
+    fdates <- .jarray(names(fixedBIratios))
+    fvars <- .jarray(as.numeric(fixedBIratios))
   }
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/ModelBasedDentonResults;",
-                "processModelBasedDenton", jseries, jindicator, as.integer(1), conversion, as.integer(conversion.obsposition), odates, ovars, 
+                "processModelBasedDenton", jseries, jindicator, as.integer(1), conversion, as.integer(conversion.obsposition), odates, ovars,
                 fdates, fvars)
   # Build the S3 result
   estimation<-list(
@@ -104,7 +104,7 @@ denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum
 print.JD3MBDenton<-function(x, ...){
   if (is.null(x$estimation$disagg)){
     cat("Invalid estimation")
-  }else{
+  } else {
     cat("Available estimates:\n")
     print.default(names(x$estimation), ...)
 
@@ -130,9 +130,9 @@ summary.JD3MBDenton<-function(object, ...){
   if (is.null(object)){
     cat("Invalid estimation")
 
-  }else{
+  } else {
     cat("\n")
-    cat("Likelihood statistics","\n")
+    cat("Likelihood statistics", "\n")
     cat("\n")
     cat("Number of observations: ", object$likelihood$nobs, "\n")
     cat("Number of effective observations: ", object$likelihood$neffective, "\n")
@@ -165,7 +165,7 @@ plot.JD3MBDenton<-function(x, ...){
   if (is.null(x)){
     cat("Invalid estimation")
 
-  }else{
+  } else {
     td<-x$estimation$disagg
     td.sd<-x$estimation$edisagg
     td.lb<-td - 1.96 * td.sd
@@ -175,9 +175,8 @@ plot.JD3MBDenton<-function(x, ...){
     bi.lb<-bi - 1.96 * bi.sd
     bi.ub<-bi + 1.96 * bi.sd
 
-    par(mfrow=c(2,1))
-    ts.plot(td, td.lb, td.ub, gpars=list(main = "Disaggragated series and BI ratio with confidence interval", xlab="", ylab="disaggragated series", lty=c(1, 3, 3), ...))
+    par(mfrow = c(2, 1))
+    ts.plot(td, td.lb, td.ub, gpars=list(main = "Disaggragated series and BI ratio with confidence interval", xlab="", ylab="disaggragated series", lty = c(1, 3, 3), ...))
     ts.plot(bi, bi.lb, bi.ub, gpars=list(xlab="", ylab="BI ratio", lty=c(1, 3, 3), ...))
   }
 }
-
