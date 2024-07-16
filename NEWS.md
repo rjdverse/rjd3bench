@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+* Add output on residuals in temporaldisaggregation() function
+
 ## [2.0.1] - 2024-07-12
 
 
