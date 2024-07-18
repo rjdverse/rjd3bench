@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Temporal disaggregation and Benchmarking methods based on JDemetra+ • rjd3bench</title>
+<title>Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x • rjd3bench</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Temporal disaggregation and Benchmarking methods based on JDemetra+">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -56,7 +56,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.svg" class="logo" alt=""><h1>Temporal disaggregation and Benchmarking methods based on JDemetra+</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rjdverse/rjd3bench/blob/develop/vignettes/rjd3bench.Rmd" class="external-link"><code>vignettes/rjd3bench.Rmd</code></a></small>
@@ -82,8 +82,6 @@
       calendar periods.
     </div>
     
-<p><br>
- </p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -108,8 +106,6 @@ modeling developed in the official ‘JDemetra+ 3.0’ Seasonal adjustement
 software. It provides a wide variety of methods and intend to include
 those suggested in the <em>ESS guidelines on temporal disaggregation,
 benchmarking and reconciliation (Eurostat, 2018)</em>.</p>
-<p><br>
- </p>
 </div>
 <div class="section level2">
 <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
@@ -129,15 +125,7 @@ and covering the period 2009Q1-2021Q4.</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3toolkit" class="external-link">"rjd3toolkit"</a></span><span class="op">)</span> <span class="co"># for **retail** data</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'rjd3toolkit'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     aggregate, mad</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"qna_data"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in data("qna_data"): data set 'qna_data' not found</span></span></code></pre></div>
-<p><br>
- </p>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"qna_data"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="application-of-methods">Application of methods<a class="anchor" aria-label="anchor" href="#application-of-methods"></a>
@@ -176,24 +164,7 @@ likelihood. plot() displays the decomposition of the disaggregated
 series between regression and the smoothing effect.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">td_cl</span><span class="op">)</span> <span class="co"># example of call to summary() </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Likelihood statistics </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of observations:  12 </span></span>
-<span><span class="co">#&gt; Number of effective observations:  -1 </span></span>
-<span><span class="co">#&gt; Number of estimated parameters:  1 </span></span>
-<span><span class="co">#&gt; LogLikelihood:  -82.28212 </span></span>
-<span><span class="co">#&gt; Standard error:  </span></span>
-<span><span class="co">#&gt; AIC:  166.5642 </span></span>
-<span><span class="co">#&gt; BIC:  166.9621 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model: Rw </span></span>
-<span><span class="co">#&gt; Regression model </span></span>
-<span><span class="co">#&gt;          coef      se        t</span></span>
-<span><span class="co">#&gt; var1 27.90617 5.47579 5.096281</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">td_cl</span><span class="op">)</span></span></code></pre></div>
-<p><img src="rjd3bench_files/figure-html/chow_lin_example_cont-1.png" width="576"></p>
 </div>
 <div class="section level4">
 <h4 id="model-based-denton">Model-based Denton<a class="anchor" aria-label="anchor" href="#model-based-denton"></a>
@@ -250,7 +221,6 @@ code to apply it to the same data as before.</p>
 <code class="sourceCode R"><span><span class="va">td_mbd</span><span class="op">&lt;-</span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton_modelbased.html">denton_modelbased</a></span><span class="op">(</span><span class="va">Y</span>, <span class="va">x</span>, outliers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"2020-01-01"</span><span class="op">=</span><span class="fl">100</span>, <span class="st">"2020-04-01"</span><span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">y_mbd</span><span class="op">&lt;-</span><span class="va">td_mbd</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">td_mbd</span><span class="op">)</span></span></code></pre></div>
-<p><img src="rjd3bench_files/figure-html/mb_denton_example-1.png" width="576"></p>
 <p>The variable <em>td_mbd</em> is of class
 <strong>‘JD3MBDenton’</strong> and contains information about the
 disaggregated series and the BI ratio as well as their respecting errors
