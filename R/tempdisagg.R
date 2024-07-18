@@ -60,11 +60,11 @@ temporaldisaggregation<-function(series, constant = TRUE,  trend = FALSE,  indic
       }
     } else if (is.ts(indicators)){
       jlist[[1]]<-rjd3toolkit::.r2jd_tsdata(indicators)
-    } else {
+    } else{
       stop("Invalid indicators")
     }
     jindicators<-.jarray(jlist, contents.class = "jdplus/toolkit/base/api/timeseries/TsData")
-  } else {
+  } else{
     jindicators<-.jnull("[Ljdplus/toolkit/base/api/timeseries/TsData;")
   }
   jrslt<-.jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
@@ -92,8 +92,8 @@ temporaldisaggregation<-function(series, constant = TRUE,  trend = FALSE,  indic
     regeffect=rjd3toolkit::.proc_ts(jrslt, "regeffect"),
     smoothingpart=rjd3toolkit::.proc_numeric(jrslt, "smoothingpart"),
     parameter=rjd3toolkit::.proc_numeric(jrslt, "parameter"),
-    eparameter=rjd3toolkit::.proc_numeric(jrslt, "eparameter")
-    # res= TODO
+    eparameter=rjd3toolkit::.proc_numeric(jrslt, "eparameter"),
+    residuals= .proc_residuals(jrslt) # temporary solution (see function below)
   )
   likelihood<-rjd3toolkit::.proc_likelihood(jrslt, "likelihood.")
 
@@ -180,7 +180,7 @@ temporaldisaggregationI<-function(series, indicator,
 print.JD3TempDisagg<-function(x, ...){
   if (is.null(x$regression$model)){
     cat("Invalid estimation")
-  } else {
+  } else{
     cat("Model:", x$regression$type, "\n")
     print(x$regression$model)
 
@@ -205,7 +205,7 @@ print.JD3TempDisagg<-function(x, ...){
 print.JD3TempDisaggI<-function(x, ...){
   if (is.null(x$estimation$parameter)){
     cat("Invalid estimation")
-  } else {
+  } else{
     model<-data.frame(coef = c(round(x$regression$a, 4), round(x$regression$b, 4)))
     row.names(model)<-c("a", "b")
     print(model)
@@ -254,7 +254,7 @@ summary_disagg<-function(object){
     if (is.null(object)){
       cat("Invalid estimation")
 
-    } else {
+    } else{
       cat("\n")
       cat("Likelihood statistics", "\n")
       cat("\n")
@@ -298,7 +298,7 @@ summary.JD3TempDisaggI<-function(object, ...){
   if (is.null(object)){
     cat("Invalid estimation")
 
-  } else {
+  } else{
     cat("\n")
     cat("Likelihood statistics", "\n")
     cat("\n")
@@ -336,7 +336,7 @@ plot.JD3TempDisagg<-function(x, ...){
   if (is.null(x)){
     cat("Invalid estimation")
 
-  } else {
+  } else{
     td_series <- x$estimation$disagg
     reg_effect <- x$estimation$regeffect
     smoothing_effect <- td_series - reg_effect
@@ -364,9 +364,51 @@ plot.JD3TempDisaggI<-function(x, ...){
   if (is.null(x)){
     cat("Invalid estimation")
 
-  } else {
+  } else{
     td_series <- x$estimation$disagg
     ts.plot(td_series, gpars=list(xlab="", ylab="disaggragated series", xaxt="n"))
     axis(side=1, at=start(td_series)[1]:end(td_series)[1])
   }
+}
+
+# TEMPORARY SOLUTION
+# For the next release, we should use proto and move the functions to rjd3toolkit
+.proc_residuals <- function (jrslt){
+
+    z<-rjd3toolkit::.jd3_object(jrslt, "TD", TRUE)
+
+    full_residuals <- get_result_item(z,"residuals.fullresiduals")
+
+    extr_normality <- list(get_result_item(z,"residuals.mean"),
+                           get_result_item(z,"residuals.skewness"),
+                           get_result_item(z,"residuals.kurtosis"),
+                           get_result_item(z,"residuals.doornikhansen"))
+    extr_independence <- get_result_item(z,"residuals.ljungbox")
+    extr_randomness <- list(get_result_item(z,"residuals.nruns"),
+                            get_result_item(z,"residuals.lruns"),
+                            get_result_item(z,"residuals.nudruns"),
+                            get_result_item(z,"residuals.ludruns"))
+    linearity_test <- tryCatch(rjd3toolkit::ljungbox(full_residuals^2, k = 8, lag = 1, mean = TRUE), error=function(err) NaN)
+
+
+    normality <- matrix(unlist(extr_normality), nrow = 4, ncol = 2, byrow = TRUE,
+                        dimnames = list(c("mean", "skewness", "kurtosis", "test(doornikhansen)"), c("value", "p-value")))
+    independence <- matrix(unlist(extr_independence), nrow = 1, ncol = 2, byrow = TRUE,
+                           dimnames = list(c("ljung_box"), c("value", "p-value")))
+    randomness <- matrix(unlist(extr_randomness), nrow = 4, ncol = 2, byrow = TRUE,
+                         dimnames = list(c("Runs around the mean: number", "Runs around the mean: length", "Up and Down runs: number", "Up and Down runs: length"), c("value", "p-value")))
+    linearity <- matrix(unlist(linearity_test), nrow = 1, ncol = 2, byrow = TRUE,
+                        dimnames = list(c("ljung_box on squared residuals"), c("value", "p-value")))
+
+    return(list(full_residuals=full_residuals,
+                tests=list(normality=round(normality,4),
+                           independence=round(independence,4),
+                           randomness=round(randomness,4),
+                           linearity=round(linearity,4))))
+
+}
+
+get_result_item <- function(jd3_obj, item){
+   return(tryCatch(rjd3toolkit::result(jd3_obj, item),
+                   error=function(err) NaN))
 }
