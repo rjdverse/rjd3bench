@@ -1,7 +1,7 @@
 Package: rjd3bench
 Type: Package
 Title: Interface to 'JDemetra+ 3.x' time series analysis software
-Version: 2.1.0
+Version: 2.1.0.9000
 Authors@R: c(
   person("Jean", "Palate", role = "aut",
                 email = "jean.palate@nbb.be"),
