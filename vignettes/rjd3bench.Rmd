@@ -63,13 +63,10 @@ y_cl<-td_cl$estimation$disagg # the disaggregated series
 ```
 
 The variable *td_cl* is of class **'JD3TempDisagg'** and contains the most important information about the regression including the estimates of model coefficients and their covariance matrix, the decomposition of the disaggregated series and information about the likelihood. There exist a specific print(), summary() and plot() functions for objects of class **'JD3TempDisagg'**. print() shows the fitted model, summary() also shows extra information about the model and the likelihood. plot() displays the decomposition of the disaggregated series between regression and the smoothing effect.        
-<<<<<<< HEAD
-```{r, chow_lin_example_cont, fig.width=6}
+
+
+```{r chow_lin example cont, echo = TRUE, eval = FALSE, fig.width=6}
 summary(td_cl) # example of call to summary()
-=======
-```{r chow_lin example cont, echo = TRUE, eval = FALSE}
-summary(td_cl) # example of call to summary() 
->>>>>>> 86d7dbcfc73f5daa891ca3aecbc01f887165d2ed
 plot(td_cl)
 ```
 
