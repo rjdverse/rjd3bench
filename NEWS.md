@@ -7,6 +7,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+* solve issue in residual output when tests fail
+
 
 ## [2.1.0] - 2024-07-18
 
