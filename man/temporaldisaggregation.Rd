@@ -10,9 +10,9 @@ temporaldisaggregation(
   trend = FALSE,
   indicators = NULL,
   model = c("Ar1", "Rw", "RwAr1"),
-  freq = 4,
+  freq = 4L,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-  conversion.obsposition = 1,
+  conversion.obsposition = 1L,
   rho = 0,
   rho.fixed = FALSE,
   rho.truncated = 0,
@@ -24,7 +24,7 @@ temporaldisaggregation(
 \arguments{
 \item{series}{The time series that will be disaggregated. It must be a ts object.}
 
-\item{constant}{Constant term (T/F). Only used with Ar1 model when zeroinitialization=F}
+\item{constant}{Constant term (T/F). Only used with Ar1 model when zeroinitialization = F}
 
 \item{trend}{Linear trend (T/F)}
 
@@ -32,11 +32,11 @@ temporaldisaggregation(
 
 \item{model}{Model of the error term (at the disaggregated level). "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman}
 
-\item{freq}{Annual frequency of the disaggregated variable. Used if no indicator is provided}
+\item{freq}{Integer. Annual frequency of the disaggregated variable. Used if no indicator is provided}
 
 \item{conversion}{Conversion mode (Usually "Sum" or "Average")}
 
-\item{conversion.obsposition}{Only used with "UserDefined" mode. Position of the observed indicator in the aggregated periods (for instance 7th month of the year)}
+\item{conversion.obsposition}{Integer. Only used with "UserDefined" mode. Position of the observed indicator in the aggregated periods (for instance 7th month of the year)}
 
 \item{rho}{Only used with Ar1/RwAr1 models. (Initial) value of the parameter}
 
@@ -60,17 +60,17 @@ Litterman and some variants of those algorithms.
 }
 \examples{
 # retail data, chow-lin with monthly indicator
-Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
-x<-rjd3toolkit::Retail$FoodAndBeverageStores
-td<-rjd3bench::temporaldisaggregation(Y, indicators=x)
-y<-td$estimation$disagg
+Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+x <- rjd3toolkit::Retail$FoodAndBeverageStores
+td <- rjd3bench::temporaldisaggregation(Y, indicators = x)
+y <- td$estimation$disagg
 
 # qna data, fernandez with/without quarterly indicator
 data("qna_data")
-Y<-ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency=1, start=c(2009,1))
-x<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency=4, start=c(2009,1))
-td1<-rjd3bench::temporaldisaggregation(Y, indicators=x, model = "Rw")
-td2<-rjd3bench::temporaldisaggregation(Y, model = "Rw")
-mod1<- td1$regression$model
+Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
+x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
+td1 <- rjd3bench::temporaldisaggregation(Y, indicators = x, model = "Rw")
+td2 <- rjd3bench::temporaldisaggregation(Y, model = "Rw")
+mod1 <- td1$regression$model
 
 }

@@ -15,9 +15,9 @@
 Plot function for object of class JD3MBDenton
 }
 \examples{
-Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
-x<-rjd3toolkit::Retail$FoodAndBeverageStores
-td<-rjd3bench::temporaldisaggregationI(Y, indicator=x)
+Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+x <- rjd3toolkit::Retail$FoodAndBeverageStores
+td <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
 plot(td)
 
 }

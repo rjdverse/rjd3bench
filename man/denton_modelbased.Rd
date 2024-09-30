@@ -8,9 +8,9 @@ method}
 denton_modelbased(
   series,
   indicator,
-  differencing = 1,
+  differencing = 1L,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-  conversion.obsposition = 1,
+  conversion.obsposition = 1L,
   outliers = NULL,
   fixedBIratios = NULL
 )
@@ -56,28 +56,26 @@ method. Outliers and their intensity are defined by changing the value of the
 }
 \examples{
 # retail data, monthly indicator
-Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
-x<-rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
-td<-rjd3bench::denton_modelbased(Y, x, outliers = list("2000-01-01"=100, "2005-07-01"=100))
-y<-td$estimation$edisagg
+Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
+td <- rjd3bench::denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
+y <- td$estimation$edisagg
 
 # qna data, quarterly indicator
 data("qna_data")
-Y<-ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency=1, start=c(2009,1))
-x<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency=4, start=c(2009,1))
+Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
+x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 
-td1<-rjd3bench::denton_modelbased(Y, x)
-td2<-rjd3bench::denton_modelbased(Y, x,
-                                  outliers=list("2020-04-01"=100),
-                                  fixedBIratios=list("2021-04-01"=39.0))
+td1 <- rjd3bench::denton_modelbased(Y, x)
+td2 <- rjd3bench::denton_modelbased(Y, x, outliers = list("2020-04-01" = 100), fixedBIratios = list("2021-04-01" = 39.0))
 
-bi1<-td1$estimation$biratio
-bi2<-td2$estimation$biratio
-y1<-td1$estimation$disagg
-y2<-td2$estimation$disagg
+bi1 <- td1$estimation$biratio
+bi2 <- td2$estimation$biratio
+y1 <- td1$estimation$disagg
+y2 <- td2$estimation$disagg
 \dontrun{
-ts.plot(bi1,bi2,gpars=list(col=c("red","blue")))
-ts.plot(y1,y2,gpars=list(col=c("red","blue")))
+ts.plot(bi1,bi2,gpars = list(col = c("red","blue")))
+ts.plot(y1,y2,gpars = list(col = c("red","blue")))
 }
 
 }
