@@ -180,6 +180,26 @@ cholette<-function(s, t, rho=1, lambda=1, bias="None", conversion="Sum", obsposi
 #' @export
 #'
 #' @examples
+#'
+#' s1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
+#' s2 <- ts(c(18, 19.5, 19.0, 19.7, 18.5, 19.0, 20.3, 20.0), frequency = 4, start = c(2010, 1))
+#' s3 <- ts(c(1.5, 1.8, 2, 2.5, 2.0, 1.5, 1.7, 2.0), frequency = 4, start = c(2010, 1))
+#'
+#' a <- ts(c(27.1, 29.8, 29.9, 31.2, 29.3, 27.9, 30.9, 31.8), frequency = 4, start = c(2010, 1))
+#'
+#' y1 <- ts(c(30.0, 30.6), frequency = 1, start = c(2010, 1))
+#' y2 <- ts(c(80.0, 81.2), frequency = 1, start = c(2010, 1))
+#' y3 <- ts(c(8.0, 8.1), frequency = 1, start = c(2010, 1))
+#'
+#' data_list <- list(s1 = s1, s2 = s2, s3 = s3, a = a, y1 = y1, y2 = y2, y3 = y3)
+#'
+#' cc <- c("a=s1+s2+s3") # contemporaneous constraints
+#' tc <- c("y1=sum(s1)", "y2=sum(s2)", "y3=sum(s3)") # temporal constraints
+#'
+#' output1 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5) # = Denton
+#' output2 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729, lambda = .5) # = Cholette
+#' output3 <- multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc, rho = 1, lambda = .5)
+#'
 multivariatecholette<-function(xlist, tcvector=NULL, ccvector=NULL, rho=1, lambda=1) {
   if (!is.list(xlist) || length(xlist) < 3) {
     stop("incorrect argument, first argument should be a list of at least 3 time series")}
