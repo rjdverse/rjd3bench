@@ -13,9 +13,9 @@
 Print function for object of class JD3TempDisaggI
 }
 \examples{
-Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-x<-rjd3toolkit::retail$FoodAndBeverageStores
-td<-rjd3bench::temporaldisaggregationI(Y, indicator=x)
+Y <- rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
+x <- rjd3toolkit::retail$FoodAndBeverageStores
+td <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
 print(td)
 
 }

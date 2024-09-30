@@ -8,9 +8,9 @@ grp(
   s,
   t,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-  obsposition = 1,
+  obsposition = 1L,
   eps = 1e-12,
-  iter = 500,
+  iter = 500L,
   denton = TRUE
 )
 }
@@ -21,7 +21,9 @@ grp(
 
 \item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by default.}
 
-\item{obsposition}{Postion of the observation in the aggregated period (only used with "UserDefined" conversion)}
+\item{obsposition}{Integer. Position of the observation in the aggregated period (only used with "UserDefined" conversion)}
+
+\item{iter}{Integer.}
 
 \item{denton}{}
 }
@@ -31,8 +33,8 @@ proposed by Di Fonzo and Marini.
 }
 \examples{
 data("qna_data")
-Y<-ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency=1, start=c(2009,1))
-x<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency=4, start=c(2009,1))
-y<-rjd3bench::grp(s=x, t=Y)
+Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
+x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
+y <- rjd3bench::grp(s = x, t = Y)
 
 }

@@ -13,9 +13,9 @@
 Summary function for object of class JD3TempDisagg
 }
 \examples{
-Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-x<-rjd3toolkit::retail$FoodAndBeverageStores
-td<-rjd3bench::temporaldisaggregation(Y, indicator=x)
+Y <- rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
+x <- rjd3toolkit::retail$FoodAndBeverageStores
+td <- rjd3bench::temporaldisaggregation(Y, indicator = x)
 summary(td)
 
 }

@@ -7,9 +7,9 @@
 cubicspline(
   s = NULL,
   t,
-  nfreq = 4,
+  nfreq = 4L,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-  obsposition = 1
+  obsposition = 1L
 )
 }
 \arguments{
@@ -17,11 +17,11 @@ cubicspline(
 
 \item{t}{Aggregation constraint. Mandatory. it must be either an object of class ts or a numeric vector.}
 
-\item{nfreq}{Annual frequency of the disaggregated variable. Used if no disaggregated series is provided.}
+\item{nfreq}{Integer. Annual frequency of the disaggregated variable. Used if no disaggregated series is provided.}
 
 \item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by default.}
 
-\item{obsposition}{Postion of the observation in the aggregated period (only used with "UserDefined" conversion)}
+\item{obsposition}{Integer. Postion of the observation in the aggregated period (only used with "UserDefined" conversion)}
 }
 \description{
 Cubic splines are piecewise cubic functions that are linked together in
@@ -35,17 +35,17 @@ frequency BI ratio and the indicator.
 }
 \examples{
 data("qna_data")
-Y<-ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency=1, start=c(2009,1))
+Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 
 # cubic spline without disaggregated series
-y1<-rjd3bench::cubicspline(t=Y, nfreq=4)
+y1 <- rjd3bench::cubicspline(t = Y, nfreq = 4L)
 
 # cubic spline with disaggregated series
-x1<-y1+rnorm(n=length(y1), mean=0, sd=10)
-y2<-rjd3bench::cubicspline(s=x1, t=Y)
+x1 <- y1+rnorm(n = length(y1), mean = 0, sd = 10)
+y2 <- rjd3bench::cubicspline(s = x1, t = Y)
 
 # cubic splines used for temporal disaggregation
-x2<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency=4, start=c(2009,1))
-y3<-rjd3bench::cubicspline(s=x2, t=Y)
+x2 <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
+y3 <- rjd3bench::cubicspline(s = x2, t = Y)
 
 }

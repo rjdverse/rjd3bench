@@ -32,8 +32,8 @@ y3 <- ts(c(8.0, 8.1), frequency = 1, start = c(2010, 1))
 
 data_list <- list(s1 = s1, s2 = s2, s3 = s3, a = a, y1 = y1, y2 = y2, y3 = y3)
 
-cc <- c("a=s1+s2+s3") # contemporaneous constraints
-tc <- c("y1=sum(s1)", "y2=sum(s2)", "y3=sum(s3)") # temporal constraints
+cc <- c("a = s1+s2+s3") # contemporaneous constraints
+tc <- c("y1 = sum(s1)", "y2 = sum(s2)", "y3 = sum(s3)") # temporal constraints
 
 output1 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5) # = Denton
 output2 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729, lambda = .5) # = Cholette

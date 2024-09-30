@@ -10,10 +10,10 @@ adl_disaggregation(
   trend = FALSE,
   indicators = NULL,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-  conversion.obsposition = 1,
-  phi = 0,
+  conversion.obsposition = 1L,
+  phi = 0L,
   phi.fixed = FALSE,
-  phi.truncated = 0,
+  phi.truncated = 0L,
   xar = c("FREE", "SAME", "NONE")
 )
 }
@@ -26,8 +26,8 @@ Title
 \examples{
 # qna data, fernandez with/without quarterly indicator
 data("qna_data")
-Y<-ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency=1, start=c(2009,1))
-x<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency=4, start=c(2009,1))
-td1<-rjd3bench::adl_disaggregation(Y, indicators=x, xar="FREE")
-td2<-rjd3bench::adl_disaggregation(Y, indicators=x, xar="SAME")
+Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
+x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
+td1 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
+td2 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME")
 }
