@@ -11,6 +11,10 @@ linters: lintr::all_linters(
         extraction_operator_linter = NULL,
         undesirable_function_linter = NULL,
         commented_code_linter = NULL,
-        function_argument_linter = NULL
+        function_argument_linter = NULL,
+        extraction_operator_linter = NULL,
+        implicit_integer_linter = NULL,
+        numeric_leading_zero_linter = NULL,
+        nonportable_path_linter = NULL
     )
 encoding: "UTF-8"
