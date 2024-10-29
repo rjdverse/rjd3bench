@@ -131,8 +131,8 @@ Litterman and some variants of those algorithms.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># retail data, chow-lin with monthly indicator</span></span></span>
-<span class="r-in"><span><span class="va">Y</span><span class="op">&lt;-</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va">retail</span><span class="op">$</span><span class="va">RetailSalesTotal</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">x</span><span class="op">&lt;-</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va">retail</span><span class="op">$</span><span class="va">FoodAndBeverageStores</span></span></span>
+<span class="r-in"><span><span class="va">Y</span><span class="op">&lt;-</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va"><a href="https://rjdverse.github.io/rjd3toolkit/reference/retail.html" class="external-link">retail</a></span><span class="op">$</span><span class="va">RetailSalesTotal</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">&lt;-</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va"><a href="https://rjdverse.github.io/rjd3toolkit/reference/retail.html" class="external-link">retail</a></span><span class="op">$</span><span class="va">FoodAndBeverageStores</span></span></span>
 <span class="r-in"><span><span class="va">td</span><span class="op">&lt;-</span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu">temporaldisaggregation</span><span class="op">(</span><span class="va">Y</span>, indicators<span class="op">=</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">y</span><span class="op">&lt;-</span><span class="va">td</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span></span></span>
 <span class="r-in"><span></span></span>
@@ -155,7 +155,7 @@ Litterman and some variants of those algorithms.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

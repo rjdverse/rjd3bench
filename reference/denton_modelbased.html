@@ -3,14 +3,14 @@
 space representation (see documentation for the definition of states). This
 approach is interesting as it allows more flexibility in the model such as
 the inclusion of outliers (level shift in the Benchmark to Indicator ratio)
-that could otherwise induce unintended wave effects with standard Denton method.
-Outliers and their intensity are defined by changing the value of the
+that could otherwise induce unintended wave effects with standard Denton
+method. Outliers and their intensity are defined by changing the value of the
 'innovation variances'."><meta property="og:description" content="Denton proportional method can be expressed as a statistical model in a State
 space representation (see documentation for the definition of states). This
 approach is interesting as it allows more flexibility in the model such as
 the inclusion of outliers (level shift in the Benchmark to Indicator ratio)
-that could otherwise induce unintended wave effects with standard Denton method.
-Outliers and their intensity are defined by changing the value of the
+that could otherwise induce unintended wave effects with standard Denton
+method. Outliers and their intensity are defined by changing the value of the
 'innovation variances'."><meta property="og:image" content="https://rjdverse.github.io/rjd3bench/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
@@ -50,8 +50,8 @@ Outliers and their intensity are defined by changing the value of the
 space representation (see documentation for the definition of states). This
 approach is interesting as it allows more flexibility in the model such as
 the inclusion of outliers (level shift in the Benchmark to Indicator ratio)
-that could otherwise induce unintended wave effects with standard Denton method.
-Outliers and their intensity are defined by changing the value of the
+that could otherwise induce unintended wave effects with standard Denton
+method. Outliers and their intensity are defined by changing the value of the
 'innovation variances'.</p>
     </div>
 
@@ -73,34 +73,42 @@ Outliers and their intensity are defined by changing the value of the
 
 
 <dl><dt id="arg-series">series<a class="anchor" aria-label="anchor" href="#arg-series"></a></dt>
-<dd><p>Aggregation constraint. Mandatory. It must be either an object of class ts or a numeric vector.</p></dd>
+<dd><p>Aggregation constraint. Mandatory. It must be either an object
+of class ts or a numeric vector.</p></dd>
 
 
 <dt id="arg-indicator">indicator<a class="anchor" aria-label="anchor" href="#arg-indicator"></a></dt>
-<dd><p>High-frequency indicator. Mandatory. It must be of same class as series</p></dd>
+<dd><p>High-frequency indicator. Mandatory. It must be of same
+class as series</p></dd>
 
 
 <dt id="arg-differencing">differencing<a class="anchor" aria-label="anchor" href="#arg-differencing"></a></dt>
-<dd><p>Not implemented yet. Keep it equals to 1 (Denton PFD method).</p></dd>
+<dd><p>Not implemented yet. Keep it equals to 1 (Denton PFD
+method).</p></dd>
 
 
 <dt id="arg-conversion">conversion<a class="anchor" aria-label="anchor" href="#arg-conversion"></a></dt>
-<dd><p>Conversion rule. Usually "Sum" or "Average". Sum by default.</p></dd>
+<dd><p>Conversion rule. Usually "Sum" or "Average". Sum by
+default.</p></dd>
 
 
 <dt id="arg-conversion-obsposition">conversion.obsposition<a class="anchor" aria-label="anchor" href="#arg-conversion-obsposition"></a></dt>
-<dd><p>Position of the observation in the aggregated period (only used with "UserDefined" conversion)</p></dd>
+<dd><p>Position of the observation in the aggregated
+period (only used with "UserDefined" conversion)</p></dd>
 
 
 <dt id="arg-outliers">outliers<a class="anchor" aria-label="anchor" href="#arg-outliers"></a></dt>
-<dd><p>a list of structured definition of the outlier periods and their intensity. The period must be submitted
-first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an equal sign and
-the intensity of the outlier, defined as the relative value of the 'innovation variances' (1= normal situation)</p></dd>
+<dd><p>a list of structured definition of the outlier periods and
+their intensity. The period must be submitted first in the format
+YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
+equal sign and the intensity of the outlier, defined as the relative value
+of the 'innovation variances' (1= normal situation)</p></dd>
 
 
 <dt id="arg-fixedbiratios">fixedBIratios<a class="anchor" aria-label="anchor" href="#arg-fixedbiratios"></a></dt>
-<dd><p>a list of structured definition of the periods where the BI ratios must be fixed. The period must be
-submitted first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
+<dd><p>a list of structured definition of the periods where the
+BI ratios must be fixed. The period must be submitted first in the format
+YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
 equal sign and the value of the BI ratio.</p></dd>
 
 </dl></div>
@@ -112,8 +120,8 @@ equal sign and the value of the BI ratio.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># retail data, monthly indicator</span></span></span>
-<span class="r-in"><span><span class="va">Y</span><span class="op">&lt;-</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va">retail</span><span class="op">$</span><span class="va">RetailSalesTotal</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">x</span><span class="op">&lt;-</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va">retail</span><span class="op">$</span><span class="va">FoodAndBeverageStores</span>, <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Y</span><span class="op">&lt;-</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va"><a href="https://rjdverse.github.io/rjd3toolkit/reference/retail.html" class="external-link">retail</a></span><span class="op">$</span><span class="va">RetailSalesTotal</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">&lt;-</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va"><a href="https://rjdverse.github.io/rjd3toolkit/reference/retail.html" class="external-link">retail</a></span><span class="op">$</span><span class="va">FoodAndBeverageStores</span>, <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">td</span><span class="op">&lt;-</span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu">denton_modelbased</span><span class="op">(</span><span class="va">Y</span>, <span class="va">x</span>, outliers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"2000-01-01"</span><span class="op">=</span><span class="fl">100</span>, <span class="st">"2005-07-01"</span><span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">y</span><span class="op">&lt;-</span><span class="va">td</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">edisagg</span></span></span>
 <span class="r-in"><span></span></span>
@@ -123,7 +131,9 @@ equal sign and the value of the BI ratio.</p></dd>
 <span class="r-in"><span><span class="va">x</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">TURN_Q_data</span><span class="op">[</span>,<span class="st">"TURN_INDEX_FF"</span><span class="op">]</span>, frequency<span class="op">=</span><span class="fl">4</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">td1</span><span class="op">&lt;-</span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu">denton_modelbased</span><span class="op">(</span><span class="va">Y</span>, <span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">td2</span><span class="op">&lt;-</span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu">denton_modelbased</span><span class="op">(</span><span class="va">Y</span>, <span class="va">x</span>, outliers<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"2020-04-01"</span><span class="op">=</span><span class="fl">100</span><span class="op">)</span>, fixedBIratios<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"2021-04-01"</span><span class="op">=</span><span class="fl">39.0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">td2</span><span class="op">&lt;-</span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu">denton_modelbased</span><span class="op">(</span><span class="va">Y</span>, <span class="va">x</span>,</span></span>
+<span class="r-in"><span>                                  outliers<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"2020-04-01"</span><span class="op">=</span><span class="fl">100</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                  fixedBIratios<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"2021-04-01"</span><span class="op">=</span><span class="fl">39.0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">bi1</span><span class="op">&lt;-</span><span class="va">td1</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">biratio</span></span></span>
 <span class="r-in"><span><span class="va">bi2</span><span class="op">&lt;-</span><span class="va">td2</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">biratio</span></span></span>
@@ -145,7 +155,7 @@ equal sign and the value of the BI ratio.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
