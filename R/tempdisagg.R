@@ -167,8 +167,8 @@ temporaldisaggregationI<-function(series, indicator,
 #' Print function for object of class JD3TempDisagg
 #'
 #' @param x an object of class JD3TempDisagg
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -192,8 +192,8 @@ print.JD3TempDisagg<-function(x, ...){
 #' Print function for object of class JD3TempDisaggI
 #'
 #' @param x an object of class JD3TempDisaggI
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -218,8 +218,8 @@ print.JD3TempDisaggI<-function(x, ...){
 #' Summary function for object of class JD3TempDisagg
 #'
 #' @param object an object of class JD3TempDisagg
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -235,8 +235,8 @@ summary.JD3TempDisagg<-function(object, ...){
 #' Summary function for object of class JD3AdlDisagg
 #'
 #' @param object an object of class JD3AdlDisagg
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -284,8 +284,8 @@ summary_disagg<-function(object){
 #' Summary function for object of class JD3TempDisaggI
 #'
 #' @param object an object of class JD3TempDisaggI
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
