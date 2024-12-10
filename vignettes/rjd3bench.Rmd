@@ -71,9 +71,9 @@ While $x_t$ is observed in high frequency, $y_t$ is only observed in low frequen
 Regression-based methods can be called with the `temporaldisaggregation()` function.
 ```{r}
 # Example: Use of Fernandez variant to disaggregate annual value added in construction sector using a quarterly indicator
-Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency=1, start=c(2009, 1))
-x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency=4, start=c(2009, 1))
-td_fern <- rjd3bench::temporaldisaggregation(Y, indicators=x, model = "Rw")
+Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
+x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
+td_fern <- rjd3bench::temporaldisaggregation(Y, indicators = x, model = "Rw")
 
 y_fern <- td_fern$estimation$disagg # the disaggregated series
 summary(td_fern)
@@ -112,9 +112,9 @@ This alternative representation of Denton PFD method is interesting as it allows
 The model-base Denton method can be applied with the `denton_modelbased()` function.
 ```{r}
 # Example: Use of model-based Denton for temporal disaggregation
-Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency=1, start=c(2009, 1))
-x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency=4, start=c(2009, 1))
-td_mbd <- rjd3bench::denton_modelbased(Y, x, outliers = list("2020-01-01"=100, "2020-04-01"=100))
+Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
+x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
+td_mbd <- rjd3bench::denton_modelbased(Y, x, outliers = list("2020-01-01" = 100, "2020-04-01" = 100))
 
 y_mbd <- td_mbd$estimation$disagg
 plot(td_mbd)
@@ -144,13 +144,13 @@ In the literature (see for example Di Fonzo and Marini, 2011), Denton PFD is gen
 Denton methods can be called with the `denton()` function.
 ```{r}
 # Example: use Denton method for benchmarking
-Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency=1, start=c(2009, 1))
+Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
 
-y_den0 <- rjd3bench::denton(t=Y, nfreq=4) # denton PFD without high frequency series
+y_den0 <- rjd3bench::denton(t = Y, nfreq = 4) # denton PFD without high frequency series
 
-x <- y_den0 + rnorm(n=length(y_den0), mean=0, sd=10)
-y_den1 <- rjd3bench::denton(s=x, t=Y) # denton PFD (= the default)
-y_den2 <- rjd3bench::denton(s=x, t=Y, d=2, mul=FALSE) # denton ASD
+x <- y_den0 + rnorm(n = length(y_den0), mean = 0, sd = 10)
+y_den1 <- rjd3bench::denton(s = x, t = Y) # denton PFD (= the default)
+y_den2 <- rjd3bench::denton(s = x, t = Y, d = 2, mul = FALSE) # denton ASD
 ```
 
 The `denton()` function returns the benchmarked high frequency series.
@@ -172,11 +172,11 @@ The GRP method, corresponding to the method of Cauley and Trager, using the solu
 
 ```{r}
 # Example: use GRP method for benchmarking
-Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency=1, start=c(2009, 1))
-y_den0 <- rjd3bench::denton(t=Y, nfreq=4)
-x <- y_den0 + rnorm(n=length(y_den0), mean=0, sd=10)
+Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
+y_den0 <- rjd3bench::denton(t = Y, nfreq = 4)
+x <- y_den0 + rnorm(n = length(y_den0), mean = 0, sd = 10)
 
-y_grp <- rjd3bench::grp(s=x, t=Y)
+y_grp <- rjd3bench::grp(s = x, t = Y)
 ```
 
 The `grp()` function returns the high frequency series benchmarked with the GRP method.

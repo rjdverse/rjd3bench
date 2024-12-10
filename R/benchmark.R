@@ -101,8 +101,8 @@ denton <- function(s = NULL, t, d = 1L, mul = TRUE, nfreq = 4L, modified = TRUE,
 #' y_grp <- rjd3bench::grp(s = x, t = Y)
 #'
 grp <- function(s, t,
-                conversion=c("Sum", "Average", "Last", "First", "UserDefined"),
-                obsposition=1, eps=1e-12, iter=500, dentoninitialization=TRUE){
+                conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
+                obsposition = 1, eps = 1e-12, iter = 500, dentoninitialization = TRUE) {
 
     conversion <- match.arg(conversion)
     jd_s <- rjd3toolkit::.r2jd_tsdata(s)
