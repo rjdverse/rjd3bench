@@ -1,4 +1,4 @@
-#' Title
+#' Temporal disaggregation of a time series with ADL models
 #'
 #' @param series
 #' @param constant

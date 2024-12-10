@@ -2,7 +2,7 @@
 % Please edit documentation in R/adl.R
 \name{adl_disaggregation}
 \alias{adl_disaggregation}
-\title{Title}
+\title{Temporal disaggregation of a time series with ADL models}
 \usage{
 adl_disaggregation(
   series,
@@ -21,7 +21,7 @@ adl_disaggregation(
 \item{xar}{}
 }
 \description{
-Title
+Temporal disaggregation of a time series with ADL models
 }
 \examples{
 # qna data, fernandez with/without quarterly indicator

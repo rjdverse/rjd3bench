@@ -3,20 +3,26 @@ NULL
 
 #' Benchmarking by means of the Denton method.
 #'
-#' Denton method relies on the principle of movement preservation. There exist
-#' a few variants corresponding to different definitions of movement
-#' preservation: additive first difference (AFD), proportional first difference
-#' (PFD), additive second difference (ASD), proportional second difference
-#' (PSD), etc. The default and most widely adopted is the Denton PFD method.
+#' Denton method relies on the principle of movement preservation. There exist a
+#' few variants corresponding to different definitions of movement preservation:
+#' additive first difference (AFD), proportional first difference (PFD),
+#' additive second difference (ASD), proportional second difference (PSD), etc.
+#' The default and most widely used is the Denton PFD method.
 #'
-#' @param s Disaggregated series. If not NULL, it must be the same class as t.
-#' @param t Aggregation constraint. Mandatory. it must be either an object of class ts or a numeric vector.
+#' @param s Preliminary series. If not NULL, it must be the same class as t.
+#' @param t Aggregation constraint. Mandatory. it must be either an object of
+#'   class ts or a numeric vector.
 #' @param d Integer. Differencing order. \code{1L} by default
-#' @param mul Multiplicative or additive benchmarking. Multiplicative by default
-#' @param nfreq Integer. Annual frequency of the disaggregated variable. Used if no disaggregated series is provided.
-#' @param modified Modified (TRUE) or unmodified (FALSE) Denton. Modified by default
-#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by default.
-#' @param obsposition Integer. Position of the observation in the aggregated period (only used with "UserDefined" conversion)
+#' @param mul Multiplicative or additive benchmarking. Multiplicative by
+#'   default.
+#' @param nfreq Integer. Annual frequency of the disaggregated variable. Used if
+#' no disaggregated series is provided.
+#' @param modified Modified (\code{TRUE}) or unmodified (\code{FALSE}) Denton.
+#' Modified by default.
+#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by
+#' default.
+#' @param obsposition Integer. Position of the observation in the aggregated
+#' period (only used with "UserDefined" conversion).
 #' @return The benchmarked series is returned
 #'
 #' @export
@@ -26,13 +32,12 @@ NULL
 #' # denton PFD without high frequency series
 #' y1 <- rjd3bench::denton(t = Y, nfreq = 4)
 #'
-#' # denton ASD
-#' x1 <- y1+rnorm(n = length(y1), mean = 0, sd = 10)
-#' y2 <- rjd3bench::denton(s = x1, t = Y, d = 2, mul = FALSE)
+#' # denton PFD with high frequency series
+#' x <- y1 + rnorm(n = length(y1), mean = 0, sd = 10)
+#' y2 <- rjd3bench::denton(s = x, t = Y)
 #'
-#' # denton PFD used for temporal disaggregation
-#' x2 <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
-#' y3 <- rjd3bench::denton(s = x2, t = Y)
+#' # denton ASD
+#' y3 <- rjd3bench::denton(s = x, t = Y, d = 2, mul = FALSE)
 #'
 denton <- function(s = NULL, t, d = 1L, mul = TRUE, nfreq = 4L, modified = TRUE,
                    conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
@@ -55,36 +60,55 @@ denton <- function(s = NULL, t, d = 1L, mul = TRUE, nfreq = 4L, modified = TRUE,
 
 #' Benchmarking following the growth rate preservation principle.
 #'
-#' This method corresponds to the method of Cauley and Trager, using the solution
-#' proposed by Di Fonzo and Marini.
+#' GRP is a method which explicitly preserves the period-to-period growth rates
+#' of the preliminary series. It corresponds to the method of Cauley and Trager
+#' (1981), using the solution proposed by Di Fonzo and Marini (2011). BFGS is
+#' used as line-search algorithm for the reduced unconstrained minimization
+#' problem.
 #'
-#' @param s Disaggregated series. Mandatory. It must be a ts object.
+#' @param s Preliminary series. Mandatory. It must be a ts object.
 #' @param t Aggregation constraint. Mandatory. It must be a ts object.
-#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by default.
-#' @param obsposition Integer. Position of the observation in the aggregated period (only used with "UserDefined" conversion)
-#' @param eps
-#' @param iter Integer.
-#' @param denton
+#' @param conversion Conversion rule. "Sum" by default.
+#' @param obsposition Integer. Position of the observation in the aggregated period
+#'   (only used with "UserDefined" conversion)
+#' @param eps Numeric. Defines the convergence precision. BFGS algorithm
+#' is run until the reduction in the objective is within this eps value
+#' (1e-12 is the default) or until the maximum number of iterations is hit.
+#' @param iter Integer. Maximum number of iterations in BFGS algorithm (500 is
+#'   the default).
+#' @param dentoninitialization indicate whether the series benchmarked via
+#'   modified Denton PFD is used as starting values of the GRP optimization
+#'   procedure (TRUE/FALSE, TRUE by default). If FALSE, the average benchmark is
+#'   used for flow variables (e.g. t/4 for quarterly series with annual
+#'   constraints and conversion = 'Sum'), or the benchmark for stock variables.
 #'
-#' @return
+#' @return The benchmarked series is returned
+#' @references  Causey, B., and Trager, M.L. (1981). Derivation of Solution to
+#'   the Benchmarking Problem: Trend Revision. Unpublished research notes, U.S.
+#'   Census Bureau, Washington D.C. Available as an appendix in Bozik and Otto
+#'   (1988).
+#'
+#'   Di Fonzo, T., and Marini, M. (2011). A Newton's Method for Benchmarking
+#'   Time Series according to a Growth Rates Preservation Principle. *IMF
+#'   WP/11/179*.
+#'
 #' @export
 #'
 #' @examples
 #' data("qna_data")
-#' Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
-#' x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
-#' y <- rjd3bench::grp(s = x, t = Y)
+#' Y <- ts(qna_data$B1G_Y_data[,  "B1G_FF"], frequency = 1, start = c(2009, 1))
+#' x <- rjd3bench::denton(t = Y, nfreq = 4) + rnorm(n = length(Y) * 4, mean = 0, sd = 10)
+#' y_grp <- rjd3bench::grp(s = x, t = Y)
 #'
 grp <- function(s, t,
-                conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-                obsposition = 1L, eps = 1e-12, iter = 500L, denton = TRUE) {
+                conversion=c("Sum", "Average", "Last", "First", "UserDefined"),
+                obsposition=1, eps=1e-12, iter=500, dentoninitialization=TRUE){
 
     conversion <- match.arg(conversion)
-
     jd_s <- rjd3toolkit::.r2jd_tsdata(s)
     jd_t <- rjd3toolkit::.r2jd_tsdata(t)
     jd_rslt <- .jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "grp",
-                      jd_s, jd_t, conversion, as.integer(obsposition), eps, as.integer(iter), as.logical(denton))
+                      jd_s, jd_t, conversion, as.integer(obsposition), eps, as.integer(iter), as.logical(dentoninitialization))
     rjd3toolkit::.jd2r_tsdata(jd_rslt)
 }
 
@@ -105,7 +129,7 @@ grp <- function(s, t,
 #' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by default.
 #' @param obsposition Integer. Postion of the observation in the aggregated period (only used with "UserDefined" conversion)
 #'
-#' @return
+#' @return The benchmarked series is returned
 #' @export
 #'
 #' @examples

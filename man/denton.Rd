@@ -16,31 +16,37 @@ denton(
 )
 }
 \arguments{
-\item{s}{Disaggregated series. If not NULL, it must be the same class as t.}
+\item{s}{Preliminary series. If not NULL, it must be the same class as t.}
 
-\item{t}{Aggregation constraint. Mandatory. it must be either an object of class ts or a numeric vector.}
+\item{t}{Aggregation constraint. Mandatory. it must be either an object of
+class ts or a numeric vector.}
 
 \item{d}{Integer. Differencing order. \code{1L} by default}
 
-\item{mul}{Multiplicative or additive benchmarking. Multiplicative by default}
+\item{mul}{Multiplicative or additive benchmarking. Multiplicative by
+default.}
 
-\item{nfreq}{Integer. Annual frequency of the disaggregated variable. Used if no disaggregated series is provided.}
+\item{nfreq}{Integer. Annual frequency of the disaggregated variable. Used if
+no disaggregated series is provided.}
 
-\item{modified}{Modified (TRUE) or unmodified (FALSE) Denton. Modified by default}
+\item{modified}{Modified (\code{TRUE}) or unmodified (\code{FALSE}) Denton.
+Modified by default.}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by default.}
+\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by
+default.}
 
-\item{obsposition}{Integer. Position of the observation in the aggregated period (only used with "UserDefined" conversion)}
+\item{obsposition}{Integer. Position of the observation in the aggregated
+period (only used with "UserDefined" conversion).}
 }
 \value{
 The benchmarked series is returned
 }
 \description{
-Denton method relies on the principle of movement preservation. There exist
-a few variants corresponding to different definitions of movement
-preservation: additive first difference (AFD), proportional first difference
-(PFD), additive second difference (ASD), proportional second difference
-(PSD), etc. The default and most widely adopted is the Denton PFD method.
+Denton method relies on the principle of movement preservation. There exist a
+few variants corresponding to different definitions of movement preservation:
+additive first difference (AFD), proportional first difference (PFD),
+additive second difference (ASD), proportional second difference (PSD), etc.
+The default and most widely used is the Denton PFD method.
 }
 \examples{
 Y <- ts(qna_data$B1G_Y_data$B1G_FF, frequency = 1, start = c(2009,1))
@@ -48,12 +54,11 @@ Y <- ts(qna_data$B1G_Y_data$B1G_FF, frequency = 1, start = c(2009,1))
 # denton PFD without high frequency series
 y1 <- rjd3bench::denton(t = Y, nfreq = 4)
 
-# denton ASD
-x1 <- y1+rnorm(n = length(y1), mean = 0, sd = 10)
-y2 <- rjd3bench::denton(s = x1, t = Y, d = 2, mul = FALSE)
+# denton PFD with high frequency series
+x <- y1 + rnorm(n = length(y1), mean = 0, sd = 10)
+y2 <- rjd3bench::denton(s = x, t = Y)
 
-# denton PFD used for temporal disaggregation
-x2 <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
-y3 <- rjd3bench::denton(s = x2, t = Y)
+# denton ASD
+y3 <- rjd3bench::denton(s = x, t = Y, d = 2, mul = FALSE)
 
 }

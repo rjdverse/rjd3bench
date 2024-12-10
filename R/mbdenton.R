@@ -1,27 +1,37 @@
 #' @include utils.R
 NULL
 
-#' Temporal disaggregation of a time series by model-based Denton proportional method
+#' Temporal disaggregation of a time series by model-based Denton proportional
+#' method
 #'
 #' Denton proportional method can be expressed as a statistical model in a State
 #' space representation (see documentation for the definition of states). This
 #' approach is interesting as it allows more flexibility in the model such as
 #' the inclusion of outliers (level shift in the Benchmark to Indicator ratio)
-#' that could otherwise induce unintended wave effects with standard Denton method.
-#' Outliers and their intensity are defined by changing the value of the
+#' that could otherwise induce unintended wave effects with standard Denton
+#' method. Outliers and their intensity are defined by changing the value of the
 #' 'innovation variances'.
 #'
-#' @param series Aggregation constraint. Mandatory. It must be either an object of class ts or a numeric vector.
-#' @param indicator High-frequency indicator. Mandatory. It must be of same class as series
-#' @param differencing Integer. Not implemented yet. Keep it equals to 1 (Denton PFD method).
-#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by default.
-#' @param conversion.obsposition Integer. Position of the observation in the aggregated period (only used with "UserDefined" conversion)
-#' @param outliers a list of structured definition of the outlier periods and their intensity. The period must be submitted
-#'                 first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an equal sign and
-#'                 the intensity of the outlier, defined as the relative value of the 'innovation variances' (1 = normal situation)
-#' @param fixedBIratios a list of structured definition of the periods where the BI ratios must be fixed. The period must be
-#'                      submitted first in the format YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
-#'                      equal sign and the value of the BI ratio.
+#' @param series Aggregation constraint. Mandatory. It must be either an object
+#'   of class ts or a numeric vector.
+#' @param indicator High-frequency indicator. Mandatory. It must be of same
+#'   class as series
+#' @param differencing Integer. Not implemented yet. Keep it equals to 1 (Denton
+#'   PFD method).
+#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by
+#'   default.
+#' @param conversion.obsposition Integer. Position of the observation in the
+#'   aggregated period (only used with "UserDefined" conversion)
+#' @param outliers a list of structured definition of the outlier periods and
+#'   their intensity. The period must be submitted first in the format
+#'   YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
+#'   equal sign and the intensity of the outlier, defined as the relative value
+#'   of the 'innovation variances' (1= normal situation)
+#' @param fixedBIratios a list of structured definition of the periods where the
+#'   BI ratios must be fixed. The period must be submitted first in the format
+#'   YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
+#'   equal sign and the value of the BI ratio.
+#'
 #' @return an object of class 'JD3MBDenton'
 #' @export
 #'
@@ -38,7 +48,9 @@ NULL
 #' x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 #'
 #' td1 <- rjd3bench::denton_modelbased(Y, x)
-#' td2 <- rjd3bench::denton_modelbased(Y, x, outliers = list("2020-04-01" = 100), fixedBIratios = list("2021-04-01" = 39.0))
+#' td2 <- rjd3bench::denton_modelbased(Y, x,
+#'                                   outliers = list("2020-04-01" = 100),
+#'                                   fixedBIratios = list("2021-04-01" = 39.0))
 #'
 #' bi1 <- td1$estimation$biratio
 #' bi2 <- td2$estimation$biratio
@@ -100,8 +112,8 @@ denton_modelbased <- function(
 #' Print function for object of class JD3MBDenton
 #'
 #' @param x an object of class JD3MBDenton
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -125,8 +137,8 @@ print.JD3MBDenton <- function(x, ...) {
 #' Summary function for object of class JD3MBDenton
 #'
 #' @param object an object of class JD3MBDenton
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples

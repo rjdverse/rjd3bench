@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{object}{an object of class JD3TempDisagg}
+
+\item{\dots}{further arguments passed to or from other methods.}
 }
 \description{
 Summary function for object of class JD3TempDisagg
