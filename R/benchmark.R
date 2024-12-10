@@ -107,7 +107,6 @@ denton <- function(s = NULL, t, d = 1L, mul = TRUE, nfreq = 4L, modified = TRUE,
 grp <- function(s, t,
                 conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
                 obsposition = 1L, eps = 1e-12, iter = 500L, dentoninitialization = TRUE) {
-
     conversion <- match.arg(conversion)
 
     jd_s <- rjd3toolkit::.r2jd_tsdata(s)
