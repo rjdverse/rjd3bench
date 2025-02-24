@@ -30,4 +30,5 @@ Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 td1 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
 td2 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME")
+
 }
