@@ -8,7 +8,6 @@ linters: lintr::all_linters(
         implicit_integer_linter = NULL,
         nonportable_path_linter = NULL,
         function_argument_linter = NULL,
-        extraction_operator_linter = NULL,
         undesirable_function_linter = NULL,
         commented_code_linter = NULL,
         return_linter = NULL,
