@@ -23,6 +23,9 @@ cubicspline(
 
 \item{obsposition}{Postion of the observation in the aggregated period (only used with "UserDefined" conversion)}
 }
+\value{
+The benchmarked series is returned
+}
 \description{
 Cubic splines are piecewise cubic functions that are linked together in
 a way to guarantee smoothness at data points. Additivity constraints are

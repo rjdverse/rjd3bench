@@ -167,8 +167,8 @@ temporaldisaggregationI<-function(series, indicator,
 #' Print function for object of class JD3TempDisagg
 #'
 #' @param x an object of class JD3TempDisagg
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -192,8 +192,8 @@ print.JD3TempDisagg<-function(x, ...){
 #' Print function for object of class JD3TempDisaggI
 #'
 #' @param x an object of class JD3TempDisaggI
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -218,8 +218,8 @@ print.JD3TempDisaggI<-function(x, ...){
 #' Summary function for object of class JD3TempDisagg
 #'
 #' @param object an object of class JD3TempDisagg
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -235,8 +235,8 @@ summary.JD3TempDisagg<-function(object, ...){
 #' Summary function for object of class JD3AdlDisagg
 #'
 #' @param object an object of class JD3AdlDisagg
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -284,8 +284,8 @@ summary_disagg<-function(object){
 #' Summary function for object of class JD3TempDisaggI
 #'
 #' @param object an object of class JD3TempDisaggI
+#' @param \dots further arguments passed to or from other methods.
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -392,7 +392,7 @@ plot.JD3TempDisaggI<-function(x, ...){
 
 
     normality <- matrix(unlist(extr_normality), nrow = 4, ncol = 2, byrow = TRUE,
-                        dimnames = list(c("mean", "skewness", "kurtosis", "test(doornikhansen)"), c("value", "p-value")))
+                        dimnames = list(c("mean", "skewness", "kurtosis", "normality(doornikhansen)"), c("value", "p-value")))
     independence <- matrix(unlist(extr_independence), nrow = 1, ncol = 2, byrow = TRUE,
                            dimnames = list(c("ljung_box"), c("value", "p-value")))
     randomness <- matrix(unlist(extr_randomness), nrow = 4, ncol = 2, byrow = TRUE,
@@ -409,6 +409,10 @@ plot.JD3TempDisaggI<-function(x, ...){
 }
 
 get_result_item <- function(jd3_obj, item){
-   return(tryCatch(rjd3toolkit::result(jd3_obj, item),
-                   error=function(err) NaN))
+    rslt_item <- tryCatch(rjd3toolkit::result(jd3_obj, item),
+                          error = function(err) list(value = NaN, pvalue = NaN))
+    if(is.null(rslt_item)){
+        rslt_item <- list(value = NA, pvalue = NA)
+    }
+    return(rslt_item)
 }
