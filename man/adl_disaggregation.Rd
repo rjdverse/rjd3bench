@@ -11,9 +11,9 @@ adl_disaggregation(
   indicators = NULL,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
   conversion.obsposition = 1L,
-  phi = 0L,
+  phi = 0,
   phi.fixed = FALSE,
-  phi.truncated = 0L,
+  phi.truncated = 0,
   xar = c("FREE", "SAME", "NONE")
 )
 }

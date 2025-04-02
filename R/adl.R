@@ -24,11 +24,12 @@
 #'
 adl_disaggregation <- function(series, constant = TRUE, trend = FALSE, indicators = NULL,
                                conversion = c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition = 1L,
-                               phi = 0L, phi.fixed = FALSE, phi.truncated = 0L, xar = c("FREE", "SAME", "NONE")) {
+                               phi = 0.0, phi.fixed = FALSE, phi.truncated = 0.0, xar = c("FREE", "SAME", "NONE")) {
     conversion <- match.arg(conversion)
     xar <- match.arg(xar)
     jseries <- rjd3toolkit::.r2jd_tsdata(series)
     jlist <- list()
+
     if (!is.null(indicators)) {
         if (is.list(indicators)) {
             for (i in seq_along(indicators)) {
@@ -54,7 +55,7 @@ adl_disaggregation <- function(series, constant = TRUE, trend = FALSE, indicator
     se <- sqrt(diag(bcov))
     t <- coef / se
     m <- data.frame(coef, se, t)
-    m <- `row.names <- `(m, vars)
+    row.names(m) <- vars
 
     regression <- list(
         type = xar,
@@ -90,7 +91,7 @@ adl_disaggregation <- function(series, constant = TRUE, trend = FALSE, indicator
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::adl_disaggregation(Y, indicator = x, xar = "FREE")
+#' td <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
 #' print(td)
 #'
 print.JD3AdlDisagg <- function(x, ...) {
@@ -115,7 +116,7 @@ print.JD3AdlDisagg <- function(x, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::adl_disaggregation(Y, indicator = x, xar = "FREE")
+#' td <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
 #' plot(td)
 #'
 plot.JD3AdlDisagg <- function(x, ...) {

@@ -78,7 +78,7 @@ temporaldisaggregation <- function(series, constant = TRUE,  trend = FALSE,  ind
     se <- sqrt(diag(bcov))
     t <- coef / se
     m <- data.frame(coef, se, t)
-    m <- `row.names <- `(m, vars)
+    row.names(m) <- vars
 
     regression <- list(
         type = model,
@@ -178,7 +178,7 @@ temporaldisaggregationI <- function(series, indicator,
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregation(Y, indicator = x)
+#' td <- rjd3bench::temporaldisaggregation(Y, indicators = x)
 #' print(td)
 #'
 print.JD3TempDisagg <- function(x, ...) {
@@ -229,7 +229,7 @@ print.JD3TempDisaggI <- function(x, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregation(Y, indicator = x)
+#' td <- rjd3bench::temporaldisaggregation(Y, indicators = x)
 #' summary(td)
 #'
 summary.JD3TempDisagg <- function(object, ...) {
@@ -246,7 +246,7 @@ summary.JD3TempDisagg <- function(object, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::adl_disaggregation(Y, indicator = x)
+#' td <- rjd3bench::adl_disaggregation(Y, indicators = x)
 #' summary(td)
 #'
 summary.JD3AdlDisagg <- function(object, ...) {
@@ -333,7 +333,7 @@ summary.JD3TempDisaggI <- function(object, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregation(Y, indicator = x)
+#' td <- rjd3bench::temporaldisaggregation(Y, indicators = x)
 #' plot(td)
 #'
 plot.JD3TempDisagg <- function(x, ...) {

@@ -17,7 +17,7 @@ Plot function for object of class JD3AdlDisagg
 \examples{
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::Retail$FoodAndBeverageStores
-td <- rjd3bench::adl_disaggregation(Y, indicator = x, xar = "FREE")
+td <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
 plot(td)
 
 }
