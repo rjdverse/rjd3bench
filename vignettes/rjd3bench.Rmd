@@ -19,10 +19,10 @@ compress_html:
 
 ```{r setup_vignette, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  echo = TRUE,
-  eval = FALSE,
-  comment = "#>"
+    collapse = TRUE,
+    echo = TRUE,
+    eval = FALSE,
+    comment = "#>"
 )
 ```
 
@@ -38,12 +38,12 @@ The package rjd3bench is an R interface to the highly efficient algorithms and m
 
 We illustrate the various methods using two datasets:
 
-* The *retail* dataset contains monthly figures over retail activity of various categories of goods and services from 1992 to 2010.
+* The *Retail* dataset contains monthly figures over retail activity of various categories of goods and services from 1992 to 2010.
 * The *qna_data* is a list of two datasets. The first data set 'B1G_Y_data' includes three annual benchmark series which are the Belgian annual value added on the period 2009-2020 in chemical industry (CE), construction (FF) and transport  services (HH). The second data set 'TURN_Q_data' includes the corresponding quarterly indicators which are (modified) production indicators derived from VAT statistics and covering the period 2009Q1-2021Q4.
 
 ```{r}
 library("rjd3bench")
-retail <- rjd3toolkit::retail
+Retail <- rjd3toolkit::Retail
 qna_data <- rjd3bench::qna_data
 ```
 
@@ -185,10 +185,10 @@ Cubic splines are piecewise cubic functions that are linked together in a way to
 
 The method can be called through the `cubicspline()` function. Here are a few examples on how to use it:
 ```{r}
-y_cs1<-rjd3bench::cubicspline(t=Y, nfreq=4) # example of cubic spline without high frequency series (smoothing)
+y_cs1 <- rjd3bench::cubicspline(t = Y, nfreq = 4) # example of cubic spline without high frequency series (smoothing)
 
-x<-y_cs1+rnorm(n=length(y_cs1), mean=0, sd=10)
-y_cs2<-rjd3bench::cubicspline(s=x, t=Y) # example of cubic spline with a high frequency series to benchmark
+x <- y_cs1 + rnorm(n = length(y_cs1), mean = 0, sd = 10)
+y_cs2 <- rjd3bench::cubicspline(s = x, t = Y) # example of cubic spline with a high frequency series to benchmark
 ```
 The `cubicspline()` function returns the high frequency series benchmarked with cubic spline method.
 

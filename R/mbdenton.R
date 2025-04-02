@@ -36,7 +36,7 @@ NULL
 #' @export
 #'
 #' @examples
-#' # retail data, monthly indicator
+#' # Retail data, monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
 #' td <- rjd3bench::denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))

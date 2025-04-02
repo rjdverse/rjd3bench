@@ -26,7 +26,7 @@ NULL
 #' @export
 #'
 #' @examples
-#' # retail data, chow-lin with monthly indicator
+#' # Retail data, chow-lin with monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
 #' td <- rjd3bench::temporaldisaggregation(Y, indicators = x)
@@ -120,7 +120,7 @@ temporaldisaggregation <- function(series, constant = TRUE,  trend = FALSE,  ind
 #' @export
 #'
 #' @examples
-#' # retail data, monthly indicator
+#' # Retail data, monthly indicator
 #'
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
