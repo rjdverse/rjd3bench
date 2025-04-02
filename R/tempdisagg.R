@@ -1,8 +1,9 @@
 #' @include utils.R
 NULL
 
-#' Temporal disaggregation of a time series by regression models.
+#' @title Temporal disaggregation of a time series by regression models.
 #'
+#' @description
 #' Perform temporal disaggregation of low frequency to high frequency time
 #' series by regression models. Models included are Chow-Lin, Fernandez,
 #' Litterman and some variants of those algorithms.
@@ -10,11 +11,15 @@ NULL
 #' @param series The time series that will be disaggregated. It must be a ts object.
 #' @param constant Constant term (T/F). Only used with Ar1 model when zeroinitialization = F
 #' @param trend Linear trend (T/F)
-#' @param indicators High-frequency indicator(s) used in the temporal disaggregation. It must be a (list of) ts object(s).
-#' @param model Model of the error term (at the disaggregated level). "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman
-#' @param freq Integer. Annual frequency of the disaggregated variable. Used if no indicator is provided
+#' @param indicators High-frequency indicator(s) used in the temporal disaggregation.
+#' It must be a (list of) ts object(s).
+#' @param model Model of the error term (at the disaggregated level).
+#' "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman
+#' @param freq Integer. Annual frequency of the disaggregated variable.
+#' Used if no indicator is provided
 #' @param conversion Conversion mode (Usually "Sum" or "Average")
-#' @param conversion.obsposition Integer. Only used with "UserDefined" mode. Position of the observed indicator in the aggregated periods (for instance 7th month of the year)
+#' @param conversion.obsposition Integer. Only used with "UserDefined" mode.
+#' Position of the observed indicator in the aggregated periods (for instance 7th month of the year)
 #' @param rho Only used with Ar1/RwAr1 models. (Initial) value of the parameter
 #' @param rho.fixed Fixed rho (T/F, F by default)
 #' @param rho.truncated Range for Rho evaluation (in [rho.truncated, 1[)
@@ -40,11 +45,21 @@ NULL
 #' td2 <- rjd3bench::temporaldisaggregation(Y, model = "Rw")
 #' mod1 <- td1$regression$model
 #'
-temporaldisaggregation <- function(series, constant = TRUE,  trend = FALSE,  indicators = NULL,
-                                   model = c("Ar1", "Rw", "RwAr1"), freq = 4L,
-                                   conversion = c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition = 1L,
-                                   rho = 0., rho.fixed = FALSE,  rho.truncated = 0.,
-                                   zeroinitialization = FALSE,  diffuse.algorithm = c("SqrtDiffuse", "Diffuse", "Augmented"), diffuse.regressors = FALSE) {
+temporaldisaggregation <- function(
+        series, constant = TRUE,
+        trend = FALSE,
+        indicators = NULL,
+        model = c("Ar1", "Rw", "RwAr1"),
+        freq = 4L,
+        conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
+        conversion.obsposition = 1L,
+        rho = 0.0,
+        rho.fixed = FALSE,
+        rho.truncated = 0.0,
+        zeroinitialization = FALSE,
+        diffuse.algorithm = c("SqrtDiffuse", "Diffuse", "Augmented"),
+        diffuse.regressors = FALSE) {
+
     model <- match.arg(model)
     conversion <- match.arg(conversion)
     diffuse.algorithm <- match.arg(diffuse.algorithm)
@@ -67,9 +82,14 @@ temporaldisaggregation <- function(series, constant = TRUE,  trend = FALSE,  ind
     } else {
         jindicators <- .jnull("[Ljdplus/toolkit/base/api/timeseries/TsData;")
     }
-    jrslt <- .jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
-                    "process", jseries, constant, trend, jindicators, model, as.integer(freq), conversion, as.integer(conversion.obsposition), rho, rho.fixed, rho.truncated,
-                    zeroinitialization, diffuse.algorithm, diffuse.regressors)
+    jrslt <- .jcall(
+        obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
+        returnSig = "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
+        method = "process",
+        jseries, constant, trend, jindicators, model, as.integer(freq),
+        conversion, as.integer(conversion.obsposition), rho, rho.fixed,
+        rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors
+    )
 
     # Build the S3 result
     bcov <- rjd3toolkit::.proc_matrix(jrslt, "covar")
@@ -112,7 +132,9 @@ temporaldisaggregation <- function(series, constant = TRUE,  trend = FALSE,  ind
 #' @param series The time series that will be disaggregated. It must be a ts object.
 #' @param indicator High-frequency indicator used in the temporal disaggregation. It must be a ts object.
 #' @param conversion Conversion mode (Usually "Sum" or "Average")
-#' @param conversion.obsposition Integer. Only used with "UserDefined" mode. Position of the observed indicator in the aggregated periods (for instance 7th month of the year)
+#' @param conversion.obsposition Integer. Only used with "UserDefined" mode.
+#' Position of the observed indicator in the aggregated periods (for instance
+#' 7th month of the year)
 #' @param rho Only used with Ar1/RwAr1 models. (Initial) value of the parameter
 #' @param rho.fixed Fixed rho (T/F, F by default)
 #' @param rho.truncated Range for Rho evaluation (in [rho.truncated, 1[)
@@ -345,9 +367,23 @@ plot.JD3TempDisagg <- function(x, ...) {
         reg_effect <- x$estimation$regeffect
         smoothing_effect <- td_series - reg_effect
 
-        ts.plot(td_series, reg_effect, smoothing_effect, gpars = list(col = c("orange", "green", "blue"), xlab = "", xaxt = "n", las = 2L, ...))
+        ts.plot(
+            td_series, reg_effect, smoothing_effect,
+            gpars = list(
+                col = c("orange", "green", "blue"),
+                xlab = "",
+                xaxt = "n",
+                las = 2L,
+                ...
+            )
+        )
         axis(side = 1L, at = start(td_series)[1L]:end(td_series)[1L])
-        legend("topleft", c("disaggragated series", "regression effect", "smoothing effect"), lty = 1L, col = c("orange", "green", "blue"), bty = "n", cex = 0.8)
+        legend("topleft",
+               c("disaggragated series", "regression effect", "smoothing effect"),
+               lty = 1L,
+               col = c("orange", "green", "blue"),
+               bty = "n",
+               cex = 0.8)
     }
 }
 
@@ -394,15 +430,35 @@ plot.JD3TempDisaggI <- function(x, ...) {
                             get_result_item(z, "residuals.ludruns"))
     linearity_test <- tryCatch(rjd3toolkit::ljungbox(full_residuals^2L, k = 8L, lag = 1L, mean = TRUE), error = function(err) NaN)
 
-
-    normality <- matrix(unlist(extr_normality), nrow = 4L, ncol = 2L, byrow = TRUE,
-                        dimnames = list(c("mean", "skewness", "kurtosis", "normality(doornikhansen)"), c("value", "p-value")))
+    normality <- matrix(
+        data = unlist(extr_normality),
+        nrow = 4L,
+        ncol = 2L,
+        byrow = TRUE,
+        dimnames = list(c("mean", "skewness", "kurtosis",
+                          "normality(doornikhansen)"),
+                        c("value", "p-value"))
+    )
     independence <- matrix(unlist(extr_independence), nrow = 1L, ncol = 2L, byrow = TRUE,
                            dimnames = list("ljung_box", c("value", "p-value")))
-    randomness <- matrix(unlist(extr_randomness), nrow = 4L, ncol = 2L, byrow = TRUE,
-                         dimnames = list(c("Runs around the mean: number", "Runs around the mean: length", "Up and Down runs: number", "Up and Down runs: length"), c("value", "p-value")))
-    linearity <- matrix(unlist(linearity_test), nrow = 1L, ncol = 2L, byrow = TRUE,
-                        dimnames = list("ljung_box on squared residuals", c("value", "p-value")))
+    randomness <- matrix(
+        data = unlist(extr_randomness),
+        nrow = 4L,
+        ncol = 2L,
+        byrow = TRUE,
+        dimnames = list(c("Runs around the mean: number",
+                          "Runs around the mean: length",
+                          "Up and Down runs: number",
+                          "Up and Down runs: length"),
+                        c("value", "p-value"))
+    )
+    linearity <- matrix(
+        data = unlist(linearity_test),
+        nrow = 1L,
+        ncol = 2L,
+        byrow = TRUE,
+        dimnames = list("ljung_box on squared residuals", c("value", "p-value"))
+    )
 
     return(list(full_residuals = full_residuals,
                 tests = list(normality = round(normality, 4L),

@@ -1,9 +1,12 @@
 #' @include utils.R
 NULL
 
-#' Calendarization
+#' @title Calendarization
 #'
-#' Based on "Calendarization with splines and state space models" B. Quenneville, F.Picard and S.Fortier Appl. Statistics (2013) 62, part 3, pp 371-399.
+#' @description
+#' Based on "Calendarization with splines and state space models"
+#' B. Quenneville, F.Picard and S.Fortier Appl. Statistics (2013) 62, part 3,
+#' pp 371-399.
 #' State space implementation.
 #'
 #' @param calendarobs Observations (list of {start, end, value}). See the example.

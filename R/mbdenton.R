@@ -128,7 +128,9 @@ print.JD3MBDenton <- function(x, ...) {
         print.default(names(x$estimation), ...)
 
         cat("\n")
-        cat("Use summary() for more details. \nUse plot() to see the disaggregated series and BI ratio together with their respective confidence interval")
+        cat("Use summary() for more details. \n",
+            "Use plot() to see the disaggregated series and BI ratio together ",
+            "with their respective confidence interval")
     }
 }
 
@@ -183,7 +185,6 @@ summary.JD3MBDenton <- function(object, ...) {
 plot.JD3MBDenton <- function(x, ...) {
     if (is.null(x)) {
         cat("Invalid estimation")
-
     } else {
         td <- x$estimation$disagg
         td.sd <- x$estimation$edisagg
@@ -195,7 +196,24 @@ plot.JD3MBDenton <- function(x, ...) {
         bi.ub <- bi + 1.96 * bi.sd
 
         par(mfrow = c(2L, 1L))
-        ts.plot(td, td.lb, td.ub, gpars = list(main = "Disaggragated series and BI ratio with confidence interval", xlab = "", ylab = "disaggragated series", lty = c(1L, 3L, 3L), ...))
-        ts.plot(bi, bi.lb, bi.ub, gpars = list(xlab = "", ylab = "BI ratio", lty = c(1L, 3L, 3L), ...))
+        ts.plot(
+            td, td.lb, td.ub,
+            gpars = list(
+                main = "Disaggragated series and BI ratio with confidence interval",
+                xlab = "",
+                ylab = "disaggragated series",
+                lty = c(1L, 3L, 3L),
+                ...
+            )
+        )
+        ts.plot(
+            bi, bi.lb, bi.ub,
+            gpars = list(
+                xlab = "",
+                ylab = "BI ratio",
+                lty = c(1L, 3L, 3L),
+                ...
+            )
+        )
     }
 }
