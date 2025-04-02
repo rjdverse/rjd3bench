@@ -85,8 +85,8 @@ adl_disaggregation<-function(series, constant=TRUE, trend=FALSE, indicators=NULL
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::adl_disaggregation(Y, indicator=x, xar="FREE")
 #' print(td)
 #'
@@ -110,8 +110,8 @@ print.JD3AdlDisagg<-function(x, ...){
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::adl_disaggregation(Y, indicator=x, xar="FREE")
 #' plot(td)
 #'

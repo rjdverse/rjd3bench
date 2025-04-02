@@ -27,8 +27,8 @@ NULL
 #'
 #' @examples
 #' # retail data, chow-lin with monthly indicator
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::temporaldisaggregation(Y, indicators=x)
 #' y<-td$estimation$disagg
 #'
@@ -119,8 +119,8 @@ temporaldisaggregation<-function(series, constant = TRUE,  trend = FALSE,  indic
 #'
 #' @examples
 #' # retail data, monthly indicator
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::temporaldisaggregationI(Y, indicator=x)
 #' y<-td$estimation$disagg
 #'
@@ -172,8 +172,8 @@ temporaldisaggregationI<-function(series, indicator,
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::temporaldisaggregation(Y, indicator=x)
 #' print(td)
 #'
@@ -197,8 +197,8 @@ print.JD3TempDisagg<-function(x, ...){
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::temporaldisaggregationI(Y, indicator=x)
 #' print(td)
 #'
@@ -223,8 +223,8 @@ print.JD3TempDisaggI<-function(x, ...){
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::temporaldisaggregation(Y, indicator=x)
 #' summary(td)
 #'
@@ -240,8 +240,8 @@ summary.JD3TempDisagg<-function(object, ...){
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::adl_disaggregation(Y, indicator=x)
 #' summary(td)
 #'
@@ -289,8 +289,8 @@ summary_disagg<-function(object){
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::temporaldisaggregationI(Y, indicator=x)
 #' summary(td)
 #'
@@ -327,8 +327,8 @@ summary.JD3TempDisaggI<-function(object, ...){
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::temporaldisaggregation(Y, indicator=x)
 #' plot(td)
 #'
@@ -355,8 +355,8 @@ plot.JD3TempDisagg<-function(x, ...){
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::temporaldisaggregationI(Y, indicator=x)
 #' plot(td)
 #'

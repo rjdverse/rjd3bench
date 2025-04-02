@@ -36,8 +36,8 @@ NULL
 #'
 #' @examples
 #' # retail data, monthly indicator
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::aggregate(rjd3toolkit::retail$FoodAndBeverageStores, 4)
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
 #' td<-rjd3bench::denton_modelbased(Y, x, outliers = list("2000-01-01"=100, "2005-07-01"=100))
 #' y<-td$estimation$edisagg
 #'
@@ -107,8 +107,8 @@ denton_modelbased<-function(series, indicator, differencing=1, conversion=c("Sum
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::aggregate(rjd3toolkit::retail$FoodAndBeverageStores, 4)
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
 #' td<-rjd3bench::denton_modelbased(Y, x,
 #'                                  outliers = list("2000-01-01"=100, "2005-07-01"=100))
 #' print(td)
@@ -133,8 +133,8 @@ print.JD3MBDenton<-function(x, ...){
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::aggregate(rjd3toolkit::retail$FoodAndBeverageStores, 4)
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
 #' td<-rjd3bench::denton_modelbased(Y, x,
 #'                                  outliers = list("2000-01-01"=100, "2005-07-01"=100))
 #' summary(td)
@@ -169,8 +169,8 @@ summary.JD3MBDenton<-function(object, ...){
 #' @export
 #'
 #' @examples
-#' Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-#' x<-rjd3toolkit::retail$FoodAndBeverageStores
+#' Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x<-rjd3toolkit::Retail$FoodAndBeverageStores
 #' td<-rjd3bench::temporaldisaggregationI(Y, indicator=x)
 #' plot(td)
 #'

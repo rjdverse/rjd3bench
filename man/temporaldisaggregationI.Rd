@@ -39,8 +39,8 @@ y(t) is the unknown target series, with low-frequency constraints on y.
 }
 \examples{
 # retail data, monthly indicator
-Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-x<-rjd3toolkit::retail$FoodAndBeverageStores
+Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+x<-rjd3toolkit::Retail$FoodAndBeverageStores
 td<-rjd3bench::temporaldisaggregationI(Y, indicator=x)
 y<-td$estimation$disagg
 

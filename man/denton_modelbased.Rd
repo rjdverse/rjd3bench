@@ -56,8 +56,8 @@ method. Outliers and their intensity are defined by changing the value of the
 }
 \examples{
 # retail data, monthly indicator
-Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-x<-rjd3toolkit::aggregate(rjd3toolkit::retail$FoodAndBeverageStores, 4)
+Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+x<-rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
 td<-rjd3bench::denton_modelbased(Y, x, outliers = list("2000-01-01"=100, "2005-07-01"=100))
 y<-td$estimation$edisagg
 

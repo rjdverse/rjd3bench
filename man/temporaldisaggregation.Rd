@@ -60,8 +60,8 @@ Litterman and some variants of those algorithms.
 }
 \examples{
 # retail data, chow-lin with monthly indicator
-Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-x<-rjd3toolkit::retail$FoodAndBeverageStores
+Y<-rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+x<-rjd3toolkit::Retail$FoodAndBeverageStores
 td<-rjd3bench::temporaldisaggregation(Y, indicators=x)
 y<-td$estimation$disagg
 
