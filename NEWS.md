@@ -43,5 +43,5 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [Unreleased]: https://github.com/rjdverse/rjd3bench/compare/v2.1.0...HEAD
 [2.1.0]: https://github.com/rjdverse/rjd3bench/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/rjdverse/rjd3bench/compare/v2.0.0...v2.0.1
-[2.0.0]: https://github.com/rjdverse/rjd3bench/releases/tag/v1.0.0...2.0.0
+[2.0.0]: https://github.com/rjdverse/rjd3bench/compare/v1.0.0...2.0.0
 [1.0.0]: https://github.com/rjdverse/rjd3bench/releases/tag/v1.0.0

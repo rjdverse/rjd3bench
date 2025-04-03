@@ -16,7 +16,7 @@ Imports:
   rJava (>= 1.0-6),
   rjd3toolkit (>= 3.2.4),
   RProtoBuf (>= 0.4.20)
-Remotes: 
+Remotes:
     github::rjdverse/rjd3toolkit
 SystemRequirements: Java (>= 17)
 License: EUPL | file LICENSE

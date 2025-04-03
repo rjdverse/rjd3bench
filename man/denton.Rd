@@ -7,12 +7,12 @@
 denton(
   s = NULL,
   t,
-  d = 1,
+  d = 1L,
   mul = TRUE,
-  nfreq = 4,
+  nfreq = 4L,
   modified = TRUE,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-  obsposition = 1
+  obsposition = 1L
 )
 }
 \arguments{
@@ -49,16 +49,17 @@ additive second difference (ASD), proportional second difference (PSD), etc.
 The default and most widely used is the Denton PFD method.
 }
 \examples{
-Y <- ts(qna_data$B1G_Y_data$B1G_FF, frequency=1, start=c(2009,1))
+Y <- ts(qna_data$B1G_Y_data$B1G_FF, frequency = 1, start = c(2009, 1))
 
 # denton PFD without high frequency series
-y1 <- rjd3bench::denton(t=Y, nfreq=4)
-
-# denton PFD with high frequency series
-x <- y1 + rnorm(n=length(y1), mean=0, sd=10)
-y2 <- rjd3bench::denton(s=x, t=Y)
+y1 <- rjd3bench::denton(t = Y, nfreq = 4)
 
 # denton ASD
-y3 <- rjd3bench::denton(s=x, t=Y, d=2, mul=FALSE)
+x1 <- y1+rnorm(n = length(y1), mean = 0, sd = 10)
+y2 <- rjd3bench::denton(s = x1, t = Y, d = 2, mul = FALSE)
+
+# denton PFD used for temporal disaggregation
+x2 <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
+y3 <- rjd3bench::denton(s = x2, t = Y)
 
 }
