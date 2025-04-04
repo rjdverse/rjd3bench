@@ -57,6 +57,91 @@ denton<-function(s=NULL, t, d=1, mul=TRUE, nfreq=4, modified=TRUE,
   rjd3toolkit::.jd2r_tsdata(jd_rslt)
 }
 
+#' Benchmarking by means of the Denton method for atypical frequencies.
+#'
+#' Denton method relies on the principle of movement preservation. There exist a
+#' few variants corresponding to different definitions of movement preservation:
+#' additive first difference (AFD), proportional first difference (PFD),
+#' additive second difference (ASD), proportional second difference (PSD), etc.
+#' The default and most widely used is the Denton PFD method. This "raw"
+#' function extends the denton() function so that it can deal with any integer
+#' frequency ratio between the preliminary series and the aggregation
+#' constraint.
+#'
+#' @param s Preliminary series. If not NULL, it must be the same class as t.
+#' @param t Aggregation constraint. Mandatory. it must be either an object of
+#'   class ts or a numeric vector.
+#' @param freqratio Frequency ratio. Must be a positive integer. Used when no
+#'   indicator is provided or when either or both the preliminary series and
+#'   aggregation constraint are not a ts object.
+#' @param d Differencing order. 1 by default.
+#' @param mul Multiplicative or additive benchmarking. Multiplicative by
+#'   default.
+#' @param modified Modified (TRUE) or unmodified (FALSE) Denton. Modified by
+#'   default.
+#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by
+#'   default.
+#' @param obsposition Position of the observation in the aggregated period (only
+#'   used with "UserDefined" conversion).
+#' @param startoffset Number of offset periods, which is the number of periods
+#'   before the first observation of the preliminary series falling within the
+#'   aggregation constraint. 0 by default. Ignored when no preliminary series is
+#'   provided.
+#' @return The benchmarked series is returned
+#'
+#' @export
+#' @examples
+#' Y <- c(500,510,525,520)
+#' x <- c(97, 98, 98.5, 99.5, 104,
+#'        99, 100, 100.5, 101, 105.5,
+#'        103, 104.5, 103.5, 104.5, 109,
+#'        104, 107, 103, 108, 113,
+#'        110)
+#'
+#' # denton PFD
+#' y1 <- dentonRaw(x, Y, freqratio = 5)
+#' y1_bis <- dentonRaw(x, Y, freqratio = 5, startoffset = 1)
+#'
+#' # denton PFD without indicator
+#' y2 <- dentonRaw(t=Y, freqratio = 2, conversion = "Average")
+#'
+#' # denton AFD
+#' y3 <- dentonRaw(x, Y, freqratio = 5, mul = FALSE)
+#'
+#' # denton PFD with ts input
+#' Y_ts <- ts(Y, start = c(2005,1), frequency = (1/5))
+#' x_ts <- ts(x, start = c(2001,1), frequency = 1)
+#' y4 <- dentonRaw(x_ts, Y_ts) # same as y1
+#'
+dentonRaw<-function(s=NULL, t, freqratio=4, d=1, mul=TRUE, modified=TRUE,
+                 conversion=c("Sum", "Average", "Last", "First", "UserDefined"),
+                 obsposition=1, startoffset=0){
+
+    conversion <- match.arg(conversion)
+    if(!(freqratio>0 && freqratio%%1==0)){
+        stop("'freqratio' must be a positive integer")
+    }
+
+    if (!is.null(s)){
+        if(is.ts(s) && is.ts(t)){
+            freqratio <- frequency(s)/frequency(t)
+        }
+        rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking",  "[D", "dentonRaw",
+                      as.numeric(s), as.numeric(t), as.integer(freqratio), as.integer(d), mul,
+                     modified, conversion, as.integer(obsposition), as.integer(startoffset))
+        if(is.ts(s) && length(rslt) > 0){
+            rslt <- ts(rslt, start = start(s), frequency = frequency(s))
+        }
+    } else {
+        rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking",  "[D", "dentonRaw",
+                     as.numeric(t), as.integer(freqratio), as.integer(d), mul,
+                     modified, conversion, as.integer(obsposition), as.integer(startoffset))
+        if(is.ts(t) && length(rslt) > 0){
+            rslt <- ts(rslt, start = start(t), frequency = frequency(t)*freqratio)
+        }
+    }
+    return(rslt)
+}
 
 #' Benchmarking following the growth rate preservation principle.
 #'
@@ -68,12 +153,14 @@ denton<-function(s=NULL, t, d=1, mul=TRUE, nfreq=4, modified=TRUE,
 #'
 #' @param s Preliminary series. Mandatory. It must be a ts object.
 #' @param t Aggregation constraint. Mandatory. It must be a ts object.
+#' @param objective Objective function. See vignette and/or Daalmans et al.
+#'   (2018) for more information.
 #' @param conversion Conversion rule. "Sum" by default.
-#' @param obsposition Position of the observation in the aggregated period
-#'   (only used with "UserDefined" conversion)
-#' @param eps Numeric. Defines the convergence precision. BFGS algorithm
-#' is run until the reduction in the objective is within this eps value
-#' (1e-12 is the default) or until the maximum number of iterations is hit.
+#' @param obsposition Position of the observation in the aggregated period (only
+#'   used with "UserDefined" conversion)
+#' @param eps Numeric. Defines the convergence precision. BFGS algorithm is run
+#'   until the reduction in the objective is within this eps value (1e-12 is the
+#'   default) or until the maximum number of iterations is hit.
 #' @param iter Integer. Maximum number of iterations in BFGS algorithm (500 is
 #'   the default).
 #' @param dentoninitialization indicate whether the series benchmarked via
@@ -92,6 +179,10 @@ denton<-function(s=NULL, t, d=1, mul=TRUE, nfreq=4, modified=TRUE,
 #'   Time Series according to a Growth Rates Preservation Principle. *IMF
 #'   WP/11/179*.
 #'
+#'   Daalmans, J., Di Fonzo, T., Mushkudiani, N. and Bikker, R. (2018). Growth
+#'   Rates Preservation (GRP) temporal benchmarking: Drawbacks and alternative
+#'   solutions. *Statistics Canada*.
+#'
 #' @export
 #'
 #' @examples
@@ -101,15 +192,17 @@ denton<-function(s=NULL, t, d=1, mul=TRUE, nfreq=4, modified=TRUE,
 #' y_grp <- rjd3bench::grp(s=x, t=Y)
 #'
 grp<-function(s, t,
+              objective=c("Forward", "Backward", "Symmetric", "Log"),
               conversion=c("Sum", "Average", "Last", "First", "UserDefined"),
               obsposition=1, eps=1e-12, iter=500, dentoninitialization=TRUE){
 
+  objective <- match.arg(objective)
   conversion <- match.arg(conversion)
 
   jd_s<-rjd3toolkit::.r2jd_tsdata(s)
   jd_t<-rjd3toolkit::.r2jd_tsdata(t)
   jd_rslt<-.jcall("jdplus/benchmarking/base/r/Benchmarking", "Ljdplus/toolkit/base/api/timeseries/TsData;", "grp",
-                  jd_s, jd_t, conversion, as.integer(obsposition), eps, as.integer(iter), as.logical(dentoninitialization))
+                  jd_s, jd_t, objective, conversion, as.integer(obsposition), eps, as.integer(iter), as.logical(dentoninitialization))
   rjd3toolkit::.jd2r_tsdata(jd_rslt)
 }
 
