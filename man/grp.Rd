@@ -8,9 +8,9 @@ grp(
   s,
   t,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-  obsposition = 1,
+  obsposition = 1L,
   eps = 1e-12,
-  iter = 500,
+  iter = 500L,
   dentoninitialization = TRUE
 )
 }
@@ -49,9 +49,11 @@ problem.
 }
 \examples{
 data("qna_data")
-Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency=1, start=c(2009,1))
+
+Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- rjd3bench::denton(t=Y, nfreq=4) + rnorm(n=length(Y)*4, mean=0, sd=10)
-y_grp <- rjd3bench::grp(s=x, t=Y)
+# x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
+y <- rjd3bench::grp(s = x, t = Y)
 
 }
 \references{

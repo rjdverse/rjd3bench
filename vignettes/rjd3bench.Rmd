@@ -19,10 +19,10 @@ compress_html:
 
 ```{r setup_vignette, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  echo = TRUE,
-  eval = FALSE,
-  comment = "#>"
+    collapse = TRUE,
+    echo = TRUE,
+    eval = FALSE,
+    comment = "#>"
 )
 ```
 
@@ -38,12 +38,12 @@ The package rjd3bench is an R interface to the highly efficient algorithms and m
 
 We illustrate the various methods using two datasets:
 
-* The *retail* dataset contains monthly figures over retail activity of various categories of goods and services from 1992 to 2010.
+* The *Retail* dataset contains monthly figures over retail activity of various categories of goods and services from 1992 to 2010.
 * The *qna_data* is a list of two datasets. The first data set 'B1G_Y_data' includes three annual benchmark series which are the Belgian annual value added on the period 2009-2020 in chemical industry (CE), construction (FF) and transport  services (HH). The second data set 'TURN_Q_data' includes the corresponding quarterly indicators which are (modified) production indicators derived from VAT statistics and covering the period 2009Q1-2021Q4.
 
 ```{r}
 library("rjd3bench")
-retail <- rjd3toolkit::retail
+Retail <- rjd3toolkit::Retail
 qna_data <- rjd3bench::qna_data
 ```
 
@@ -71,9 +71,9 @@ While $x_t$ is observed in high frequency, $y_t$ is only observed in low frequen
 Regression-based methods can be called with the `temporaldisaggregation()` function.
 ```{r}
 # Example: Use of Fernandez variant to disaggregate annual value added in construction sector using a quarterly indicator
-Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency=1, start=c(2009, 1))
-x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency=4, start=c(2009, 1))
-td_fern <- rjd3bench::temporaldisaggregation(Y, indicators=x, model = "Rw")
+Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
+x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
+td_fern <- rjd3bench::temporaldisaggregation(Y, indicators = x, model = "Rw")
 
 y_fern <- td_fern$estimation$disagg # the disaggregated series
 summary(td_fern)
@@ -110,9 +110,9 @@ This alternative representation of Denton PFD method is interesting as it allows
 The model-base Denton method can be applied with the `denton_modelbased()` function.
 ```{r}
 # Example: Use of model-based Denton for temporal disaggregation
-Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency=1, start=c(2009, 1))
-x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency=4, start=c(2009, 1))
-td_mbd <- rjd3bench::denton_modelbased(Y, x, outliers = list("2020-01-01"=100, "2020-04-01"=100))
+Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
+x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
+td_mbd <- rjd3bench::denton_modelbased(Y, x, outliers = list("2020-01-01" = 100, "2020-04-01" = 100))
 
 y_mbd <- td_mbd$estimation$disagg
 plot(td_mbd)
@@ -142,13 +142,13 @@ In the literature (see for example Di Fonzo and Marini, 2011), Denton PFD is gen
 Denton methods can be called with the `denton()` function.
 ```{r}
 # Example: use Denton method for benchmarking
-Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency=1, start=c(2009, 1))
+Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
 
-y_den0 <- rjd3bench::denton(t=Y, nfreq=4) # denton PFD without high frequency series
+y_den0 <- rjd3bench::denton(t = Y, nfreq = 4) # denton PFD without high frequency series
 
-x <- y_den0 + rnorm(n=length(y_den0), mean=0, sd=10)
-y_den1 <- rjd3bench::denton(s=x, t=Y) # denton PFD (= the default)
-y_den2 <- rjd3bench::denton(s=x, t=Y, d=2, mul=FALSE) # denton ASD
+x <- y_den0 + rnorm(n = length(y_den0), mean = 0, sd = 10)
+y_den1 <- rjd3bench::denton(s = x, t = Y) # denton PFD (= the default)
+y_den2 <- rjd3bench::denton(s = x, t = Y, d = 2, mul = FALSE) # denton ASD
 ```
 
 The `denton()` function returns the benchmarked high frequency series.
@@ -186,12 +186,12 @@ The GRP method, corresponding to the method of Cauley and Trager, using the solu
 
 ```{r}
 # Example: use GRP method for benchmarking
-Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency=1, start=c(2009, 1))
-y_den0 <- rjd3bench::denton(t=Y, nfreq=4)
-x <- y_den0 + rnorm(n=length(y_den0), mean=0, sd=10)
+Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
+y_den0 <- rjd3bench::denton(t = Y, nfreq = 4)
+x <- y_den0 + rnorm(n = length(y_den0), mean = 0, sd = 10)
 
-y_grpf <- rjd3bench::grp(s=x, t=Y)
-y_grpl <- rjd3bench::grp(s=x, t=Y, objective="Log")
+y_grpf <- rjd3bench::grp(s = x, t = Y)
+y_grpl <- rjd3bench::grp(s = x, t = Y, objective = "Log")
 ```
 
 The `grp()` function returns the high frequency series benchmarked with the GRP method.
@@ -202,10 +202,10 @@ Cubic splines are piecewise cubic functions that are linked together in a way to
 
 The method can be called through the `cubicspline()` function. Here are a few examples on how to use it:
 ```{r}
-y_cs1<-rjd3bench::cubicspline(t=Y, nfreq=4) # example of cubic spline without high frequency series (smoothing)
+y_cs1 <- rjd3bench::cubicspline(t = Y, nfreq = 4) # example of cubic spline without high frequency series (smoothing)
 
-x<-y_cs1+rnorm(n=length(y_cs1), mean=0, sd=10)
-y_cs2<-rjd3bench::cubicspline(s=x, t=Y) # example of cubic spline with a high frequency series to benchmark
+x <- y_cs1 + rnorm(n = length(y_cs1), mean = 0, sd = 10)
+y_cs2 <- rjd3bench::cubicspline(s = x, t = Y) # example of cubic spline with a high frequency series to benchmark
 ```
 The `cubicspline()` function returns the high frequency series benchmarked with cubic spline method.
 

@@ -9,7 +9,7 @@ temporaldisaggregationI(
   series,
   indicator,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-  conversion.obsposition = 1,
+  conversion.obsposition = 1L,
   rho = 0,
   rho.fixed = FALSE,
   rho.truncated = 0
@@ -22,7 +22,7 @@ temporaldisaggregationI(
 
 \item{conversion}{Conversion mode (Usually "Sum" or "Average")}
 
-\item{conversion.obsposition}{Only used with "UserDefined" mode. Position of the observed indicator in the aggregated periods (for instance 7th month of the year)}
+\item{conversion.obsposition}{Integer. Only used with "UserDefined" mode. Position of the observed indicator in the aggregated periods (for instance 7th month of the year)}
 
 \item{rho}{Only used with Ar1/RwAr1 models. (Initial) value of the parameter}
 
@@ -39,17 +39,18 @@ y(t) is the unknown target series, with low-frequency constraints on y.
 }
 \examples{
 # retail data, monthly indicator
-Y<-rjd3toolkit::aggregate(rjd3toolkit::retail$RetailSalesTotal, 1)
-x<-rjd3toolkit::retail$FoodAndBeverageStores
-td<-rjd3bench::temporaldisaggregationI(Y, indicator=x)
-y<-td$estimation$disagg
+
+Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+x <- rjd3toolkit::Retail$FoodAndBeverageStores
+td <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
+y <- td$estimation$disagg
 
 # qna data, quarterly indicator
 data("qna_data")
-Y<-ts(qna_data$B1G_Y_data[,"B1G_CE"], frequency=1, start=c(2009,1))
-x<-ts(qna_data$TURN_Q_data[,"TURN_INDEX_CE"], frequency=4, start=c(2009,1))
-td<-rjd3bench::temporaldisaggregationI(Y, indicator=x)
-a<-td$regression$a
-b<-td$regression$b
+Y <- ts(qna_data$B1G_Y_data[,"B1G_CE"], frequency = 1, start = c(2009,1))
+x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_CE"], frequency = 4, start = c(2009,1))
+td <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
+a <- td$regression$a
+b <- td$regression$b
 
 }

@@ -11,7 +11,7 @@ cholette(
   lambda = 1,
   bias = "None",
   conversion = "Sum",
-  obsposition = 1
+  obsposition = 1L
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ cholette(
 
 \item{t}{Aggregation constraint. Mandatory}
 
-\item{obsposition}{Postion of the observation in the aggregated period (only used with "UserDefined" conversion)}
+\item{obsposition}{Integer. Position of the observation in the aggregated period (only used with "UserDefined" conversion)}
 }
 \description{
 Benchmarking by means of the Cholette method.
