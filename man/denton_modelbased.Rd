@@ -2,8 +2,8 @@
 % Please edit documentation in R/mbdenton.R
 \name{denton_modelbased}
 \alias{denton_modelbased}
-\title{Temporal disaggregation of a time series by model-based Denton proportional
-method}
+\title{Temporal disaggregation & interpolation of a time series by
+  model-based Denton proportional method}
 \usage{
 denton_modelbased(
   series,
@@ -55,10 +55,10 @@ method. Outliers and their intensity are defined by changing the value of the
 'innovation variances'.
 }
 \examples{
-# retail data, monthly indicator
+# Retail data, monthly indicator
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
-td <- rjd3bench::denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
+td <- denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
 y <- td$estimation$edisagg
 
 # qna data, quarterly indicator
@@ -66,8 +66,8 @@ data("qna_data")
 Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 
-td1 <- rjd3bench::denton_modelbased(Y, x)
-td2 <- rjd3bench::denton_modelbased(Y, x, outliers = list("2020-04-01" = 100), fixedBIratios = list("2021-04-01" = 39.0))
+td1 <- denton_modelbased(Y, x)
+td2 <- denton_modelbased(Y, x, outliers = list("2020-04-01" = 100), fixedBIratios = list("2021-04-01" = 39.0))
 
 bi1 <- td1$estimation$biratio
 bi2 <- td2$estimation$biratio

@@ -1,4 +1,4 @@
-#' Temporal disaggregation of a time series with ADL models
+#' Temporal disaggregation & interpolation of a time series with ADL models
 #'
 #' @param series
 #' @param constant
@@ -19,8 +19,8 @@
 #' data("qna_data")
 #' Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 #' x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
-#' td1 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
-#' td2 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME")
+#' td1 <- adl_disaggregation(Y, indicators = x, xar = "FREE")
+#' td2 <- adl_disaggregation(Y, indicators = x, xar = "SAME")
 #'
 adl_disaggregation <- function(series, constant = TRUE, trend = FALSE, indicators = NULL,
                                conversion = c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition = 1L,
@@ -84,6 +84,7 @@ adl_disaggregation <- function(series, constant = TRUE, trend = FALSE, indicator
 #' Print function for object of class JD3AdlDisagg
 #'
 #' @param x an object of class JD3AdlDisagg
+#' @param \dots further arguments passed to or from other methods.
 #'
 #' @return
 #' @export
@@ -91,7 +92,7 @@ adl_disaggregation <- function(series, constant = TRUE, trend = FALSE, indicator
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
+#' td <- adl_disaggregation(Y, indicators = x, xar = "FREE")
 #' print(td)
 #'
 print.JD3AdlDisagg <- function(x, ...) {
@@ -116,7 +117,7 @@ print.JD3AdlDisagg <- function(x, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
+#' td <- adl_disaggregation(Y, indicators = x, xar = "FREE")
 #' plot(td)
 #'
 plot.JD3AdlDisagg <- function(x, ...) {
