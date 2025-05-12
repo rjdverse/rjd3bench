@@ -11,7 +11,7 @@ vignette: >
   %\VignetteIndexEntry{Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-abstract: The package rjd3bench provides a variety of methods for temporal disaggregation, benchmarking, reconciliation and calendarization. It is part of the interface to 'JDemetra+ 3.0' Seasonal adjustement software. Methods of temporal disaggregation and benchmarking are used to derive high frequency time series from low frequency time series with or without the help of high frequency information. Consistency of the high frequency series with the low frequency series can be achieved by either the sum, the average, the first or last value or any other user-defined conversion mode. In addition to temporal constraints, reconciliation methods deals with contemporaneous consistency while adjusting multiple time series. Finally, calendarization method can be used when time series data do not coincide with calendar periods.
+abstract: The package rjd3bench provides a variety of methods for temporal disaggregation, interpolation, benchmarking, reconciliation and calendarization. It is part of the interface to 'JDemetra+ 3.x' software. Methods of temporal disaggregation, interpolation and benchmarking are used to derive high frequency time series from low frequency time series with or without the help of high frequency information. For temporal disaggregation, consistency of the high frequency series with the low frequency series can be achieved either by sum or average. For interpolation, the low frequency series can be the first or last value of the high frequency series, or any other value. In addition to temporal constraints, reconciliation methods deals with contemporaneous consistency while adjusting multiple time series. Finally, calendarization method can be used when time series data do not coincide with calendar periods.
 compress_html:
   clippings: all
   blanklines: true
@@ -29,9 +29,9 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-The methods implemented in the package rjd3bench intend to bridge the gap when there is a lack of high frequency time series or when there are temporal and/or contemporaneous inconsistencies between the high frequency series and the corresponding low frequency series. Although this can be an issue in any fields of research dealing with time series, methods of temporal disaggregation, benchmarking, reconciliation and calendarization are often encountered in the production of official statistics. For example, National Accounts are often compiled according to two frequencies of production: annual series, the low frequency data, based on precise and detailed sources and quarterly series, the high frequency data, which usually rely on less accurate sources but give information on a timelier basis. In such case, the use of temporal disaggregation, benchmarking, and/or reconciliation method can be used to achieve consistency between annual and quarterly national accounts over time. 
+The methods implemented in the package rjd3bench intend to bridge the gap when there is a lack of high frequency time series or when there are temporal and/or contemporaneous inconsistencies between the high frequency series and the corresponding low frequency series. Although this can be an issue in any fields of research dealing with time series, methods of temporal disaggregation, interpolation, benchmarking, reconciliation and calendarization are often encountered in the production of official statistics. For example, National Accounts are often compiled according to two frequencies of production: annual series, the low frequency data, based on precise and detailed sources and quarterly series, the high frequency data, which usually rely on less accurate sources but give information on a timelier basis. In such case, the use of temporal disaggregation, benchmarking, and reconciliation methods can be used to achieve consistency between annual and quarterly national accounts over time. 
 
-The package rjd3bench is an R interface to the highly efficient algorithms and modeling developed in the official 'JDemetra+ 3.0' Seasonal adjustement software. It provides a wide variety of methods, included those suggested in the *ESS guidelines on temporal disaggregation, benchmarking and reconciliation (Eurostat, 2018)*. 
+The package rjd3bench is an R interface to the highly efficient algorithms and modeling developed in the official 'JDemetra+ 3.x' software. It provides a wide variety of methods, included those suggested in the *ESS guidelines on temporal disaggregation, benchmarking and reconciliation (Eurostat, 2018)*. 
 
 
 # Set-up & Data
@@ -48,7 +48,18 @@ qna_data <- rjd3bench::qna_data
 ```
 
 
-# Temporal disaggregation methods
+# Temporal disaggregation and interpolation methods
+
+Temporal disaggregation and interpolation are related to each other (and to benchmarking). They share similar properties and methods but they differ in their purpose.   
+
+Temporal disaggregation is usually associated with flow series. The purpose is to break down a low frequency time series into a higher frequency time series, where the low frequency series correspond to the sum or average of the corresponding higher frequency series. 
+
+Interpolation usually arises in the context of stock series. The purpose is to estimate missing values at time points between the known data points given by the low frequency series. For example, an annual series can typically corresponds to the fourth quarter or twelfth month of a quarterly or a monthly series and the purpose would be to obtain estimates for the other quarters or months.
+
+For the Chow-Lin method and its variants, a separate function is considered for temporal disaggregation and interpolation. This is not the case of the other methods where the two are integrated in a single function. 
+
+Furthermore, there are *raw* version available for the functions `temporal_disaggregation()` and `temporal_interpolation()` related to Chow-Lin method and its variants. The functions `temporal_disaggregation_raw()` and `temporal_interpolation_raw()` enable the user to deal with atypical frequency data and with any frequency ratio. Note that for benchmarking, a function `denton_raw()` is also available.
+
 
 ## Chow-Lin, Fernandez and Litterman
 
@@ -66,21 +77,56 @@ $u_t = u_{t-1} + \epsilon_t$ (Fernandez),
 
 $u_t = u_{t-1} + \phi(\Delta u_{t-1}) + \epsilon_t$, with $|\phi| < 1$ (Litterman)
 
+The temporal constraint is:
+$$
+Y = Cy,
+$$
+where $C = I_m \otimes c$, $c$ is a row vector of size $s$ which is the frequency ratio between the disaggregated/interpolated series and the low frequency benchmark. The distinction between temporal disaggregation and interpolation lies in the definition of this vector c:
+
+- Temporal disaggregation: $c = [1,1,...,1]$ for aggregation (e.g., flow variables) and $c = [1/s,1/s,...,1/s]$ for average conversion (e.g., indexes)
+- Interpolation: $c = [0,0,...,1]$ when the low frequency series corresponds to the last value of the interpolated series,  $c = [1,0,...,0]$ when it's the first value, etc. (e.g., stock variables)
+
 While $x_t$ is observed in high frequency, $y_t$ is only observed in low frequency, and therefore the number of effective observations to estimate the parameters are the number of observations in the low-frequency benchmark.    
 
-Regression-based methods can be called with the `temporaldisaggregation()` function.
+The regression-based Chow-Lin method and its variants Fernandez and Litterman can be called with the functions `temporal_disaggregation()` or `temporal_interpolation()`. Those two functions require a ts object as input series and only deal with usual frequency conversion (i.e. annual to quarterly, annual to monthly or quarterly to monthly). Alternatively, the functions `temporal_disaggregation_raw()` and `temporal_interpolation_raw()` require a numeric vector as input series and extend the previous functions in a way that they can deal with atypical frequency series and with any frequency ratio. 
+
 ```{r}
-# Example: Use of Fernandez variant to disaggregate annual value added in construction sector using a quarterly indicator
+# Example 1: TD using Chow-Lin to disaggregate annual value added in construction sector using a quarterly indicator
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
-td_fern <- rjd3bench::temporaldisaggregation(Y, indicators = x, model = "Rw")
+td <- rjd3bench::temporal_disaggregation(Y, indicators = x)
 
-y_fern <- td_fern$estimation$disagg # the disaggregated series
-summary(td_fern)
-plot(td_fern)
+y <- td$estimation$disagg # the disaggregated series
+print(td)
+summary(td)
+plot(td)
+
+# Example 2: interpolation using Fernandez without indicator when the last value (default) of the interpolated series is the one consistent with the low frequency series.
+Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+ti <- temporal_interpolation(Y, indicators = NULL, model = "Rw", freq = 4, nfcsts = 2)
+y <- ti$estimation$interp # the interpolated series
+
+# Example 3: TD of atypical frequency data using Fernandez with an offset of 1 period
+Y <- c(500,510,525,520)
+x <- c(97,
+       98, 98.5, 99.5, 104, 99,
+       100, 100.5, 101, 105.5, 103,
+       104.5, 103.5, 104.5, 109, 104,
+       107, 103, 108, 113, 110)
+td_raw <- temporal_disaggregation_raw(Y, indicators = x, startoffset = 1,  model = "Rw", freqratio = 5)
+y <- td_raw$estimation$disagg # the disaggregated series
+
+# Example 4: interpolation of atypical frequency data using Fernandez without offset, when the first value of the interpolated  series is the one consistent with the low frequency series.
+Y <- c(500,510,525,520)
+x <- c(490, 492.5, 497.5, 520, 495,
+       500, 502.5, 505, 527.5, 515,
+       522.5, 517.5, 522.5, 545, 520,
+       535, 515, 540, 565, 550,
+       560)
+ti_raw <- temporal_interpolation_raw(Y, indicators = x,  model = "Rw", freqratio = 5, obsposition = 1)
+y <- ti_raw$estimation$interp
 ```
-
-The output of the `temporaldisaggregation()` function contains the most important information about the regression including the estimates of model coefficients and their covariance matrix, the decomposition of the disaggregated series and information about the residuals. The print(), summary() and plot() functions can also be applied on the output object. The plot() function displays the decomposition of the disaggregated series between regression and smoothing effect.        
+The output of the functions `temporal_disaggregation()`, `temporal_interpolation()`, `temporal_disaggregation_raw()` and `temporal_interpolation_raw()` contains the most important information about the regression including the estimates of model coefficients and their covariance matrix, the decomposition of the disaggregated/interpolated series and information about the residuals. A print() and summary() functions can be applied on the output object. The plot() function, which displays the decomposition of the disaggregated/interpolated series between regression and smoothing effect, can be applied on the output object of the functions `temporal_disaggregation()` and `temporal_interpolation()`.
 
 ## Model-based Denton
 
@@ -105,7 +151,7 @@ $$
 
 where the temporal constraints are taken care of by considering a cumulated series $y^c_t$ instead of the original series $y_t$. Hence, the last high frequency period (for example, the last quarter of the year) is observed and corresponds to the value of the benchmark. The value of the other periods are initially defined as missing and estimated by maximum likelihood.
 
-This alternative representation of Denton PFD method is interesting as it allows more flexibility. We might now include outliers - namely, level shift(s) in the Benchmark to Indicator ratio - that could otherwise induce undesirable wave effects. Outliers and their intensity are defined by changing the value of the innovation variances. There is also the possibility to freeze the disaggregated series at some specific period(s) or prior a certain date by fixing the high-frequency BI ratio(s). Following the principle of movement preservation inherent to Denton, the model-based Denton PFD method constitutes an interesting alternative for both temporal disaggregation and benchmarking. Here is a [link](https://www.youtube.com/watch?v=PC0tj2jMcuU) to a presentation on the subject which include some comparison with the regression-based methods for temporal disaggregation.  
+This alternative representation of Denton PFD method is interesting as it allows more flexibility. We might now include outliers - namely, level shift(s) in the Benchmark to Indicator ratio - that could otherwise induce undesirable wave effects. Outliers and their intensity are defined by changing the value of the innovation variances. There is also the possibility to freeze the disaggregated series at some specific period(s) or prior a certain date by fixing the high-frequency BI ratio(s). Following the principle of movement preservation inherent to Denton, the model-based Denton PFD method constitutes an interesting alternative for temporal disaggregation, interpolation and benchmarking. Here is a [link](https://www.youtube.com/watch?v=PC0tj2jMcuU) to a presentation on the subject which include some comparison with the regression-based methods for temporal disaggregation.  
 
 The model-base Denton method can be applied with the `denton_modelbased()` function.
 ```{r}
@@ -118,7 +164,7 @@ y_mbd <- td_mbd$estimation$disagg
 plot(td_mbd)
 ```
 
-The output of the `denton_modelbased()` function contains information about the disaggregated series and the BI ratio as well as their respecting errors making it possible to construct confidence intervals. The print(), summary() and plot() functions can also be applied on the output object.The plot() function displays the disaggregated series and the BI ratio together with their respective 95% confidence interval.
+The output of the `denton_modelbased()` function contains information about the disaggregated/interpolated series and the BI ratio as well as their respecting errors making it possible to construct confidence intervals. The print(), summary() and plot() functions can also be applied on the output object.The plot() function displays the disaggregated series and the BI ratio together with their respective 95% confidence interval.
 
 ## Autoregressive Distributed Lag (ADL) Models 
 
@@ -126,6 +172,10 @@ The output of the `denton_modelbased()` function contains information about the 
 
 
 # Benchmarking methods
+
+The benchmarking problem arises when time series data for the same target variable are measured at two different frequencies with different levels of accuracy. Typically, the high frequency series is less reliable than the low frequency series, referred to as the benchmark. Thus, benchmarking is the process of adjusting the high frequency series to make it consistent with the more reliable low frequency series. 
+
+As for the temporal disaggregation/interpolation method Chow-Lin and its variants, a *raw* version of the `denton()` benchamrking method is made available to the user. The function `denton_raw()` enables the user to deal with atypical frequency data and with any frequency ratio.
 
 ## Denton
 
@@ -135,13 +185,13 @@ The most widely used is the Denton PFD variant. Let $Y_T$, $T=1,...,m$, and $x_t
 $$
 min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
 $$
-This objective function is minimized subject to the temporal aggregation constraints $\sum_{t\epsilon T}=Y_T$, $T=1,...,m$ (flows variables). In other words, the benchmarked series is estimated in such a way that the "Benchmark-to-Indicator" ratio $\frac{y_t}{x_t}$ remains as smooth as possible, which is often of key interest in benchmarking. 
+This objective function is minimized subject to the temporal aggregation constraints $\sum_{t\epsilon T} y_t = Y_T$, $T=1,...,m$ (flows variables). In other words, the benchmarked series is estimated in such a way that the "Benchmark-to-Indicator" ratio $\frac{y_t}{x_t}$ remains as smooth as possible, which is often of key interest in benchmarking. 
 
 In the literature (see for example Di Fonzo and Marini, 2011), Denton PFD is generally considered as a good approximation of the [GRP method](#grp), meaning that it preserves the period-to-period growth rates of the preliminary series. It is also argued that in many applications, Denton PFD is more appropriate than GRP method as it deals with a linear problem which is computationally easier, and does not suffer from the issues related to time irreversibility and singular objective function when $y_t$ approaches 0 (see Daalmans et al, 2018).
 
-Denton methods can be called with the `denton()` function.
+Denton methods can be called with the `denton()` function which can deal with usual frequency conversion (i.e. annual to quarterly, annual to monthly or quarterly to monthly). Alternatively, the `denton_raw()` function requires a numeric vector as input series, but extends the `denton()` function in a way that it can deal with atypical frequency series and with any frequency ratio.
 ```{r}
-# Example: use Denton method for benchmarking
+# Example 1: use of Denton method for benchmarking
 Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
 
 y_den0 <- rjd3bench::denton(t = Y, nfreq = 4) # denton PFD without high frequency series
@@ -149,9 +199,19 @@ y_den0 <- rjd3bench::denton(t = Y, nfreq = 4) # denton PFD without high frequenc
 x <- y_den0 + rnorm(n = length(y_den0), mean = 0, sd = 10)
 y_den1 <- rjd3bench::denton(s = x, t = Y) # denton PFD (= the default)
 y_den2 <- rjd3bench::denton(s = x, t = Y, d = 2, mul = FALSE) # denton ASD
+
+# Example 2: use of of Denton method for benchmarking atypical frequency data
+Y <- c(500,510,525,520)
+x <- c(97, 98, 98.5, 99.5, 104,
+       99, 100, 100.5, 101, 105.5,
+       103, 104.5, 103.5, 104.5, 109,
+       104, 107, 103, 108, 113,
+       110)
+
+y_denraw <- denton_raw(x, Y, freqratio = 5) # for example, x and Y could be annual and quiquennal series respectively
 ```
 
-The `denton()` function returns the benchmarked high frequency series.
+The `denton()` and `denton_raw()` functions return the high frequency series benchmarked with the Denton method.
 
 ## Growth rate preservation (GRP) {#grp}
 
@@ -162,11 +222,27 @@ Let $Y_T$, $T=1,...,m$, and $x_t$, $t=1,...,n$, be, respectively the temporal be
 $$
 f(x) = \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2
 $$ 
-and look for values $y_t^*$, $t=1,...,n$, which minimize it subject to the temporal aggregation constraints $\sum_{t\epsilon T}=Y_T$, $T=1,...,m$ (flows variables). In other words, the benchmarked series is estimated in such a way that its temporal dynamics; as expressed by the growth rates $\frac{y_t^*}{y_{t-1}^*}$, $t=2,...,n$, be "as close as possible" to the temporal dynamics of the preliminary series, where the "distance" from the preliminary growth rates $\frac{x_t}{x_{t-1}}$ is given by the sum of the squared differences. (Di Fonzo, Marini, 2011)
+and look for values $y_t^*$, $t=1,...,n$, which minimize it subject to the temporal aggregation constraints $\sum_{t\epsilon T} y_t = Y_T$, $T=1,...,m$ (flows variables). In other words, the benchmarked series is estimated in such a way that its temporal dynamics; as expressed by the growth rates $\frac{y_t^*}{y_{t-1}^*}$, $t=2,...,n$, be "as close as possible" to the temporal dynamics of the preliminary series, where the "distance" from the preliminary growth rates $\frac{x_t}{x_{t-1}}$ is given by the sum of the squared differences. (Di Fonzo, Marini, 2011)
 
 The objective function considered by Cauley and Trager is a natural measure of the movement of a time series and as one would expect, it is usually slightly better than the Denton PFD method at preserving the movement of the series (Di Fonzo, Marini, 2011). However, unlike the Denton PFD method which deals with a linear problem, GRP solves a more difficult nonlinear problem. Furthermore, the GRP method suffers from a couple of drawbacks, which are time irreversibility and potential singularities in the objective function when $y_{t-1}$ approaches to 0, which could lead to undesirable results (see Daalmans et al, 2018).  
 
-The GRP method, corresponding to the method of Cauley and Trager, using the solution proposed by Di Fonzo and Marini (2011), can be called with the `grp()` function.
+The standard objective function for GRP considered by Cauley and Trager and defined above means that we apply the benchmarking forward. Alternatively, we could apply it backward, which means performing the benchmarking on the reversed time series. As previsouly mentionned, this is not equivalent when using GRP method. As altenatives, Daalmans et al (2018) proposed two other objective functions for GRP (symmetric GRP and logarithmic GRP) which are "time symmetric".
+
+Backward GRP:
+$$
+f(x) = \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
+$$ 
+Symmetric GRP:
+$$
+f(x) = \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2 + 
+\frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
+$$
+Logarithmic GRP:
+$$
+f(x) = \sum_{t=2}^{n}\left(log\left(\frac{y_t}{y_{t-1}}\right) - log\left(\frac{x_t}{x_{t-1}}\right) \right)^2
+$$ 
+
+The GRP method, corresponding to the method of Cauley and Trager, using the solution proposed by Di Fonzo and Marini (2011), can be called with the `grp()` function. An alternative objective function as those suggested by Daalmans et al (2018) can also be considered.
 
 ```{r}
 # Example: use GRP method for benchmarking
@@ -174,7 +250,8 @@ Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
 y_den0 <- rjd3bench::denton(t = Y, nfreq = 4)
 x <- y_den0 + rnorm(n = length(y_den0), mean = 0, sd = 10)
 
-y_grp <- rjd3bench::grp(s = x, t = Y)
+y_grpf <- rjd3bench::grp(s = x, t = Y)
+y_grpl <- rjd3bench::grp(s = x, t = Y, objective = "Log")
 ```
 
 The `grp()` function returns the high frequency series benchmarked with the GRP method.
@@ -194,7 +271,46 @@ The `cubicspline()` function returns the high frequency series benchmarked with 
 
 ## Cholette method
 
-(Upcoming content)
+Cholette method is based on a benchmarking methodology developed at Statistics Canada. It is a generalized model relying on the principle of movement preservation that encompasses several other benchmarking methods. The Denton method (both the AFD and PFD variants), as well as the naive pro-rating method, emerge as particular cases of the Cholette method.
+
+Let $Y_T$, $T=1,...,m$, and $x_t$, $t=1,...,n$, be, respectively the temporal benchmarks and the high-frequency preliminary values of an unknown target variable $y_t$. The objective function of the Cholette method is as follows (Quenneville et al, 2006):
+
+$$
+f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \left[\sum_{t=2}^{n}\left(\frac{x_t - y_t}{|x_t|^\lambda}\right) - \rho \left(\frac{x_{t-1} - y_{t-1}}{|x_{t-1}|^\lambda}\right)\right]^2
+$$
+This objective function is minimized subject to the temporal aggregation constraints $\sum_{t\epsilon T} y_t = Y_T$, $T=1,...,m$ (flows variables). The method is driven by a couple of parameters: 
+
+- The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$. Set $\lambda = 1$ for a proportional benchmarking model. Two other choices are $\lambda = 0$ for an additive benchmarking model; and $\lambda = 0.5$ with $\rho = 0$, for the naive pro-rating method.  
+- The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$ determines the degree of movement preservation. When $\lambda = 1$, the closer $\rho$ is to 1, the smoother will be the ratios of the benchmarks to the corresponding totals in the preliminary series and the better the movement of the latter will be preserved.
+
+Cholette method also provides for the possibility of considering a bias correction factor, which is the expected discrepancy between the benchmarks and the high-frequency preliminary series. The additive and multiplicative bias correction factor are estimated respectively as:
+
+$$
+\begin{aligned}
+b_a &= \frac{\sum_{T=1}^{m}{Y_T} - \sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}{m} \\
+b_m &= \frac{\sum_{T=1}^{m}{Y_T}}{\sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}
+\end{aligned}
+$$
+If a bias correction factor is considered, the preliminary series is re-scaled in the objective function above: $x_t^*$ replaces $x_t$, where $x_t^*=b_a+x_t$ in the additive case and $x_t^*=b_m \times x_t$ in the multiplicative case. The rationale for considering a bias correction factor with this method is provided in Dagum and Cholette (2006, Ch. 6). It mainly impacts the observations at the end of the series that are not covered by a benchmark. In particular, when $\rho < 1$, the Benchmark-to-Indicator ratios (BI ratios) at the end of the series converge to the bias correction factor. By default, no bias is considered, meaning that we do not expected a systematic bias between the benchmarks and the preliminary series ($b_a = 0$ or $b_m = 1$). 
+
+Cholette method has been widely used to benchmark seasonally adjusted series to annual totals derived from the raw series. For this purpose, Quenneville et al (2006) argues that an undesirable feature of the Denton PFD method is that it repeats the last BI ratio for the observations at the end of the series that are not covered by a benchmark. For observations without a benchmark, the best estimate of the BI-ratio is the estimated value of the bias; so, repeating the last value is not appropriate. Instead, to obtain a smooth transition from this last BI-ratio to the bias, one can set $\rho < 1$. For observations with a benchmark, the BI-ratios are closer to those obtained with the Denton PFD method ($\rho = 1$) and smoother when $\rho \to 1$. As a pragmatic benchmarking method routinely applicable to large numbers of seasonal time series Dagum and Cholette (2006) recommend the proportional benchmarking method ($\lambda = 1$) with a value of $\rho = 0.90$ for monthly series and $\rho = 0.90^3= 0.729$ for quarterly series. An alternative would be to estimate the autocorrelation structure of the error instead of using those default values. 
+
+Cholette method can be called with the `cholette()` function. 
+```{r}
+# Example: use Cholette method for benchmarking
+Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
+xn <- c(rjd3bench::denton(t = Y, nfreq = 4) + rnorm(n = length(Y)*4, mean = 0, sd = 10), 5750, 5800)
+x <- ts(xn, start = start(Y), frequency = 4)
+
+rjd3bench::cholette(s = x, t = Y, rho = 0.729, lambda = 1, bias = "Multiplicative")  # proportional benchmarking
+rjd3bench::cholette(s = x, t = Y, rho = 0.729, lambda = 1) # proportional benchmarking with no bias (assuming bm=1)
+rjd3bench::cholette(s = x, t = Y, rho = 0.729, lambda = 0, bias = "Additive")  # additive benchmarking 
+rjd3bench::cholette(s = x, t = Y, rho = 1, lambda = 1) # Denton PFD
+rjd3bench::cholette(s = x, t = Y, rho = 0, lambda = 0.5) # pro-rating
+```
+
+The `cholette()` function returns the high frequency series benchmarked with the Cholette method.
+
 
 # Reconciliation and multivariate temporal disaggregation
 
@@ -215,3 +331,9 @@ Chamberlin, G. (2010). Temporal disaggregation. *ONS Economic & Labour Market Re
 Di Fonzo, T., and Marini, M. (2011). A Newton's Method for Benchmarking Time Series according to a Growth Rates Preservation Principle. *IMF WP/11/179*.
 
 Daalmans, J., Di Fonzo, T., Mushkudiani, N., Bikker, R. (2018). Growth Rates Preservation (GRP) temporal benchmarking: Drawbacks and alternative solutions. *Survey Methodology, June 2018 Vol.44, No.1, pp. 43-60 Statistics Canada, Catalogue No. 12-001-X*.
+
+Dagum, E. B., and Cholette, P. A. (2006): Benchmarking, Temporal Distribution and Reconciliation Methods of Time Series. *Springer-Verlag, New York, Lecture notes in Statistics*.
+
+Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006). Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at Statistics Canada. *Statistics Canada, Working paper of the Time Series Research and Analysis Centre*.
+
+Quilis, EM. (2018). Temporal disaggregation of economic time series - The view from the trenches. *Statistica Neerlandica, Wiley*.

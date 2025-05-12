@@ -7,6 +7,7 @@
 grp(
   s,
   t,
+  objective = c("Forward", "Backward", "Symmetric", "Log"),
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
   obsposition = 1L,
   eps = 1e-12,
@@ -19,14 +20,17 @@ grp(
 
 \item{t}{Aggregation constraint. Mandatory. It must be a ts object.}
 
+\item{objective}{Objective function. See vignette and/or Daalmans et al.
+(2018) for more information.}
+
 \item{conversion}{Conversion rule. "Sum" by default.}
 
-\item{obsposition}{Position of the observation in the aggregated period
-(only used with "UserDefined" conversion)}
+\item{obsposition}{Position of the observation in the aggregated period (only
+used with "UserDefined" conversion)}
 
-\item{eps}{Numeric. Defines the convergence precision. BFGS algorithm
-is run until the reduction in the objective is within this eps value
-(1e-12 is the default) or until the maximum number of iterations is hit.}
+\item{eps}{Numeric. Defines the convergence precision. BFGS algorithm is run
+until the reduction in the objective is within this eps value (1e-12 is the
+default) or until the maximum number of iterations is hit.}
 
 \item{iter}{Integer. Maximum number of iterations in BFGS algorithm (500 is
 the default).}
@@ -51,9 +55,8 @@ problem.
 data("qna_data")
 
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
-x <- rjd3bench::denton(t=Y, nfreq=4) + rnorm(n=length(Y)*4, mean=0, sd=10)
-# x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
-y <- rjd3bench::grp(s = x, t = Y)
+x <- denton(t = Y, nfreq = 4) + rnorm(n = length(Y) * 4, mean = 0, sd = 10)
+grp(s = x, t = Y)
 
 }
 \references{
@@ -65,4 +68,8 @@ Causey, B., and Trager, M.L. (1981). Derivation of Solution to
   Di Fonzo, T., and Marini, M. (2011). A Newton's Method for Benchmarking
   Time Series according to a Growth Rates Preservation Principle. *IMF
   WP/11/179*.
+
+  Daalmans, J., Di Fonzo, T., Mushkudiani, N. and Bikker, R. (2018). Growth
+  Rates Preservation (GRP) temporal benchmarking: Drawbacks and alternative
+  solutions. *Statistics Canada*.
 }

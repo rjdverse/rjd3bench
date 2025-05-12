@@ -13,11 +13,11 @@ cubicspline(
 )
 }
 \arguments{
-\item{s}{Disaggregated series. If not NULL, it must be the same class as t.}
+\item{s}{Preliminary series. If not NULL, it must be the same class as t.}
 
 \item{t}{Aggregation constraint. Mandatory. it must be either an object of class ts or a numeric vector.}
 
-\item{nfreq}{Integer. Annual frequency of the disaggregated variable. Used if no disaggregated series is provided.}
+\item{nfreq}{Integer. Annual frequency of the benchmarked series. Used if no preliminary series is provided.}
 
 \item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by default.}
 
@@ -30,7 +30,7 @@ The benchmarked series is returned
 Cubic splines are piecewise cubic functions that are linked together in
 a way to guarantee smoothness at data points. Additivity constraints are
 added for benchmarking purpose and sub-period estimates are derived
-from each spline. When a sub-period indicator (or disaggregated series) is
+from each spline. When a sub-period indicator (or a preliminary series) is
 used, cubic splines are no longer drawn based on the low frequency data
 but the Benchmark-to-Indicator (BI ratio) is the one being smoothed. Sub-
 period estimates are then simply the product between the smoothed high
@@ -40,15 +40,15 @@ frequency BI ratio and the indicator.
 data("qna_data")
 Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 
-# cubic spline without disaggregated series
-y1 <- rjd3bench::cubicspline(t = Y, nfreq = 4L)
+# cubic spline without preliminary series
+y1 <- cubicspline(t = Y, nfreq = 4L)
 
-# cubic spline with disaggregated series
-x1 <- y1+rnorm(n = length(y1), mean = 0, sd = 10)
-y2 <- rjd3bench::cubicspline(s = x1, t = Y)
+# cubic spline with preliminary series
+x1 <- y1 + rnorm(n = length(y1), mean = 0, sd = 10)
+cubicspline(s = x1, t = Y)
 
 # cubic splines used for temporal disaggregation
 x2 <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
-y3 <- rjd3bench::cubicspline(s = x2, t = Y)
+cubicspline(s = x2, t = Y)
 
 }

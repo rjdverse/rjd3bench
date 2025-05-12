@@ -12,7 +12,9 @@ denton(
   nfreq = 4L,
   modified = TRUE,
   conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-  obsposition = 1L
+  obsposition = 1L,
+  nbcsts = 0L,
+  nfcsts = 0L
 )
 }
 \arguments{
@@ -37,6 +39,12 @@ default.}
 
 \item{obsposition}{Position of the observation in the aggregated period (only
 used with "UserDefined" conversion).}
+
+\item{nbcsts}{Number of backcast periods. Ignored when a preliminary
+series is provided. (not yet implemented)}
+
+\item{nfcsts}{Number of forecast periods. Ignored when a preliminary
+series is provided. (not yet implemented)}
 }
 \value{
 The benchmarked series is returned
@@ -49,17 +57,20 @@ additive second difference (ASD), proportional second difference (PSD), etc.
 The default and most widely used is the Denton PFD method.
 }
 \examples{
-Y <- ts(qna_data$B1G_Y_data$B1G_FF, frequency = 1, start = c(2009, 1))
+Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 
-# denton PFD without high frequency series
-y1 <- rjd3bench::denton(t = Y, nfreq = 4)
+# denton PFD without a preliminary series
+y1 <- denton(t = Y, nfreq = 4)
+print(y1)
 
-# denton ASD
-x1 <- y1+rnorm(n = length(y1), mean = 0, sd = 10)
-y2 <- rjd3bench::denton(s = x1, t = Y, d = 2, mul = FALSE)
+# denton PFD without a preliminary series and conversion = "Average"
+denton(t = Y, nfreq = 4, conversion = "Average")
 
-# denton PFD used for temporal disaggregation
-x2 <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
-y3 <- rjd3bench::denton(s = x2, t = Y)
+# denton PFD with a preliminary series
+x <- y1 + rnorm(n = length(y1), mean = 0, sd = 10000)
+denton(s = x, t = Y)
+
+# denton AFD with a preliminary series
+denton(s = x, t = Y, mul = FALSE)
 
 }
