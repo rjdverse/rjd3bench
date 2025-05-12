@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Interface to JDemetra+ 3.x time series analysis software • rjd3bench</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -29,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">rjd3bench</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,23 +64,29 @@
 
 <p><a href="https://github.com/rjdverse/rjd3bench/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/rjdverse/rjd3bench/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/rjdverse/rjd3bench/actions/workflows/lint.yaml" class="external-link"><img src="https://github.com/rjdverse/rjd3bench/actions/workflows/lint.yaml/badge.svg" alt="lint"></a></p>
 <p><a href="https://github.com/rjdverse/rjd3bench/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/rjdverse/rjd3bench/actions/workflows/pkgdown.yaml/badge.svg" alt="GH Pages built"></a> <!-- badges: end --></p>
-<p>Temporal disaggregation and benchmarking with JDemetra+ v3.x algorithms.</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>rjd3bench provides a variety of methods for temporal disaggregation &amp; interpolation, benchmarking, reconciliation and calendarization.</p>
+<p>Temporal disaggregation &amp; interpolation:</p>
+<ul>
+<li>Chow-Lin, Fernandez and Litterman</li>
+<li>Model-Based Denton</li>
+<li>Autoregressive Distributed Lag (ADL) models</li>
+</ul>
 <p>Benchmarking:</p>
 <ul>
 <li>Denton</li>
-<li>Cholette (incl. multi-variate)</li>
-<li>Cubic Splines</li>
 <li>GRP (Growth Rate Preservation)</li>
-<li>Calendarization</li>
+<li>Cubic Splines</li>
+<li>Cholette</li>
 </ul>
-<p>Temporal disaggregation</p>
+<p>Reconciliation and multivariate temporal disaggregation:</p>
 <ul>
-<li>Chow-Lin</li>
-<li>Fernandez</li>
-<li>Litterman</li>
-<li>Model Based Denton</li>
-<li>ADL (Autoregressive Distributed Lag Models)</li>
+<li>Multivariate Cholette</li>
 </ul>
+<p>Calendarization</p>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -109,36 +114,6 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdverse/rjd3bench"</span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
-</h2>
-<p>First, you have to load the <strong>{rjd3bench}</strong> package:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3bench" class="external-link">"rjd3bench"</a></span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="multivariate-cholette">Multivariate Cholette<a class="anchor" aria-label="anchor" href="#multivariate-cholette"></a>
-</h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7.2</span>, <span class="fl">8.1</span>, <span class="fl">7.5</span>, <span class="fl">8.5</span>, <span class="fl">7.8</span>, <span class="fl">8.1</span>, <span class="fl">8.4</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">19.5</span>, <span class="fl">19.0</span>, <span class="fl">19.7</span>, <span class="fl">18.5</span>, <span class="fl">19.0</span>, <span class="fl">20.3</span>, <span class="fl">20.0</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">s3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">1.8</span>, <span class="fl">2</span>, <span class="fl">2.5</span>, <span class="fl">2.0</span>, <span class="fl">1.5</span>, <span class="fl">1.7</span>, <span class="fl">2.0</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">27.1</span>, <span class="fl">29.8</span>, <span class="fl">29.9</span>, <span class="fl">31.2</span>, <span class="fl">29.3</span>, <span class="fl">27.9</span>, <span class="fl">30.9</span>, <span class="fl">31.8</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30.0</span>, <span class="fl">30.6</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">80.0</span>, <span class="fl">81.2</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="va">y3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8.0</span>, <span class="fl">8.1</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">data_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>s1 <span class="op">=</span> <span class="va">s1</span>, s2 <span class="op">=</span> <span class="va">s2</span>, s3 <span class="op">=</span> <span class="va">s3</span>, a <span class="op">=</span> <span class="va">a</span>, y1 <span class="op">=</span> <span class="va">y1</span>, y2 <span class="op">=</span> <span class="va">y2</span>, y3 <span class="op">=</span> <span class="va">y3</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">cc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a=s1+s2+s3"</span><span class="op">)</span> <span class="co"># contemporaneous constraints </span></span>
-<span><span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"y1=sum(s1)"</span>, <span class="st">"y2=sum(s2)"</span>, <span class="st">"y3=sum(s3)"</span><span class="op">)</span> <span class="co"># temporal constraints</span></span>
-<span></span>
-<span><span class="va">output1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="co"># = Denton</span></span>
-<span><span class="va">output2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="co"># = Cholette</span></span>
-<span><span class="va">output3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="cn">NULL</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -179,8 +154,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Jean Palate <br><small class="roles"> Author </small>  </li>
-<li>Corentin Lemasson <br><small class="roles"> Maintainer, contributor </small>  </li>
+<li>Jean Palate <br><small class="roles"> Author </small>   </li>
+<li>Corentin Lemasson <br><small class="roles"> Maintainer, contributor </small>   </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -189,6 +164,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=rjd3bench" class="external-link"><img src="https://www.r-pkg.org/badges/version/rjd3bench" alt="CRAN status"></a></li>
+<li><a href="http://www.awesomeofficialstatistics.org" class="external-link"><img src="https://awesome.re/mentioned-badge.svg" alt="Mentioned in Awesome Official Statistics"></a></li>
 </ul>
 </div>
 
@@ -201,7 +177,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>

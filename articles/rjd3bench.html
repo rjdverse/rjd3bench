@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x • rjd3bench</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -26,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rjd3bench</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,19 +66,20 @@
         <div class="abstract">
       <p class="abstract">Abstract</p>
       The package rjd3bench provides a variety of methods for temporal
-      disaggregation, benchmarking, reconciliation and calendarization.
-      It is part of the interface to ‘JDemetra+ 3.0’ Seasonal
-      adjustement software. Methods of temporal disaggregation and
+      disaggregation, interpolation, benchmarking, reconciliation and
+      calendarization. It is part of the interface to ‘JDemetra+ 3.x’
+      software. Methods of temporal disaggregation, interpolation and
       benchmarking are used to derive high frequency time series from
       low frequency time series with or without the help of high
-      frequency information. Consistency of the high frequency series
-      with the low frequency series can be achieved by either the sum,
-      the average, the first or last value or any other user-defined
-      conversion mode. In addition to temporal constraints,
-      reconciliation methods deals with contemporaneous consistency
-      while adjusting multiple time series. Finally, calendarization
-      method can be used when time series data do not coincide with
-      calendar periods.
+      frequency information. For temporal disaggregation, consistency of
+      the high frequency series with the low frequency series can be
+      achieved either by sum or average. For interpolation, the low
+      frequency series can be the first or last value of the high
+      frequency series, or any other value. In addition to temporal
+      constraints, reconciliation methods deals with contemporaneous
+      consistency while adjusting multiple time series. Finally,
+      calendarization method can be used when time series data do not
+      coincide with calendar periods.
     </div>
     
 <div class="section level2">
@@ -90,22 +90,21 @@ gap when there is a lack of high frequency time series or when there are
 temporal and/or contemporaneous inconsistencies between the high
 frequency series and the corresponding low frequency series. Although
 this can be an issue in any fields of research dealing with time series,
-methods of temporal disaggregation, benchmarking, reconciliation and
-calendarization are often encountered in the production of official
-statistics. For example, National Accounts are often compiled according
-to two frequencies of production: annual series, the low frequency data,
-based on precise and detailed sources and quarterly series, the high
-frequency data, which usually rely on less accurate sources but give
-information on a timelier basis. In such case, the use of temporal
-disaggregation, benchmarking, and/or reconciliation method can be used
-to achieve consistency between annual and quarterly national accounts
-over time.</p>
+methods of temporal disaggregation, interpolation, benchmarking,
+reconciliation and calendarization are often encountered in the
+production of official statistics. For example, National Accounts are
+often compiled according to two frequencies of production: annual
+series, the low frequency data, based on precise and detailed sources
+and quarterly series, the high frequency data, which usually rely on
+less accurate sources but give information on a timelier basis. In such
+case, the use of temporal disaggregation, benchmarking, and
+reconciliation methods can be used to achieve consistency between annual
+and quarterly national accounts over time.</p>
 <p>The package rjd3bench is an R interface to the highly efficient
-algorithms and modeling developed in the official ‘JDemetra+ 3.0’
-Seasonal adjustement software. It provides a wide variety of methods,
-included those suggested in the <em>ESS guidelines on temporal
-disaggregation, benchmarking and reconciliation (Eurostat,
-2018)</em>.</p>
+algorithms and modeling developed in the official ‘JDemetra+ 3.x’
+software. It provides a wide variety of methods, included those
+suggested in the <em>ESS guidelines on temporal disaggregation,
+benchmarking and reconciliation (Eurostat, 2018)</em>.</p>
 </div>
 <div class="section level2">
 <h2 id="set-up-data">Set-up &amp; Data<a class="anchor" aria-label="anchor" href="#set-up-data"></a>
@@ -129,8 +128,33 @@ covering the period 2009Q1-2021Q4.</li>
 <span><span class="va">qna_data</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="va">qna_data</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="temporal-disaggregation-methods">Temporal disaggregation methods<a class="anchor" aria-label="anchor" href="#temporal-disaggregation-methods"></a>
+<h2 id="temporal-disaggregation-and-interpolation-methods">Temporal disaggregation and interpolation methods<a class="anchor" aria-label="anchor" href="#temporal-disaggregation-and-interpolation-methods"></a>
 </h2>
+<p>Temporal disaggregation and interpolation are related to each other
+(and to benchmarking). They share similar properties and methods but
+they differ in their purpose.</p>
+<p>Temporal disaggregation is usually associated with flow series. The
+purpose is to break down a low frequency time series into a higher
+frequency time series, where the low frequency series correspond to the
+sum or average of the corresponding higher frequency series.</p>
+<p>Interpolation usually arises in the context of stock series. The
+purpose is to estimate missing values at time points between the known
+data points given by the low frequency series. For example, an annual
+series can typically corresponds to the fourth quarter or twelfth month
+of a quarterly or a monthly series and the purpose would be to obtain
+estimates for the other quarters or months.</p>
+<p>For the Chow-Lin method and its variants, a separate function is
+considered for temporal disaggregation and interpolation. This is not
+the case of the other methods where the two are integrated in a single
+function.</p>
+<p>Furthermore, there are <em>raw</em> version available for the
+functions <code><a href="../reference/temporal_disaggregation.html">temporal_disaggregation()</a></code> and
+<code><a href="../reference/temporal_interpolation.html">temporal_interpolation()</a></code> related to Chow-Lin method and its
+variants. The functions <code><a href="../reference/temporal_disaggregation_raw.html">temporal_disaggregation_raw()</a></code> and
+<code><a href="../reference/temporal_interpolation_raw.html">temporal_interpolation_raw()</a></code> enable the user to deal with
+atypical frequency data and with any frequency ratio. Note that for
+benchmarking, a function <code><a href="../reference/denton_raw.html">denton_raw()</a></code> is also
+available.</p>
 <div class="section level3">
 <h3 id="chow-lin-fernandez-and-litterman">Chow-Lin, Fernandez and Litterman<a class="anchor" aria-label="anchor" href="#chow-lin-fernandez-and-litterman"></a>
 </h3>
@@ -161,6 +185,31 @@ with
 with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>ϕ</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|\phi| &lt; 1</annotation></semantics></math>
 (Litterman)</p>
+<p>The temporal constraint is:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mi>C</mi><mi>y</mi><mo>,</mo></mrow><annotation encoding="application/x-tex">
+Y = Cy,
+</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><msub><mi>I</mi><mi>m</mi></msub><mo>⊗</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">C = I_m \otimes c</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
+is a row vector of size
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
+which is the frequency ratio between the disaggregated/interpolated
+series and the low frequency benchmark. The distinction between temporal
+disaggregation and interpolation lies in the definition of this vector
+c:</p>
+<ul>
+<li>Temporal disaggregation:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">c = [1,1,...,1]</annotation></semantics></math>
+for aggregation (e.g., flow variables) and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mi>/</mi><mi>s</mi><mo>,</mo><mn>1</mn><mi>/</mi><mi>s</mi><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mn>1</mn><mi>/</mi><mi>s</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">c = [1/s,1/s,...,1/s]</annotation></semantics></math>
+for average conversion (e.g., indexes)</li>
+<li>Interpolation:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">c = [0,0,...,1]</annotation></semantics></math>
+when the low frequency series corresponds to the last value of the
+interpolated series,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>,</mo><mn>0</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">c = [1,0,...,0]</annotation></semantics></math>
+when it’s the first value, etc. (e.g., stock variables)</li>
+</ul>
 <p>While
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>
 is observed in high frequency,
@@ -168,25 +217,64 @@ is observed in high frequency,
 is only observed in low frequency, and therefore the number of effective
 observations to estimate the parameters are the number of observations
 in the low-frequency benchmark.</p>
-<p>Regression-based methods can be called with the
-<code><a href="../reference/temporaldisaggregation.html">temporaldisaggregation()</a></code> function.</p>
+<p>The regression-based Chow-Lin method and its variants Fernandez and
+Litterman can be called with the functions
+<code><a href="../reference/temporal_disaggregation.html">temporal_disaggregation()</a></code> or
+<code><a href="../reference/temporal_interpolation.html">temporal_interpolation()</a></code>. Those two functions require a ts
+object as input series and only deal with usual frequency conversion
+(i.e. annual to quarterly, annual to monthly or quarterly to monthly).
+Alternatively, the functions <code><a href="../reference/temporal_disaggregation_raw.html">temporal_disaggregation_raw()</a></code>
+and <code><a href="../reference/temporal_interpolation_raw.html">temporal_interpolation_raw()</a></code> require a numeric vector
+as input series and extend the previous functions in a way that they can
+deal with atypical frequency series and with any frequency ratio.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Example: Use of Fernandez variant to disaggregate annual value added in construction sector using a quarterly indicator</span></span>
+<code class="sourceCode R"><span><span class="co"># Example 1: TD using Chow-Lin to disaggregate annual value added in construction sector using a quarterly indicator</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">TURN_Q_data</span><span class="op">[</span>, <span class="st">"TURN_INDEX_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">td_fern</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/temporaldisaggregation.html">temporaldisaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, model <span class="op">=</span> <span class="st">"Rw"</span><span class="op">)</span></span>
+<span><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/temporal_disaggregation.html">temporal_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">y_fern</span> <span class="op">&lt;-</span> <span class="va">td_fern</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span> <span class="co"># the disaggregated series</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">td_fern</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">td_fern</span><span class="op">)</span></span></code></pre></div>
-<p>The output of the <code><a href="../reference/temporaldisaggregation.html">temporaldisaggregation()</a></code> function
-contains the most important information about the regression including
-the estimates of model coefficients and their covariance matrix, the
-decomposition of the disaggregated series and information about the
-residuals. The print(), summary() and plot() functions can also be
-applied on the output object. The plot() function displays the
-decomposition of the disaggregated series between regression and
-smoothing effect.</p>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">td</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span> <span class="co"># the disaggregated series</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">td</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">td</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">td</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Example 2: interpolation using Fernandez without indicator when the last value (default) of the interpolated series is the one consistent with the low frequency series.</span></span>
+<span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va"><a href="https://rjdverse.github.io/rjd3toolkit/reference/Retail.html" class="external-link">Retail</a></span><span class="op">$</span><span class="va">RetailSalesTotal</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">ti</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/temporal_interpolation.html">temporal_interpolation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="cn">NULL</span>, model <span class="op">=</span> <span class="st">"Rw"</span>, freq <span class="op">=</span> <span class="fl">4</span>, nfcsts <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">ti</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">interp</span> <span class="co"># the interpolated series</span></span>
+<span></span>
+<span><span class="co"># Example 3: TD of atypical frequency data using Fernandez with an offset of 1 period</span></span>
+<span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">500</span>,<span class="fl">510</span>,<span class="fl">525</span>,<span class="fl">520</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">97</span>,</span>
+<span>       <span class="fl">98</span>, <span class="fl">98.5</span>, <span class="fl">99.5</span>, <span class="fl">104</span>, <span class="fl">99</span>,</span>
+<span>       <span class="fl">100</span>, <span class="fl">100.5</span>, <span class="fl">101</span>, <span class="fl">105.5</span>, <span class="fl">103</span>,</span>
+<span>       <span class="fl">104.5</span>, <span class="fl">103.5</span>, <span class="fl">104.5</span>, <span class="fl">109</span>, <span class="fl">104</span>,</span>
+<span>       <span class="fl">107</span>, <span class="fl">103</span>, <span class="fl">108</span>, <span class="fl">113</span>, <span class="fl">110</span><span class="op">)</span></span>
+<span><span class="va">td_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/temporal_disaggregation_raw.html">temporal_disaggregation_raw</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, startoffset <span class="op">=</span> <span class="fl">1</span>,  model <span class="op">=</span> <span class="st">"Rw"</span>, freqratio <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">td_raw</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span> <span class="co"># the disaggregated series</span></span>
+<span></span>
+<span><span class="co"># Example 4: interpolation of atypical frequency data using Fernandez without offset, when the first value of the interpolated  series is the one consistent with the low frequency series.</span></span>
+<span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">500</span>,<span class="fl">510</span>,<span class="fl">525</span>,<span class="fl">520</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">490</span>, <span class="fl">492.5</span>, <span class="fl">497.5</span>, <span class="fl">520</span>, <span class="fl">495</span>,</span>
+<span>       <span class="fl">500</span>, <span class="fl">502.5</span>, <span class="fl">505</span>, <span class="fl">527.5</span>, <span class="fl">515</span>,</span>
+<span>       <span class="fl">522.5</span>, <span class="fl">517.5</span>, <span class="fl">522.5</span>, <span class="fl">545</span>, <span class="fl">520</span>,</span>
+<span>       <span class="fl">535</span>, <span class="fl">515</span>, <span class="fl">540</span>, <span class="fl">565</span>, <span class="fl">550</span>,</span>
+<span>       <span class="fl">560</span><span class="op">)</span></span>
+<span><span class="va">ti_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/temporal_interpolation_raw.html">temporal_interpolation_raw</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>,  model <span class="op">=</span> <span class="st">"Rw"</span>, freqratio <span class="op">=</span> <span class="fl">5</span>, obsposition <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">ti_raw</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">interp</span></span></code></pre></div>
+<p>The output of the functions <code><a href="../reference/temporal_disaggregation.html">temporal_disaggregation()</a></code>,
+<code><a href="../reference/temporal_interpolation.html">temporal_interpolation()</a></code>,
+<code><a href="../reference/temporal_disaggregation_raw.html">temporal_disaggregation_raw()</a></code> and
+<code><a href="../reference/temporal_interpolation_raw.html">temporal_interpolation_raw()</a></code> contains the most important
+information about the regression including the estimates of model
+coefficients and their covariance matrix, the decomposition of the
+disaggregated/interpolated series and information about the residuals. A
+print() and summary() functions can be applied on the output object. The
+plot() function, which displays the decomposition of the
+disaggregated/interpolated series between regression and smoothing
+effect, can be applied on the output object of the functions
+<code><a href="../reference/temporal_disaggregation.html">temporal_disaggregation()</a></code> and
+<code><a href="../reference/temporal_interpolation.html">temporal_interpolation()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="model-based-denton">Model-based Denton<a class="anchor" aria-label="anchor" href="#model-based-denton"></a>
@@ -237,9 +325,9 @@ also the possibility to freeze the disaggregated series at some specific
 period(s) or prior a certain date by fixing the high-frequency BI
 ratio(s). Following the principle of movement preservation inherent to
 Denton, the model-based Denton PFD method constitutes an interesting
-alternative for both temporal disaggregation and benchmarking. Here is a
-<a href="https://www.youtube.com/watch?v=PC0tj2jMcuU" class="external-link">link</a> to a
-presentation on the subject which include some comparison with the
+alternative for temporal disaggregation, interpolation and benchmarking.
+Here is a <a href="https://www.youtube.com/watch?v=PC0tj2jMcuU" class="external-link">link</a>
+to a presentation on the subject which include some comparison with the
 regression-based methods for temporal disaggregation.</p>
 <p>The model-base Denton method can be applied with the
 <code><a href="../reference/denton_modelbased.html">denton_modelbased()</a></code> function.</p>
@@ -252,10 +340,10 @@ regression-based methods for temporal disaggregation.</p>
 <span><span class="va">y_mbd</span> <span class="op">&lt;-</span> <span class="va">td_mbd</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">td_mbd</span><span class="op">)</span></span></code></pre></div>
 <p>The output of the <code><a href="../reference/denton_modelbased.html">denton_modelbased()</a></code> function contains
-information about the disaggregated series and the BI ratio as well as
-their respecting errors making it possible to construct confidence
-intervals. The print(), summary() and plot() functions can also be
-applied on the output object.The plot() function displays the
+information about the disaggregated/interpolated series and the BI ratio
+as well as their respecting errors making it possible to construct
+confidence intervals. The print(), summary() and plot() functions can
+also be applied on the output object.The plot() function displays the
 disaggregated series and the BI ratio together with their respective 95%
 confidence interval.</p>
 </div>
@@ -268,6 +356,17 @@ confidence interval.</p>
 <div class="section level2">
 <h2 id="benchmarking-methods">Benchmarking methods<a class="anchor" aria-label="anchor" href="#benchmarking-methods"></a>
 </h2>
+<p>The benchmarking problem arises when time series data for the same
+target variable are measured at two different frequencies with different
+levels of accuracy. Typically, the high frequency series is less
+reliable than the low frequency series, referred to as the benchmark.
+Thus, benchmarking is the process of adjusting the high frequency series
+to make it consistent with the more reliable low frequency series.</p>
+<p>As for the temporal disaggregation/interpolation method Chow-Lin and
+its variants, a <em>raw</em> version of the <code><a href="../reference/denton.html">denton()</a></code>
+benchamrking method is made available to the user. The function
+<code><a href="../reference/denton_raw.html">denton_raw()</a></code> enables the user to deal with atypical
+frequency data and with any frequency ratio.</p>
 <div class="section level3">
 <h3 id="denton">Denton<a class="anchor" aria-label="anchor" href="#denton"></a>
 </h3>
@@ -292,7 +391,7 @@ the starting conditions of the problem):
 min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
 </annotation></semantics></math> This objective function is minimized
 subject to the temporal aggregation constraints
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T}=Y_T</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_t = Y_T</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>
 (flows variables). In other words, the benchmarked series is estimated
 in such a way that the “Benchmark-to-Indicator” ratio
@@ -308,19 +407,34 @@ easier, and does not suffer from the issues related to time
 irreversibility and singular objective function when
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>
 approaches 0 (see Daalmans et al, 2018).</p>
-<p>Denton methods can be called with the <code><a href="../reference/denton.html">denton()</a></code>
-function.</p>
+<p>Denton methods can be called with the <code><a href="../reference/denton.html">denton()</a></code> function
+which can deal with usual frequency conversion (i.e. annual to
+quarterly, annual to monthly or quarterly to monthly). Alternatively,
+the <code><a href="../reference/denton_raw.html">denton_raw()</a></code> function requires a numeric vector as
+input series, but extends the <code><a href="../reference/denton.html">denton()</a></code> function in a way
+that it can deal with atypical frequency series and with any frequency
+ratio.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Example: use Denton method for benchmarking</span></span>
+<code class="sourceCode R"><span><span class="co"># Example 1: use of Denton method for benchmarking</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_HH"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">y_den0</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># denton PFD without high frequency series</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">y_den0</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y_den0</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">y_den1</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span> <span class="co"># denton PFD (= the default)</span></span>
-<span><span class="va">y_den2</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, d <span class="op">=</span> <span class="fl">2</span>, mul <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># denton ASD</span></span></code></pre></div>
-<p>The <code><a href="../reference/denton.html">denton()</a></code> function returns the benchmarked high
-frequency series.</p>
+<span><span class="va">y_den2</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, d <span class="op">=</span> <span class="fl">2</span>, mul <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># denton ASD</span></span>
+<span></span>
+<span><span class="co"># Example 2: use of of Denton method for benchmarking atypical frequency data</span></span>
+<span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">500</span>,<span class="fl">510</span>,<span class="fl">525</span>,<span class="fl">520</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">97</span>, <span class="fl">98</span>, <span class="fl">98.5</span>, <span class="fl">99.5</span>, <span class="fl">104</span>,</span>
+<span>       <span class="fl">99</span>, <span class="fl">100</span>, <span class="fl">100.5</span>, <span class="fl">101</span>, <span class="fl">105.5</span>,</span>
+<span>       <span class="fl">103</span>, <span class="fl">104.5</span>, <span class="fl">103.5</span>, <span class="fl">104.5</span>, <span class="fl">109</span>,</span>
+<span>       <span class="fl">104</span>, <span class="fl">107</span>, <span class="fl">103</span>, <span class="fl">108</span>, <span class="fl">113</span>,</span>
+<span>       <span class="fl">110</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">y_denraw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/denton_raw.html">denton_raw</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">Y</span>, freqratio <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="co"># for example, x and Y could be annual and quiquennal series respectively</span></span></code></pre></div>
+<p>The <code><a href="../reference/denton.html">denton()</a></code> and <code><a href="../reference/denton_raw.html">denton_raw()</a></code> functions
+return the high frequency series benchmarked with the Denton method.</p>
 </div>
 <div class="section level3">
 <h3 id="grp">Growth rate preservation (GRP)<a class="anchor" aria-label="anchor" href="#grp"></a>
@@ -343,7 +457,7 @@ f(x) = \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>y</mi><mi>t</mi><mo>*</mo></msubsup><annotation encoding="application/x-tex">y_t^*</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
 which minimize it subject to the temporal aggregation constraints
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T}=Y_T</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_t = Y_T</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>
 (flows variables). In other words, the benchmarked series is estimated
 in such a way that its temporal dynamics; as expressed by the growth
@@ -366,16 +480,36 @@ singularities in the objective function when
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">y_{t-1}</annotation></semantics></math>
 approaches to 0, which could lead to undesirable results (see Daalmans
 et al, 2018).</p>
+<p>The standard objective function for GRP considered by Cauley and
+Trager and defined above means that we apply the benchmarking forward.
+Alternatively, we could apply it backward, which means performing the
+benchmarking on the reversed time series. As previsouly mentionned, this
+is not equivalent when using GRP method. As altenatives, Daalmans et al
+(2018) proposed two other objective functions for GRP (symmetric GRP and
+logarithmic GRP) which are “time symmetric”.</p>
+<p>Backward GRP:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>y</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+f(x) = \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
+</annotation></semantics></math> Symmetric GRP:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo>−</mo><mfrac><msub><mi>x</mi><mi>t</mi></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>y</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+f(x) = \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2 + 
+\frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
+</annotation></semantics></math> Logarithmic GRP:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>t</mi></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+f(x) = \sum_{t=2}^{n}\left(log\left(\frac{y_t}{y_{t-1}}\right) - log\left(\frac{x_t}{x_{t-1}}\right) \right)^2
+</annotation></semantics></math></p>
 <p>The GRP method, corresponding to the method of Cauley and Trager,
 using the solution proposed by Di Fonzo and Marini (2011), can be called
-with the <code><a href="../reference/grp.html">grp()</a></code> function.</p>
+with the <code><a href="../reference/grp.html">grp()</a></code> function. An alternative objective function
+as those suggested by Daalmans et al (2018) can also be considered.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: use GRP method for benchmarking</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_HH"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">y_den0</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">y_den0</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y_den0</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">y_grp</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/grp.html">grp</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">y_grpf</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/grp.html">grp</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span></span>
+<span><span class="va">y_grpl</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/grp.html">grp</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, objective <span class="op">=</span> <span class="st">"Log"</span><span class="op">)</span></span></code></pre></div>
 <p>The <code><a href="../reference/grp.html">grp()</a></code> function returns the high frequency series
 benchmarked with the GRP method.</p>
 </div>
@@ -403,7 +537,128 @@ series benchmarked with cubic spline method.</p>
 <div class="section level3">
 <h3 id="cholette-method">Cholette method<a class="anchor" aria-label="anchor" href="#cholette-method"></a>
 </h3>
-<p>(Upcoming content)</p>
+<p>Cholette method is based on a benchmarking methodology developed at
+Statistics Canada. It is a generalized model relying on the principle of
+movement preservation that encompasses several other benchmarking
+methods. The Denton method (both the AFD and PFD variants), as well as
+the naive pro-rating method, emerge as particular cases of the Cholette
+method.</p>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>T</mi></msub><annotation encoding="application/x-tex">Y_T</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
+be, respectively the temporal benchmarks and the high-frequency
+preliminary values of an unknown target variable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>.
+The objective function of the Cholette method is as follows (Quenneville
+et al, 2006):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>ρ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>−</mo><msub><mi>y</mi><mn>1</mn></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">[</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>t</mi></msub><mo>−</mo><msub><mi>y</mi><mi>t</mi></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mi>t</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ρ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \left[\sum_{t=2}^{n}\left(\frac{x_t - y_t}{|x_t|^\lambda}\right) - \rho \left(\frac{x_{t-1} - y_{t-1}}{|x_{t-1}|^\lambda}\right)\right]^2
+</annotation></semantics></math> This objective function is minimized
+subject to the temporal aggregation constraints
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_t = Y_T</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>
+(flows variables). The method is driven by a couple of parameters:</p>
+<ul>
+<li>The adjustment model parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>∈</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">\lambda \in \mathbb{R}</annotation></semantics></math>.
+Set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\lambda = 1</annotation></semantics></math>
+for a proportional benchmarking model. Two other choices are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\lambda = 0</annotation></semantics></math>
+for an additive benchmarking model; and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\lambda = 0.5</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\rho = 0</annotation></semantics></math>,
+for the naive pro-rating method.<br>
+</li>
+<li>The smoothing parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>ρ</mi><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 \leq \rho \leq 1</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
+determines the degree of movement preservation. When
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\lambda = 1</annotation></semantics></math>,
+the closer
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
+is to 1, the smoother will be the ratios of the benchmarks to the
+corresponding totals in the preliminary series and the better the
+movement of the latter will be preserved.</li>
+</ul>
+<p>Cholette method also provides for the possibility of considering a
+bias correction factor, which is the expected discrepancy between the
+benchmarks and the high-frequency preliminary series. The additive and
+multiplicative bias correction factor are estimated respectively as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>b</mi><mi>a</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><msub><mi>Y</mi><mi>T</mi></msub><mo>−</mo><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></munder><msub><mi>x</mi><mi>t</mi></msub></mrow></mrow><mi>m</mi></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>b</mi><mi>m</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><msub><mi>Y</mi><mi>T</mi></msub></mrow><mrow><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></munder><msub><mi>x</mi><mi>t</mi></msub></mrow></mrow></mfrac></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+b_a &amp;= \frac{\sum_{T=1}^{m}{Y_T} - \sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}{m} \\
+b_m &amp;= \frac{\sum_{T=1}^{m}{Y_T}}{\sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}
+\end{aligned}
+</annotation></semantics></math> If a bias correction factor is
+considered, the preliminary series is re-scaled in the objective
+function above:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>x</mi><mi>t</mi><mo>*</mo></msubsup><annotation encoding="application/x-tex">x_t^*</annotation></semantics></math>
+replaces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>x</mi><mi>t</mi><mo>*</mo></msubsup><mo>=</mo><msub><mi>b</mi><mi>a</mi></msub><mo>+</mo><msub><mi>x</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">x_t^*=b_a+x_t</annotation></semantics></math>
+in the additive case and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>x</mi><mi>t</mi><mo>*</mo></msubsup><mo>=</mo><msub><mi>b</mi><mi>m</mi></msub><mo>×</mo><msub><mi>x</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">x_t^*=b_m \times x_t</annotation></semantics></math>
+in the multiplicative case. The rationale for considering a bias
+correction factor with this method is provided in Dagum and Cholette
+(2006, Ch. 6). It mainly impacts the observations at the end of the
+series that are not covered by a benchmark. In particular, when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\rho &lt; 1</annotation></semantics></math>,
+the Benchmark-to-Indicator ratios (BI ratios) at the end of the series
+converge to the bias correction factor. By default, no bias is
+considered, meaning that we do not expected a systematic bias between
+the benchmarks and the preliminary series
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>a</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">b_a = 0</annotation></semantics></math>
+or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>m</mi></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">b_m = 1</annotation></semantics></math>).</p>
+<p>Cholette method has been widely used to benchmark seasonally adjusted
+series to annual totals derived from the raw series. For this purpose,
+Quenneville et al (2006) argues that an undesirable feature of the
+Denton PFD method is that it repeats the last BI ratio for the
+observations at the end of the series that are not covered by a
+benchmark. For observations without a benchmark, the best estimate of
+the BI-ratio is the estimated value of the bias; so, repeating the last
+value is not appropriate. Instead, to obtain a smooth transition from
+this last BI-ratio to the bias, one can set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\rho &lt; 1</annotation></semantics></math>.
+For observations with a benchmark, the BI-ratios are closer to those
+obtained with the Denton PFD method
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\rho = 1</annotation></semantics></math>)
+and smoother when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>→</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\rho \to 1</annotation></semantics></math>.
+As a pragmatic benchmarking method routinely applicable to large numbers
+of seasonal time series Dagum and Cholette (2006) recommend the
+proportional benchmarking method
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\lambda = 1</annotation></semantics></math>)
+with a value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>0.90</mn></mrow><annotation encoding="application/x-tex">\rho = 0.90</annotation></semantics></math>
+for monthly series and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><msup><mn>0.90</mn><mn>3</mn></msup><mo>=</mo><mn>0.729</mn></mrow><annotation encoding="application/x-tex">\rho = 0.90^3= 0.729</annotation></semantics></math>
+for quarterly series. An alternative would be to estimate the
+autocorrelation structure of the error instead of using those default
+values.</p>
+<p>Cholette method can be called with the <code><a href="../reference/cholette.html">cholette()</a></code>
+function.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example: use Cholette method for benchmarking</span></span>
+<span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_HH"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">xn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">*</span><span class="fl">4</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, <span class="fl">5750</span>, <span class="fl">5800</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">xn</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/start.html" class="external-link">start</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">1</span>, bias <span class="op">=</span> <span class="st">"Multiplicative"</span><span class="op">)</span>  <span class="co"># proportional benchmarking</span></span>
+<span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># proportional benchmarking with no bias (assuming bm=1)</span></span>
+<span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">0</span>, bias <span class="op">=</span> <span class="st">"Additive"</span><span class="op">)</span>  <span class="co"># additive benchmarking </span></span>
+<span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># Denton PFD</span></span>
+<span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="co"># pro-rating</span></span></code></pre></div>
+<p>The <code><a href="../reference/cholette.html">cholette()</a></code> function returns the high frequency
+series benchmarked with the Cholette method.</p>
 </div>
 </div>
 <div class="section level2">
@@ -436,6 +691,15 @@ Principle. <em>IMF WP/11/179</em>.</p>
 Growth Rates Preservation (GRP) temporal benchmarking: Drawbacks and
 alternative solutions. <em>Survey Methodology, June 2018 Vol.44, No.1,
 pp. 43-60 Statistics Canada, Catalogue No. 12-001-X</em>.</p>
+<p>Dagum, E. B., and Cholette, P. A. (2006): Benchmarking, Temporal
+Distribution and Reconciliation Methods of Time Series.
+<em>Springer-Verlag, New York, Lecture notes in Statistics</em>.</p>
+<p>Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006).
+Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
+Statistics Canada. <em>Statistics Canada, Working paper of the Time
+Series Research and Analysis Centre</em>.</p>
+<p>Quilis, EM. (2018). Temporal disaggregation of economic time series -
+The view from the trenches. <em>Statistica Neerlandica, Wiley</em>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -448,7 +712,7 @@ pp. 43-60 Statistics Canada, Catalogue No. 12-001-X</em>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>
