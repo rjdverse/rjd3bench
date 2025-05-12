@@ -1,7 +1,7 @@
 Package: rjd3bench
 Type: Package
 Title: Interface to 'JDemetra+ 3.x' time series analysis software
-Version: 3.0.0
+Version: 3.0.0.9000
 Authors@R: c(
   person("Jean", "Palate", role = "aut",
                 email = "jean.palate@nbb.be"),
@@ -17,7 +17,7 @@ Imports:
   rjd3toolkit (>= 3.5.0),
   RProtoBuf (>= 0.4.20)
 Remotes:
-    github::rjdverse/rjd3toolkit@*release
+    github::rjdverse/rjd3toolkit
 SystemRequirements: Java (>= 17)
 License: EUPL | file LICENSE
 URL: https://github.com/rjdverse/rjd3bench,
