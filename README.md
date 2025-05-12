@@ -7,6 +7,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rjd3bench)](https://CRAN.R-project.org/package=rjd3bench)
+[![Mentioned in Awesome Official
+Statistics](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
 
 [![R-CMD-check](https://github.com/rjdverse/rjd3bench/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rjdverse/rjd3bench/actions/workflows/R-CMD-check.yaml)
 [![lint](https://github.com/rjdverse/rjd3bench/actions/workflows/lint.yaml/badge.svg)](https://github.com/rjdverse/rjd3bench/actions/workflows/lint.yaml)
@@ -15,23 +17,29 @@ status](https://www.r-pkg.org/badges/version/rjd3bench)](https://CRAN.R-project.
 built](https://github.com/rjdverse/rjd3bench/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/rjdverse/rjd3bench/actions/workflows/pkgdown.yaml)
 <!-- badges: end -->
 
-Temporal disaggregation and benchmarking with JDemetra+ v3.x algorithms.
+## Overview
+
+rjd3bench provides a variety of methods for temporal disaggregation &
+interpolation, benchmarking, reconciliation and calendarization.
+
+Temporal disaggregation & interpolation:
+
+- Chow-Lin, Fernandez and Litterman
+- Model-Based Denton
+- Autoregressive Distributed Lag (ADL) models
 
 Benchmarking:
 
 - Denton
-- Cholette (incl. multi-variate)
-- Cubic Splines
 - GRP (Growth Rate Preservation)
-- Calendarization
+- Cubic Splines
+- Cholette
 
-Temporal disaggregation
+Reconciliation and multivariate temporal disaggregation:
 
-- Chow-Lin
-- Fernandez
-- Litterman
-- Model Based Denton
-- ADL (Autoregressive Distributed Lag Models)
+- Multivariate Cholette
+
+Calendarization
 
 ## Installation
 
@@ -47,7 +55,6 @@ To get the current stable version (from the latest release):
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("rjdverse/rjd3toolkit@*release")
 remotes::install_github("rjdverse/rjd3bench@*release")
 ```
 
@@ -77,4 +84,4 @@ should be added or updated.
 
 The code of this project is licensed under the [European Union Public
 Licence
-(EUPL)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12).
+(EUPL)](https://interoperable-europe.ec.europa.eu:443/collection/eupl/eupl-text-eupl-12).

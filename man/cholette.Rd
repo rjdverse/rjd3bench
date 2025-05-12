@@ -2,28 +2,70 @@
 % Please edit documentation in R/benchmark.R
 \name{cholette}
 \alias{cholette}
-\title{Cholette method}
+\title{Benchmarking by means of the Cholette method}
 \usage{
 cholette(
   s,
   t,
   rho = 1,
   lambda = 1,
-  bias = "None",
-  conversion = "Sum",
-  obsposition = 1
+  bias = c("None", "Additive", "Multiplicative"),
+  conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
+  obsposition = 1L
 )
 }
 \arguments{
-\item{s}{Disaggregated series. Mandatory}
+\item{s}{Preliminary series. Mandatory. It must be the same class as t.}
 
-\item{t}{Aggregation constraint. Mandatory}
+\item{t}{Aggregation constraint. Mandatory. It must be either an object of class ts or a numeric vector.}
 
-\item{obsposition}{Postion of the observation in the aggregated period (only used with "UserDefined" conversion)}
+\item{rho}{Numeric. Smoothing parameter whose value should be between 0 and 1. See vignette for more information on the choice of the rho parameter.}
+
+\item{lambda}{Numeric. Adjustment model parameter. Typically, lambda = 1 for proportional benchmarking; lambda = 0 for additive benchmarking; and lambda = 0.5 with rho = 0 for the naive pro-rating method. See vignette for more information on the choice of the lambda parameter.}
+
+\item{bias}{Character. Bias correction factor. No systematic bias is considered by default. See vignette for more details.}
+
+\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by default.}
+
+\item{obsposition}{Position of the observation in the aggregated period (only used with "UserDefined" conversion).}
+}
+\value{
+The benchmarked series is returned
 }
 \description{
-Benchmarking by means of the Cholette method.
+Cholette method is based on a benchmarking methodology developed at
+Statistics Canada. It is a generalized model relying on the principle of
+movement preservation that encompasses several other benchmarking methods.
+The Denton method (both the AFD and PFD variants), as well as the naive
+pro-rating method, emerge as particular cases of the Cholette method.
+This method has been widely used for the purpose of benchmarking seasonally
+adjusted series among others.
 }
-\details{
-\deqn{\sum_{i,t}\left(\left(\frac{{x_{i,t}-z}_{i,t}}{\left|z_{i,t}\right|^\lambda}\right)-\rho\left(\frac{{x_{i,t-1}-z}_{i,t-1}}{\left|z_{i,t-1}\right|^\lambda}\right)\right)^2}
+\examples{
+ym_true <- rjd3toolkit::Retail$RetailSalesTotal
+yq_true <- rjd3toolkit::aggregate(ym_true, 4)
+Y_full <- rjd3toolkit::aggregate(ym_true, 1)
+
+Y <- window(Y_full, end = c(2009,1)) # say no benchmark yet for the year 2010
+xm <- ym_true + rnorm(n = length(ym_true), mean = -5000, sd = 10000)
+xq <- rjd3toolkit::aggregate(xm, 4)
+
+# Proportional benchmarking with a bias and some recommended value of rho for
+# monthly and quarterly series respectively (see vignette)
+cholette(s = xm, t = Y, rho = 0.9, lambda = 1, bias = "Multiplicative")
+cholette(s = xq, t = Y, rho = 0.729, lambda = 1, bias = "Multiplicative")
+
+# Proportional benchmarking with no bias
+xm_no_bias <- ym_true + rnorm(n = length(ym_true), mean = 0, sd = 10000)
+cholette(s = xm_no_bias, t = Y, rho = 0.9, lambda = 1)
+
+# Additive benchmarking
+cholette(s = xm, t = Y, rho = 0.9, lambda = 0, bias = "Additive")
+
+# Denton PFD
+cholette(s = xm, t = Y, rho = 1, lambda = 1)
+
+# Pro-rating
+cholette(s = xm, t = Y, rho = 0, lambda = 0.5)
+
 }
