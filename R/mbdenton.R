@@ -1,9 +1,10 @@
 #' @include utils.R
 NULL
 
-#' Temporal disaggregation of a time series by model-based Denton proportional
-#' method
+#' @title Temporal disaggregation & interpolation of a time series by
+#'   model-based Denton proportional method
 #'
+#' @description
 #' Denton proportional method can be expressed as a statistical model in a State
 #' space representation (see documentation for the definition of states). This
 #' approach is interesting as it allows more flexibility in the model such as
@@ -39,7 +40,7 @@ NULL
 #' # Retail data, monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
-#' td <- rjd3bench::denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
+#' td <- denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
 #' y <- td$estimation$edisagg
 #'
 #' # qna data, quarterly indicator
@@ -47,8 +48,8 @@ NULL
 #' Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 #' x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 #'
-#' td1 <- rjd3bench::denton_modelbased(Y, x)
-#' td2 <- rjd3bench::denton_modelbased(Y, x, outliers = list("2020-04-01" = 100), fixedBIratios = list("2021-04-01" = 39.0))
+#' td1 <- denton_modelbased(Y, x)
+#' td2 <- denton_modelbased(Y, x, outliers = list("2020-04-01" = 100), fixedBIratios = list("2021-04-01" = 39.0))
 #'
 #' bi1 <- td1$estimation$biratio
 #' bi2 <- td2$estimation$biratio
@@ -96,7 +97,8 @@ denton_modelbased <- function(
         biratio = rjd3toolkit::.proc_ts(jrslt, "biratio"),
         ebiratio = rjd3toolkit::.proc_ts(jrslt, "ebiratio")
     )
-    likelihood <- rjd3toolkit::.proc_likelihood(jrslt, "ll")
+    likelihood <- rjd3toolkit::.proc_likelihood(jrslt, "likelihood.")
+    ### likelihood <- .proc_likelihood_modified_tmp(jrslt, "likelihood.") # temporary replacing the previous line to bypass a bug in rjd3toolkit (should be solved in next release)
 
     output <- list(
         estimation = estimation,
@@ -117,7 +119,7 @@ denton_modelbased <- function(
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
-#' td <- rjd3bench::denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
+#' td <- denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
 #' print(td)
 #'
 print.JD3MBDenton <- function(x, ...) {
@@ -144,7 +146,7 @@ print.JD3MBDenton <- function(x, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
-#' td <- rjd3bench::denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
+#' td <- denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
 #' summary(td)
 #'
 summary.JD3MBDenton <- function(object, ...) {
@@ -179,7 +181,7 @@ summary.JD3MBDenton <- function(object, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
+#' td <- temporaldisaggregationI(Y, indicator = x)
 #' plot(td)
 #'
 plot.JD3MBDenton <- function(x, ...) {
@@ -217,3 +219,21 @@ plot.JD3MBDenton <- function(x, ...) {
         )
     }
 }
+
+# TEMPORARY SOLUTION -> Bug to fix in rjd3toolkit
+# in .proc_likelihood(), argument 'neffective' replaced by 'neffectiveobs'
+.proc_likelihood_modified_tmp <- function (jrslt, prefix) {
+    return(list(ll = .proc_numeric(jrslt, paste0(prefix, "ll")),
+                ssq = .proc_numeric(jrslt, paste0(prefix, "ssqerr")),
+                nobs = .proc_int(jrslt, paste0(prefix, "nobs")),
+                neffective = .proc_int(jrslt, paste0(prefix, "neffectiveobs")),
+                nparams = .proc_int(jrslt, paste0(prefix, "nparams")),
+                df = .proc_int(jrslt, paste0(prefix, "df")),
+                aic = .proc_numeric(jrslt, paste0(prefix, "aic")),
+                aicc = .proc_numeric(jrslt, paste0(prefix, "aicc")),
+                bic = .proc_numeric(jrslt, paste0(prefix, "bic")),
+                bic2 = .proc_numeric(jrslt, paste0(prefix, "bic2")),
+                bicc = .proc_numeric(jrslt, paste0(prefix, "bicc")),
+                hannanquinn = .proc_numeric(jrslt, paste0(prefix, "hannanquinn"))))
+}
+

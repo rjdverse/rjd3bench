@@ -8,67 +8,86 @@ NULL
 #' series by regression models. Models included are Chow-Lin, Fernandez,
 #' Litterman and some variants of those algorithms.
 #'
-#' @param series The time series that will be disaggregated. It must be a ts object.
-#' @param constant Constant term (T/F). Only used with Ar1 model when zeroinitialization = F
-#' @param trend Linear trend (T/F)
+#' @param series The low frequency time series that will be disaggregated. It must be a ts object.
+#' @param constant Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.
+#' @param trend Linear trend (T/F, F by default)
 #' @param indicators High-frequency indicator(s) used in the temporal disaggregation.
 #' It must be a (list of) ts object(s).
 #' @param model Model of the error term (at the disaggregated level).
-#' "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman
-#' @param freq Integer. Annual frequency of the disaggregated variable.
-#' Used if no indicator is provided
-#' @param conversion Conversion mode (Usually "Sum" or "Average")
-#' @param conversion.obsposition Integer. Only used with "UserDefined" mode.
-#' Position of the observed indicator in the aggregated periods (for instance 7th month of the year)
-#' @param rho Only used with Ar1/RwAr1 models. (Initial) value of the parameter
+#' "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
+#' @param freq Integer. Annual frequency of the disaggregated series.
+#' Ignored when an indicator is provided.
+#' @param average Average conversion (T/F). Default is F, which means additive conversion.
+#' @param rho (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
 #' @param rho.fixed Fixed rho (T/F, F by default)
-#' @param rho.truncated Range for Rho evaluation (in [rho.truncated, 1[)
-#' @param zeroinitialization The initial values of an auto-regressive model are fixed to 0 (T/F, F by default)
-#' @param diffuse.algorithm Algorithm used for diffuse initialization. "SqrtDiffuse" by default
-#' @param diffuse.regressors Indicates if the coefficients of the regression model are diffuse (T) or fixed unknown (F, default)
+#' @param rho.truncated Range for rho evaluation (in [rho.truncated, 1[)
+#' @param zeroinitialization The initial values of an auto-regressive model are
+#'   fixed to 0 (T/F, F by default)
+#' @param diffuse.algorithm Algorithm used for diffuse initialization.
+#'   "SqrtDiffuse" by default.
+#' @param diffuse.regressors Indicates if the coefficients of the regression
+#'   model are diffuse (T) or fixed unknown (F, default)
+#' @param nbcsts Number of backcast periods. Ignored when an indicator is provided.
+#' @param nfcsts Number of forecast periods. Ignored when an indicator is provided.
 #'
 #' @return An object of class "JD3TempDisagg"
 #' @export
 #'
+#' @seealso \code{\link{temporal_interpolation}},
+#'
+#' \code{\link{temporal_disaggregation_raw}} for temporal disaggregation of atypical frequency series,
+#'
+#' \code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series
+#'
 #' @examples
-#' # Retail data, chow-lin with monthly indicator
+#' # chow-lin with monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregation(Y, indicators = x)
-#' y <- td$estimation$disagg
+#' td <- temporal_disaggregation(Y, indicators = x)
+#' td$estimation$disagg
 #'
-#' # qna data, fernandez with/without quarterly indicator
+#' # fernandez with/without quarterly indicator
 #' data("qna_data")
 #' Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 #' x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
-#' td1 <- rjd3bench::temporaldisaggregation(Y, indicators = x, model = "Rw")
-#' td2 <- rjd3bench::temporaldisaggregation(Y, model = "Rw")
-#' mod1 <- td1$regression$model
+#' td1 <- temporal_disaggregation(Y, indicators = x, model = "Rw")
+#' td1$estimation$disagg
 #'
-temporaldisaggregation <- function(
-        series, constant = TRUE,
+#' td2 <- temporal_disaggregation(Y, model = "Rw", nfcsts = 6)
+#' td2$estimation$disagg
+#'
+#' # chow-lin on index series
+#' Y_index <- 100 * Y / Y[1]
+#' x_index <- 100 * x / x[1]
+#' td3 <- temporal_disaggregation(Y, indicators = x, average = TRUE)
+#' td3$estimation$disagg
+#'
+temporal_disaggregation <- function(
+        series,
+        constant = TRUE,
         trend = FALSE,
         indicators = NULL,
         model = c("Ar1", "Rw", "RwAr1"),
         freq = 4L,
-        conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-        conversion.obsposition = 1L,
+        average = FALSE,
         rho = 0.0,
         rho.fixed = FALSE,
         rho.truncated = 0.0,
         zeroinitialization = FALSE,
         diffuse.algorithm = c("SqrtDiffuse", "Diffuse", "Augmented"),
-        diffuse.regressors = FALSE) {
+        diffuse.regressors = FALSE,
+        nbcsts = 0L,
+        nfcsts = 0L) {
 
-    model <- match.arg(model)
-    conversion <- match.arg(conversion)
+	model <- match.arg(model)
     diffuse.algorithm <- match.arg(diffuse.algorithm)
     if (model != "Ar1" && !zeroinitialization) {
         constant <- FALSE
     }
+
     jseries <- rjd3toolkit::.r2jd_tsdata(series)
-    jlist <- list()
-    if (!is.null(indicators)) {
+	if (!is.null(indicators)) {
+	    jlist <- list()
         if (is.list(indicators)) {
             for (i in seq_along(indicators)) {
                 jlist[[i]] <- rjd3toolkit::.r2jd_tsdata(indicators[[i]])
@@ -79,17 +98,25 @@ temporaldisaggregation <- function(
             stop("Invalid indicators")
         }
         jindicators <- .jarray(jlist, contents.class = "jdplus/toolkit/base/api/timeseries/TsData")
+
+        jrslt <- .jcall(
+            obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
+            returnSig = "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
+            method = "processDisaggregation",
+            jseries, constant, trend, jindicators, model, average, rho, rho.fixed,
+            rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors
+        )
     } else {
-        jindicators <- .jnull("[Ljdplus/toolkit/base/api/timeseries/TsData;")
+        jrslt <- .jcall(
+            obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
+            returnSig = "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
+            method = "processDisaggregation",
+            jseries, constant, trend, model, as.integer(freq), average, rho, rho.fixed,
+            rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors,
+            as.integer(nbcsts), as.integer(nfcsts)
+        )
     }
-    jrslt <- .jcall(
-        obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
-        returnSig = "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
-        method = "process",
-        jseries, constant, trend, jindicators, model, as.integer(freq),
-        conversion, as.integer(conversion.obsposition), rho, rho.fixed,
-        rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors
-    )
+
 
     # Build the S3 result
     bcov <- rjd3toolkit::.proc_matrix(jrslt, "covar")
@@ -102,18 +129,20 @@ temporaldisaggregation <- function(
 
     regression <- list(
         type = model,
-        conversion = conversion,
+        conversion = ifelse(average, "Average", "Sum"),
         model = m,
         cov = bcov
     )
+
+    disagg <- rjd3toolkit::.proc_ts(jrslt, "disagg")
     estimation <- list(
-        disagg = rjd3toolkit::.proc_ts(jrslt, "disagg"),
+        disagg = disagg,
         edisagg = rjd3toolkit::.proc_ts(jrslt, "edisagg"),
         regeffect = rjd3toolkit::.proc_ts(jrslt, "regeffect"),
         smoothingpart = rjd3toolkit::.proc_numeric(jrslt, "smoothingpart"),
         parameter = rjd3toolkit::.proc_numeric(jrslt, "parameter"),
         eparameter = rjd3toolkit::.proc_numeric(jrslt, "eparameter"),
-        residuals = .proc_residuals(jrslt) # temporary solution (see function below)
+        residuals = .proc_residuals(jrslt, stats::frequency(disagg)) # temporary solution (see function below)
     )
     likelihood <- rjd3toolkit::.proc_likelihood(jrslt, "likelihood.")
 
@@ -126,7 +155,511 @@ temporaldisaggregation <- function(
     return(output)
 }
 
-#' Temporal disaggregation using the model: x(t) = a + b y(t), where x(t) is the indicator,
+
+#' @title Temporal disaggregation of an atypical frequency series by regression models.
+#'
+#' @description
+#' Perform temporal disaggregation of low frequency to high frequency time
+#' series by regression models. Models included are Chow-Lin, Fernandez,
+#' Litterman and some variants of those algorithms. This "raw" function extends
+#' the temporal_disaggregation() function in a way that it can deal with any
+#' frequency ratio.
+#'
+#' @param series The low frequency series that will be disaggregated. Must be a numeric vector.
+#' @param constant Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.
+#' @param trend Linear trend (T/F)
+#' @param indicators High-frequency indicator(s) used in the temporal disaggregation.
+#' If not NULL, it must be either a numeric vector or a matrix.
+#' @param startoffset Number of initial observations in the indicator(s) series that are prior to
+#' the start of the period covered by the low-frequency series.
+#' Must be 0 or a positive integer. 0 by default. Ignored when no indicator is provided.
+#' @param model Model of the error term (at the disaggregated level).
+#' "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
+#' @param freqratio Frequency ratio between the disaggregated series and the low frequency series.
+#' Mandatory. Must be a positive integer.
+#' @param average Average conversion (T/F). Default is F, which means additive conversion.
+#' @param rho (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
+#' @param rho.fixed Fixed rho (T/F, F by default)
+#' @param rho.truncated Range for Rho evaluation (in [rho.truncated, 1[)
+#' @param zeroinitialization The initial values of an auto-regressive model are
+#'   fixed to 0 (T/F, F by default)
+#' @param diffuse.algorithm Algorithm used for diffuse initialization.
+#'   "SqrtDiffuse" by default
+#' @param diffuse.regressors Indicates if the coefficients of the regression
+#'   model are diffuse (T) or fixed unknown (F, default)
+#' @param nbcsts Number of backcast periods. Ignored when an indicator is provided.
+#' @param nfcsts Number of forecast periods. Ignored when an indicator is provided.
+#'
+#' @return An object of class "JD3TempDisaggRaw"
+#' @export
+#'
+#' @seealso \code{\link{temporal_interpolation_raw}}
+#'
+#' @examples
+#' # use of chow-lin method to disaggregate a biennial series with an annual indicator
+#' Y <- stats::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 0.5)
+#' x <- stats::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 1)
+#' td <- temporal_disaggregation_raw(as.numeric(Y), indicators = as.numeric(x), freqratio = 2)
+#' td$estimation$disagg
+#'
+#' # use of Fernandez method to disaggregate a series without indicator considering a frequency ratio of 5 (for example, it could be a quinquennial series to disaggregate on an annual basis)
+#' Y2 <- c(500,510,525,520)
+#' td2 <- temporal_disaggregation_raw(Y2, model = "Rw", freqratio = 5, nfcsts = 2)
+#' td2$estimation$disagg
+#'
+#' # same with an indicator, considering an offset in the latter
+#' Y2 <- c(500,510,525,520)
+#' x2 <- c(97,
+#'         98, 98.5, 99.5, 104, 99,
+#'         100, 100.5, 101, 105.5, 103,
+#'         104.5, 103.5, 104.5, 109, 104,
+#'         107, 103, 108, 113, 110)
+#' td3 <- temporal_disaggregation_raw(Y2, indicators = x2, startoffset = 1, model = "Rw", freqratio = 5)
+#' td3$estimation$disagg
+#'
+temporal_disaggregation_raw <- function(
+        series,
+        constant = TRUE,
+        trend = FALSE,
+        indicators = NULL,
+        startoffset = 0L,
+        model = c("Ar1", "Rw", "RwAr1"),
+        freqratio,
+        average = FALSE,
+        rho = 0.0,
+        rho.fixed = FALSE,
+        rho.truncated = 0.0,
+        zeroinitialization = FALSE,
+        diffuse.algorithm = c("SqrtDiffuse", "Diffuse", "Augmented"),
+        diffuse.regressors = FALSE,
+        nbcsts = 0L,
+        nfcsts = 0L) {
+
+    model <- match.arg(model)
+    diffuse.algorithm <- match.arg(diffuse.algorithm)
+    if(!is.vector(series, mode = "numeric")){
+        stop("The input series must be a numeric vector")
+    }
+    if (model != "Ar1" && !zeroinitialization) {
+        constant <- FALSE
+    }
+
+    if (!is.null(indicators)) {
+        if (is.matrix(indicators)) {
+            jindicators <- rjd3toolkit::.r2jd_matrix(indicators)
+        } else if (is.vector(indicators, mode = "numeric")) {
+            jindicators <- rjd3toolkit::.r2jd_matrix(as.matrix(indicators))
+        } else{
+            stop("Indicators must be either a numeric vector or a matrix")
+        }
+        jrslt <- .jcall(
+            obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
+            returnSig = "Ljdplus/benchmarking/base/core/univariate/RawTemporalDisaggregationResults;",
+            method = "processRawDisaggregation",
+            as.numeric(series), constant, trend, jindicators, as.integer(startoffset), model,
+            as.integer(freqratio), average, rho, rho.fixed,
+            rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors
+        )
+    } else{
+        jrslt <- .jcall(
+            obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
+            returnSig = "Ljdplus/benchmarking/base/core/univariate/RawTemporalDisaggregationResults;",
+            method = "processRawDisaggregation",
+            as.numeric(series), constant, trend, model, as.integer(freqratio), average,
+            rho, rho.fixed, rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors,
+            as.integer(nbcsts), as.integer(nfcsts)
+        )
+    }
+
+    # Build the S3 result
+    bcov <- rjd3toolkit::.proc_matrix(jrslt, "covar")
+    vars <- c()
+    if(constant) vars <- "C"
+    if(trend) vars <- c(vars, "Trend")
+    if (!is.null(indicators)) {
+        if (is.matrix(indicators)) {
+            for (i in 1:ncol(indicators)) {
+                vars <- c(vars, paste0("var", i))
+            }
+        }
+        else vars <- c(vars, "var1")
+    }
+    coef <- rjd3toolkit::.proc_vector(jrslt, "coeff")
+    se <- sqrt(diag(bcov))
+    t <- coef/se
+    m <- data.frame(coef, se, t)
+    row.names(m) <- vars
+
+    regression <- list(
+        type = model,
+        conversion = ifelse(average, "Average", "Sum"),
+        model = m,
+        cov = bcov
+    )
+
+    estimation <- list(
+        disagg = rjd3toolkit::.proc_vector(jrslt, "disagg"),
+        edisagg = rjd3toolkit::.proc_vector(jrslt, "edisagg"),
+        regeffect = rjd3toolkit::.proc_vector(jrslt, "regeffect"),
+        smoothingpart = ifelse(!is.null(vars), rjd3toolkit::.proc_numeric(jrslt, "smoothingpart"), NaN),
+        parameter = rjd3toolkit::.proc_numeric(jrslt, "parameter"),
+        eparameter = rjd3toolkit::.proc_numeric(jrslt, "eparameter"),
+        residuals = .proc_residuals(jrslt, freqratio) # temporary solution (see function below)
+    )
+    likelihood <- rjd3toolkit::.proc_likelihood(jrslt, "likelihood.")
+
+    output <- list(
+        regression = regression,
+        estimation = estimation,
+        likelihood = likelihood
+    )
+    class(output) <- "JD3TempDisaggRaw"
+    return(output)
+}
+
+
+#' @title Interpolation of a time series by regression models.
+#'
+#' @description
+#' Perform temporal interpolation of low frequency to high frequency time
+#' series by regression models. Models included are Chow-Lin, Fernandez,
+#' Litterman and some variants of those algorithms.
+#'
+#' @param series The low frequency time series that will be interpolated. It must be a ts object.
+#' @param constant Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.
+#' @param trend Linear trend (T/F, F by default)
+#' @param indicators High-frequency indicator(s) used in the interpolation.
+#' It must be a (list of) ts object(s).
+#' @param model Model of the error term (at the higher-frequency level).
+#' "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
+#' @param freq Integer. Annual frequency of the interpolated series.
+#' Ignored when an indicator is provided.
+#' @param obsposition Integer. Position of the observations of the low frequency
+#'   series in the interpolated series. (e.g. 1st month of the year, 2d month of
+#'   the year, etc.). It must be a positive integer or -1 (the default). The
+#'   default value is equivalent to setting the value of the parameter equal to
+#'   the frequency of the series, meaning that the last value of the
+#'   interpolated series is consistent with the low frequency series.
+#' @param rho (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
+#' @param rho.fixed Fixed rho (T/F, F by default)
+#' @param rho.truncated Range for rho evaluation (in [rho.truncated, 1[)
+#' @param zeroinitialization The initial values of an auto-regressive model are
+#'   fixed to 0 (T/F, F by default)
+#' @param diffuse.algorithm Algorithm used for diffuse initialization.
+#'   "SqrtDiffuse" by default.
+#' @param diffuse.regressors Indicates if the coefficients of the regression
+#'   model are diffuse (T) or fixed unknown (F, default)
+#' @param nbcsts Number of backcast periods. Ignored when an indicator is provided.
+#' @param nfcsts Number of forecast periods. Ignored when an indicator is provided.
+#'
+#' @return An object of class "JD3Interpolation"
+#' @export
+#'
+#' @seealso \code{\link{temporal_disaggregation}},
+#'
+#' \code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series,
+#'
+#' \code{\link{temporal_disaggregation_raw}} for temporal disaggregation of atypical frequency series
+#'
+#' @examples
+#' # chow-lin/fernandez when the last value of the interpolated series is
+#' # consistent with the low frequency series.
+#' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x <- rjd3toolkit::Retail$FoodAndBeverageStores
+#' ti1 <- temporal_interpolation(Y, indicators = x)
+#' ti1$estimation$interp
+#'
+#' ti2 <- temporal_interpolation(Y, indicators = x, model = "Rw")
+#' ti2$estimation$interp
+#'
+#' # same without indicator
+#' ti3 <- temporal_interpolation(Y, model = "Rw", freq = 12, nfcsts = 6)
+#' ti3$estimation$interp
+#'
+#  # chow-lin when the first value of the interpolated series is the one
+#' # consistent with the low frequency series.
+#' ti4 <- temporal_interpolation(Y, indicators = x, obsposition = 1)
+#' ti4$estimation$interp
+#'
+temporal_interpolation <- function(
+        series,
+        constant = TRUE,
+        trend = FALSE,
+        indicators = NULL,
+        model = c("Ar1", "Rw", "RwAr1"),
+        freq = 4L,
+        obsposition = -1L,
+        rho = 0.0,
+        rho.fixed = FALSE,
+        rho.truncated = 0.0,
+        zeroinitialization = FALSE,
+        diffuse.algorithm = c("SqrtDiffuse", "Diffuse", "Augmented"),
+        diffuse.regressors = FALSE,
+        nbcsts = 0L,
+        nfcsts = 0L) {
+
+    model <- match.arg(model)
+    diffuse.algorithm <- match.arg(diffuse.algorithm)
+    if (model != "Ar1" && !zeroinitialization) {
+        constant <- FALSE
+    }
+    if(obsposition > 0){
+        obsposition <- obsposition - 1L
+    }else if (obsposition != -1){
+        stop("obsposition must be set to -1 (default) or a positive integer")
+    }
+
+    jseries <- rjd3toolkit::.r2jd_tsdata(series)
+    if (!is.null(indicators)) {
+        jlist <- list()
+        if (is.list(indicators)) {
+            for (i in seq_along(indicators)) {
+                jlist[[i]] <- rjd3toolkit::.r2jd_tsdata(indicators[[i]])
+            }
+        } else if (is.ts(indicators)) {
+            jlist[[1L]] <- rjd3toolkit::.r2jd_tsdata(indicators)
+        } else {
+            stop("Invalid indicators")
+        }
+        jindicators <- .jarray(jlist, contents.class = "jdplus/toolkit/base/api/timeseries/TsData")
+
+        jrslt <- .jcall(
+            obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
+            returnSig = "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
+            method = "processInterpolation",
+            jseries, constant, trend, jindicators, model, as.integer(obsposition), rho, rho.fixed,
+            rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors
+        )
+    } else {
+        jrslt <- .jcall(
+            obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
+            returnSig = "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
+            method = "processInterpolation",
+            jseries, constant, trend, model, as.integer(freq), as.integer(obsposition), rho, rho.fixed,
+            rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors,
+            as.integer(nbcsts), as.integer(nfcsts)
+        )
+    }
+
+
+    # Build the S3 result
+    bcov <- rjd3toolkit::.proc_matrix(jrslt, "covar")
+    vars <- rjd3toolkit::.proc_vector(jrslt, "regnames")
+    coef <- rjd3toolkit::.proc_vector(jrslt, "coeff")
+    se <- sqrt(diag(bcov))
+    t <- coef / se
+    m <- data.frame(coef, se, t)
+    row.names(m) <- vars
+
+    interp <- rjd3toolkit::.proc_ts(jrslt, "disagg")
+    f <- stats::frequency(interp)
+
+    regression <- list(
+        type = model,
+        obsposition = ifelse(obsposition == -1L, f, obsposition),
+        model = m,
+        cov = bcov
+    )
+
+    estimation <- list(
+        interp = interp,
+        einterp = rjd3toolkit::.proc_ts(jrslt, "edisagg"),
+        regeffect = rjd3toolkit::.proc_ts(jrslt, "regeffect"),
+        smoothingpart = rjd3toolkit::.proc_numeric(jrslt, "smoothingpart"),
+        parameter = rjd3toolkit::.proc_numeric(jrslt, "parameter"),
+        eparameter = rjd3toolkit::.proc_numeric(jrslt, "eparameter"),
+        residuals = .proc_residuals(jrslt, f) # temporary solution (see function below)
+    )
+    likelihood <- rjd3toolkit::.proc_likelihood(jrslt, "likelihood.")
+
+    output <- list(
+        regression = regression,
+        estimation = estimation,
+        likelihood = likelihood
+    )
+    class(output) <- "JD3Interpolation"
+    return(output)
+}
+
+
+#' @title Interpolation of an atypical frequency series by regression models.
+#'
+#' @description
+#' Perform temporal interpolation of low frequency to high frequency time
+#' series by regression models. Models included are Chow-Lin, Fernandez,
+#' Litterman and some variants of those algorithms. This "raw" function extends
+#' the temporal_interpolation() function in a way that it can deal with any
+#' frequency ratio.
+#'
+#' @param series The low frequency series that will be interpolated. Must be a numeric vector.
+#' @param constant Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.
+#' @param trend Linear trend (T/F, F by default)
+#' @param indicators High-frequency indicator(s) used in the interpolation.
+#' If not NULL, it must be either a numeric vector or a matrix.
+#' @param startoffset Number of initial observations in the indicator(s) series
+#'   that are prior to the first observation of the low-frequency series.
+#' Must be 0 or a positive integer. 0 by default. Ignored when no indicator is provided.
+#' @param model Model of the error term (at the higher-frequency level).
+#' "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
+#' @param freqratio Frequency ratio between the interpolated series and the low frequency series.
+#' Mandatory. Must be a positive integer.
+#' @param obsposition Integer. Position of the observations of the low frequency
+#'   series in the interpolated series. (e.g. 1st month of the year, 2d month of
+#'   the year, etc.). It must be a positive integer or -1 (the default). The
+#'   default value is equivalent to setting the value of the parameter equal to
+#'   the frequency of the series, meaning that the last value of the
+#'   interpolated series is consistent with the low frequency series.
+#' @param rho (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
+#' @param rho.fixed Fixed rho (T/F, F by default)
+#' @param rho.truncated Range for Rho evaluation (in [rho.truncated, 1[)
+#' @param zeroinitialization The initial values of an auto-regressive model are
+#'   fixed to 0 (T/F, F by default)
+#' @param diffuse.algorithm Algorithm used for diffuse initialization.
+#'   "SqrtDiffuse" by default
+#' @param diffuse.regressors Indicates if the coefficients of the regression
+#'   model are diffuse (T) or fixed unknown (F, default)
+#' @param nbcsts Number of backcast periods. Ignored when an indicator is provided.
+#' @param nfcsts Number of forecast periods. Ignored when an indicator is provided.
+#'
+#' @return An object of class "JD3InterpolationRaw"
+#' @export
+#' @seealso \code{\link{temporal_disaggregation_raw}}
+#' @examples
+#'
+#' # use of chow-lin method to interpolate a biennial series with an annual indicator
+#' # (low frequency series consistent with the last value of the interpolated series)
+#' Y <- stats::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 0.5)
+#' x <- stats::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 1)
+#' ti <- temporal_interpolation_raw(as.numeric(Y), indicators = as.numeric(x), freqratio = 2)
+#' ti$estimation$interp
+#'
+#' # use of Fernandez method to interpolate a series without indicator considering a frequency ratio of 5 (for example, it could be a quinquennial series to interpolate annually)
+#' # (low frequency series consistent with the last value of the interpolated series)
+#' Y2 <- c(500,510,525,520)
+#' ti2 <- temporal_interpolation_raw(Y2, model = "Rw", freqratio = 5, nbcsts = 1, nfcsts = 2)
+#' ti2$estimation$interp
+#'
+#' # same with an indicator, considering an offset in the latter
+#' Y2 <- c(500,510,525,520)
+#' x2 <- c(485,
+#'         490, 492.5, 497.5, 520, 495,
+#'         500, 502.5, 505, 527.5, 515,
+#'         522.5, 517.5, 522.5, 545, 520,
+#'         535, 515, 540, 565, 550)
+#' ti3 <- temporal_interpolation_raw(Y2, indicators = x2, startoffset = 1, model = "Rw", freqratio = 5)
+#' ti3$estimation$interp
+#'
+#' # same considering that the first value of the interpolated series is the one consistent with the low frequency series
+#' ti4 <- temporal_interpolation_raw(Y2, indicators = x2, startoffset = 1, model = "Rw", freqratio = 5, obsposition = 1)
+#' ti4$estimation$interp
+#'
+temporal_interpolation_raw <- function(
+        series,
+        constant = TRUE,
+        trend = FALSE,
+        indicators = NULL,
+        startoffset = 0L,
+        model = c("Ar1", "Rw", "RwAr1"),
+        freqratio,
+        obsposition = -1L,
+        rho = 0.0,
+        rho.fixed = FALSE,
+        rho.truncated = 0.0,
+        zeroinitialization = FALSE,
+        diffuse.algorithm = c("SqrtDiffuse", "Diffuse", "Augmented"),
+        diffuse.regressors = FALSE,
+        nbcsts = 0L,
+        nfcsts = 0L) {
+
+    model <- match.arg(model)
+    diffuse.algorithm <- match.arg(diffuse.algorithm)
+    if(!is.vector(series, mode = "numeric")){
+        stop("The input series must be a numeric vector")
+    }
+    if (model != "Ar1" && !zeroinitialization) {
+        constant <- FALSE
+    }
+    if(obsposition > 0){
+        obsposition <- obsposition - 1L
+    }else if (obsposition != -1){
+        stop("obsposition must be set to -1 (default) or a positive integer")
+    }
+
+    if (!is.null(indicators)) {
+        if (is.matrix(indicators)) {
+            jindicators <- rjd3toolkit::.r2jd_matrix(indicators)
+        } else if (is.vector(indicators, mode = "numeric")) {
+            jindicators <- rjd3toolkit::.r2jd_matrix(as.matrix(indicators))
+        } else{
+            stop("Indicators must be either a numeric vector or a matrix")
+        }
+        jrslt <- .jcall(
+            obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
+            returnSig = "Ljdplus/benchmarking/base/core/univariate/RawTemporalDisaggregationResults;",
+            method = "processRawInterpolation",
+            as.numeric(series), constant, trend, jindicators, as.integer(startoffset), model,
+            as.integer(freqratio), as.integer(obsposition), rho, rho.fixed,
+            rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors
+        )
+    } else{
+        jrslt <- .jcall(
+            obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
+            returnSig = "Ljdplus/benchmarking/base/core/univariate/RawTemporalDisaggregationResults;",
+            method = "processRawInterpolation",
+            as.numeric(series), constant, trend, model, as.integer(freqratio), as.integer(obsposition),
+            rho, rho.fixed, rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors,
+            as.integer(nbcsts), as.integer(nfcsts)
+        )
+    }
+
+    # Build the S3 result
+    bcov <- rjd3toolkit::.proc_matrix(jrslt, "covar")
+    vars <- c()
+    if(constant) vars <- "C"
+    if(trend) vars <- c(vars, "Trend")
+    if (!is.null(indicators)) {
+        if (is.matrix(indicators)) {
+            for (i in 1:ncol(indicators)) {
+                vars <- c(vars, paste0("var", i))
+            }
+        }
+        else vars <- c(vars, "var1")
+    }
+    coef <- rjd3toolkit::.proc_vector(jrslt, "coeff")
+    se <- sqrt(diag(bcov))
+    t <- coef/se
+    m <- data.frame(coef, se, t)
+    row.names(m) <- vars
+
+    regression <- list(
+        type = model,
+        obsposition = ifelse(obsposition == -1L, freqratio, obsposition),
+        model = m,
+        cov = bcov
+    )
+
+    estimation <- list(
+        interp = rjd3toolkit::.proc_vector(jrslt, "disagg"),
+        einterp = rjd3toolkit::.proc_vector(jrslt, "edisagg"),
+        regeffect = rjd3toolkit::.proc_vector(jrslt, "regeffect"),
+        smoothingpart = ifelse(!is.null(vars), rjd3toolkit::.proc_numeric(jrslt, "smoothingpart"), NaN),
+        parameter = rjd3toolkit::.proc_numeric(jrslt, "parameter"),
+        eparameter = rjd3toolkit::.proc_numeric(jrslt, "eparameter"),
+        residuals = .proc_residuals(jrslt, freqratio) # temporary solution (see function below)
+    )
+    likelihood <- rjd3toolkit::.proc_likelihood(jrslt, "likelihood.")
+
+    output <- list(
+        regression = regression,
+        estimation = estimation,
+        likelihood = likelihood
+    )
+    class(output) <- "JD3InterpolationRaw"
+    return(output)
+}
+
+
+#' @title Temporal disaggregation using the model: x(t) = a + b y(t), where x(t) is the indicator,
 #' y(t) is the unknown target series, with low-frequency constraints on y.
 #'
 #' @param series The time series that will be disaggregated. It must be a ts object.
@@ -146,16 +679,16 @@ temporaldisaggregation <- function(
 #'
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
-#' y <- td$estimation$disagg
+#' td <- temporaldisaggregationI(Y, indicator = x)
+#' td$estimation$disagg
 #'
 #' # qna data, quarterly indicator
 #' data("qna_data")
 #' Y <- ts(qna_data$B1G_Y_data[,"B1G_CE"], frequency = 1, start = c(2009,1))
 #' x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_CE"], frequency = 4, start = c(2009,1))
-#' td <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
-#' a <- td$regression$a
-#' b <- td$regression$b
+#' td <- temporaldisaggregationI(Y, indicator = x)
+#' td$regression$a
+#' td$regression$b
 #'
 temporaldisaggregationI <- function(series, indicator,
                                     conversion = c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition = 1L,
@@ -200,7 +733,7 @@ temporaldisaggregationI <- function(series, indicator,
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregation(Y, indicators = x)
+#' td <- temporaldisaggregation(Y, indicators = x)
 #' print(td)
 #'
 print.JD3TempDisagg <- function(x, ...) {
@@ -215,6 +748,77 @@ print.JD3TempDisagg <- function(x, ...) {
     }
 }
 
+#' Print function for object of class JD3TempDisaggRaw
+#'
+#' @param x an object of class JD3TempDisaggRaw
+#' @param \dots further arguments passed to or from other methods.
+#'
+#' @export
+#'
+#' @examples
+#' Y <- stats::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 0.5)
+#' x <- stats::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 1)
+#' td <- temporal_disaggregation_raw(as.numeric(Y), indicators = as.numeric(x), freqratio = 2)
+#' print(td)
+#'
+print.JD3TempDisaggRaw <- function(x, ...) {
+    if (is.null(x$regression$model)) {
+        cat("Invalid estimation")
+    } else {
+        cat("Model:", x$regression$type, "\n")
+        print(x$regression$model)
+    }
+}
+
+
+#' Print function for object of class JD3Interpolation
+#'
+#' @param x an object of class JD3Interpolation
+#' @param \dots further arguments passed to or from other methods.
+#'
+#' @export
+#'
+#' @examples
+#' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x <- rjd3toolkit::Retail$FoodAndBeverageStores
+#' ti <- temporal_interpolation(Y, indicators = x)
+#' print(ti)
+#'
+print.JD3Interpolation <- function(x, ...) {
+    if (is.null(x$regression$model)) {
+        cat("Invalid estimation")
+    } else {
+        cat("Model:", x$regression$type, "\n")
+        print(x$regression$model)
+
+        cat("\n")
+        cat("Use summary() for more details. \nUse plot() to see the decomposition of the interpolated series.")
+    }
+}
+
+#' Print function for object of class JD3InterpolationRaw
+#'
+#' @param x an object of class JD3InterpolationRaw
+#' @param \dots further arguments passed to or from other methods.
+#'
+#' @export
+#'
+#' @examples
+#' Y <- stats::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 0.5)
+#' x <- stats::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 1)
+#' ti <- temporal_interpolation_raw(as.numeric(Y), indicators = as.numeric(x), freqratio = 2)
+#' print(ti)
+#'
+print.JD3InterpolationRaw <- function(x, ...) {
+    if (is.null(x$regression$model)) {
+        cat("Invalid estimation")
+    } else {
+        cat("Model:", x$regression$type, "\n")
+        print(x$regression$model)
+    }
+}
+
+
 #' Print function for object of class JD3TempDisaggI
 #'
 #' @param x an object of class JD3TempDisaggI
@@ -225,7 +829,7 @@ print.JD3TempDisagg <- function(x, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
+#' td <- temporaldisaggregationI(Y, indicator = x)
 #' print(td)
 #'
 print.JD3TempDisaggI <- function(x, ...) {
@@ -251,10 +855,61 @@ print.JD3TempDisaggI <- function(x, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregation(Y, indicators = x)
+#' td <- temporal_disaggregation(Y, indicators = x)
 #' summary(td)
 #'
 summary.JD3TempDisagg <- function(object, ...) {
+    summary_disagg(object)
+}
+
+#' Summary function for object of class JD3TempDisaggRaw
+#'
+#' @param object an object of class JD3TempDisaggRaw
+#' @param \dots further arguments passed to or from other methods.
+#'
+#' @export
+#'
+#' @examples
+#' Y <- stats::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 0.5)
+#' x <- stats::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 1)
+#' td <- temporal_disaggregation_raw(as.numeric(Y), indicators = as.numeric(x), freqratio = 2)
+#' summary(td)
+#'
+summary.JD3TempDisaggRaw <- function(object, ...) {
+    summary_disagg(object)
+}
+
+#' Summary function for object of class JD3Interpolation
+#'
+#' @param object an object of class JD3Interpolation
+#' @param \dots further arguments passed to or from other methods.
+#'
+#' @export
+#'
+#' @examples
+#' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x <- rjd3toolkit::Retail$FoodAndBeverageStores
+#' ti <- temporal_interpolation(Y, indicators = x)
+#' summary(ti)
+#'
+summary.JD3Interpolation <- function(object, ...) {
+    summary_disagg(object)
+}
+
+#' Summary function for object of class JD3InterpolationRaw
+#'
+#' @param object an object of class JD3InterpolationRaw
+#' @param \dots further arguments passed to or from other methods.
+#'
+#' @export
+#'
+#' @examples
+#' Y <- stats::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 0.5)
+#' x <- stats::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 1)
+#' ti <- temporal_interpolation_raw(as.numeric(Y), indicators = as.numeric(x), freqratio = 2)
+#' summary(ti)
+#'
+summary.JD3InterpolationRaw <- function(object, ...) {
     summary_disagg(object)
 }
 
@@ -268,7 +923,7 @@ summary.JD3TempDisagg <- function(object, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::adl_disaggregation(Y, indicators = x)
+#' td <- adl_disaggregation(Y, indicators = x)
 #' summary(td)
 #'
 summary.JD3AdlDisagg <- function(object, ...) {
@@ -317,7 +972,7 @@ summary_disagg <- function(object) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
+#' td <- temporaldisaggregationI(Y, indicator = x)
 #' summary(td)
 #'
 summary.JD3TempDisaggI <- function(object, ...) {
@@ -355,7 +1010,7 @@ summary.JD3TempDisaggI <- function(object, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregation(Y, indicators = x)
+#' td <- temporal_disaggregation(Y, indicators = x)
 #' plot(td)
 #'
 plot.JD3TempDisagg <- function(x, ...) {
@@ -365,7 +1020,13 @@ plot.JD3TempDisagg <- function(x, ...) {
     } else {
         td_series <- x$estimation$disagg
         reg_effect <- x$estimation$regeffect
-        smoothing_effect <- td_series - reg_effect
+
+        if(is.null(reg_effect)){
+            reg_effect <- ts(rep(0, length(td_series)), start =  stats::start(td_series), frequency = stats::frequency(td_series))
+            smoothing_effect <- td_series
+        }else{
+            smoothing_effect <- td_series - reg_effect
+        }
 
         ts.plot(
             td_series, reg_effect, smoothing_effect,
@@ -387,6 +1048,55 @@ plot.JD3TempDisagg <- function(x, ...) {
     }
 }
 
+#' Plot function for object of class JD3Interpolation
+#'
+#' @param x an object of class JD3Interpolation
+#' @param \dots further arguments to pass to ts.plot.
+#'
+#' @export
+#'
+#' @examples
+#' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
+#' x <- rjd3toolkit::Retail$FoodAndBeverageStores
+#' ti <- temporal_interpolation(Y, indicators = x)
+#' plot(ti)
+#'
+plot.JD3Interpolation <- function(x, ...) {
+    if (is.null(x)) {
+        cat("Invalid estimation")
+
+    } else {
+        ti_series <- x$estimation$interp
+        reg_effect <- x$estimation$regeffect
+
+        if(is.null(reg_effect)){
+            reg_effect <- ts(rep(0, length(ti_series)), start =  stats::start(ti_series), frequency = stats::frequency(ti_series))
+            smoothing_effect <- ti_series
+        }else{
+            smoothing_effect <- ti_series - reg_effect
+        }
+
+        ts.plot(
+            ti_series, reg_effect, smoothing_effect,
+            gpars = list(
+                col = c("orange", "green", "blue"),
+                xlab = "",
+                xaxt = "n",
+                las = 2L,
+                ...
+            )
+        )
+        axis(side = 1L, at = start(ti_series)[1L]:end(ti_series)[1L])
+        legend("topleft",
+               c("interpolated series", "regression effect", "smoothing effect"),
+               lty = 1L,
+               col = c("orange", "green", "blue"),
+               bty = "n",
+               cex = 0.8)
+    }
+}
+
+
 #' Plot function for object of class JD3TempDisaggI
 #'
 #' @param x an object of class JD3TempDisaggI
@@ -397,7 +1107,7 @@ plot.JD3TempDisagg <- function(x, ...) {
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
+#' td <- temporaldisaggregationI(Y, indicator = x)
 #' plot(td)
 #'
 plot.JD3TempDisaggI <- function(x, ...) {
@@ -413,7 +1123,7 @@ plot.JD3TempDisaggI <- function(x, ...) {
 
 # TEMPORARY SOLUTION
 # For the next release, we should use proto and move the functions to rjd3toolkit
-.proc_residuals <- function(jrslt) {
+.proc_residuals <- function (jrslt, f){
 
     z <- rjd3toolkit::.jd3_object(jrslt, "TD", TRUE)
 
@@ -428,7 +1138,9 @@ plot.JD3TempDisaggI <- function(x, ...) {
                             get_result_item(z, "residuals.lruns"),
                             get_result_item(z, "residuals.nudruns"),
                             get_result_item(z, "residuals.ludruns"))
-    linearity_test <- tryCatch(rjd3toolkit::ljungbox(full_residuals^2L, k = 8L, lag = 1L, mean = TRUE), error = function(err) NaN)
+
+    nk <- ifelse(get_result_item(z, "likelihood.nobs") > 2*f+1, 2*f, f)
+    linearity_test <- tryCatch(rjd3toolkit::ljungbox(full_residuals^2L, k = nk, lag = 1L, mean = TRUE), error = function(err) NaN)
 
     normality <- matrix(
         data = unlist(extr_normality),
@@ -465,7 +1177,6 @@ plot.JD3TempDisaggI <- function(x, ...) {
                              independence = round(independence, 4L),
                              randomness = round(randomness, 4L),
                              linearity = round(linearity, 4L))))
-
 }
 
 get_result_item <- function(jd3_obj, item) {

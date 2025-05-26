@@ -2,7 +2,7 @@
 % Please edit documentation in R/adl.R
 \name{adl_disaggregation}
 \alias{adl_disaggregation}
-\title{Temporal disaggregation of a time series with ADL models}
+\title{Temporal disaggregation & interpolation of a time series with ADL models}
 \usage{
 adl_disaggregation(
   series,
@@ -21,14 +21,14 @@ adl_disaggregation(
 \item{xar}{}
 }
 \description{
-Temporal disaggregation of a time series with ADL models
+Temporal disaggregation & interpolation of a time series with ADL models
 }
 \examples{
 # qna data, fernandez with/without quarterly indicator
 data("qna_data")
 Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
-td1 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
-td2 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME")
+td1 <- adl_disaggregation(Y, indicators = x, xar = "FREE")
+td2 <- adl_disaggregation(Y, indicators = x, xar = "SAME")
 
 }
