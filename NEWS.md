@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+* Add function documentation and vignette for multivariate Cholette 
+
 ## [3.0.0] - 2025-05-12
 
 ### Added

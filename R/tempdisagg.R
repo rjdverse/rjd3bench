@@ -33,7 +33,7 @@ NULL
 #' @return An object of class "JD3TempDisagg"
 #' @export
 #'
-#' @seealso \code{\link{temporal_interpolation}},
+#' @seealso \code{\link{temporal_interpolation}} for interpolation,
 #'
 #' \code{\link{temporal_disaggregation_raw}} for temporal disaggregation of atypical frequency series,
 #'

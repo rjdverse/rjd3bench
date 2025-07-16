@@ -269,14 +269,14 @@ y_cs2 <- rjd3bench::cubicspline(s = x, t = Y) # example of cubic spline with a h
 ```
 The `cubicspline()` function returns the high frequency series benchmarked with cubic spline method.
 
-## Cholette method
+## Cholette method {#cholette}
 
-Cholette method is based on a benchmarking methodology developed at Statistics Canada. It is a generalized model relying on the principle of movement preservation that encompasses several other benchmarking methods. The Denton method (both the AFD and PFD variants), as well as the naive pro-rating method, emerge as particular cases of the Cholette method.
+Cholette method is based on a benchmarking methodology developed at Statistics Canada. It is a generalized method relying on the principle of movement preservation that encompasses other benchmarking methods. The Denton method (both the AFD and PFD variants), as well as the naive pro-rating method, emerge as particular cases of the Cholette method.
 
 Let $Y_T$, $T=1,...,m$, and $x_t$, $t=1,...,n$, be, respectively the temporal benchmarks and the high-frequency preliminary values of an unknown target variable $y_t$. The objective function of the Cholette method is as follows (Quenneville et al, 2006):
 
 $$
-f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \left[\sum_{t=2}^{n}\left(\frac{x_t - y_t}{|x_t|^\lambda}\right) - \rho \left(\frac{x_{t-1} - y_{t-1}}{|x_{t-1}|^\lambda}\right)\right]^2
+f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \sum_{t=2}^{n}\left[\left(\frac{x_t - y_t}{|x_t|^\lambda}\right) - \rho \left(\frac{x_{t-1} - y_{t-1}}{|x_{t-1}|^\lambda}\right)\right]^2
 $$
 This objective function is minimized subject to the temporal aggregation constraints $\sum_{t\epsilon T} y_t = Y_T$, $T=1,...,m$ (flows variables). The method is driven by a couple of parameters: 
 
@@ -311,12 +311,67 @@ rjd3bench::cholette(s = x, t = Y, rho = 0, lambda = 0.5) # pro-rating
 
 The `cholette()` function returns the high frequency series benchmarked with the Cholette method.
 
+It should be noted that, in practice, the benchmarked series is estimated based on an equivalent state space representation of the Cholette method described above, which makes it possible to obtain estimates in a very efficient way.
+
 
 # Reconciliation and multivariate temporal disaggregation
 
 ## Multivariate Cholette
 
-(Upcoming content)
+This is a multivariate extension of the [Cholette benchmarking method](#cholette) which can be used for the purpose of reconciliation. While standard benchmarking methods consider one target series at a time, reconciliation techniques aim to restore consistency in a system of time series with regards to both contemporaneous and temporal constraints. Reconciliation techniques are typically needed when the total and its components are estimated independently (the so-called direct approach). The multivariate Cholette method relies on the principle of movement preservation and encompasses other reconciliation methods such as the multivariate Denton method. 
+
+Let 
+
+* $Y_{i,T}$, $T=1,...,m$, $i=1,...,I$, be the set of temporal benchmarks
+* $z_{k,t}$, $t=1,...,n$, $k=1,...,K$, be the set of contemporaneous constraints
+* $x_{i,t}$ be the high-frequency preliminary values of the set of the unknown target variables $y_{i,t}$.
+
+The objective function of the multivariate Cholette method is:
+$$
+f(x) = (1-\rho^2) \sum_{i=1}^{I}\left(\frac{x_{i,1} - y_{i,1}}{|x_{i,1}|^\lambda}\right)^2 + \sum_{i=1}^{I}\sum_{t=2}^{n}\left[\left(\frac{x_{i,t} - y_{i,t}}{|x_{i,t}|^\lambda}\right) - \rho \left(\frac{x_{i,t-1} - y_{i,t-1}}{|x_{i,t-1}|^\lambda}\right)\right]^2
+$$
+This objective function is minimized subject to 
+
+* the temporal aggregation constraints $\sum_{t\epsilon T} y_{i,t} = Y_{i,T}$, and 
+* the contemporaneous constraints given by $\sum_{j\epsilon J_k}\omega_{k,j}x_{j,t} = z_{k,t}$.
+
+The method may also be considered in absence of temporal aggregation constraints. The contemporaneous constraints are then imposed by altering the dynamic movements of the series as little as possible. On the other hand, the absence of contemporaneous constraint is less relevant, as this is just equivalent to applying the univariate Cholette method to each of the preliminary series separately.
+
+As in the univariate case, the multivariate Cholette method is driven by a couple of parameters: 
+
+- The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$. Set $\lambda = 0$ for an additive benchmarking model and $\lambda$ close to 1 to approach a proportional benchmarking model. Unlike the univariate case, considering a pure proportional model by setting $\lambda = 1$ is not recommended. Indeed, due to the addition of the contemporaneous constraints, the fact that only the ratio between the benchmarked series and the preliminary series is being preserved (and not at all the level of the preliminary series) may result in benchmarked series whose level are very different from the preliminary series. Finally, the naive pro-rating method corresponds to setting $\lambda = 0.5$ with $\rho = 0$.
+
+- The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$ determines the degree of movement preservation. When $\lambda = 1$, the closer $\rho$ is to 1, the smoother will be the ratios of the benchmarks to the corresponding totals in the preliminary series and the better the movement of the latter will be preserved.
+
+The multivariate Cholette method can be called with the `multivariatecholette()` function. 
+```{r}
+# Example: use the multivariate Cholette method for reconciliation
+x1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
+x2 <- ts(c(18, 19.5, 19.0, 19.7, 18.5, 19.0, 20.3, 20.0), frequency = 4, start = c(2010, 1))
+x3 <- ts(c(1.5, 1.8, 2, 2.5, 2.0, 1.5, 1.7, 2.0), frequency = 4, start = c(2010, 1))
+
+z <- ts(c(27.1, 29.8, 29.9, 31.2, 29.3, 27.9, 30.9, 31.8), frequency = 4, start = c(2010, 1))
+
+Y1 <- ts(c(30.0, 30.6), frequency = 1, start = c(2010, 1))
+Y2 <- ts(c(80.0, 81.2), frequency = 1, start = c(2010, 1))
+Y3 <- ts(c(8.0, 8.1), frequency = 1, start = c(2010, 1))
+
+### check consistency between temporal and contemporaneous constraints
+lfs <- cbind(Y1,Y2,Y3)
+rowSums(lfs) - stats::aggregate.ts(z) # should all be 0
+
+data_list <- list(x1 = x1, x2 = x2, x3 = x3, z = z, Y1 = Y1, Y2 = Y2, Y3 = Y3)
+tc <- c("Y1 = sum(x1)", "Y2 = sum(x2)", "Y3 = sum(x3)") # temporal constraints
+cc <- c("z = x1+x2+x3") # contemporaneous constraints
+
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5) # Denton
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729, lambda = .5) # Cholette
+multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc, rho = 1, lambda = .5) # no temporal constraints
+```
+
+The `multivariatecholette()` function returns a list of benchmarked series, fulfilling both the contemporary and the temporal constraints (if any).
+
+It should be noted that, in practice, the benchmarked series are estimated based on an equivalent state space representation of the multivariate Cholette method described above, which makes it possible to obtain estimates in a very efficient way.
 
 # Calendarization
 
