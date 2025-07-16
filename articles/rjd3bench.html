@@ -535,13 +535,13 @@ function. Here are a few examples on how to use it:</p>
 series benchmarked with cubic spline method.</p>
 </div>
 <div class="section level3">
-<h3 id="cholette-method">Cholette method<a class="anchor" aria-label="anchor" href="#cholette-method"></a>
+<h3 id="cholette">Cholette method<a class="anchor" aria-label="anchor" href="#cholette"></a>
 </h3>
 <p>Cholette method is based on a benchmarking methodology developed at
-Statistics Canada. It is a generalized model relying on the principle of
-movement preservation that encompasses several other benchmarking
-methods. The Denton method (both the AFD and PFD variants), as well as
-the naive pro-rating method, emerge as particular cases of the Cholette
+Statistics Canada. It is a generalized method relying on the principle
+of movement preservation that encompasses other benchmarking methods.
+The Denton method (both the AFD and PFD variants), as well as the naive
+pro-rating method, emerge as particular cases of the Cholette
 method.</p>
 <p>Let
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>T</mi></msub><annotation encoding="application/x-tex">Y_T</annotation></semantics></math>,
@@ -554,8 +554,8 @@ preliminary values of an unknown target variable
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>.
 The objective function of the Cholette method is as follows (Quenneville
 et al, 2006):</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>ρ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>−</mo><msub><mi>y</mi><mn>1</mn></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">[</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>t</mi></msub><mo>−</mo><msub><mi>y</mi><mi>t</mi></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mi>t</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ρ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
-f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \left[\sum_{t=2}^{n}\left(\frac{x_t - y_t}{|x_t|^\lambda}\right) - \rho \left(\frac{x_{t-1} - y_{t-1}}{|x_{t-1}|^\lambda}\right)\right]^2
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>ρ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>−</mo><msub><mi>y</mi><mn>1</mn></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>t</mi></msub><mo>−</mo><msub><mi>y</mi><mi>t</mi></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mi>t</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ρ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \sum_{t=2}^{n}\left[\left(\frac{x_t - y_t}{|x_t|^\lambda}\right) - \rho \left(\frac{x_{t-1} - y_{t-1}}{|x_{t-1}|^\lambda}\right)\right]^2
 </annotation></semantics></math> This objective function is minimized
 subject to the temporal aggregation constraints
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_t = Y_T</annotation></semantics></math>,
@@ -659,6 +659,10 @@ function.</p>
 <span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="co"># pro-rating</span></span></code></pre></div>
 <p>The <code><a href="../reference/cholette.html">cholette()</a></code> function returns the high frequency
 series benchmarked with the Cholette method.</p>
+<p>It should be noted that, in practice, the benchmarked series is
+estimated based on an equivalent state space representation of the
+Cholette method described above, which makes it possible to obtain
+estimates in a very efficient way.</p>
 </div>
 </div>
 <div class="section level2">
@@ -667,7 +671,118 @@ series benchmarked with the Cholette method.</p>
 <div class="section level3">
 <h3 id="multivariate-cholette">Multivariate Cholette<a class="anchor" aria-label="anchor" href="#multivariate-cholette"></a>
 </h3>
-<p>(Upcoming content)</p>
+<p>This is a multivariate extension of the <a href="#cholette">Cholette
+benchmarking method</a> which can be used for the purpose of
+reconciliation. While standard benchmarking methods consider one target
+series at a time, reconciliation techniques aim to restore consistency
+in a system of time series with regards to both contemporaneous and
+temporal constraints. Reconciliation techniques are typically needed
+when the total and its components are estimated independently (the
+so-called direct approach). The multivariate Cholette method relies on
+the principle of movement preservation and encompasses other
+reconciliation methods such as the multivariate Denton method.</p>
+<p>Let</p>
+<ul>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mrow><mi>i</mi><mo>,</mo><mi>T</mi></mrow></msub><annotation encoding="application/x-tex">Y_{i,T}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">i=1,...,I</annotation></semantics></math>,
+be the set of temporal benchmarks</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mrow><mi>k</mi><mo>,</mo><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">z_{k,t}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,...,K</annotation></semantics></math>,
+be the set of contemporaneous constraints</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">x_{i,t}</annotation></semantics></math>
+be the high-frequency preliminary values of the set of the unknown
+target variables
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">y_{i,t}</annotation></semantics></math>.</li>
+</ul>
+<p>The objective function of the multivariate Cholette method is:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>ρ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ρ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><msup><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>λ</mi></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+f(x) = (1-\rho^2) \sum_{i=1}^{I}\left(\frac{x_{i,1} - y_{i,1}}{|x_{i,1}|^\lambda}\right)^2 + \sum_{i=1}^{I}\sum_{t=2}^{n}\left[\left(\frac{x_{i,t} - y_{i,t}}{|x_{i,t}|^\lambda}\right) - \rho \left(\frac{x_{i,t-1} - y_{i,t-1}}{|x_{i,t-1}|^\lambda}\right)\right]^2
+</annotation></semantics></math> This objective function is minimized
+subject to</p>
+<ul>
+<li>the temporal aggregation constraints
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>Y</mi><mrow><mi>i</mi><mo>,</mo><mi>T</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_{i,t} = Y_{i,T}</annotation></semantics></math>,
+and</li>
+<li>the contemporaneous constraints given by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>j</mi><mi>ϵ</mi><msub><mi>J</mi><mi>k</mi></msub></mrow></msub><msub><mi>ω</mi><mrow><mi>k</mi><mo>,</mo><mi>j</mi></mrow></msub><msub><mi>x</mi><mrow><mi>j</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>z</mi><mrow><mi>k</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\sum_{j\epsilon J_k}\omega_{k,j}x_{j,t} = z_{k,t}</annotation></semantics></math>.</li>
+</ul>
+<p>The method may also be considered in absence of temporal aggregation
+constraints. The contemporaneous constraints are then imposed by
+altering the dynamic movements of the series as little as possible. On
+the other hand, the absence of contemporaneous constraint is less
+relevant, as this is just equivalent to applying the univariate Cholette
+method to each of the preliminary series separately.</p>
+<p>As in the univariate case, the multivariate Cholette method is driven
+by a couple of parameters:</p>
+<ul>
+<li><p>The adjustment model parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>∈</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">\lambda \in \mathbb{R}</annotation></semantics></math>.
+Set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\lambda = 0</annotation></semantics></math>
+for an additive benchmarking model and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+close to 1 to approach a proportional benchmarking model. Unlike the
+univariate case, considering a pure proportional model by setting
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\lambda = 1</annotation></semantics></math>
+is not recommended. Indeed, due to the addition of the contemporaneous
+constraints, the fact that only the ratio between the benchmarked series
+and the preliminary series is being preserved (and not at all the level
+of the preliminary series) may result in benchmarked series whose level
+are very different from the preliminary series. Finally, the naive
+pro-rating method corresponds to setting
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\lambda = 0.5</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\rho = 0</annotation></semantics></math>.</p></li>
+<li><p>The smoothing parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>ρ</mi><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 \leq \rho \leq 1</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
+determines the degree of movement preservation. When
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\lambda = 1</annotation></semantics></math>,
+the closer
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
+is to 1, the smoother will be the ratios of the benchmarks to the
+corresponding totals in the preliminary series and the better the
+movement of the latter will be preserved.</p></li>
+</ul>
+<p>The multivariate Cholette method can be called with the
+<code><a href="../reference/multivariatecholette.html">multivariatecholette()</a></code> function.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example: use the multivariate Cholette method for reconciliation</span></span>
+<span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7.2</span>, <span class="fl">8.1</span>, <span class="fl">7.5</span>, <span class="fl">8.5</span>, <span class="fl">7.8</span>, <span class="fl">8.1</span>, <span class="fl">8.4</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">19.5</span>, <span class="fl">19.0</span>, <span class="fl">19.7</span>, <span class="fl">18.5</span>, <span class="fl">19.0</span>, <span class="fl">20.3</span>, <span class="fl">20.0</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">1.8</span>, <span class="fl">2</span>, <span class="fl">2.5</span>, <span class="fl">2.0</span>, <span class="fl">1.5</span>, <span class="fl">1.7</span>, <span class="fl">2.0</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">27.1</span>, <span class="fl">29.8</span>, <span class="fl">29.9</span>, <span class="fl">31.2</span>, <span class="fl">29.3</span>, <span class="fl">27.9</span>, <span class="fl">30.9</span>, <span class="fl">31.8</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30.0</span>, <span class="fl">30.6</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">Y2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">80.0</span>, <span class="fl">81.2</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">Y3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8.0</span>, <span class="fl">8.1</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">### check consistency between temporal and contemporaneous constraints</span></span>
+<span><span class="va">lfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">Y1</span>,<span class="va">Y2</span>,<span class="va">Y3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">lfs</span><span class="op">)</span> <span class="op">-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate.ts</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="co"># should all be 0</span></span>
+<span></span>
+<span><span class="va">data_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x1 <span class="op">=</span> <span class="va">x1</span>, x2 <span class="op">=</span> <span class="va">x2</span>, x3 <span class="op">=</span> <span class="va">x3</span>, z <span class="op">=</span> <span class="va">z</span>, Y1 <span class="op">=</span> <span class="va">Y1</span>, Y2 <span class="op">=</span> <span class="va">Y2</span>, Y3 <span class="op">=</span> <span class="va">Y3</span><span class="op">)</span></span>
+<span><span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Y1 = sum(x1)"</span>, <span class="st">"Y2 = sum(x2)"</span>, <span class="st">"Y3 = sum(x3)"</span><span class="op">)</span> <span class="co"># temporal constraints</span></span>
+<span><span class="va">cc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z = x1+x2+x3"</span><span class="op">)</span> <span class="co"># contemporaneous constraints</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="co"># Denton</span></span>
+<span><span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="co"># Cholette</span></span>
+<span><span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="cn">NULL</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="co"># no temporal constraints</span></span></code></pre></div>
+<p>The <code><a href="../reference/multivariatecholette.html">multivariatecholette()</a></code> function returns a list of
+benchmarked series, fulfilling both the contemporary and the temporal
+constraints (if any).</p>
+<p>It should be noted that, in practice, the benchmarked series are
+estimated based on an equivalent state space representation of the
+multivariate Cholette method described above, which makes it possible to
+obtain estimates in a very efficient way.</p>
 </div>
 </div>
 <div class="section level2">
@@ -712,7 +827,7 @@ The view from the trenches. <em>Statistica Neerlandica, Wiley</em>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
