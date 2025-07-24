@@ -34,8 +34,8 @@ The benchmarked series is returned
 }
 \description{
 Cholette method is based on a benchmarking methodology developed at
-Statistics Canada. It is a generalized model relying on the principle of
-movement preservation that encompasses several other benchmarking methods.
+Statistics Canada. It is a generalized method relying on the principle of
+movement preservation that encompasses other benchmarking methods.
 The Denton method (both the AFD and PFD variants), as well as the naive
 pro-rating method, emerge as particular cases of the Cholette method.
 This method has been widely used for the purpose of benchmarking seasonally
