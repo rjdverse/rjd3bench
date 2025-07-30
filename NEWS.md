@@ -7,7 +7,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
 * Add function documentation and vignette for multivariate Cholette 
+
+### Changed 
+
+* Re-ordering of the returned benchmarked series in multivariate Cholette
+* Default value of lambda is changed to 0 in multivariate Cholette
+ 
 
 ## [3.0.0] - 2025-05-12
 
