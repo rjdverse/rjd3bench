@@ -68,7 +68,7 @@ reconciliation methods such as the multivariate Denton method.</p>
 <span>  tcvector <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ccvector <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rho <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  lambda <span class="op">=</span> <span class="fl">1</span></span>
+<span>  lambda <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -102,7 +102,7 @@ weights, "x1,...,xn" are the names of the high-frequency preliminary series
 and c is a constant. The "+" operator can be replaced by "-". The names of
 the contemporaneous constraint(s) and the preliminary series are the one
 given in the 'xlist' argument. Note that any series put on the left
-hand side can’t appear on the right hand side of any other constraint. This
+hand side cannot appear on the right hand side of any other constraint. This
 is because left hand side quantities are fixed while right hand side
 quantities are adjusted so the equality holds. Default is NULL, which means
 that no contemporaneous constraint is considered. This is equivalent to
@@ -117,11 +117,12 @@ separately.</p></dd>
 
 <dt id="arg-lambda">lambda<a class="anchor" aria-label="anchor" href="#arg-lambda"></a></dt>
 <dd><p>Numeric. Adjustment model parameter. Typically, lambda = 0 for
-additive benchmarking and lambda close to 1 to approach a proportional
-benchmarking. Unlike in the univariate case, setting lambda = 1 is not a
-recommended option as it may result in benchmarked series whose level
-differs strongly from the preliminary series. See vignette for more
-information on the choice of the lambda parameter.</p></dd>
+additive benchmarking and lambda close to 1 to approach proportional
+benchmarking. Setting lambda = 1 is also an option but it should be used
+with caution as, in the case of a multivariate model, it may sometimes
+result in benchmarked series whose level differs strongly from the
+preliminary series. See vignette for more information on the choice of the
+lambda parameter.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -235,7 +236,7 @@ information on the choice of the lambda parameter.</p></dd>
 <span class="r-in"><span><span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Y1=sum(x1)"</span>, <span class="st">"Y2=sum(x2)"</span>, <span class="st">"Y3=sum(x3)"</span>, <span class="st">"Y4=sum(x4)"</span>, <span class="st">"Y5=sum(x5)"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z1=x1+3*x2+0.5*x3+x4+x5"</span>, <span class="st">"0=x1+x2-x4"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span><span class="va">data.list</span>, <span class="va">tc</span>, <span class="va">cc</span>, rho<span class="op">=</span><span class="fl">1</span>, lambda<span class="op">=</span><span class="fl">.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data.list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.461426 7.453406 7.724638 7.360531</span>

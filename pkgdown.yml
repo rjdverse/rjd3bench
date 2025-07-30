@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   rjd3bench: rjd3bench.html
-last_built: 2025-07-24T07:43Z
+last_built: 2025-07-30T10:41Z
 urls:
   reference: https://rjdverse.github.io/rjd3bench/reference
   article: https://rjdverse.github.io/rjd3bench/articles
