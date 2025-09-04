@@ -372,7 +372,7 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'   and c is a constant. The "+" operator can be replaced by "-". The names of
 #'   the contemporaneous constraint(s) and the preliminary series are the one
 #'   given in the 'xlist' argument. Note that any series put on the left
-#'   hand side can’t appear on the right hand side of any other constraint. This
+#'   hand side cannot appear on the right hand side of any other constraint. This
 #'   is because left hand side quantities are fixed while right hand side
 #'   quantities are adjusted so the equality holds. Default is NULL, which means
 #'   that no contemporaneous constraint is considered. This is equivalent to
@@ -381,11 +381,12 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #' @param rho Numeric. Smoothing parameter whose value should be between 0 and
 #'   1. See vignette for more information on the choice of the rho parameter.
 #' @param lambda Numeric. Adjustment model parameter. Typically, lambda = 0 for
-#'   additive benchmarking and lambda close to 1 to approach a proportional
-#'   benchmarking. Unlike in the univariate case, setting lambda = 1 is not a
-#'   recommended option as it may result in benchmarked series whose level
-#'   differs strongly from the preliminary series. See vignette for more
-#'   information on the choice of the lambda parameter.
+#'   additive benchmarking and lambda close to 1 to approach proportional
+#'   benchmarking. Setting lambda = 1 is also an option but it should be used
+#'   with caution as, in the case of a multivariate model, it may sometimes
+#'   result in benchmarked series whose level differs strongly from the
+#'   preliminary series. See vignette for more information on the choice of the
+#'   lambda parameter.
 #'
 #' @return a named list with the benchmarked series is returned
 #' @export
@@ -440,9 +441,9 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #' tc <- c("Y1=sum(x1)", "Y2=sum(x2)", "Y3=sum(x3)", "Y4=sum(x4)", "Y5=sum(x5)")
 #' cc <- c("z1=x1+3*x2+0.5*x3+x4+x5", "0=x1+x2-x4")
 #'
-#' multivariatecholette(data.list, tc, cc, rho=1, lambda=.5)
+#' multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5)
 #'
-multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 1., lambda = 1.) {
+multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 1., lambda = 0.) {
     if (!is.list(xlist) || length(xlist) < 3L) {
         stop("incorrect argument, first argument should be a list of at least 3 time series")
     }
@@ -480,7 +481,7 @@ multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 
         return(NULL)
     }
     rlist <- list()
-    rnames <- .jcall(jd_rslt, "[S", "names")
+    rnames <- intersect(names(xlist), .jcall(jd_rslt, "[S", "names"))
     for (i in seq_along(rnames)) {
         jts <- .jcall(jd_rslt, "Ljdplus/toolkit/base/api/timeseries/TsData;", "get", rnames[i])
         if (! is.jnull(jts)) {
