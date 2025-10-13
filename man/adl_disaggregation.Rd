@@ -14,11 +14,12 @@ adl_disaggregation(
   phi = 0,
   phi.fixed = FALSE,
   phi.truncated = 0,
-  xar = c("FREE", "SAME", "NONE")
+  xar = c("FREE", "SAME", "NONE"),
+  ssf.type = c("TRANSITION", "CUMUL")
 )
 }
 \arguments{
-\item{xar}{}
+\item{ssf.type}{}
 }
 \description{
 Temporal disaggregation & interpolation of a time series with ADL models
