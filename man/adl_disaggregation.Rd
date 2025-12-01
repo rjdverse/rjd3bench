@@ -25,7 +25,6 @@ adl_disaggregation(
 Temporal disaggregation & interpolation of a time series with ADL models
 }
 \examples{
-# qna data, fernandez with/without quarterly indicator
 data("qna_data")
 Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))

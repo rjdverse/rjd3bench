@@ -1,3 +1,33 @@
+# v3.1.0
+# Temporal disaggregation & interpolation of a time series with ADL models
+#
+# @param series The low frequency time series that will be disaggregated. It must be a ts object.
+# @param constant Constant term (T/F). Not used when phi is fixed to 1.
+# @param trend Linear trend (T/F, F by default)
+# @param indicators High-frequency indicator(s). It must be a (list of) ts object(s).
+# @param average Average conversion (T/F). Default is F, which means additive conversion.
+# @param phi (Initial) value of the phi parameter
+# @param phi.fixed Fixed phi (T/F, F by default)
+# @param phi.truncated Range for phi evaluation (in [phi.truncated, 1[)
+# @param xar constraints on the coefficients of the lagged regression variables. See vignette for more information on this.
+# @param ssf.type
+#
+# @return An object of class "JD3AdlDisagg"
+# @export
+#
+# @examples
+# # adl model
+# data("qna_data")
+# Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
+# x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
+# td1 <- adl_disaggregation(Y, indicators = x, xar = "FREE")
+# td1$estimation$disagg
+#
+# # adl models with constraints
+# td2 <- adl_disaggregation(Y, indicators = x, xar = "SAME") # ~ Chow-Lin
+# td3 <- adl_disaggregation(Y, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) # ~ Fernandez
+
+
 #' Temporal disaggregation & interpolation of a time series with ADL models
 #'
 #' @param series
@@ -16,7 +46,6 @@
 #' @export
 #'
 #' @examples
-#' # qna data, fernandez with/without quarterly indicator
 #' data("qna_data")
 #' Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 #' x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
@@ -28,6 +57,9 @@ adl_disaggregation <- function(series, constant = TRUE, trend = FALSE, indicator
                                phi = 0.0, phi.fixed = FALSE, phi.truncated = 0.0, xar = c("FREE", "SAME", "NONE"), ssf.type = c("TRANSITION", "CUMUL")) {
     conversion <- match.arg(conversion)
     xar <- match.arg(xar)
+    if (phi == 1.0 && phi.fixed) {
+        constant <- FALSE
+    }
     ssf.type <- match.arg(ssf.type)
     jseries <- rjd3toolkit::.r2jd_tsdata(series)
     jlist <- list()

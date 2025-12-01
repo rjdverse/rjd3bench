@@ -9,7 +9,7 @@ multivariatecholette(
   tcvector = NULL,
   ccvector = NULL,
   rho = 1,
-  lambda = 0
+  lambda = 0.8
 )
 }
 \arguments{
@@ -116,6 +116,6 @@ data.list <- list(x1=x1,x2=x2,x3=x3,x4=x4,x5=x5,z1=z1,Y1=Y1,Y2=Y2,Y3=Y3,Y4=Y4,Y5
 tc <- c("Y1=sum(x1)", "Y2=sum(x2)", "Y3=sum(x3)", "Y4=sum(x4)", "Y5=sum(x5)")
 cc <- c("z1=x1+3*x2+0.5*x3+x4+x5", "0=x1+x2-x4")
 
-multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5)
+multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc)
 
 }
