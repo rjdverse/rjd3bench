@@ -40,6 +40,7 @@
 #' @param phi.fixed
 #' @param phi.truncated
 #' @param xar
+#' @param ssf.type
 #'
 #' @return
 #' @export
@@ -53,12 +54,13 @@
 #'
 adl_disaggregation <- function(series, constant = TRUE, trend = FALSE, indicators = NULL,
                                conversion = c("Sum", "Average", "Last", "First", "UserDefined"), conversion.obsposition = 1L,
-                               phi = 0.0, phi.fixed = FALSE, phi.truncated = 0.0, xar = c("FREE", "SAME", "NONE")) {
+                               phi = 0.0, phi.fixed = FALSE, phi.truncated = 0.0, xar = c("FREE", "SAME", "NONE"), ssf.type = c("TRANSITION", "CUMUL")) {
     conversion <- match.arg(conversion)
     xar <- match.arg(xar)
     if (phi == 1.0 && phi.fixed) {
         constant <- FALSE
     }
+    ssf.type <- match.arg(ssf.type)
     jseries <- rjd3toolkit::.r2jd_tsdata(series)
     jlist <- list()
 
@@ -78,7 +80,7 @@ adl_disaggregation <- function(series, constant = TRUE, trend = FALSE, indicator
     }
     jrslt <- .jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/ADLResults;",
                     "processADL", jseries, constant, trend, jindicators, conversion,
-                    phi, phi.fixed, phi.truncated, xar)
+                    phi, phi.fixed, phi.truncated, xar, ssf.type)
 
     # Build the S3 result
     bcov <- rjd3toolkit::.proc_matrix(jrslt, "covar")

@@ -11,7 +11,7 @@
 	<description>Usage: mvn -Pcopy-jars</description>
 
 	<properties>
-		<jdplus-benchmarking.version>2.0.1</jdplus-benchmarking.version>
+		<jdplus-benchmarking.version>2.0.2-SNAPSHOT</jdplus-benchmarking.version>
 	</properties>
 
 	<dependencies>
