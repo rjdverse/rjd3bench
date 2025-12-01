@@ -5,12 +5,12 @@
 # @param constant Constant term (T/F). Not used when phi is fixed to 1.
 # @param trend Linear trend (T/F, F by default)
 # @param indicators High-frequency indicator(s). It must be a (list of) ts object(s).
-# @param conversion Conversion rule. Usually "Sum" or "Average". Sum by default (interpolation not implemented yet).
-# @param conversion.obsposition Position of the observation in the aggregated period (only used with "UserDefined" conversion) (not implemented yet).
+# @param average Average conversion (T/F). Default is F, which means additive conversion.
 # @param phi (Initial) value of the phi parameter
 # @param phi.fixed Fixed phi (T/F, F by default)
 # @param phi.truncated Range for phi evaluation (in [phi.truncated, 1[)
 # @param xar constraints on the coefficients of the lagged regression variables. See vignette for more information on this.
+# @param ssf.type
 #
 # @return An object of class "JD3AdlDisagg"
 # @export
