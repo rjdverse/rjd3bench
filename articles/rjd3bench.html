@@ -275,6 +275,17 @@ disaggregated/interpolated series between regression and smoothing
 effect, can be applied on the output object of the functions
 <code><a href="../reference/temporal_disaggregation.html">temporal_disaggregation()</a></code> and
 <code><a href="../reference/temporal_interpolation.html">temporal_interpolation()</a></code>.</p>
+<p>In practice, Chow-Lin and its variants Fernandez and Litterman are
+estimated based on an equivalent state space representation of the
+model, which makes it possible to obtain estimates in a very efficient
+way. Note that, by default, for Fernandez and Litterman, a diffuse
+initialization is considered for the estimation of the initial values of
+the states so that those integrate the constant estimates. The latter is
+thus ‘hidden’ and does not appear in the results. To make the estimates
+of the constant visible (and therefore finding back the usual output
+from the classic formulation of the model), one option is to change the
+argument<code>zeroinitialization = TRUE</code> with
+<code>constant=TRUE</code> before running the function.</p>
 </div>
 <div class="section level3">
 <h3 id="model-based-denton">Model-based Denton<a class="anchor" aria-label="anchor" href="#model-based-denton"></a>
@@ -350,7 +361,54 @@ confidence interval.</p>
 <div class="section level3">
 <h3 id="autoregressive-distributed-lag-adl-models">Autoregressive Distributed Lag (ADL) Models<a class="anchor" aria-label="anchor" href="#autoregressive-distributed-lag-adl-models"></a>
 </h3>
-<p>(Upcoming content)</p>
+<p>[Upcoming content]</p>
+<!-- Based on Proietti (2005), we consider a first order Autoregressive Distributed Lag model, or ADL(1,1), which takes the -->
+<!-- form: -->
+<!-- $$ -->
+<!-- y_t = \phi y_{t-1} + x_t'\beta_0 + x_{t-1}'\beta_1 + \varepsilon_t \qquad \varepsilon_t \sim {\sf NID}(0, \sigma^2)  \qquad (1) -->
+<!-- $$ -->
+<!-- subject to the temporal constraint (flow variables) -->
+<!-- $$ -->
+<!-- \sum_{t} y_t = Y_T -->
+<!-- $$ -->
+<!-- where $y_t$ is the value of the estimate of the high frequency series at period t, $x_t$ is the value of the high frequency indicator at period t and $Y_T$ is the value of the low frequency series (i.e. the benchmark series) at period T. -->
+<!-- The ADL model nests the Chow-Lin model and its variants Fernandez and Litterman (for Litterman, the ADL model must be formulated in the first differences of the dependent and explanatory variables). -->
+<!-- Recall the Chow-Lin model -->
+<!-- $$ -->
+<!-- y_t = x_t\beta + u_t \\ -->
+<!-- u_t = \phi u_{t-1} + \varepsilon_t -->
+<!-- $$ -->
+<!-- Combine it into a single equation and substitute for $u_{t-1}$ -->
+<!-- $$ -->
+<!-- y_t = x_t\beta + \phi (y_{t-1} - x_{t-1}\beta) + \varepsilon_t -->
+<!-- $$ -->
+<!-- So, the ADL model (1) corresponds to the Chow-Lin model if -->
+<!-- $$ -->
+<!-- \beta_1 = -\phi\beta_0 \qquad (2) -->
+<!-- $$ -->
+<!-- (and to the Fernandez model if we further assumes that $\phi = 1$). -->
+<!-- Recall that the Chow-Lin model relies on the strong assumption of that the disaggragated series $y_t$ and the indicator(s) $x_t$ are fully co-integrated (if not stationary). The main benefit of the ADL model over Chow-Lin is that it offers an extended modelling framework which accounts for the uncertainty about the existence of co-integration between $y_t$ and $x_t$. Hence, by nesting both the Chow-Lin and the Fernandez model, it prevents potential spurious regressions between $y_t$ and $x_t$. -->
+<!-- Moreover, as explained in Proietti (2005, section 6.2), the ADL model can be an interesting option when the indicator is affected by a measurement error, since we can show that the model assumes that $y_t$ is explained by a *filtered* version of $x_t$, where the weights associated to $x_t$ decline geometrically over time. Hence, in such case, the indicator's excessive volatility won't be reflected in the disaggregated series as it is with Chow-Lin; rather, it will be smoothed. -->
+<!-- The ADL disaggregation method can be called with the `adl_disaggregation()` function. The 'xar' parameter allows you to set constraints on the coefficients of the lagged regression variables. As an alternative to the default value "FREE" (no constraint), setting the parameter to "SAME" corresponds to imposing the constraint (2). Finally, you can set the parameter to "NONE", which means an ADL(1,0) model is considered (no lag on $x_t$). -->
+<!-- ```{r} -->
+<!-- # Example: Use of ADL models for temporal disaggregation -->
+<!-- Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1)) -->
+<!-- x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1)) -->
+<!-- td_adl <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE") -->
+<!-- y <- td_adl$estimation$disagg # the disaggregated series -->
+<!-- summary(td_adl) -->
+<!-- ## with constraint: b1 = -phi * b0 (~ Chow-Lin (with diffuse regressors)) -->
+<!-- td_adl_constr_1 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME") -->
+<!-- ## with constraints: phi = 1 and b1 = -b0 (~ Fernandez) -->
+<!-- td_adl_constr_2 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) -->
+<!-- ``` -->
+<!-- The output of the function `adl_disaggregation()` contains the most important information about the regression including the estimates of model coefficients and their covariance matrix, the disaggregated series and information about the residuals. A print(), summary() and plot() functions can be applied on the output object. -->
+<!-- In practice, ADL are estimated based on an equivalent state space representation of the model, which makes it possible to obtain estimates in a very efficient way. -->
+</div>
+<div class="section level3">
+<h3 id="inverse-regression">Inverse regression<a class="anchor" aria-label="anchor" href="#inverse-regression"></a>
+</h3>
+<p>[Upcoming content]</p>
 </div>
 </div>
 <div class="section level2">
@@ -519,7 +577,7 @@ benchmarked with the GRP method.</p>
 <p>Cubic splines are piecewise cubic functions that are linked together
 in a way to guarantee smoothness at data points. Additivity constraints
 are added for benchmarking purpose and sub-period estimates are derived
-from each spline. When a sub-period indicator (or disaggregated series)
+from each spline. When a sub-period indicator (or a preliminary series)
 is used, cubic splines are no longer drawn based on the low frequency
 data but the Benchmark-to-Indicator (BI ratio) is the one being
 smoothed. Sub-period estimates are then simply the product between the
@@ -527,10 +585,11 @@ smoothed high frequency BI ratio and the indicator.</p>
 <p>The method can be called through the <code><a href="../reference/cubicspline.html">cubicspline()</a></code>
 function. Here are a few examples on how to use it:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">y_cs1</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cubicspline.html">cubicspline</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># example of cubic spline without high frequency series (smoothing)</span></span>
+<code class="sourceCode R"><span><span class="co"># Example: use cubic splines for benchmarking</span></span>
+<span><span class="va">y_cs1</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cubicspline.html">cubicspline</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># without high frequency series (smoothing)</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">y_cs1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y_cs1</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="va">y_cs2</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cubicspline.html">cubicspline</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span> <span class="co"># example of cubic spline with a high frequency series to benchmark</span></span></code></pre></div>
+<span><span class="va">y_cs2</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cubicspline.html">cubicspline</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span> <span class="co"># with a high frequency preliminary series to benchmark</span></span></code></pre></div>
 <p>The <code><a href="../reference/cubicspline.html">cubicspline()</a></code> function returns the high frequency
 series benchmarked with cubic spline method.</p>
 </div>
@@ -566,10 +625,10 @@ subject to the temporal aggregation constraints
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>∈</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">\lambda \in \mathbb{R}</annotation></semantics></math>.
 Set
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\lambda = 1</annotation></semantics></math>
-for a proportional benchmarking model. Two other choices are
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\lambda = 0</annotation></semantics></math>
-for an additive benchmarking model; and
+for an additive benchmarking model and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\lambda = 1</annotation></semantics></math>
+for a proportional benchmarking model. Finally, set
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\lambda = 0.5</annotation></semantics></math>
 with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\rho = 0</annotation></semantics></math>,
@@ -659,10 +718,10 @@ function.</p>
 <span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="co"># pro-rating</span></span></code></pre></div>
 <p>The <code><a href="../reference/cholette.html">cholette()</a></code> function returns the high frequency
 series benchmarked with the Cholette method.</p>
-<p>It should be noted that, in practice, the benchmarked series is
-estimated based on an equivalent state space representation of the
-Cholette method described above, which makes it possible to obtain
-estimates in a very efficient way.</p>
+<p>In practice, the benchmarked series is estimated based on an
+equivalent state space representation of the Cholette method described
+above, which makes it possible to obtain estimates in a very efficient
+way.</p>
 </div>
 </div>
 <div class="section level2">
@@ -725,17 +784,19 @@ by a couple of parameters:</p>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>∈</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">\lambda \in \mathbb{R}</annotation></semantics></math>.
 Set
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\lambda = 0</annotation></semantics></math>
-for an additive benchmarking model and
+for an additive model and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
-close to 1 to approach a proportional benchmarking model. Setting
+close to 1 to approximate a proportional model; while
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\lambda = 1</annotation></semantics></math>
-is also an option, but this should be used with caution in the case of a
-multivariate model. Indeed, the addition of contemporaneous constraints
-and the fact that only the ratio between the benchmarked series and the
-preliminary series is being preserved (and not at all the level of the
-preliminary series) might, in some cases, result in benchmarked series
-whose level differs strongly from the preliminary series. Finally, the
-naive pro-rating method corresponds to setting
+is also possible, it should be used cautiously in a multivariate
+context. This is because contemporaneous constraints combined with the
+fact that pure movement preservation specifies nothing about the level
+of the individual reconciled series may sometimes produce substantial
+differences in level between the preliminary and the benchmarked series.
+This is especially true in the absence of temporal constraints where
+strong movement preservation should not be pursued during
+reconciliation. Finally, as in the univariate case, the naive pro-rating
+method corresponds to setting
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\lambda = 0.5</annotation></semantics></math>
 with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\rho = 0</annotation></semantics></math>.</p></li>
@@ -779,24 +840,95 @@ movement of the latter will be preserved.</p></li>
 <p>The <code><a href="../reference/multivariatecholette.html">multivariatecholette()</a></code> function returns a list of
 benchmarked series, fulfilling both the contemporary and the temporal
 constraints (if any).</p>
-<p>It should be noted that, in practice, the benchmarked series are
-estimated based on an equivalent state space representation of the
-multivariate Cholette method described above, which makes it possible to
-obtain estimates in a very efficient way.</p>
+<p>In practice, the benchmarked series are estimated based on an
+equivalent state space representation of the multivariate Cholette
+method described above, which makes it possible to obtain estimates in a
+very efficient way.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="calendarization">Calendarization<a class="anchor" aria-label="anchor" href="#calendarization"></a>
 </h2>
-<p>(Upcoming content)</p>
+<p>Time series data do not always coincide with calendar periods (e.g.,
+fiscal years starting in March-April or retail data collected in
+non-monthly intervals). Calendarization is the process of transforming
+the values of a flow time series observed over varying time intervals
+into values that cover given calendar intervals such as month, quarter
+or year.</p>
+<p>The calendarization process involves two steps:</p>
+<ul>
+<li>Temporal disaggregation of the observed data into daily values using
+or not an indicator</li>
+<li>Aggregation of the resulting daily values into the desired calendar
+reference periods.</li>
+</ul>
+<p>Based on the paper from Quenneville et al (2012), the temporal
+disaggregation step is performed by considering a state-space
+representation of the Denton proportional first difference (PFD) method.
+Recall the objective function of the (modified) Denton PFD method<br><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><mo minsize="2.4" maxsize="2.4" stretchy="false" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><msup><mo minsize="2.4" maxsize="2.4" stretchy="false" form="postfix">]</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
+</annotation></semantics></math> which is minimized under the temporal
+aggregation constraints
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>l</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">
+\sum_{t\epsilon l} y_t = Y_l
+</annotation></semantics></math><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>l</mi></msub><annotation encoding="application/x-tex">Y_l</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">l=1,...,q</annotation></semantics></math>,
+are the observed values to be distributed and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>
+are the daily indicator values that represent the daily movement of the
+unknown target variable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>.
+In the absence of such information, a constant indicator (say, a vector
+of 1) is used instead.</p>
+<p>The calendarization process can be called with the
+<code><a href="../reference/calendarization.html">calendarization()</a></code> function. By default, a constant
+indicator is considered which means that the daily level of activity is
+assumed to be constant. To include an indicator into the disaggregation
+process, the function parameter <code>dailyweights</code> has to be
+filled. If provided, the daily indicator values (or weights) should
+reflect the daily level of activity that may be varying in function for
+instance of seasonality, trading day or other calendar effects such as
+public holidays.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example of calendarization (from Quenneville et al (2012))</span></span>
+<span></span>
+<span><span class="co">## Observed data </span></span>
+<span><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>start <span class="op">=</span> <span class="st">"2009-02-18"</span>, end <span class="op">=</span> <span class="st">"2009-03-17"</span>, value <span class="op">=</span> <span class="fl">9000</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>start <span class="op">=</span> <span class="st">"2009-03-18"</span>, end <span class="op">=</span> <span class="st">"2009-04-14"</span>, value <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>start <span class="op">=</span> <span class="st">"2009-04-15"</span>, end <span class="op">=</span> <span class="st">"2009-05-12"</span>, value <span class="op">=</span> <span class="fl">9500</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>start <span class="op">=</span> <span class="st">"2009-05-13"</span>, end <span class="op">=</span> <span class="st">"2009-06-09"</span>, value <span class="op">=</span> <span class="fl">7000</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## calendarization in absence of daily indicator values (or weights)</span></span>
+<span><span class="va">cal_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calendarization.html">calendarization</a></span><span class="op">(</span><span class="va">obs</span>, <span class="fl">12</span>, end <span class="op">=</span> <span class="st">"2009-06-30"</span>, dailyweights <span class="op">=</span> <span class="cn">NULL</span>, stde <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ym_1</span> <span class="op">&lt;-</span> <span class="va">cal_1</span><span class="op">$</span><span class="va">rslt</span></span>
+<span><span class="va">eym_1</span> <span class="op">&lt;-</span> <span class="va">cal_1</span><span class="op">$</span><span class="va">erslt</span></span>
+<span><span class="va">yd_1</span> <span class="op">&lt;-</span> <span class="va">cal_1</span><span class="op">$</span><span class="va">days</span></span>
+<span><span class="va">eyd_1</span> <span class="op">&lt;-</span> <span class="va">cal_1</span><span class="op">$</span><span class="va">edays</span></span>
+<span></span>
+<span><span class="co">## calendarization in presence of daily indicator values (or weights)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.0</span>, <span class="fl">1.2</span>, <span class="fl">1.8</span> , <span class="fl">1.6</span>, <span class="fl">0.0</span>, <span class="fl">0.6</span>, <span class="fl">0.8</span><span class="op">)</span>, <span class="fl">19</span><span class="op">)</span></span>
+<span><span class="va">cal_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calendarization.html">calendarization</a></span><span class="op">(</span><span class="va">obs</span>, <span class="fl">12</span>, end <span class="op">=</span> <span class="st">"2009-06-30"</span>, dailyweights <span class="op">=</span> <span class="va">x</span>, stde <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ym_2</span> <span class="op">&lt;-</span> <span class="va">cal_2</span><span class="op">$</span><span class="va">rslt</span></span>
+<span><span class="va">eym_2</span> <span class="op">&lt;-</span> <span class="va">cal_2</span><span class="op">$</span><span class="va">erslt</span></span>
+<span><span class="va">yd_2</span> <span class="op">&lt;-</span> <span class="va">cal_2</span><span class="op">$</span><span class="va">days</span></span>
+<span><span class="va">eyd_2</span> <span class="op">&lt;-</span> <span class="va">cal_2</span><span class="op">$</span><span class="va">edays</span></span></code></pre></div>
+<p>The <code><a href="../reference/calendarization.html">calendarization()</a></code> function returns a list with the
+final aggregated results (after running the two steps process described
+above) and their associated errors, as well as the disaggregated daily
+values (after running the first step only) and their associated
+errors.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <p>Causey, B., and Trager, M.L. (1981). Derivation of Solution to the
-Benchmarking Problem: Trend Revision. Unpublished research notes, U.S.
-Census Bureau, Washington D.C. Available as an appendix in Bozik and
-Otto (1988).</p>
+Benchmarking Problem: Trend Revision. <em>Unpublished research notes,
+U.S. Census Bureau, Washington D.C. Available as an appendix in Bozik
+and Otto (1988).</em></p>
 <p>Chamberlin, G. (2010). Temporal disaggregation. <em>ONS Economic
 &amp; Labour Market Review</em>.</p>
 <p>Di Fonzo, T., and Marini, M. (2011). A Newton’s Method for
@@ -809,10 +941,16 @@ pp. 43-60 Statistics Canada, Catalogue No. 12-001-X</em>.</p>
 <p>Dagum, E. B., and Cholette, P. A. (2006): Benchmarking, Temporal
 Distribution and Reconciliation Methods of Time Series.
 <em>Springer-Verlag, New York, Lecture notes in Statistics</em>.</p>
+<p>Proietti, P. (2005). Temporal Disaggregation by State Space Methods:
+Dynamic Regression Methods Revisited. <em>Working papers and Studies,
+European Commission, ISSN 1725-4825</em>.</p>
 <p>Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006).
 Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
 Statistics Canada. <em>Statistics Canada, Working paper of the Time
 Series Research and Analysis Centre</em>.</p>
+<p>Quenneville, B., Picard F., Fortier S. (2012). Calendarization with
+interpolating splines and state space models. <em>Statistics Canada,
+Appl. Statistics (2013) 62, part 3, pp 371-399</em>.</p>
 <p>Quilis, EM. (2018). Temporal disaggregation of economic time series -
 The view from the trenches. <em>Statistica Neerlandica, Wiley</em>.</p>
 </div>
@@ -827,7 +965,7 @@ The view from the trenches. <em>Statistica Neerlandica, Wiley</em>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

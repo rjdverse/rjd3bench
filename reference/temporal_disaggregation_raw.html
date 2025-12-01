@@ -163,9 +163,9 @@ model are diffuse (T) or fixed unknown (F, default)</p></dd>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va"><a href="https://rjdverse.github.io/rjd3toolkit/reference/Retail.html" class="external-link">Retail</a></span><span class="op">$</span><span class="va">FoodAndBeverageStores</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu">temporal_disaggregation_raw</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span>, indicators <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, freqratio <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">td</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1853647 1904317 2106162 2226363 2362164 2478504 2596417 2799244 2935728</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] 3120753 3141809 3260667 3478646 3698475 3902189 3983745 3853107 3738297</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 3973628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1853646 1904318 2106162 2226363 2362164 2478504 2596417 2799244 2935728</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] 3120753 3141809 3260667 3478645 3698476 3902189 3983745 3853109 3738295</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 3973614</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># use of Fernandez method to disaggregate a series without indicator considering a frequency ratio of 5 (for example, it could be a quinquennial series to disaggregate on an annual basis)</span></span></span>
 <span class="r-in"><span><span class="va">Y2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">500</span>,<span class="fl">510</span>,<span class="fl">525</span>,<span class="fl">520</span><span class="op">)</span></span></span>
@@ -200,7 +200,7 @@ model are diffuse (T) or fixed unknown (F, default)</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

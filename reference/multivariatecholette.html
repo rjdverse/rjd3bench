@@ -68,7 +68,7 @@ reconciliation methods such as the multivariate Denton method.</p>
 <span>  tcvector <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ccvector <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rho <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  lambda <span class="op">=</span> <span class="fl">0</span></span>
+<span>  lambda <span class="op">=</span> <span class="fl">0.8</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -236,31 +236,31 @@ lambda parameter.</p></dd>
 <span class="r-in"><span><span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Y1=sum(x1)"</span>, <span class="st">"Y2=sum(x2)"</span>, <span class="st">"Y3=sum(x3)"</span>, <span class="st">"Y4=sum(x4)"</span>, <span class="st">"Y5=sum(x5)"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z1=x1+3*x2+0.5*x3+x4+x5"</span>, <span class="st">"0=x1+x2-x4"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data.list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data.list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.461426 7.453406 7.724638 7.360531</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 7.347524 7.756222 7.876066 7.520188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.656913 7.459133 7.691486 7.192468</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 7.202555 7.844736 7.928212 7.524497</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 2.230614 2.193747 2.520035 3.055604</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.602163 2.310811 2.591295 2.995731</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 2.038004 2.240979 2.542287 3.178730</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.690178 2.243273 2.563886 3.002663</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 19.66444 20.17525 19.99352 20.16679</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.33101 19.71956 20.96161 20.98781</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 20.29245 20.00733 19.93548 19.76474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.18196 19.81496 20.94547 21.05761</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           Qtr1      Qtr2      Qtr3      Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010  9.692039  9.647153 10.244673 10.416135</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011  9.949687 10.067033 10.467361 10.515919</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010  9.694917  9.700111 10.233773 10.371198</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011  9.892733 10.088009 10.492098 10.527160</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 4.422475 8.030573 6.373824 6.173128</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 4.030796 4.484531 5.301882 6.182792</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 4.487934 7.914155 6.380138 6.217772</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 4.043199 4.529957 5.315297 6.111547</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -274,7 +274,7 @@ lambda parameter.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
