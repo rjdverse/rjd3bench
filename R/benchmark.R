@@ -441,9 +441,9 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #' tc <- c("Y1=sum(x1)", "Y2=sum(x2)", "Y3=sum(x3)", "Y4=sum(x4)", "Y5=sum(x5)")
 #' cc <- c("z1=x1+3*x2+0.5*x3+x4+x5", "0=x1+x2-x4")
 #'
-#' multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5)
+#' multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc)
 #'
-multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 1., lambda = 0.) {
+multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 1., lambda = 0.8) {
     if (!is.list(xlist) || length(xlist) < 3L) {
         stop("incorrect argument, first argument should be a list of at least 3 time series")
     }
