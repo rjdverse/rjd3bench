@@ -128,6 +128,8 @@ y <- ti_raw$estimation$interp
 ```
 The output of the functions `temporal_disaggregation()`, `temporal_interpolation()`, `temporal_disaggregation_raw()` and `temporal_interpolation_raw()` contains the most important information about the regression including the estimates of model coefficients and their covariance matrix, the decomposition of the disaggregated/interpolated series and information about the residuals. A print() and summary() functions can be applied on the output object. The plot() function, which displays the decomposition of the disaggregated/interpolated series between regression and smoothing effect, can be applied on the output object of the functions `temporal_disaggregation()` and `temporal_interpolation()`.
 
+In practice, Chow-Lin and its variants Fernandez and Litterman are estimated based on an equivalent state space representation of the model, which makes it possible to obtain estimates in a very efficient way. Note that, by default, for Fernandez and Litterman, a diffuse initialization is considered for the estimation of the initial values of the states so that those integrate the constant estimates. The latter is thus ‘hidden’ and does not appear in the results. To make the estimates of the constant visible (and therefore finding back the usual output from the classic formulation of the model), one option is to change the argument`zeroinitialization = TRUE` with `constant=TRUE` before running the function.      
+
 ## Model-based Denton
 
 Denton method and variants are usually expressed in mathematical terms as a constrained minimization problem. For example, the widely used Denton proportional first difference (PFD) method is usually expressed as follows:
@@ -168,7 +170,67 @@ The output of the `denton_modelbased()` function contains information about the 
 
 ## Autoregressive Distributed Lag (ADL) Models 
 
-(Upcoming content)
+[Upcoming content]
+
+<!-- Based on Proietti (2005), we consider a first order Autoregressive Distributed Lag model, or ADL(1,1), which takes the -->
+<!-- form: -->
+
+<!-- $$ -->
+<!-- y_t = \phi y_{t-1} + x_t'\beta_0 + x_{t-1}'\beta_1 + \varepsilon_t \qquad \varepsilon_t \sim {\sf NID}(0, \sigma^2)  \qquad (1) -->
+<!-- $$ -->
+<!-- subject to the temporal constraint (flow variables) -->
+<!-- $$ -->
+<!-- \sum_{t} y_t = Y_T -->
+<!-- $$ -->
+<!-- where $y_t$ is the value of the estimate of the high frequency series at period t, $x_t$ is the value of the high frequency indicator at period t and $Y_T$ is the value of the low frequency series (i.e. the benchmark series) at period T. -->
+
+<!-- The ADL model nests the Chow-Lin model and its variants Fernandez and Litterman (for Litterman, the ADL model must be formulated in the first differences of the dependent and explanatory variables). -->
+
+<!-- Recall the Chow-Lin model -->
+<!-- $$ -->
+<!-- y_t = x_t\beta + u_t \\ -->
+<!-- u_t = \phi u_{t-1} + \varepsilon_t -->
+<!-- $$ -->
+<!-- Combine it into a single equation and substitute for $u_{t-1}$ -->
+<!-- $$ -->
+<!-- y_t = x_t\beta + \phi (y_{t-1} - x_{t-1}\beta) + \varepsilon_t -->
+<!-- $$ -->
+<!-- So, the ADL model (1) corresponds to the Chow-Lin model if -->
+<!-- $$ -->
+<!-- \beta_1 = -\phi\beta_0 \qquad (2) -->
+<!-- $$ -->
+<!-- (and to the Fernandez model if we further assumes that $\phi = 1$). -->
+
+<!-- Recall that the Chow-Lin model relies on the strong assumption of that the disaggragated series $y_t$ and the indicator(s) $x_t$ are fully co-integrated (if not stationary). The main benefit of the ADL model over Chow-Lin is that it offers an extended modelling framework which accounts for the uncertainty about the existence of co-integration between $y_t$ and $x_t$. Hence, by nesting both the Chow-Lin and the Fernandez model, it prevents potential spurious regressions between $y_t$ and $x_t$. -->
+
+<!-- Moreover, as explained in Proietti (2005, section 6.2), the ADL model can be an interesting option when the indicator is affected by a measurement error, since we can show that the model assumes that $y_t$ is explained by a *filtered* version of $x_t$, where the weights associated to $x_t$ decline geometrically over time. Hence, in such case, the indicator's excessive volatility won't be reflected in the disaggregated series as it is with Chow-Lin; rather, it will be smoothed. -->
+
+<!-- The ADL disaggregation method can be called with the `adl_disaggregation()` function. The 'xar' parameter allows you to set constraints on the coefficients of the lagged regression variables. As an alternative to the default value "FREE" (no constraint), setting the parameter to "SAME" corresponds to imposing the constraint (2). Finally, you can set the parameter to "NONE", which means an ADL(1,0) model is considered (no lag on $x_t$). -->
+
+<!-- ```{r} -->
+<!-- # Example: Use of ADL models for temporal disaggregation -->
+
+<!-- Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1)) -->
+<!-- x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1)) -->
+
+<!-- td_adl <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE") -->
+<!-- y <- td_adl$estimation$disagg # the disaggregated series -->
+<!-- summary(td_adl) -->
+
+<!-- ## with constraint: b1 = -phi * b0 (~ Chow-Lin (with diffuse regressors)) -->
+<!-- td_adl_constr_1 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME") -->
+
+<!-- ## with constraints: phi = 1 and b1 = -b0 (~ Fernandez) -->
+<!-- td_adl_constr_2 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) -->
+<!-- ``` -->
+
+<!-- The output of the function `adl_disaggregation()` contains the most important information about the regression including the estimates of model coefficients and their covariance matrix, the disaggregated series and information about the residuals. A print(), summary() and plot() functions can be applied on the output object. -->
+
+<!-- In practice, ADL are estimated based on an equivalent state space representation of the model, which makes it possible to obtain estimates in a very efficient way. -->
+
+## Inverse regression
+
+[Upcoming content]
 
 
 # Benchmarking methods
@@ -258,14 +320,15 @@ The `grp()` function returns the high frequency series benchmarked with the GRP 
 
 ## Cubic splines
 
-Cubic splines are piecewise cubic functions that are linked together in a way to guarantee smoothness at data points. Additivity constraints are added for benchmarking purpose and sub-period estimates are derived from each spline. When a sub-period indicator (or disaggregated series) is used, cubic splines are no longer drawn based on the low frequency data but the Benchmark-to-Indicator (BI ratio) is the one being smoothed. Sub-period estimates are then simply the product between the smoothed high frequency BI ratio and the indicator.
+Cubic splines are piecewise cubic functions that are linked together in a way to guarantee smoothness at data points. Additivity constraints are added for benchmarking purpose and sub-period estimates are derived from each spline. When a sub-period indicator (or a preliminary series) is used, cubic splines are no longer drawn based on the low frequency data but the Benchmark-to-Indicator (BI ratio) is the one being smoothed. Sub-period estimates are then simply the product between the smoothed high frequency BI ratio and the indicator.
 
 The method can be called through the `cubicspline()` function. Here are a few examples on how to use it:
 ```{r}
-y_cs1 <- rjd3bench::cubicspline(t = Y, nfreq = 4) # example of cubic spline without high frequency series (smoothing)
+# Example: use cubic splines for benchmarking
+y_cs1 <- rjd3bench::cubicspline(t = Y, nfreq = 4) # without high frequency series (smoothing)
 
 x <- y_cs1 + rnorm(n = length(y_cs1), mean = 0, sd = 10)
-y_cs2 <- rjd3bench::cubicspline(s = x, t = Y) # example of cubic spline with a high frequency series to benchmark
+y_cs2 <- rjd3bench::cubicspline(s = x, t = Y) # with a high frequency preliminary series to benchmark
 ```
 The `cubicspline()` function returns the high frequency series benchmarked with cubic spline method.
 
@@ -280,7 +343,7 @@ f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \sum_{t=2}^{n
 $$
 This objective function is minimized subject to the temporal aggregation constraints $\sum_{t\epsilon T} y_t = Y_T$, $T=1,...,m$ (flows variables). The method is driven by a couple of parameters: 
 
-- The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$. Set $\lambda = 1$ for a proportional benchmarking model. Two other choices are $\lambda = 0$ for an additive benchmarking model; and $\lambda = 0.5$ with $\rho = 0$, for the naive pro-rating method.  
+- The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$. Set $\lambda = 0$ for an additive benchmarking model and $\lambda = 1$ for a proportional benchmarking model. Finally, set $\lambda = 0.5$ with $\rho = 0$, for the naive pro-rating method.  
 - The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$ determines the degree of movement preservation. When $\lambda = 1$, the closer $\rho$ is to 1, the smoother will be the ratios of the benchmarks to the corresponding totals in the preliminary series and the better the movement of the latter will be preserved.
 
 Cholette method also provides for the possibility of considering a bias correction factor, which is the expected discrepancy between the benchmarks and the high-frequency preliminary series. The additive and multiplicative bias correction factor are estimated respectively as:
@@ -311,7 +374,7 @@ rjd3bench::cholette(s = x, t = Y, rho = 0, lambda = 0.5) # pro-rating
 
 The `cholette()` function returns the high frequency series benchmarked with the Cholette method.
 
-It should be noted that, in practice, the benchmarked series is estimated based on an equivalent state space representation of the Cholette method described above, which makes it possible to obtain estimates in a very efficient way.
+In practice, the benchmarked series is estimated based on an equivalent state space representation of the Cholette method described above, which makes it possible to obtain estimates in a very efficient way.
 
 
 # Reconciliation and multivariate temporal disaggregation
@@ -339,7 +402,7 @@ The method may also be considered in absence of temporal aggregation constraints
 
 As in the univariate case, the multivariate Cholette method is driven by a couple of parameters: 
 
-- The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$. Set $\lambda = 0$ for an additive benchmarking model and $\lambda$ close to 1 to approach a proportional benchmarking model. Setting $\lambda = 1$ is also an option, but this should be used with caution in the case of a multivariate model. Indeed, the addition of contemporaneous constraints and the fact that only the ratio between the benchmarked series and the preliminary series is being preserved (and not at all the level of the preliminary series) might, in some cases, result in benchmarked series whose level differs strongly from the preliminary series. Finally, the naive pro-rating method corresponds to setting $\lambda = 0.5$ with $\rho = 0$.
+- The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$. Set $\lambda = 0$ for an additive model and $\lambda$ close to 1 to approximate a proportional model; while $\lambda = 1$ is also possible, it should be used cautiously in a multivariate context. This is because contemporaneous constraints combined with the fact that pure movement preservation specifies nothing about the level of the individual reconciled series may sometimes produce substantial differences in level between the preliminary and the benchmarked series. This is especially true in the absence of temporal constraints where strong movement preservation should not be pursued during reconciliation. Finally, as in the univariate case, the naive pro-rating method corresponds to setting $\lambda = 0.5$ with $\rho = 0$.
 
 - The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$ determines the degree of movement preservation. When $\lambda = 1$, the closer $\rho$ is to 1, the smoother will be the ratios of the benchmarks to the corresponding totals in the preliminary series and the better the movement of the latter will be preserved.
 
@@ -371,15 +434,63 @@ multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc, rho = 1,
 
 The `multivariatecholette()` function returns a list of benchmarked series, fulfilling both the contemporary and the temporal constraints (if any).
 
-It should be noted that, in practice, the benchmarked series are estimated based on an equivalent state space representation of the multivariate Cholette method described above, which makes it possible to obtain estimates in a very efficient way.
+In practice, the benchmarked series are estimated based on an equivalent state space representation of the multivariate Cholette method described above, which makes it possible to obtain estimates in a very efficient way.
 
 # Calendarization
 
-(Upcoming content)
+Time series data do not always coincide with calendar periods (e.g., fiscal years starting in March-April or retail data collected in non-monthly intervals). Calendarization is the process of transforming the values of a flow time series observed over varying time intervals into values that cover given calendar intervals such as month, quarter or year.
+
+The calendarization process involves two steps:
+
+- Temporal disaggregation of the observed data into daily values using or not an indicator
+- Aggregation of the resulting daily values into the desired calendar reference periods.
+
+Based on the paper from Quenneville et al (2012), the temporal disaggregation step is performed by considering a state-space representation of the Denton proportional first difference (PFD) method. Recall the objective function of the (modified) Denton PFD method  
+$$
+min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
+$$
+which is minimized under the temporal aggregation constraints 
+$$
+\sum_{t\epsilon l} y_t = Y_l
+$$
+$Y_l$, $l=1,...,q$, are the observed values to be distributed and $x_t$, $t=1,...,n$ are the daily indicator values that represent the daily movement of the unknown target variable $y_t$. In the absence of such information, a constant indicator (say, a vector of 1) is used instead.   
+
+The calendarization process can be called with the `calendarization()` function. By default, a constant indicator is considered which means that the daily level of activity is assumed to be constant. To include an indicator into the disaggregation process, the function parameter `dailyweights` has to be filled. If provided, the daily indicator values (or weights) should reflect the daily level of activity that may be varying in function for instance of seasonality, trading day or other calendar effects such as public holidays.
+
+```{r}
+# Example of calendarization (from Quenneville et al (2012))
+
+## Observed data 
+obs <- list(
+    list(start = "2009-02-18", end = "2009-03-17", value = 9000),
+    list(start = "2009-03-18", end = "2009-04-14", value = 5000),
+    list(start = "2009-04-15", end = "2009-05-12", value = 9500),
+    list(start = "2009-05-13", end = "2009-06-09", value = 7000))
+
+## calendarization in absence of daily indicator values (or weights)
+cal_1 <- calendarization(obs, 12, end = "2009-06-30", dailyweights = NULL, stde = TRUE)
+
+ym_1 <- cal_1$rslt
+eym_1 <- cal_1$erslt
+yd_1 <- cal_1$days
+eyd_1 <- cal_1$edays
+
+## calendarization in presence of daily indicator values (or weights)
+x <- rep(c(1.0, 1.2, 1.8 , 1.6, 0.0, 0.6, 0.8), 19)
+cal_2 <- calendarization(obs, 12, end = "2009-06-30", dailyweights = x, stde = TRUE)
+
+ym_2 <- cal_2$rslt
+eym_2 <- cal_2$erslt
+yd_2 <- cal_2$days
+eyd_2 <- cal_2$edays
+```
+
+The `calendarization()` function returns a list with the final aggregated results (after running the two steps process described above) and their associated errors, as well as the disaggregated daily values (after running the first step only) and their associated errors. 
+
 
 # References
 
-Causey, B., and Trager, M.L. (1981). Derivation of Solution to the Benchmarking Problem: Trend Revision. Unpublished research notes, U.S. Census Bureau, Washington D.C. Available as an appendix in Bozik and Otto (1988).
+Causey, B., and Trager, M.L. (1981). Derivation of Solution to the Benchmarking Problem: Trend Revision. *Unpublished research notes, U.S. Census Bureau, Washington D.C. Available as an appendix in Bozik and Otto (1988).*
 
 Chamberlin, G. (2010). Temporal disaggregation. *ONS Economic & Labour Market Review*.
 
@@ -389,6 +500,10 @@ Daalmans, J., Di Fonzo, T., Mushkudiani, N., Bikker, R. (2018). Growth Rates Pre
 
 Dagum, E. B., and Cholette, P. A. (2006): Benchmarking, Temporal Distribution and Reconciliation Methods of Time Series. *Springer-Verlag, New York, Lecture notes in Statistics*.
 
+Proietti, P. (2005). Temporal Disaggregation by State Space Methods: Dynamic Regression Methods Revisited. *Working papers and Studies, European Commission, ISSN 1725-4825*.
+
 Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006). Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at Statistics Canada. *Statistics Canada, Working paper of the Time Series Research and Analysis Centre*.
+
+Quenneville, B., Picard F., Fortier S. (2012). Calendarization with interpolating splines and state space models. *Statistics Canada, Appl. Statistics (2013) 62, part 3, pp 371-399*.
 
 Quilis, EM. (2018). Temporal disaggregation of economic time series - The view from the trenches. *Statistica Neerlandica, Wiley*.
