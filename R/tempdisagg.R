@@ -39,6 +39,9 @@ NULL
 #'
 #' \code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series
 #'
+#' \code{\link[utils]{browseVignettes}}
+#' \code{browseVignettes(package = "rjd3bench")}
+#'
 #' @examples
 #' # chow-lin with monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
@@ -659,17 +662,23 @@ temporal_interpolation_raw <- function(
 }
 
 
-#' @title Temporal disaggregation using the model: x(t) = a + b y(t), where x(t) is the indicator,
-#' y(t) is the unknown target series, with low-frequency constraints on y.
+#' @title Temporal disaggregation of a time series by means of a reverse regression model.
+#'
+#' @description
+#' Perform temporal disaggregation and interpolation of low frequency to high
+#' frequency time series by means of a reverse regression model. Unlike the
+#' usual regression-based models, this approach treats a high-frequency
+#' indicator as the dependent variable and the unknown target series as the
+#' independent variable.
 #'
 #' @param series The time series that will be disaggregated. It must be a ts object.
-#' @param indicator High-frequency indicator used in the temporal disaggregation. It must be a ts object.
+#' @param indicator The high-frequency indicator. It must be a ts object.
 #' @param conversion Conversion mode (Usually "Sum" or "Average")
 #' @param conversion.obsposition Integer. Only used with "UserDefined" mode.
 #' Position of the observed indicator in the aggregated periods (for instance
 #' 7th month of the year)
-#' @param rho Only used with Ar1/RwAr1 models. (Initial) value of the parameter
-#' @param rho.fixed Fixed rho (T/F, F by default)
+#' @param rho (Initial) value of the parameter.
+#' @param rho.fixed Fixed rho (T/F, F by default).
 #' @param rho.truncated Range for Rho evaluation (in [rho.truncated, 1[)
 #' @return An object of class "JD3TempDisaggI"
 #' @export

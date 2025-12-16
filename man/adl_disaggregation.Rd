@@ -2,33 +2,58 @@
 % Please edit documentation in R/adl.R
 \name{adl_disaggregation}
 \alias{adl_disaggregation}
-\title{Temporal disaggregation & interpolation of a time series with ADL models}
+\title{Temporal disaggregation of a time series with ADL models}
 \usage{
 adl_disaggregation(
   series,
   constant = TRUE,
   trend = FALSE,
   indicators = NULL,
-  conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-  conversion.obsposition = 1L,
+  average = FALSE,
   phi = 0,
   phi.fixed = FALSE,
   phi.truncated = 0,
   xar = c("FREE", "SAME", "NONE"),
-  ssf.type = c("TRANSITION", "CUMUL")
+  diffuse = FALSE
 )
 }
 \arguments{
-\item{ssf.type}{}
+\item{series}{The low frequency time series that will be disaggregated. It must be a ts object.}
+
+\item{constant}{Constant term (T/F, T by default)}
+
+\item{trend}{Linear trend (T/F, F by default)}
+
+\item{indicators}{High-frequency indicator(s). It must be a (list of) ts object(s).}
+
+\item{average}{Average conversion (T/F). Default is F, which means additive conversion.}
+
+\item{phi}{(Initial) value of the phi parameter}
+
+\item{phi.fixed}{Fixed phi (T/F, F by default)}
+
+\item{phi.truncated}{Range for phi evaluation (in [phi.truncated, 1[)}
+
+\item{xar}{constraints on the coefficients of the lagged regression variables. See vignette for more information on this.}
+
+\item{diffuse}{Indicates if the coefficients of the regression model are diffuse (T) or fixed unknown (F, default)}
+}
+\value{
+An object of class "JD3AdlDisagg"
 }
 \description{
-Temporal disaggregation & interpolation of a time series with ADL models
+Temporal disaggregation of a time series with ADL models
 }
 \examples{
+# adl model
 data("qna_data")
 Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 td1 <- adl_disaggregation(Y, indicators = x, xar = "FREE")
-td2 <- adl_disaggregation(Y, indicators = x, xar = "SAME")
+td1$estimation$disagg
+
+# adl models with constraints
+td2 <- adl_disaggregation(Y, indicators = x, xar = "SAME") # ~ Chow-Lin
+td3 <- adl_disaggregation(Y, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) # ~ Fernandez
 
 }

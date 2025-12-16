@@ -2,8 +2,7 @@
 % Please edit documentation in R/tempdisagg.R
 \name{temporaldisaggregationI}
 \alias{temporaldisaggregationI}
-\title{Temporal disaggregation using the model: x(t) = a + b y(t), where x(t) is the indicator,
-y(t) is the unknown target series, with low-frequency constraints on y.}
+\title{Temporal disaggregation of a time series by means of a reverse regression model.}
 \usage{
 temporaldisaggregationI(
   series,
@@ -18,7 +17,7 @@ temporaldisaggregationI(
 \arguments{
 \item{series}{The time series that will be disaggregated. It must be a ts object.}
 
-\item{indicator}{High-frequency indicator used in the temporal disaggregation. It must be a ts object.}
+\item{indicator}{The high-frequency indicator. It must be a ts object.}
 
 \item{conversion}{Conversion mode (Usually "Sum" or "Average")}
 
@@ -26,9 +25,9 @@ temporaldisaggregationI(
 Position of the observed indicator in the aggregated periods (for instance
 7th month of the year)}
 
-\item{rho}{Only used with Ar1/RwAr1 models. (Initial) value of the parameter}
+\item{rho}{(Initial) value of the parameter.}
 
-\item{rho.fixed}{Fixed rho (T/F, F by default)}
+\item{rho.fixed}{Fixed rho (T/F, F by default).}
 
 \item{rho.truncated}{Range for Rho evaluation (in [rho.truncated, 1[)}
 }
@@ -36,8 +35,11 @@ Position of the observed indicator in the aggregated periods (for instance
 An object of class "JD3TempDisaggI"
 }
 \description{
-Temporal disaggregation using the model: x(t) = a + b y(t), where x(t) is the indicator,
-y(t) is the unknown target series, with low-frequency constraints on y.
+Perform temporal disaggregation and interpolation of low frequency to high
+frequency time series by means of a reverse regression model. Unlike the
+usual regression-based models, this approach treats a high-frequency
+indicator as the dependent variable and the unknown target series as the
+independent variable.
 }
 \examples{
 # Retail data, monthly indicator
