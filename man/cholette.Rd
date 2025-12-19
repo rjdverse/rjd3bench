@@ -69,3 +69,14 @@ cholette(s = xm, t = Y, rho = 1, lambda = 1)
 cholette(s = xm, t = Y, rho = 0, lambda = 0.5)
 
 }
+\references{
+Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006).
+  Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
+  Statistics Canada. Statistics Canada, Working paper of the Time Series
+  Research and Analysis Centre.
+}
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+}

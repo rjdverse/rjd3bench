@@ -98,6 +98,8 @@ td3$estimation$disagg
 
 \code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series
 
-\code{\link[utils]{browseVignettes}}
-\code{browseVignettes(package = "rjd3bench")}
+
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 }

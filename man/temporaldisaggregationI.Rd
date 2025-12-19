@@ -58,3 +58,12 @@ td$regression$a
 td$regression$b
 
 }
+\references{
+Bournay J., Laroque G. (1979). Reflexions sur la methode
+  d'elaboration des comptes trimestriels. Annales de l'Insee, n°36, pp.3-30.
+}
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+}

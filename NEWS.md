@@ -7,14 +7,21 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.1.0] - 2025-12-19
+
 ### Added
 
-* Add function documentation and vignette for multivariateCholette and Calendarization
+* Add function documentation and vignette for MultivariateCholette, ADL models, Reverse regression and Calendarization
 
 ### Changed 
 
 * Default value of lambda is changed to 0.8 in multivariate Cholette
 * Re-ordering of the returned benchmarked series in multivariate Cholette 
+* Change/add parameters in adl_disaggregation() function
+
+### Fixed
+
+* Solve bugs and instability issues in adl_disaggregation()
 
 ## [3.0.0] - 2025-05-12
 
@@ -64,7 +71,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * Initial commit
 
 
-[Unreleased]: https://github.com/rjdverse/rjd3bench/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/rjdverse/rjd3bench/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/rjdverse/rjd3bench/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/rjdverse/rjd3bench/compare/v2.1.0...v3.0.0
 [2.1.0]: https://github.com/rjdverse/rjd3bench/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/rjdverse/rjd3bench/compare/v2.0.0...v2.0.1

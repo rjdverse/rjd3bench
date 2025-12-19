@@ -34,7 +34,7 @@ adl_disaggregation(
 
 \item{phi.truncated}{Range for phi evaluation (in [phi.truncated, 1[)}
 
-\item{xar}{constraints on the coefficients of the lagged regression variables. See vignette for more information on this.}
+\item{xar}{Constraints on the coefficients of the lagged regression variables. See vignette for more information on this.}
 
 \item{diffuse}{Indicates if the coefficients of the regression model are diffuse (T) or fixed unknown (F, default)}
 }
@@ -54,6 +54,17 @@ td1$estimation$disagg
 
 # adl models with constraints
 td2 <- adl_disaggregation(Y, indicators = x, xar = "SAME") # ~ Chow-Lin
-td3 <- adl_disaggregation(Y, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) # ~ Fernandez
+td3 <- adl_disaggregation(Y, constant = FALSE, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) # ~ Fernandez
+td4 <- adl_disaggregation(Y, indicators = x, xar = "NONE") # ~ Santos Silva-Cardoso
 
+}
+\references{
+Proietti, P. (2005). Temporal Disaggregation by State Space
+  Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
+  European Commission, ISSN 1725-4825.
+}
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 }

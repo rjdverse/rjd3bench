@@ -39,8 +39,10 @@ NULL
 #'
 #' \code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series
 #'
-#' \code{\link[utils]{browseVignettes}}
-#' \code{browseVignettes(package = "rjd3bench")}
+#'
+#' For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 #'
 #' @examples
 #' # chow-lin with monthly indicator
@@ -197,6 +199,10 @@ temporal_disaggregation <- function(
 #' @export
 #'
 #' @seealso \code{\link{temporal_interpolation_raw}}
+#'
+#' For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 #'
 #' @examples
 #' # use of chow-lin method to disaggregate a biennial series with an annual indicator
@@ -364,6 +370,11 @@ temporal_disaggregation_raw <- function(
 #'
 #' \code{\link{temporal_disaggregation_raw}} for temporal disaggregation of atypical frequency series
 #'
+#'
+#' For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+#'
 #' @examples
 #' # chow-lin/fernandez when the last value of the interpolated series is
 #' # consistent with the low frequency series.
@@ -527,6 +538,11 @@ temporal_interpolation <- function(
 #' @return An object of class "JD3InterpolationRaw"
 #' @export
 #' @seealso \code{\link{temporal_disaggregation_raw}}
+#'
+#' For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+#'
 #' @examples
 #'
 #' # use of chow-lin method to interpolate a biennial series with an annual indicator
@@ -681,7 +697,15 @@ temporal_interpolation_raw <- function(
 #' @param rho.fixed Fixed rho (T/F, F by default).
 #' @param rho.truncated Range for Rho evaluation (in [rho.truncated, 1[)
 #' @return An object of class "JD3TempDisaggI"
+#'
+#' @references  Bournay J., Laroque G. (1979). Reflexions sur la methode
+#'   d'elaboration des comptes trimestriels. Annales de l'Insee, n°36, pp.3-30.
+#'
 #' @export
+#'
+#' @seealso For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 #'
 #' @examples
 #' # Retail data, monthly indicator
@@ -1130,8 +1154,7 @@ plot.JD3TempDisaggI <- function(x, ...) {
     }
 }
 
-# TEMPORARY SOLUTION
-# For the next release, we should use proto and move the functions to rjd3toolkit
+# TEMPORARY SOLUTION (later, we should use proto and move the functions to rjd3toolkit)
 .proc_residuals <- function (jrslt, f){
 
     z <- rjd3toolkit::.jd3_object(jrslt, "TD", TRUE)

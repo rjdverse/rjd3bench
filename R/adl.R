@@ -8,11 +8,20 @@
 #' @param phi (Initial) value of the phi parameter
 #' @param phi.fixed Fixed phi (T/F, F by default)
 #' @param phi.truncated Range for phi evaluation (in [phi.truncated, 1[)
-#' @param xar constraints on the coefficients of the lagged regression variables. See vignette for more information on this.
+#' @param xar Constraints on the coefficients of the lagged regression variables. See vignette for more information on this.
 #' @param diffuse Indicates if the coefficients of the regression model are diffuse (T) or fixed unknown (F, default)
 #'
 #' @return An object of class "JD3AdlDisagg"
+#'
+#' @references  Proietti, P. (2005). Temporal Disaggregation by State Space
+#'   Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
+#'   European Commission, ISSN 1725-4825.
+#'
 #' @export
+#'
+#' @seealso For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 #'
 #' @examples
 #' # adl model
@@ -24,7 +33,8 @@
 #'
 #' # adl models with constraints
 #' td2 <- adl_disaggregation(Y, indicators = x, xar = "SAME") # ~ Chow-Lin
-#' td3 <- adl_disaggregation(Y, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) # ~ Fernandez
+#' td3 <- adl_disaggregation(Y, constant = FALSE, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) # ~ Fernandez
+#' td4 <- adl_disaggregation(Y, indicators = x, xar = "NONE") # ~ Santos Silva-Cardoso
 #'
 adl_disaggregation <- function(series,
                                constant = TRUE,
@@ -80,10 +90,10 @@ adl_disaggregation <- function(series,
         disagg = rjd3toolkit::.proc_ts(jrslt, "disagg"),
         edisagg = rjd3toolkit::.proc_ts(jrslt, "edisagg"),
         parameter = rjd3toolkit::.proc_numeric(jrslt, "parameter"),
-        eparameter = rjd3toolkit::.proc_numeric(jrslt, "eparameter")
-        # res = TODO
+        eparameter = rjd3toolkit::.proc_numeric(jrslt, "eparameter"),
+        residuals = .proc_residualsADL(jrslt, diffuse) # (tests yet to add)
     )
-    likelihood <- rjd3toolkit::.proc_likelihood(jrslt, "likelihood.")
+    likelihood <- .proc_likelihoodADL(jrslt, diffuse)
 
     output <- list(
         regression = regression,
@@ -143,4 +153,62 @@ plot.JD3AdlDisagg <- function(x, ...) {
         axis(side = 1L, at = start(td_series)[1L]:end(td_series)[1L])
         legend("topleft", "disaggragated series", lty = 1L, col = "orange", bty = "n", cex = 0.8)
     }
+}
+
+# TEMPORARY SOLUTIONS
+
+.proc_likelihoodADL <- function (jrslt, diffuse = FALSE){
+    z <- rjd3toolkit::.jd3_object(jrslt, "ADL", TRUE)
+
+    return_sig <- if(diffuse) {
+        "Ljdplus/benchmarking/base/core/benchmarking/extractors/MarginalLikelihoodStatistics;"
+    } else {
+        "Ljdplus/benchmarking/base/core/benchmarking/extractors/ProfileLikelihoodStatistics;"
+    }
+    method <- if(diffuse) "getMarginalLikelihood" else "getProfileLikelihood"
+
+    jll <- tryCatch(.jcall(z$internal, return_sig, method),
+                    error = function(e) NULL)
+
+    nparams <- get_ll_item_adl(jll, "I", "getEstimatedParametersCount")
+    nobs <- get_ll_item_adl(jll, "I", "getObservationsCount")
+    ndiffuse <- get_ll_item_adl(jll, "I", "getDiffuseCount")
+
+    return(list(ll = get_ll_item_adl(jll, "D", "getLogLikelihood"),
+                llc = get_ll_item_adl(jll, "D", "getAdjustedLogLikelihood"),
+                ssq = get_ll_item_adl(jll, "D", "getSsqErr"),
+                nparams = nparams,
+                nobs = nobs,
+                ndiffuse = ndiffuse,
+                df = nobs - nparams - ndiffuse,
+                aic = get_ll_item_adl(jll, "D", "aic"),
+                aicc = get_ll_item_adl(jll, "D", "aicc"),
+                bic = get_ll_item_adl(jll, "D", "bic"),
+                hannanquinn = get_ll_item_adl(jll, "D", "hannanQuinn")))
+}
+
+.proc_residualsADL <- function (jrslt, diffuse = FALSE){
+    z <- rjd3toolkit::.jd3_object(jrslt, "ADL", TRUE)
+
+    return_sig <- if(diffuse) {
+        "Ljdplus/benchmarking/base/core/benchmarking/extractors/MarginalLikelihoodStatistics;"
+    } else {
+        "Ljdplus/benchmarking/base/core/benchmarking/extractors/ProfileLikelihoodStatistics;"
+    }
+    method <- if(diffuse) "getMarginalLikelihood" else "getProfileLikelihood"
+
+    jll <- tryCatch(.jcall(z$internal, return_sig, method), error = function(e) NULL)
+
+    return(tryCatch(.jcall(jll, "Ljdplus/toolkit/base/api/data/DoubleSeq;", "getResiduals") |>
+                        .jcall("[D", "toArray", simplify = TRUE),
+                    error = function(e) NULL))
+}
+
+get_ll_item_adl <- function(jobj, return_sig, method) {
+    rslt_item <- tryCatch(.jcall(jobj, return_sig, method),
+                          error = function(err) NA)
+    if (is.null(rslt_item)) {
+        rslt_item <- NA
+    }
+    return(rslt_item)
 }

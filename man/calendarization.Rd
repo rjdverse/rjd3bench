@@ -53,7 +53,7 @@ periods.
 }
 \examples{
 
-# Example 1 (from Quenneville et al (2012): "Calendarization with interpolating splines and state space models", Appl. Statistics (2013) 62, part 3, pp 371-399)
+# Example 1 (from Quenneville et al (2012))
 
 ## Observed data
 obs_1 <- list(
@@ -90,4 +90,14 @@ cal_2 <- calendarization(obs_2, 4, end = "2003-12-31")
 
 yq_2 <- cal_2$rslt
 
+}
+\references{
+Quenneville, B., Picard F., Fortier S. (2012). Calendarization
+  with interpolating splines and state space models. Statistics Canada, Appl.
+  Statistics (2013) 62, part 3, pp 371-399.
+}
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 }
