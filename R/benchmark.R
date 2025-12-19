@@ -32,6 +32,11 @@ NULL
 #' @return The benchmarked series is returned
 #'
 #' @export
+#'
+#' @seealso For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+#'
 #' @examples
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #'
@@ -103,6 +108,11 @@ denton <- function(s = NULL, t, d = 1L, mul = TRUE, nfreq = 4L, modified = TRUE,
 #' @return Numeric vector. The benchmarked series.
 #'
 #' @export
+#'
+#' @seealso For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+#'
 #' @examples
 #' Y <- c(500,510,525,520)
 #' x <- c(97, 98, 98.5, 99.5, 104,
@@ -201,6 +211,10 @@ denton_raw<-function(s = NULL, t, freqratio, d = 1L, mul = TRUE, modified = TRUE
 #'
 #' @export
 #'
+#' @seealso For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+#'
 #' @examples
 #' data("qna_data")
 #'
@@ -242,6 +256,10 @@ grp <- function(s, t,
 #'
 #' @return The benchmarked series is returned
 #' @export
+#'
+#' @seealso For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 #'
 #' @examples
 #' data("qna_data")
@@ -297,7 +315,17 @@ cubicspline <- function(s = NULL, t, nfreq = 4L,
 #' @param obsposition Position of the observation in the aggregated period (only used with "UserDefined" conversion).
 #'
 #' @return The benchmarked series is returned
+#'
+#' @references Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006).
+#'   Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
+#'   Statistics Canada. Statistics Canada, Working paper of the Time Series
+#'   Research and Analysis Centre.
+#'
 #' @export
+#'
+#' @seealso For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 #'
 #' @examples
 #' ym_true <- rjd3toolkit::Retail$RetailSalesTotal
@@ -390,6 +418,10 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'
 #' @return a named list with the benchmarked series is returned
 #' @export
+#'
+#' @seealso For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 #'
 #' @examples
 #'

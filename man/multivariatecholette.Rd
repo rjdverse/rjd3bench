@@ -119,3 +119,8 @@ cc <- c("z1=x1+3*x2+0.5*x3+x4+x5", "0=x1+x2-x4")
 multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc)
 
 }
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+}

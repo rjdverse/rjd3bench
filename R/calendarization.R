@@ -33,11 +33,20 @@ NULL
 #'
 #' @return a list with the disaggregated daily values, the final aggregated
 #'   results, and their associated errors if requested.
+#'
+#' @references  Quenneville, B., Picard F., Fortier S. (2012). Calendarization
+#'   with interpolating splines and state space models. Statistics Canada, Appl.
+#'   Statistics (2013) 62, part 3, pp 371-399.
+#'
 #' @export
+#'
+#' @seealso For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 #'
 #' @examples
 #'
-#' # Example 1 (from Quenneville et al (2012): "Calendarization with interpolating splines and state space models", Appl. Statistics (2013) 62, part 3, pp 371-399)
+#' # Example 1 (from Quenneville et al (2012))
 #'
 #' ## Observed data
 #' obs_1 <- list(

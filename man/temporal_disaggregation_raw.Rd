@@ -99,4 +99,8 @@ td3$estimation$disagg
 }
 \seealso{
 \code{\link{temporal_interpolation_raw}}
+
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 }
