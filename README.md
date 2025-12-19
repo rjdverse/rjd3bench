@@ -56,7 +56,7 @@ To get the current stable version (from the latest release):
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("rjdverse/rjd3bench@*release")
+remotes::install_github("rjdverse/rjd3bench@*release", build_vignettes = TRUE)
 ```
 
 - From [r-universe](https://rjdverse.r-universe.dev/rjd3bench):
@@ -71,7 +71,7 @@ To get the current development version from GitHub:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("rjdverse/rjd3bench")
+remotes::install_github("rjdverse/rjd3bench", build_vignettes = TRUE)
 ```
 
 ## Package Maintenance and contributing
