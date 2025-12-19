@@ -11,7 +11,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/rjdverse/rjd3bench/blob/develop/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/rjdverse/rjd3bench/blob/main/DESCRIPTION)
 
 Palate J (2025). *rjd3bench: Interface to 'JDemetra+ 3.x' time series
 analysis software*. R package version 3.1.0,
