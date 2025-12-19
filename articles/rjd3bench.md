@@ -284,11 +284,152 @@ with their respective 95% confidence interval.
 
 ### Autoregressive Distributed Lag (ADL) Models
 
-\[Upcoming content\]
+Based on Proietti (2005), we consider a first order Autoregressive
+Distributed Lag model, or ADL(1,1), which takes the form:
 
-### Inverse regression
+\$\$ y_t = \phi y\_{t-1} + m + gt + x_t'\beta_0 + x\_{t-1}'\beta_1 +
+\varepsilon_t \qquad \varepsilon_t \sim {\sf NID}(0, \sigma^2) \qquad
+(1) \$\$ subject to the temporal constraint (flow variables)
+$$\sum\limits_{t}y_{t} = Y_{T}$$ where $y_{t}$ is the value of the
+estimate of the high frequency series at period t, $x_{t}$ is the value
+of the high frequency indicator at period t and $Y_{T}$ is the value of
+the low frequency series (i.e. the benchmark series) at period T.
 
-\[Upcoming content\]
+The ADL model nests the Chow-Lin model and its variants Fernandez and
+Litterman (for Litterman, the ADL model must be formulated in the first
+differences of the dependent and explanatory variables).
+
+Recall the Chow-Lin model \$\$ y_t = x_t\beta + u_t \\ u_t = \phi
+u\_{t-1} + \varepsilon_t \$\$ Combine it into a single equation and
+substitute for
+$u_{t - 1}$$$y_{t} = x_{t}\beta + \phi\left( y_{t - 1} - x_{t - 1}\beta \right) + \varepsilon_{t}$$
+So, the ADL model corresponds to the Chow-Lin model if
+$$\beta_{1} = - \phi\beta_{0}\qquad(2)$$ and to the Fernandez model if
+we further assumes that $\phi = 1$.
+
+Recall that the Chow-Lin model relies on the strong assumption of that
+the disaggragated series $y_{t}$ and the indicator(s) $x_{t}$ are fully
+co-integrated (if not stationary). The main benefit of the ADL model
+over Chow-Lin is that it offers an extended modelling framework which
+accounts for the uncertainty about the existence of co-integration
+between $y_{t}$ and $x_{t}$. Hence, by nesting both the Chow-Lin and the
+Fernandez model, it prevents potential spurious regressions between
+$y_{t}$ and $x_{t}$.
+
+Moreover, as explained in Proietti (2005, section 6.2), the ADL model
+can be an interesting option when the indicator is affected by a
+measurement error, since it can be showed that the model assumes that
+$y_{t}$ is explained by a *filtered* version of $x_{t}$, where the
+weights associated to $x_{t}$ decline geometrically over time. Hence, in
+such case, the indicator’s excessive volatility won’t be reflected in
+the disaggregated series as it is with Chow-Lin; rather, it will be
+smoothed.
+
+The ADL disaggregation method can be called with the
+[`adl_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.md)
+function. The ‘xar’ parameter allows you to set constraints on the
+coefficients of the lagged regression variables. As an alternative to
+the default value “FREE” (no constraint), setting the parameter to
+“SAME” corresponds to imposing the constraint (2). Note that those
+constraints, and therefore also the relevance of switching from an ADL
+model to a simpler Chow-Lin or Fernandez model, can be assessed by
+computing the Likelihood Ratio (LR) statistic (cfr. example below).
+Finally, you can set the parameter to “NONE”, which means an ADL(1,0)
+model is considered (no lag on $x_{t}$) which corresponds to the method
+suggested by Santos Silva and Cardoso (2001).
+
+``` r
+# Example: Use of ADL models for temporal disaggregation
+
+Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
+x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
+
+## 1. without constraints
+
+td_adl <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
+y <- td_adl$estimation$disagg # the disaggregated series
+summary(td_adl)
+
+## 2. with constraints
+
+### b1 = -phi * b0 (~ Chow-Lin)
+td_adl_constr_1 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME")
+
+### phi = 1 and b1 = -b0 (~ Fernandez)
+td_adl_constr_2 <- rjd3bench::adl_disaggregation(Y, constant = FALSE, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE)
+
+### b1 = 0 (~ Santos Silva-Cardoso)
+td_adl_constr_3 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "NONE")
+
+## LR test for assessing constraint(s)
+LR_stat <- -2 * (td_adl_constr_1$likelihood$ll - td_adl$likelihood$ll) # -> H0 not rejected. Chow-Lin specification is supported here.
+```
+
+The output of the function
+[`adl_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.md)
+contains the most important information about the regression including
+the estimates of model coefficients and their covariance matrix, the
+disaggregated series and information about the residuals. A print(),
+summary() and plot() functions can be applied on the output object.
+
+In practice, ADL are estimated based on an equivalent state space
+representation of the model, which makes it possible to obtain estimates
+in a very efficient way.
+
+### Reverse regression
+
+Bournay and Laroque (1979) proposed an alternative regression-based
+approach for temporal disaggregation. Unlike previous models, where the
+target series (the disaggregated or interpolated series) was defined as
+the dependent variable, this approach flips the regression and treats
+the high-frequency indicator as the dependent variable and the target
+series as the independent variable.
+
+Let $Y_{T}$, $T = 1,...,m$, and $x_{t}$, $t = 1,...,n$, be, respectively
+the observed low frequency benchmark and a single high-frequency
+indicator of the unknown high frequency target variable $y_{t}$. The
+model is defined as:
+
+\$\$ x_t = a + by_t + u_t \\ u_t = \phi u\_{t-1} + \varepsilon_t \$\$
+subject to the temporal constraint (flow variables)
+$$\sum\limits_{t}y_{t} = Y_{T}$$ The choice of which variable is
+dependent and which is independent is far from arbitrary. It changes the
+assumptions and the interpretation of the model, and the outcome may be
+very different too. In particular, if the fit between the benchmark and
+the indicator is globally poor, the smoothing part of the Chow-Lin model
+usually becomes more influential (if constant \> 0), resulting in a
+disaggregated series that is smoother, meaning that the indicator’s
+movements are dampened. Conversely, under the reverse model above, we
+can have a high estimate for parameter $a$ and a low estimate for $b$,
+which may result in a disaggregated series being more volatile,
+effectively amplifying the indicator’s movements.
+
+The reverse regression method can be called with the
+[`temporaldisaggregationI()`](https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.md)
+function.
+
+``` r
+Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
+x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
+td_rv <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
+
+y_rv <- td_rv$estimation$disagg # the disaggregated series
+print(td_rv)
+summary(td_rv)
+plot(td_rv)
+
+# comparison with Chow-Lin
+td_cl <- rjd3bench::temporal_disaggregation(Y, indicators = x)
+y_cl <- td_cl$estimation$disagg
+stats::ts.plot(y_rv, y_cl, gpars=list(col=c("red", "blue"), xaxt="n", main="Reverse regression vs Chow-Lin"))
+legend("topleft",c("Reverse regression", "Chow-Lin"), lty = c(1,1), col=c("red", "blue"))
+```
+
+The output of the function
+[`temporaldisaggregationI()`](https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.md)
+contains the disaggregated series as well as the estimates of the model
+coefficients. A print(), summary() and plot() functions can be applied
+on the output object.
 
 ## Benchmarking methods
 
@@ -742,6 +883,9 @@ only) and their associated errors.
 
 ## References
 
+Bournay J., Laroque G. (1979). Reflexions sur la methode d’elaboration
+des comptes trimestriels. *Annales de l’Insee, n°36, pp.3-30.*
+
 Causey, B., and Trager, M.L. (1981). Derivation of Solution to the
 Benchmarking Problem: Trend Revision. *Unpublished research notes, U.S.
 Census Bureau, Washington D.C. Available as an appendix in Bozik and
@@ -778,3 +922,6 @@ Statistics (2013) 62, part 3, pp 371-399*.
 
 Quilis, EM. (2018). Temporal disaggregation of economic time series -
 The view from the trenches. *Statistica Neerlandica, Wiley*.
+
+Santos Silva, J., Cardoso, F.N. (2001). The Chow-Lin method using
+dynamic models. *Economic Modelling, 18 (2). pp. 269-280*.

@@ -111,6 +111,11 @@ for temporal disaggregation of atypical frequency series,
 [`temporal_interpolation_raw`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
 for interpolation of atypical frequency series
 
+For more information, see the vignette:
+
+[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
+`browseVignettes(package = "rjd3bench")`
+
 ## Examples
 
 ``` r

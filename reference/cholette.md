@@ -63,6 +63,20 @@ cholette(
 
 The benchmarked series is returned
 
+## References
+
+Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006). Recent
+Developments in Benchmarking to Annual Totals in X12-ARIMA and at
+Statistics Canada. Statistics Canada, Working paper of the Time Series
+Research and Analysis Centre.
+
+## See also
+
+For more information, see the vignette:
+
+[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
+`browseVignettes(package = "rjd3bench")`
+
 ## Examples
 
 ``` r

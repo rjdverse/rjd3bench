@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rjd3bench</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.0.9500</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,7 +125,7 @@ covering the period 2009Q1-2021Q4.</li>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3bench" class="external-link">"rjd3bench"</a></span><span class="op">)</span></span>
 <span><span class="va">Retail</span> <span class="op">&lt;-</span> <span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va"><a href="https://rjdverse.github.io/rjd3toolkit/reference/Retail.html" class="external-link">Retail</a></span></span>
-<span><span class="va">qna_data</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="va">qna_data</span></span></code></pre></div>
+<span><span class="va">qna_data</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="va"><a href="../reference/qna_data.html">qna_data</a></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="temporal-disaggregation-and-interpolation-methods">Temporal disaggregation and interpolation methods<a class="anchor" aria-label="anchor" href="#temporal-disaggregation-and-interpolation-methods"></a>
@@ -361,54 +361,174 @@ confidence interval.</p>
 <div class="section level3">
 <h3 id="autoregressive-distributed-lag-adl-models">Autoregressive Distributed Lag (ADL) Models<a class="anchor" aria-label="anchor" href="#autoregressive-distributed-lag-adl-models"></a>
 </h3>
-<p>[Upcoming content]</p>
-<!-- Based on Proietti (2005), we consider a first order Autoregressive Distributed Lag model, or ADL(1,1), which takes the -->
-<!-- form: -->
-<!-- $$ -->
-<!-- y_t = \phi y_{t-1} + x_t'\beta_0 + x_{t-1}'\beta_1 + \varepsilon_t \qquad \varepsilon_t \sim {\sf NID}(0, \sigma^2)  \qquad (1) -->
-<!-- $$ -->
-<!-- subject to the temporal constraint (flow variables) -->
-<!-- $$ -->
-<!-- \sum_{t} y_t = Y_T -->
-<!-- $$ -->
-<!-- where $y_t$ is the value of the estimate of the high frequency series at period t, $x_t$ is the value of the high frequency indicator at period t and $Y_T$ is the value of the low frequency series (i.e. the benchmark series) at period T. -->
-<!-- The ADL model nests the Chow-Lin model and its variants Fernandez and Litterman (for Litterman, the ADL model must be formulated in the first differences of the dependent and explanatory variables). -->
-<!-- Recall the Chow-Lin model -->
-<!-- $$ -->
-<!-- y_t = x_t\beta + u_t \\ -->
-<!-- u_t = \phi u_{t-1} + \varepsilon_t -->
-<!-- $$ -->
-<!-- Combine it into a single equation and substitute for $u_{t-1}$ -->
-<!-- $$ -->
-<!-- y_t = x_t\beta + \phi (y_{t-1} - x_{t-1}\beta) + \varepsilon_t -->
-<!-- $$ -->
-<!-- So, the ADL model (1) corresponds to the Chow-Lin model if -->
-<!-- $$ -->
-<!-- \beta_1 = -\phi\beta_0 \qquad (2) -->
-<!-- $$ -->
-<!-- (and to the Fernandez model if we further assumes that $\phi = 1$). -->
-<!-- Recall that the Chow-Lin model relies on the strong assumption of that the disaggragated series $y_t$ and the indicator(s) $x_t$ are fully co-integrated (if not stationary). The main benefit of the ADL model over Chow-Lin is that it offers an extended modelling framework which accounts for the uncertainty about the existence of co-integration between $y_t$ and $x_t$. Hence, by nesting both the Chow-Lin and the Fernandez model, it prevents potential spurious regressions between $y_t$ and $x_t$. -->
-<!-- Moreover, as explained in Proietti (2005, section 6.2), the ADL model can be an interesting option when the indicator is affected by a measurement error, since we can show that the model assumes that $y_t$ is explained by a *filtered* version of $x_t$, where the weights associated to $x_t$ decline geometrically over time. Hence, in such case, the indicator's excessive volatility won't be reflected in the disaggregated series as it is with Chow-Lin; rather, it will be smoothed. -->
-<!-- The ADL disaggregation method can be called with the `adl_disaggregation()` function. The 'xar' parameter allows you to set constraints on the coefficients of the lagged regression variables. As an alternative to the default value "FREE" (no constraint), setting the parameter to "SAME" corresponds to imposing the constraint (2). Finally, you can set the parameter to "NONE", which means an ADL(1,0) model is considered (no lag on $x_t$). -->
-<!-- ```{r} -->
-<!-- # Example: Use of ADL models for temporal disaggregation -->
-<!-- Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1)) -->
-<!-- x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1)) -->
-<!-- td_adl <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE") -->
-<!-- y <- td_adl$estimation$disagg # the disaggregated series -->
-<!-- summary(td_adl) -->
-<!-- ## with constraint: b1 = -phi * b0 (~ Chow-Lin (with diffuse regressors)) -->
-<!-- td_adl_constr_1 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME") -->
-<!-- ## with constraints: phi = 1 and b1 = -b0 (~ Fernandez) -->
-<!-- td_adl_constr_2 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) -->
-<!-- ``` -->
-<!-- The output of the function `adl_disaggregation()` contains the most important information about the regression including the estimates of model coefficients and their covariance matrix, the disaggregated series and information about the residuals. A print(), summary() and plot() functions can be applied on the output object. -->
-<!-- In practice, ADL are estimated based on an equivalent state space representation of the model, which makes it possible to obtain estimates in a very efficient way. -->
+<p>Based on Proietti (2005), we consider a first order Autoregressive
+Distributed Lag model, or ADL(1,1), which takes the form:</p>
+<p><span class="math display">$$
+y_t = \phi y_{t-1} + m + gt + x_t'\beta_0 + x_{t-1}'\beta_1 +
+\varepsilon_t \qquad \varepsilon_t \sim {\sf NID}(0, \sigma^2)  \qquad
+(1)
+$$</span> subject to the temporal constraint (flow variables)
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
+\sum_{t} y_t = Y_T
+</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>
+is the value of the estimate of the high frequency series at period t,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>
+is the value of the high frequency indicator at period t and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>T</mi></msub><annotation encoding="application/x-tex">Y_T</annotation></semantics></math>
+is the value of the low frequency series (i.e. the benchmark series) at
+period T.</p>
+<p>The ADL model nests the Chow-Lin model and its variants Fernandez and
+Litterman (for Litterman, the ADL model must be formulated in the first
+differences of the dependent and explanatory variables).</p>
+<p>Recall the Chow-Lin model <span class="math display">$$
+y_t = x_t\beta + u_t \\
+u_t = \phi u_{t-1} + \varepsilon_t
+$$</span> Combine it into a single equation and substitute for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">u_{t-1}</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><mi>ϕ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">
+y_t = x_t\beta + \phi (y_{t-1} - x_{t-1}\beta) + \varepsilon_t
+</annotation></semantics></math> So, the ADL model corresponds to the
+Chow-Lin model if
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><mo>−</mo><mi>ϕ</mi><msub><mi>β</mi><mn>0</mn></msub><mspace width="2.0em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+\beta_1 = -\phi\beta_0 \qquad (2)
+</annotation></semantics></math> and to the Fernandez model if we
+further assumes that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\phi = 1</annotation></semantics></math>.</p>
+<p>Recall that the Chow-Lin model relies on the strong assumption of
+that the disaggragated series
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>
+and the indicator(s)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>
+are fully co-integrated (if not stationary). The main benefit of the ADL
+model over Chow-Lin is that it offers an extended modelling framework
+which accounts for the uncertainty about the existence of co-integration
+between
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>.
+Hence, by nesting both the Chow-Lin and the Fernandez model, it prevents
+potential spurious regressions between
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>.</p>
+<p>Moreover, as explained in Proietti (2005, section 6.2), the ADL model
+can be an interesting option when the indicator is affected by a
+measurement error, since it can be showed that the model assumes that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>
+is explained by a <em>filtered</em> version of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>,
+where the weights associated to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>
+decline geometrically over time. Hence, in such case, the indicator’s
+excessive volatility won’t be reflected in the disaggregated series as
+it is with Chow-Lin; rather, it will be smoothed.</p>
+<p>The ADL disaggregation method can be called with the
+<code><a href="../reference/adl_disaggregation.html">adl_disaggregation()</a></code> function. The ‘xar’ parameter allows
+you to set constraints on the coefficients of the lagged regression
+variables. As an alternative to the default value “FREE” (no
+constraint), setting the parameter to “SAME” corresponds to imposing the
+constraint (2). Note that those constraints, and therefore also the
+relevance of switching from an ADL model to a simpler Chow-Lin or
+Fernandez model, can be assessed by computing the Likelihood Ratio (LR)
+statistic (cfr. example below). Finally, you can set the parameter to
+“NONE”, which means an ADL(1,0) model is considered (no lag on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>)
+which corresponds to the method suggested by Santos Silva and Cardoso
+(2001).</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example: Use of ADL models for temporal disaggregation</span></span>
+<span></span>
+<span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">TURN_Q_data</span><span class="op">[</span>, <span class="st">"TURN_INDEX_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## 1. without constraints</span></span>
+<span></span>
+<span><span class="va">td_adl</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"FREE"</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">td_adl</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span> <span class="co"># the disaggregated series</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">td_adl</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## 2. with constraints</span></span>
+<span></span>
+<span><span class="co">### b1 = -phi * b0 (~ Chow-Lin)</span></span>
+<span><span class="va">td_adl_constr_1</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"SAME"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">### phi = 1 and b1 = -b0 (~ Fernandez)</span></span>
+<span><span class="va">td_adl_constr_2</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, constant <span class="op">=</span> <span class="cn">FALSE</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"SAME"</span>, phi <span class="op">=</span> <span class="fl">1</span>, phi.fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">### b1 = 0 (~ Santos Silva-Cardoso)</span></span>
+<span><span class="va">td_adl_constr_3</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"NONE"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## LR test for assessing constraint(s)</span></span>
+<span><span class="va">LR_stat</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="va">td_adl_constr_1</span><span class="op">$</span><span class="va">likelihood</span><span class="op">$</span><span class="va">ll</span> <span class="op">-</span> <span class="va">td_adl</span><span class="op">$</span><span class="va">likelihood</span><span class="op">$</span><span class="va">ll</span><span class="op">)</span> <span class="co"># -&gt; H0 not rejected. Chow-Lin specification is supported here.</span></span></code></pre></div>
+<p>The output of the function <code><a href="../reference/adl_disaggregation.html">adl_disaggregation()</a></code> contains
+the most important information about the regression including the
+estimates of model coefficients and their covariance matrix, the
+disaggregated series and information about the residuals. A print(),
+summary() and plot() functions can be applied on the output object.</p>
+<p>In practice, ADL are estimated based on an equivalent state space
+representation of the model, which makes it possible to obtain estimates
+in a very efficient way.</p>
 </div>
 <div class="section level3">
-<h3 id="inverse-regression">Inverse regression<a class="anchor" aria-label="anchor" href="#inverse-regression"></a>
+<h3 id="reverse-regression">Reverse regression<a class="anchor" aria-label="anchor" href="#reverse-regression"></a>
 </h3>
-<p>[Upcoming content]</p>
+<p>Bournay and Laroque (1979) proposed an alternative regression-based
+approach for temporal disaggregation. Unlike previous models, where the
+target series (the disaggregated or interpolated series) was defined as
+the dependent variable, this approach flips the regression and treats
+the high-frequency indicator as the dependent variable and the target
+series as the independent variable.</p>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>T</mi></msub><annotation encoding="application/x-tex">Y_T</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
+be, respectively the observed low frequency benchmark and a single
+high-frequency indicator of the unknown high frequency target variable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>.
+The model is defined as:</p>
+<p><span class="math display">$$
+x_t = a + by_t + u_t \\
+u_t = \phi u_{t-1} + \varepsilon_t
+$$</span> subject to the temporal constraint (flow variables)
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
+\sum_{t} y_t = Y_T
+</annotation></semantics></math> The choice of which variable is
+dependent and which is independent is far from arbitrary. It changes the
+assumptions and the interpretation of the model, and the outcome may be
+very different too. In particular, if the fit between the benchmark and
+the indicator is globally poor, the smoothing part of the Chow-Lin model
+usually becomes more influential (if constant &gt; 0), resulting in a
+disaggregated series that is smoother, meaning that the indicator’s
+movements are dampened. Conversely, under the reverse model above, we
+can have a high estimate for parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+and a low estimate for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>,
+which may result in a disaggregated series being more volatile,
+effectively amplifying the indicator’s movements.</p>
+<p>The reverse regression method can be called with the
+<code><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI()</a></code> function.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">TURN_Q_data</span><span class="op">[</span>, <span class="st">"TURN_INDEX_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">td_rv</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI</a></span><span class="op">(</span><span class="va">Y</span>, indicator <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">y_rv</span> <span class="op">&lt;-</span> <span class="va">td_rv</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span> <span class="co"># the disaggregated series</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">td_rv</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">td_rv</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">td_rv</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># comparison with Chow-Lin</span></span>
+<span><span class="va">td_cl</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/temporal_disaggregation.html">temporal_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
+<span><span class="va">y_cl</span> <span class="op">&lt;-</span> <span class="va">td_cl</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span></span>
+<span><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">y_rv</span>, <span class="va">y_cl</span>, gpars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span>, xaxt<span class="op">=</span><span class="st">"n"</span>, main<span class="op">=</span><span class="st">"Reverse regression vs Chow-Lin"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Reverse regression"</span>, <span class="st">"Chow-Lin"</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The output of the function <code><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI()</a></code>
+contains the disaggregated series as well as the estimates of the model
+coefficients. A print(), summary() and plot() functions can be applied
+on the output object.</p>
 </div>
 </div>
 <div class="section level2">
@@ -472,7 +592,7 @@ the <code><a href="../reference/denton_raw.html">denton_raw()</a></code> functio
 input series, but extends the <code><a href="../reference/denton.html">denton()</a></code> function in a way
 that it can deal with atypical frequency series and with any frequency
 ratio.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example 1: use of Denton method for benchmarking</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_HH"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -560,7 +680,7 @@ f(x) = \sum_{t=2}^{n}\left(log\left(\frac{y_t}{y_{t-1}}\right) - log\left(\frac{
 using the solution proposed by Di Fonzo and Marini (2011), can be called
 with the <code><a href="../reference/grp.html">grp()</a></code> function. An alternative objective function
 as those suggested by Daalmans et al (2018) can also be considered.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: use GRP method for benchmarking</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_HH"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">y_den0</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
@@ -584,7 +704,7 @@ smoothed. Sub-period estimates are then simply the product between the
 smoothed high frequency BI ratio and the indicator.</p>
 <p>The method can be called through the <code><a href="../reference/cubicspline.html">cubicspline()</a></code>
 function. Here are a few examples on how to use it:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: use cubic splines for benchmarking</span></span>
 <span><span class="va">y_cs1</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cubicspline.html">cubicspline</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># without high frequency series (smoothing)</span></span>
 <span></span>
@@ -705,7 +825,7 @@ autocorrelation structure of the error instead of using those default
 values.</p>
 <p>Cholette method can be called with the <code><a href="../reference/cholette.html">cholette()</a></code>
 function.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: use Cholette method for benchmarking</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_HH"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">xn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">*</span><span class="fl">4</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, <span class="fl">5750</span>, <span class="fl">5800</span><span class="op">)</span></span>
@@ -814,7 +934,7 @@ movement of the latter will be preserved.</p></li>
 </ul>
 <p>The multivariate Cholette method can be called with the
 <code><a href="../reference/multivariatecholette.html">multivariatecholette()</a></code> function.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: use the multivariate Cholette method for reconciliation</span></span>
 <span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7.2</span>, <span class="fl">8.1</span>, <span class="fl">7.5</span>, <span class="fl">8.5</span>, <span class="fl">7.8</span>, <span class="fl">8.1</span>, <span class="fl">8.4</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">19.5</span>, <span class="fl">19.0</span>, <span class="fl">19.7</span>, <span class="fl">18.5</span>, <span class="fl">19.0</span>, <span class="fl">20.3</span>, <span class="fl">20.0</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -890,7 +1010,7 @@ filled. If provided, the daily indicator values (or weights) should
 reflect the daily level of activity that may be varying in function for
 instance of seasonality, trading day or other calendar effects such as
 public holidays.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example of calendarization (from Quenneville et al (2012))</span></span>
 <span></span>
 <span><span class="co">## Observed data </span></span>
@@ -925,6 +1045,9 @@ errors.</p>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
+<p>Bournay J., Laroque G. (1979). Reflexions sur la methode
+d’elaboration des comptes trimestriels. <em>Annales de l’Insee, n°36,
+pp.3-30.</em></p>
 <p>Causey, B., and Trager, M.L. (1981). Derivation of Solution to the
 Benchmarking Problem: Trend Revision. <em>Unpublished research notes,
 U.S. Census Bureau, Washington D.C. Available as an appendix in Bozik
@@ -953,6 +1076,8 @@ interpolating splines and state space models. <em>Statistics Canada,
 Appl. Statistics (2013) 62, part 3, pp 371-399</em>.</p>
 <p>Quilis, EM. (2018). Temporal disaggregation of economic time series -
 The view from the trenches. <em>Statistica Neerlandica, Wiley</em>.</p>
+<p>Santos Silva, J., Cardoso, F.N. (2001). The Chow-Lin method using
+dynamic models. <em>Economic Modelling, 18 (2). pp. 269-280</em>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

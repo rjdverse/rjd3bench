@@ -16,6 +16,7 @@ Temporal disaggregation & interpolation:
 - Chow-Lin, Fernandez and Litterman
 - Model-Based Denton
 - Autoregressive Distributed Lag (ADL) models
+- Reverse regression
 
 Benchmarking:
 

@@ -64,10 +64,23 @@ calendarization(
 a list with the disaggregated daily values, the final aggregated
 results, and their associated errors if requested.
 
+## References
+
+Quenneville, B., Picard F., Fortier S. (2012). Calendarization with
+interpolating splines and state space models. Statistics Canada, Appl.
+Statistics (2013) 62, part 3, pp 371-399.
+
+## See also
+
+For more information, see the vignette:
+
+[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
+`browseVignettes(package = "rjd3bench")`
+
 ## Examples
 
 ``` r
-# Example 1 (from Quenneville et al (2012): "Calendarization with interpolating splines and state space models", Appl. Statistics (2013) 62, part 3, pp 371-399)
+# Example 1 (from Quenneville et al (2012))
 
 ## Observed data
 obs_1 <- list(

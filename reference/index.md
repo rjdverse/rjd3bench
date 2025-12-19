@@ -3,8 +3,7 @@
 ## All functions
 
 - [`adl_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.md)
-  : Temporal disaggregation & interpolation of a time series with ADL
-  models
+  : Temporal disaggregation of a time series with ADL models
 - [`calendarization()`](https://rjdverse.github.io/rjd3bench/reference/calendarization.md)
   : Calendarization
 - [`cholette()`](https://rjdverse.github.io/rjd3bench/reference/cholette.md)
@@ -49,6 +48,8 @@
   : Print function for object of class JD3TempDisaggI
 - [`print(`*`<JD3TempDisaggRaw>`*`)`](https://rjdverse.github.io/rjd3bench/reference/print.JD3TempDisaggRaw.md)
   : Print function for object of class JD3TempDisaggRaw
+- [`qna_data`](https://rjdverse.github.io/rjd3bench/reference/qna_data.md)
+  : Quarterly National Accounts data for temporal disaggregation
 - [`summary(`*`<JD3AdlDisagg>`*`)`](https://rjdverse.github.io/rjd3bench/reference/summary.JD3AdlDisagg.md)
   : Summary function for object of class JD3AdlDisagg
 - [`summary(`*`<JD3Interpolation>`*`)`](https://rjdverse.github.io/rjd3bench/reference/summary.JD3Interpolation.md)
@@ -73,6 +74,5 @@
 - [`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
   : Interpolation of an atypical frequency series by regression models.
 - [`temporaldisaggregationI()`](https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.md)
-  : Temporal disaggregation using the model: x(t) = a + b y(t), where
-  x(t) is the indicator, y(t) is the unknown target series, with
-  low-frequency constraints on y.
+  : Temporal disaggregation of a time series by means of a reverse
+  regression model.

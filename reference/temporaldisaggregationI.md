@@ -1,8 +1,10 @@
-# Temporal disaggregation using the model: x(t) = a + b y(t), where x(t) is the indicator, y(t) is the unknown target series, with low-frequency constraints on y.
+# Temporal disaggregation of a time series by means of a reverse regression model.
 
-Temporal disaggregation using the model: x(t) = a + b y(t), where x(t)
-is the indicator, y(t) is the unknown target series, with low-frequency
-constraints on y.
+Perform temporal disaggregation and interpolation of low frequency to
+high frequency time series by means of a reverse regression model.
+Unlike the usual regression-based models, this approach treats a
+high-frequency indicator as the dependent variable and the unknown
+target series as the independent variable.
 
 ## Usage
 
@@ -26,8 +28,7 @@ temporaldisaggregationI(
 
 - indicator:
 
-  High-frequency indicator used in the temporal disaggregation. It must
-  be a ts object.
+  The high-frequency indicator. It must be a ts object.
 
 - conversion:
 
@@ -41,11 +42,11 @@ temporaldisaggregationI(
 
 - rho:
 
-  Only used with Ar1/RwAr1 models. (Initial) value of the parameter
+  (Initial) value of the parameter.
 
 - rho.fixed:
 
-  Fixed rho (T/F, F by default)
+  Fixed rho (T/F, F by default).
 
 - rho.truncated:
 
@@ -54,6 +55,18 @@ temporaldisaggregationI(
 ## Value
 
 An object of class "JD3TempDisaggI"
+
+## References
+
+Bournay J., Laroque G. (1979). Reflexions sur la methode d'elaboration
+des comptes trimestriels. Annales de l'Insee, n°36, pp.3-30.
+
+## See also
+
+For more information, see the vignette:
+
+[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
+`browseVignettes(package = "rjd3bench")`
 
 ## Examples
 

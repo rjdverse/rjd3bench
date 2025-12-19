@@ -50,6 +50,13 @@ cubicspline(
 
 The benchmarked series is returned
 
+## See also
+
+For more information, see the vignette:
+
+[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
+`browseVignettes(package = "rjd3bench")`
+
 ## Examples
 
 ``` r

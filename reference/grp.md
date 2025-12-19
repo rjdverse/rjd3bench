@@ -83,6 +83,13 @@ Daalmans, J., Di Fonzo, T., Mushkudiani, N. and Bikker, R. (2018).
 Growth Rates Preservation (GRP) temporal benchmarking: Drawbacks and
 alternative solutions. \*Statistics Canada\*.
 
+## See also
+
+For more information, see the vignette:
+
+[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
+`browseVignettes(package = "rjd3bench")`
+
 ## Examples
 
 ``` r

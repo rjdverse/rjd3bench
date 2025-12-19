@@ -1,6 +1,6 @@
 # Changelog
 
-## rjd3bench 3.0.0.9500
+## rjd3bench 3.1.0
 
 All notable changes to this project will be documented in this file.
 
@@ -8,18 +8,25 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### [Unreleased](https://github.com/rjdverse/rjd3bench/compare/v3.0.0...HEAD)
+### [Unreleased](https://github.com/rjdverse/rjd3bench/compare/v3.1.0...HEAD)
+
+### [3.1.0](https://github.com/rjdverse/rjd3bench/compare/v3.0.0...v3.1.0) - 2025-12-19
 
 #### Added
 
-- Add function documentation and vignette for multivariateCholette and
-  Calendarization
+- Add function documentation and vignette for MultivariateCholette, ADL
+  models, Reverse regression and Calendarization
 
 #### Changed
 
 - Default value of lambda is changed to 0.8 in multivariate Cholette
 - Re-ordering of the returned benchmarked series in multivariate
   Cholette
+- Change/add parameters in adl_disaggregation() function
+
+#### Fixed
+
+- Solve bugs and instability issues in adl_disaggregation()
 
 ### [3.0.0](https://github.com/rjdverse/rjd3bench/compare/v2.1.0...v3.0.0) - 2025-05-12
 

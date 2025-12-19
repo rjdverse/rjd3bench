@@ -25,7 +25,6 @@ plot(x, ...)
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::Retail$FoodAndBeverageStores
 td <- adl_disaggregation(Y, indicators = x, xar = "FREE")
-#> Warning: NaNs produced
 plot(td)
 
 ```
