@@ -52,3 +52,8 @@ x2 <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1
 cubicspline(s = x2, t = Y)
 
 }
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+}

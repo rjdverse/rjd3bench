@@ -98,4 +98,9 @@ ti4$estimation$interp
 \code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series,
 
 \code{\link{temporal_disaggregation_raw}} for temporal disaggregation of atypical frequency series
+
+
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 }

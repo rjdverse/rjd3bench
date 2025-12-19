@@ -73,3 +73,8 @@ Causey, B., and Trager, M.L. (1981). Derivation of Solution to
   Rates Preservation (GRP) temporal benchmarking: Drawbacks and alternative
   solutions. *Statistics Canada*.
 }
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+}

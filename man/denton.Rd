@@ -74,3 +74,8 @@ denton(s = x, t = Y)
 denton(s = x, t = Y, mul = FALSE)
 
 }
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+}

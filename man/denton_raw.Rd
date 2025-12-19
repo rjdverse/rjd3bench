@@ -91,3 +91,8 @@ denton_raw(x2, Y, freqratio = 5, conversion = "Last", startoffset = 1)
 
 
 }
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+}

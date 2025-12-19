@@ -2,41 +2,125 @@
 % Please edit documentation in R/benchmark.R
 \name{multivariatecholette}
 \alias{multivariatecholette}
-\title{Multi-variate Cholette}
+\title{Reconciliation by means of the Multivariate Cholette method}
 \usage{
 multivariatecholette(
   xlist,
   tcvector = NULL,
   ccvector = NULL,
   rho = 1,
-  lambda = 1
+  lambda = 0.8
 )
 }
 \arguments{
-\item{lambda}{}
+\item{xlist}{a named list of ts objects including all input. Each element of
+the list should correspond to one input series (a preliminary series, a
+low-frequency series corresponding to one of the temporal aggregation
+constraints or a high-frequency series corresponding to one of the
+contemporaneous constraints).}
+
+\item{tcvector}{a character vector defining each temporal constraints. Each
+element of the vector must be written as "Y = sum(x)" where "Y" is the name
+of a low frequency temporal constraint and "x" is the name of a
+high-frequency preliminary series. The names are the one given in the
+'xlist' argument. Default is NULL, which means that no temporal constraint
+is considered.}
+
+\item{ccvector}{a character vector defining each contemporaneous constraints.
+Each element of the vector must be written in the form
+"z=[w1*]x1+...+[wn*]xn" or "c=[w1*]x1+...+[wn*]xn" where "z" is the name of
+a high frequency contemporaneous constraint, wj are optional numeric
+weights, "x1,...,xn" are the names of the high-frequency preliminary series
+and c is a constant. The "+" operator can be replaced by "-". The names of
+the contemporaneous constraint(s) and the preliminary series are the one
+given in the 'xlist' argument. Note that any series put on the left
+hand side cannot appear on the right hand side of any other constraint. This
+is because left hand side quantities are fixed while right hand side
+quantities are adjusted so the equality holds. Default is NULL, which means
+that no contemporaneous constraint is considered. This is equivalent to
+applying the univariate Cholette method to each of the preliminary series
+separately.}
+
+\item{rho}{Numeric. Smoothing parameter whose value should be between 0 and
+1. See vignette for more information on the choice of the rho parameter.}
+
+\item{lambda}{Numeric. Adjustment model parameter. Typically, lambda = 0 for
+additive benchmarking and lambda close to 1 to approach proportional
+benchmarking. Setting lambda = 1 is also an option but it should be used
+with caution as, in the case of a multivariate model, it may sometimes
+result in benchmarked series whose level differs strongly from the
+preliminary series. See vignette for more information on the choice of the
+lambda parameter.}
+}
+\value{
+a named list with the benchmarked series is returned
 }
 \description{
-Multi-variate Cholette
+This is a multivariate extension of the Cholette benchmarking method which
+can be used for the purpose of reconciliation. While standard benchmarking
+methods consider one target series at a time, reconciliation techniques aim
+to restore consistency in a system of time series with regards to both
+contemporaneous and temporal constraints. Reconciliation techniques are
+typically needed when the total and its components are estimated
+independently (the so-called direct approach). The multivariate Cholette
+method relies on the principle of movement preservation and encompasses other
+reconciliation methods such as the multivariate Denton method.
 }
 \examples{
 
-s1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
-s2 <- ts(c(18, 19.5, 19.0, 19.7, 18.5, 19.0, 20.3, 20.0), frequency = 4, start = c(2010, 1))
-s3 <- ts(c(1.5, 1.8, 2, 2.5, 2.0, 1.5, 1.7, 2.0), frequency = 4, start = c(2010, 1))
+# Example 1: one "standard" contemporaneous constraint: x1+x2+x3 = z
 
-a <- ts(c(27.1, 29.8, 29.9, 31.2, 29.3, 27.9, 30.9, 31.8), frequency = 4, start = c(2010, 1))
+x1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
+x2 <- ts(c(18, 19.5, 19.0, 19.7, 18.5, 19.0, 20.3, 20.0), frequency = 4, start = c(2010, 1))
+x3 <- ts(c(1.5, 1.8, 2, 2.5, 2.0, 1.5, 1.7, 2.0), frequency = 4, start = c(2010, 1))
 
-y1 <- ts(c(30.0, 30.6), frequency = 1, start = c(2010, 1))
-y2 <- ts(c(80.0, 81.2), frequency = 1, start = c(2010, 1))
-y3 <- ts(c(8.0, 8.1), frequency = 1, start = c(2010, 1))
+z <- ts(c(27.1, 29.8, 29.9, 31.2, 29.3, 27.9, 30.9, 31.8), frequency = 4, start = c(2010, 1))
 
-data_list <- list(s1 = s1, s2 = s2, s3 = s3, a = a, y1 = y1, y2 = y2, y3 = y3)
+Y1 <- ts(c(30.0, 30.6), frequency = 1, start = c(2010, 1))
+Y2 <- ts(c(80.0, 81.2), frequency = 1, start = c(2010, 1))
+Y3 <- ts(c(8.0, 8.1), frequency = 1, start = c(2010, 1))
 
-cc <- c("a = s1+s2+s3") # contemporaneous constraints
-tc <- c("y1 = sum(s1)", "y2 = sum(s2)", "y3 = sum(s3)") # temporal constraints
+### check consistency between temporal and contemporaneous constraints
+lfs <- cbind(Y1,Y2,Y3)
+rowSums(lfs) - stats::aggregate.ts(z) # should all be 0
 
-output1 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5) # = Denton
-output2 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729, lambda = .5) # = Cholette
-output3 <- multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc, rho = 1, lambda = .5)
+data_list <- list(x1 = x1, x2 = x2, x3 = x3, z = z, Y1 = Y1, Y2 = Y2, Y3 = Y3)
+tc <- c("Y1 = sum(x1)", "Y2 = sum(x2)", "Y3 = sum(x3)") # temporal constraints
+cc <- c("z = x1+x2+x3") # contemporaneous constraints
 
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5) # Denton
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729, lambda = .5) # Cholette
+multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc, rho = 1, lambda = .5) # no temporal constraints
+
+# Example 2: two contemporaneous constraints: x1+3*x2+0.5*x3+x4+x5 = z1 and x1+x2 = x4
+
+x1 <- ts(c(7.0,7.3,8.1,7.5,8.5,7.8,8.1,8.4), frequency=4, start=c(2010,1))
+x2 <- ts(c(1.5,1.8,2.0,2.5,2.0,1.5,1.7,2.0), frequency=4, start=c(2010,1))
+x3 <- ts(c(18.0,19.5,19.0,19.7,18.5,19.0,20.3,20.0), frequency=4, start=c(2010,1))
+x4 <- ts(c(8,9.5,9.0,10.7,8.5,10.0,10.3,9.0), frequency=4, start=c(2010,1))
+x5 <- ts(c(5,9.6,7.2,7.1,4.3,4.6,5.3,5.9), frequency=4, start=c(2010,1))
+
+z1 <- ts(c(38.1,41.8,41.9,43.2,38.8,39.1,41.9,43.7), frequency=4, start=c(2010,1))
+
+Y1 <- ts(c(30.0,30.5), frequency=1, start=c(2010,1))
+Y2 <- ts(c(10.0,10.5), frequency=1, start=c(2010,1))
+Y3 <- ts(c(80.0,81.0), frequency=1, start=c(2010,1))
+Y4 <- ts(c(40.0,41.0), frequency=1, start=c(2010,1))
+Y5 <- ts(c(25.0,20.0), frequency=1, start=c(2010,1))
+
+### check consistency between temporal and contemporaneous constraints
+lfs <- cbind(Y1,3*Y2,0.5*Y3,Y4,Y5)
+rowSums(lfs) - stats::aggregate.ts(z1) # should all be 0
+
+data.list <- list(x1=x1,x2=x2,x3=x3,x4=x4,x5=x5,z1=z1,Y1=Y1,Y2=Y2,Y3=Y3,Y4=Y4,Y5=Y5)
+tc <- c("Y1=sum(x1)", "Y2=sum(x2)", "Y3=sum(x3)", "Y4=sum(x4)", "Y5=sum(x5)")
+cc <- c("z1=x1+3*x2+0.5*x3+x4+x5", "0=x1+x2-x4")
+
+multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc)
+
+}
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 }

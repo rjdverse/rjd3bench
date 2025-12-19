@@ -34,8 +34,8 @@ The benchmarked series is returned
 }
 \description{
 Cholette method is based on a benchmarking methodology developed at
-Statistics Canada. It is a generalized model relying on the principle of
-movement preservation that encompasses several other benchmarking methods.
+Statistics Canada. It is a generalized method relying on the principle of
+movement preservation that encompasses other benchmarking methods.
 The Denton method (both the AFD and PFD variants), as well as the naive
 pro-rating method, emerge as particular cases of the Cholette method.
 This method has been widely used for the purpose of benchmarking seasonally
@@ -68,4 +68,15 @@ cholette(s = xm, t = Y, rho = 1, lambda = 1)
 # Pro-rating
 cholette(s = xm, t = Y, rho = 0, lambda = 0.5)
 
+}
+\references{
+Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006).
+  Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
+  Statistics Canada. Statistics Canada, Working paper of the Time Series
+  Research and Analysis Centre.
+}
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 }

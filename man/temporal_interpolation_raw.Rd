@@ -111,4 +111,8 @@ ti4$estimation$interp
 }
 \seealso{
 \code{\link{temporal_disaggregation_raw}}
+
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
 }

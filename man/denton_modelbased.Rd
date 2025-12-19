@@ -79,3 +79,8 @@ ts.plot(y1,y2,gpars = list(col = c("red","blue")))
 }
 
 }
+\seealso{
+For more information, see the vignette:
+
+\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+}

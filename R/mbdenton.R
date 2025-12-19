@@ -36,6 +36,10 @@ NULL
 #' @return an object of class 'JD3MBDenton'
 #' @export
 #'
+#' @seealso For more information, see the vignette:
+#'
+#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+#'
 #' @examples
 #' # Retail data, monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
