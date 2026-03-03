@@ -1,5 +1,5 @@
 ---
-title: "Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x"
+title: "Temporal disaggregation and Benchmarking methods based on 'JDemetra+' 3.x"
 output: 
   html_vignette:
     toc: true
@@ -8,10 +8,10 @@ output:
     toc: true
     toc_depth: 3
 vignette: >
-  %\VignetteIndexEntry{Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x}
+  %\VignetteIndexEntry{Temporal disaggregation and Benchmarking methods based on 'JDemetra+' 3.x}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-abstract: The package rjd3bench provides a variety of methods for temporal disaggregation, interpolation, benchmarking, reconciliation and calendarization. It is part of the interface to 'JDemetra+ 3.x' software. Methods of temporal disaggregation, interpolation and benchmarking are used to derive high frequency time series from low frequency time series with or without the help of high frequency information. For temporal disaggregation, consistency of the high frequency series with the low frequency series can be achieved either by sum or average. For interpolation, the low frequency series can be the first or last value of the high frequency series, or any other value. In addition to temporal constraints, reconciliation methods deals with contemporaneous consistency while adjusting multiple time series. Finally, calendarization method can be used when time series data do not coincide with calendar periods.
+abstract: The `rjd3bench` package provides a variety of methods for temporal disaggregation, interpolation, benchmarking, reconciliation and calendarization. It is part of the interface to the 'JDemetra+' 3.x time series analysis software and incorporates statistical methods described in the latest European Statistical System (ESS) guidelines on temporal disaggregation, benchmarking, and reconciliation (2018 edition). Most algorithms implemented in the package rely on an equivalent state‑space representation of the underlying model or mathematical problem, where computational efficiency is further improved by replacing matrix operations with functional forms, thereby enabling highly efficient estimates.
 compress_html:
   clippings: all
   blanklines: true
@@ -29,9 +29,9 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-The methods implemented in the package rjd3bench intend to bridge the gap when there is a lack of high frequency time series or when there are temporal and/or contemporaneous inconsistencies between the high frequency series and the corresponding low frequency series. Although this can be an issue in any fields of research dealing with time series, methods of temporal disaggregation, interpolation, benchmarking, reconciliation and calendarization are often encountered in the production of official statistics. For example, National Accounts are often compiled according to two frequencies of production: annual series, the low frequency data, based on precise and detailed sources and quarterly series, the high frequency data, which usually rely on less accurate sources but give information on a timelier basis. In such case, the use of temporal disaggregation, benchmarking, and reconciliation methods can be used to achieve consistency between annual and quarterly national accounts over time. 
+The methods implemented in the package `rjd3bench` intend to bridge the gap when there is a lack of high frequency time series or when there are temporal and/or contemporaneous inconsistencies between the high frequency series and the corresponding low frequency series. Although this can be an issue in any fields of research dealing with time series, methods of temporal disaggregation, interpolation, benchmarking, reconciliation and calendarization are often encountered in the production of official statistics. For example, National Accounts are often compiled according to two frequencies of production: annual series, the low frequency data, based on precise and detailed sources and quarterly series, the high frequency data, which usually rely on less accurate sources but give information on a timelier basis. In such case, the use of temporal disaggregation, benchmarking, and reconciliation methods can be used to achieve consistency between annual and quarterly national accounts over time. 
 
-The package rjd3bench is an R interface to the highly efficient algorithms and modeling developed in the official 'JDemetra+ 3.x' software. It provides a wide variety of methods, included those suggested in the *ESS guidelines on temporal disaggregation, benchmarking and reconciliation (Eurostat, 2018)*. 
+The package `rjd3bench` is an interface to the highly efficient algorithms and modeling developed in the official 'JDemetra+' 3.x time series software. It provides a wide variety of methods, included those suggested in the *ESS guidelines on temporal disaggregation, benchmarking and reconciliation (Eurostat, 2018)*. 
 
 
 # Set-up & Data
@@ -128,7 +128,7 @@ y <- ti_raw$estimation$interp
 ```
 The output of the functions `temporal_disaggregation()`, `temporal_interpolation()`, `temporal_disaggregation_raw()` and `temporal_interpolation_raw()` contains the most important information about the regression including the estimates of model coefficients and their covariance matrix, the decomposition of the disaggregated/interpolated series and information about the residuals. A print() and summary() functions can be applied on the output object. The plot() function, which displays the decomposition of the disaggregated/interpolated series between regression and smoothing effect, can be applied on the output object of the functions `temporal_disaggregation()` and `temporal_interpolation()`.
 
-In practice, Chow-Lin and its variants Fernandez and Litterman are estimated based on an equivalent state space representation of the model, which makes it possible to obtain estimates in a very efficient way. Note that, by default, for Fernandez and Litterman, a diffuse initialization is considered for the estimation of the initial values of the states so that those integrate the constant estimates. The latter is thus ‘hidden’ and does not appear in the results. To make the estimates of the constant visible (and therefore finding back the usual output from the classic formulation of the model), one option is to change the argument`zeroinitialization = TRUE` with `constant=TRUE` before running the function.      
+In practice, Chow-Lin and its variants Fernandez and Litterman are estimated based on an equivalent state space representation of the model. By default, for Fernandez and Litterman, a diffuse initialization is considered for the estimation of the initial values of the states so that those integrate the estimate of the constant term. The latter is thus ‘hidden’ and does not appear explicitly in the output. To make the estimates of the constant term visible - thus recovering the usual output from the classic formulation of the model - one option is to change the argument `zeroinitialization = TRUE` with `constant=TRUE` when calling the function.      
 
 ## Model-based Denton
 
@@ -234,7 +234,7 @@ LR_stat <- -2 * (td_adl_constr_1$likelihood$ll - td_adl$likelihood$ll) # -> H0 n
 
 The output of the function `adl_disaggregation()` contains the most important information about the regression including the estimates of model coefficients and their covariance matrix, the disaggregated series and information about the residuals. A print(), summary() and plot() functions can be applied on the output object.
 
-In practice, ADL are estimated based on an equivalent state space representation of the model, which makes it possible to obtain estimates in a very efficient way.
+In practice, the ADL model is estimated based on an equivalent state space representation.
 
 ## Reverse regression
 
@@ -413,7 +413,7 @@ rjd3bench::cholette(s = x, t = Y, rho = 0, lambda = 0.5) # pro-rating
 
 The `cholette()` function returns the high frequency series benchmarked with the Cholette method.
 
-In practice, the benchmarked series is estimated based on an equivalent state space representation of the Cholette method described above, which makes it possible to obtain estimates in a very efficient way.
+In practice, the benchmarked series is estimated based on an equivalent state space representation of the Cholette method described above.
 
 
 # Reconciliation and multivariate temporal disaggregation
@@ -437,11 +437,11 @@ This objective function is minimized subject to
 * the temporal aggregation constraints $\sum_{t\epsilon T} y_{i,t} = Y_{i,T}$, and 
 * the contemporaneous constraints given by $\sum_{j\epsilon J_k}\omega_{k,j}x_{j,t} = z_{k,t}$.
 
-The method may also be considered in absence of temporal aggregation constraints. The contemporaneous constraints are then imposed by altering the dynamic movements of the series as little as possible. On the other hand, the absence of contemporaneous constraint is less relevant, as this is just equivalent to applying the univariate Cholette method to each of the preliminary series separately.
+The method may also be applied in the absence of temporal aggregation constraints. The contemporaneous constraints are then imposed by altering the dynamic movements of the series as little as possible. Conversely, the absence of contemporaneous constraint is less relevant, as this is just equivalent to applying the univariate Cholette method to each of the preliminary series separately. In addition to binding contemporaneous constraints, non-binding constraints can also specified by modifying their formulation in the `ccvector` argument. For example, instead of imposing a binding condition such as $x_1+x_2+x_3=z_1$, one may express a non-binding constraint as $x_1+x_2+x_3-z_1=0$, which allows the $z_1$ series to be adjusted in the same manner as $x_1$, $x_2$ and $x_3$ (weights may also be introduced when needed). 
 
 As in the univariate case, the multivariate Cholette method is driven by a couple of parameters: 
 
-- The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$. Set $\lambda = 0$ for an additive model and $\lambda$ close to 1 to approximate a proportional model; while $\lambda = 1$ is also possible, it should be used cautiously in a multivariate context. This is because contemporaneous constraints combined with the fact that pure movement preservation specifies nothing about the level of the individual reconciled series may sometimes produce substantial differences in level between the preliminary and the benchmarked series. This is especially true in the absence of temporal constraints where strong movement preservation should not be pursued during reconciliation. Finally, as in the univariate case, the naive pro-rating method corresponds to setting $\lambda = 0.5$ with $\rho = 0$.
+- The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$ makes the trade‑off between an additive and a proportional reconciliation model, and therefore determines how strongly the relative size of each series influences the distribution of discrepancies. Setting $\lambda = 0$ yields a purely additive model, while values of $\lambda$ close to 1 approximate a proportional model in which larger series absorb a larger share of the adjustment. Although $\lambda = 1$ is also possible, it should be used with caution in a multivariate context. This is because contemporaneous constraints, combined with the fact that pure movement preservation specifies nothing about the level of the individual reconciled series, may sometimes produce substantial differences in level between the preliminary and the benchmarked series. This is especially true in the absence of temporal constraints where strong movement preservation should not be pursued during reconciliation. Finally, as in the univariate case, the naive pro-rating method corresponds to setting $\lambda = 0.5$ with $\rho = 0$.
 
 - The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$ determines the degree of movement preservation. When $\lambda = 1$, the closer $\rho$ is to 1, the smoother will be the ratios of the benchmarks to the corresponding totals in the preliminary series and the better the movement of the latter will be preserved.
 
@@ -464,16 +464,19 @@ rowSums(lfs) - stats::aggregate.ts(z) # should all be 0
 
 data_list <- list(x1 = x1, x2 = x2, x3 = x3, z = z, Y1 = Y1, Y2 = Y2, Y3 = Y3)
 tc <- c("Y1 = sum(x1)", "Y2 = sum(x2)", "Y3 = sum(x3)") # temporal constraints
-cc <- c("z = x1+x2+x3") # contemporaneous constraints
+cc <- c("z = x1+x2+x3") # (binding) contemporaneous constraint
+cc_nb <- c("0 = x1+x2+x3-z") # non-binding contemporaneous constraint
 
-multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5) # Denton
-multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729, lambda = .5) # Cholette
-multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc, rho = 1, lambda = .5) # no temporal constraints
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, lambda = .5) # trade-off values for rho and lambda
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1) # Denton
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729) # Cholette
+multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc) # no temporal constraints
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb) # non-binding contemporaneous constraint
 ```
 
 The `multivariatecholette()` function returns a list of benchmarked series, fulfilling both the contemporary and the temporal constraints (if any).
 
-In practice, the benchmarked series are estimated based on an equivalent state space representation of the multivariate Cholette method described above, which makes it possible to obtain estimates in a very efficient way.
+In practice, the benchmarked series are estimated based on an equivalent state space representation of the multivariate Cholette method described above.
 
 # Calendarization
 
@@ -525,7 +528,6 @@ eyd_2 <- cal_2$edays
 ```
 
 The `calendarization()` function returns a list with the final aggregated results (after running the two steps process described above) and their associated errors, as well as the disaggregated daily values (after running the first step only) and their associated errors. 
-
 
 # References
 

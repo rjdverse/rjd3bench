@@ -2,7 +2,7 @@
 % Please edit documentation in R/benchmark.R
 \name{denton_raw}
 \alias{denton_raw}
-\title{Benchmarking of an atypical frequency series by means of the Denton method.}
+\title{Benchmarking of an Atypical Frequency Series by means of the Denton Method.}
 \usage{
 denton_raw(
   s = NULL,
@@ -19,51 +19,49 @@ denton_raw(
 )
 }
 \arguments{
-\item{s}{Preliminary series. If not NULL, it must be a numeric vector.}
+\item{s}{A preliminary series. If not \code{NULL}, it must be a numeric vector.}
 
-\item{t}{Aggregation constraint. Mandatory. It must be a numeric vector.}
+\item{t}{The low-frequency aggregation constraint. It must be a numeric vector.}
 
-\item{freqratio}{Frequency ratio between the benchmarked series and the
-aggregation constraint. Mandatory. It must be a positive integer.}
+\item{freqratio}{An integer specifying the frequency ratio between the benchmarked series and the low-frequency constraint.
+This argument is mandatory and must be a positive integer.}
 
-\item{d}{Differencing order. 1 by default.}
+\item{d}{An integer specifying the differencing order. The default is \code{1}.}
 
-\item{mul}{Multiplicative or additive benchmarking. Multiplicative by
-default.}
+\item{mul}{Boolean. Indicates whether benchmarking is multiplicative (\code{TRUE}) or additive (\code{FALSE}). The default is multiplicative.}
 
-\item{modified}{Modified (TRUE) or unmodified (FALSE) Denton. Modified by
-default.}
+\item{modified}{Boolean. Specifies whether the modified Denton method (\code{TRUE}) or the unmodified Denton method (\code{FALSE}) is applied. The default is \code{TRUE}.}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by
-default.}
+\item{conversion}{character string specifying the conversion mode, typically \code{"Sum"} or \code{"Average"}. The default is \code{"Sum"}.}
 
-\item{obsposition}{Position of the observation in the aggregated period (only
-used with "UserDefined" conversion).}
+\item{obsposition}{An integer specifying the position of the observations of the low-frequency constraint within the benchmarked series (e.g. the 7th month of the year).
+This argument is used only when \code{conversion = "UserDefined"}.}
 
-\item{startoffset}{Number of initial observations in the indicator(s) series that are prior to
-the period covered by the low-frequency series.
-Must be 0 or a positive integer. 0 by default. Ignored when no preliminary series is provided.}
+\item{startoffset}{The number of initial observations in the preliminary series that precede the start of the low-frequency constraint.
+The value must be either 0 or a positive integer (default is 0).
+This argument is ignored when no preliminary series is provided.}
 
-\item{nbcsts}{Number of backcast periods. Ignored when a preliminary series
-is provided. (not yet implemented)}
+\item{nbcsts}{An integer specifying the number of backcast periods.
+This argument is ignored when a preliminary series is provided.
+(Not yet implemented.)}
 
-\item{nfcsts}{Number of forecast periods. Ignored when a preliminary series
-is provided. (not yet implemented)}
+\item{nfcsts}{An integer specifying the number of forecast periods.
+This argument is ignored when a preliminary series is provided.
+(Not yet implemented.)}
 }
 \value{
-Numeric vector. The benchmarked series.
+A numeric vector with the benchmarked series.
 }
 \description{
 Denton method relies on the principle of movement preservation. There exist a
 few variants corresponding to different definitions of movement preservation:
 additive first difference (AFD), proportional first difference (PFD),
 additive second difference (ASD), proportional second difference (PSD), etc.
-The default and most widely used is the Denton PFD method. This "raw"
-function extends the denton() function in a way that it can deal with any
-frequency ratio between the preliminary series and the aggregation
-constraint.
+The default and most widely used is the Denton PFD method. The \code{denton_raw()}
+function extends \code{denton()} by allowing benchmarking for any frequency ratio.
 }
 \examples{
+\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
 Y <- c(500,510,525,520)
 x <- c(97, 98, 98.5, 99.5, 104,
        99, 100, 100.5, 101, 105.5,
@@ -71,16 +69,17 @@ x <- c(97, 98, 98.5, 99.5, 104,
        104, 107, 103, 108, 113,
        110)
 
-# denton PFD (for example, x and Y could be annual and quiquennal series respectively)
+# Denton PFD
+# for example, x and Y could be annual and quinquennal series respectively
 denton_raw(x, Y, freqratio = 5)
 
-# denton AFD
+# Denton AFD
 denton_raw(x, Y, freqratio = 5, mul = FALSE)
 
-# denton PFD without indicator
+# Denton PFD without indicator
 denton_raw(t = Y, freqratio = 2, conversion = "Average")
 
-# denton PFD with/without an offset and conversion = "Last"
+# Denton PFD with/without an offset and conversion = "Last"
 x2 <- c(485,
         490, 492.5, 497.5, 520, 495,
         500, 502.5, 505, 527.5, 515,
@@ -89,10 +88,10 @@ x2 <- c(485,
 denton_raw(x2, Y, freqratio = 5, conversion = "Last")
 denton_raw(x2, Y, freqratio = 5, conversion = "Last", startoffset = 1)
 
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

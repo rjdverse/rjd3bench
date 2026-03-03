@@ -1,13 +1,19 @@
-#' Deprecated functions
+#' @include utils.R
+#' @importFrom stats is.ts
+NULL
+
+#' @title Deprecated Functions
 #'
 #' @description
-#' This function is deprecated. You should start using the functions
-#' temporal_disaggregation() or temporal_interpolation() instead.
+#' This function is deprecated. Use the function `temporal_disaggregation()` or `temporal_interpolation()` instead.
 #'
 #' @param series,constant,trend,indicators,model,freq,conversion,conversion.obsposition,rho,rho.fixed,rho.truncated,zeroinitialization,diffuse.algorithm,diffuse.regressors Parameters.
-#' @name deprecated-rjd3bench
-#' @export
 #'
+#' @returns Return the same value as either function that replaces it.
+#'
+#' @name deprecated-rjd3bench
+#'
+#' @export
 temporaldisaggregation <- function(
         series,
         constant = TRUE,
@@ -25,7 +31,7 @@ temporaldisaggregation <- function(
         diffuse.regressors = FALSE) {
 
     .Deprecated(new = NULL,
-                msg = "temporaldisaggregation() is deprecated. Use temporal_disaggregation() or temporal_interpolation() instead.")
+                msg = "`temporaldisaggregation()` is deprecated. Use `temporal_disaggregation()` or `temporal_interpolation()` instead.")
 
     model <- match.arg(model)
     conversion <- match.arg(conversion)
@@ -40,7 +46,7 @@ temporaldisaggregation <- function(
             for (i in seq_along(indicators)) {
                 jlist[[i]] <- rjd3toolkit::.r2jd_tsdata(indicators[[i]])
             }
-        } else if (is.ts(indicators)) {
+        } else if (stats::is.ts(indicators)) {
             jlist[[1L]] <- rjd3toolkit::.r2jd_tsdata(indicators)
         } else {
             stop("Invalid indicators")
@@ -84,7 +90,7 @@ temporaldisaggregation <- function(
         smoothingpart = rjd3toolkit::.proc_numeric(jrslt, "smoothingpart"),
         parameter = rjd3toolkit::.proc_numeric(jrslt, "parameter"),
         eparameter = rjd3toolkit::.proc_numeric(jrslt, "eparameter"),
-        residuals = .proc_residuals(jrslt, stats::frequency(disagg)) # temporary solution (see function below)
+        residuals = .proc_residuals(jrslt, stats::frequency(disagg))
     )
     likelihood <- rjd3toolkit::.proc_likelihood(jrslt, "likelihood.")
 

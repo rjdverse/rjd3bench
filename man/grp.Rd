@@ -2,7 +2,7 @@
 % Please edit documentation in R/benchmark.R
 \name{grp}
 \alias{grp}
-\title{Benchmarking following the growth rate preservation principle.}
+\title{Benchmarking following the Growth Rate Preservation Principle.}
 \usage{
 grp(
   s,
@@ -16,33 +16,33 @@ grp(
 )
 }
 \arguments{
-\item{s}{Preliminary series. Mandatory. It must be a ts object.}
+\item{s}{A preliminary series. It must be a \code{"ts"} object.}
 
-\item{t}{Aggregation constraint. Mandatory. It must be a ts object.}
+\item{t}{The low-frequency aggregation constraint. It must be a \code{"ts"} object.}
 
-\item{objective}{Objective function. See vignette and/or Daalmans et al.
-(2018) for more information.}
+\item{objective}{A character string specifying the objective function. For additional information on this, see the package vignette.}
 
-\item{conversion}{Conversion rule. "Sum" by default.}
+\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} or \code{"Average"}. The default is \code{"Sum"}.}
 
-\item{obsposition}{Position of the observation in the aggregated period (only
-used with "UserDefined" conversion)}
+\item{obsposition}{An integer specifying the position of the observations of the low-frequency constraint within the benchmarked series (e.g. the 7th month of the year).
+This argument is used only when \code{conversion = "UserDefined"}.}
 
-\item{eps}{Numeric. Defines the convergence precision. BFGS algorithm is run
-until the reduction in the objective is within this eps value (1e-12 is the
-default) or until the maximum number of iterations is hit.}
+\item{eps}{A numeric value specifying the convergence tolerance. The BFGS
+algorithm proceeds until the reduction in the objective function is within
+this tolerance (default is \code{1e-12}) or until the maximum number of
+iterations is reached.}
 
-\item{iter}{Integer. Maximum number of iterations in BFGS algorithm (500 is
-the default).}
+\item{iter}{An integer giving the maximum number of iterations allowed in the BFGS algorithm.
+The default is \code{500}.}
 
-\item{dentoninitialization}{indicate whether the series benchmarked via
-modified Denton PFD is used as starting values of the GRP optimization
-procedure (TRUE/FALSE, TRUE by default). If FALSE, the average benchmark is
-used for flow variables (e.g. t/4 for quarterly series with annual
-constraints and conversion = 'Sum'), or the benchmark for stock variables.}
+\item{dentoninitialization}{Boolean. Indicates whether the series obtained
+via the modified Denton PFD method is used as the starting values for the
+GRP optimization procedure. The default is \code{TRUE}. If \code{FALSE}, the starting
+values are derived directly from the aggregation constraint (e.g. \code{t/4} for
+quarterly series with annual constraint and \code{conversion = "Sum"}).}
 }
 \value{
-The benchmarked series is returned
+A \code{"ts"} object with the benchmarked series
 }
 \description{
 GRP is a method which explicitly preserves the period-to-period growth rates
@@ -52,29 +52,30 @@ used as line-search algorithm for the reduced unconstrained minimization
 problem.
 }
 \examples{
+\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
 data("qna_data")
 
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- denton(t = Y, nfreq = 4) + rnorm(n = length(Y) * 4, mean = 0, sd = 10)
 grp(s = x, t = Y)
-
+\dontshow{\}) # examplesIf}
 }
 \references{
 Causey, B., and Trager, M.L. (1981). Derivation of Solution to
-  the Benchmarking Problem: Trend Revision. Unpublished research notes, U.S.
-  Census Bureau, Washington D.C. Available as an appendix in Bozik and Otto
-  (1988).
+the Benchmarking Problem: Trend Revision. Unpublished research notes, U.S.
+Census Bureau, Washington D.C. Available as an appendix in Bozik and Otto
+(1988).
 
-  Di Fonzo, T., and Marini, M. (2011). A Newton's Method for Benchmarking
-  Time Series according to a Growth Rates Preservation Principle. *IMF
-  WP/11/179*.
+Di Fonzo, T., and Marini, M. (2011). A Newton's Method for Benchmarking
+Time Series according to a Growth Rates Preservation Principle. \emph{IMF
+WP/11/179}.
 
-  Daalmans, J., Di Fonzo, T., Mushkudiani, N. and Bikker, R. (2018). Growth
-  Rates Preservation (GRP) temporal benchmarking: Drawbacks and alternative
-  solutions. *Statistics Canada*.
+Daalmans, J., Di Fonzo, T., Mushkudiani, N. and Bikker, R. (2018). Growth
+Rates Preservation (GRP) temporal benchmarking: Drawbacks and alternative
+solutions. \emph{Statistics Canada}.
 }
 \seealso{
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }
