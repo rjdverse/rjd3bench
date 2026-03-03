@@ -14,30 +14,27 @@ calendarization(
 )
 }
 \arguments{
-\item{calendarobs}{A named list with the observed data. The list must be
-composed of three elements: start, end and value, the first two
-corresponding to the starting and ending date of the observation. See
-example.}
+\item{calendarobs}{A named list containing the observed data. The list must
+consist of three elements: \code{start}, \code{end} and \code{value}, where the first two
+indicate the starting and ending dates of the observation. See the example.}
 
-\item{freq}{Annual frequency. If 0, only the daily series are computed.}
+\item{freq}{An integer specifying the annual frequency. If set to \code{0}, only the daily series is computed.}
 
-\item{start}{Starting day of the calendarization. Could be before the
-starting date of the first observation (retropolation).}
+\item{start}{The starting day of the calendarization. This date may precede the first observed data (retropolation).}
 
-\item{end}{Ending day of the calendarization. Could be after the ending date
-of the last observation (extrapolation).}
+\item{end}{The ending day of the calendarization. This date may exceed the last observed data (extrapolation).}
 
-\item{dailyweights}{Daily indicator values (or weights). Should have the same
-  length as the requested series. If available, it typically reflects the
-  daily level of activity that may be varying in function for instance of
-seasonality, trading day or other calendar effects such as public holidays.}
+\item{dailyweights}{A numeric vector of daily indicator values (or weights).
+The vector must have the same length as the requested daily series. When
+available, these weights typically reflects daily levels of activity, which
+may vary due to seasonality, trading day effects, or other calendar effects
+such as public holidays.}
 
-\item{stde}{Boolean. If TRUE, the function also returns the standard errors
-associated to the results. Default is FALSE.}
+\item{stde}{Boolean. If \code{TRUE}, the function also returns the standard errors associated with the results.
+The default is \code{FALSE}.}
 }
 \value{
-a list with the disaggregated daily values, the final aggregated
-  results, and their associated errors if requested.
+A list containing the disaggregated daily values, the final aggregated series, and their associated standard errors if requested.
 }
 \description{
 Time series data do not always coincide with calendar periods (e.g., fiscal
@@ -52,6 +49,7 @@ resulting daily values are aggregated into the desired calendar reference
 periods.
 }
 \examples{
+\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
 
 # Example 1 (from Quenneville et al (2012))
 
@@ -89,15 +87,15 @@ obs_2 <- list(
 cal_2 <- calendarization(obs_2, 4, end = "2003-12-31")
 
 yq_2 <- cal_2$rslt
-
+\dontshow{\}) # examplesIf}
 }
 \references{
 Quenneville, B., Picard F., Fortier S. (2012). Calendarization
-  with interpolating splines and state space models. Statistics Canada, Appl.
-  Statistics (2013) 62, part 3, pp 371-399.
+with interpolating splines and state space models. Statistics Canada, Appl.
+Statistics (2013) 62, part 3, pp 371-399.
 }
 \seealso{
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

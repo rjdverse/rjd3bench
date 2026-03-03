@@ -2,7 +2,7 @@
 % Please edit documentation in R/tempdisagg.R
 \name{temporal_disaggregation_raw}
 \alias{temporal_disaggregation_raw}
-\title{Temporal disaggregation of an atypical frequency series by regression models.}
+\title{Temporal Disaggregation of an Atypical Frequency Series by Regression Models.}
 \usage{
 temporal_disaggregation_raw(
   series,
@@ -24,83 +24,88 @@ temporal_disaggregation_raw(
 )
 }
 \arguments{
-\item{series}{The low frequency series that will be disaggregated. Must be a numeric vector.}
+\item{series}{A low-frequency time series to be disaggregated. It must be a numeric vector.}
 
-\item{constant}{Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.}
+\item{constant}{Boolean. Indicates whether a constant term is included in the model. The default is \code{TRUE}.
+Note that this argument is used only with \code{model = "Ar1"} when \code{zeroinitialization = FALSE}. For additional information on this, see the package vignette.}
 
-\item{trend}{Linear trend (T/F)}
+\item{trend}{Boolean. Indicates whether a linear trend is included in the model. The default is \code{FALSE}.}
 
-\item{indicators}{High-frequency indicator(s) used in the temporal disaggregation.
-If not NULL, it must be either a numeric vector or a matrix.}
+\item{indicators}{One or more high-frequency indicator series used in the temporal disaggregation.
+If \code{NULL} (the default), no indicator is used. When provided, the argument must be a numeric vector or a matrix.}
 
-\item{startoffset}{Number of initial observations in the indicator(s) series that are prior to
-the start of the period covered by the low-frequency series.
-Must be 0 or a positive integer. 0 by default. Ignored when no indicator is provided.}
+\item{startoffset}{The number of initial observations in the indicator series that precede the start of the low-frequency series.
+The value must be either 0 or a positive integer (default is 0). This argument is ignored when no indicator is provided.}
 
-\item{model}{Model of the error term (at the disaggregated level).
-"Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.}
+\item{model}{A character string specifying the model of the error term at the disaggregated level.
+The options are: \code{"Ar1"} (Chow Lin), \code{"Rw"} (Fernandez), and \code{"RwAr1"} (Litterman).}
 
-\item{freqratio}{Frequency ratio between the disaggregated series and the low frequency series.
-Mandatory. Must be a positive integer.}
+\item{freqratio}{An integer specifying the frequency ratio between the disaggregated series and the low-frequency series.
+This argument is mandatory and must be a positive integer.}
 
-\item{average}{Average conversion (T/F). Default is F, which means additive conversion.}
+\item{average}{Boolean. Indicates whether an average conversion should be considered. The default is \code{FALSE}, corresponding to additive conversion.}
 
-\item{rho}{(Initial) value of the parameter. Only used with Ar1/RwAr1 models.}
+\item{rho}{A numeric value giving the (initial) value of the autoregressive parameter.
+This argument is used only for \code{"Ar1"} and \code{"RwAr1"} models.}
 
-\item{rho.fixed}{Fixed rho (T/F, F by default)}
+\item{rho.fixed}{Boolean. Specifies whether the supplied value of \code{rho} is fixed. The default is \code{FALSE}, which indicates that \code{rho} is estimated.}
 
-\item{rho.truncated}{Range for Rho evaluation (in [rho.truncated, 1[)}
+\item{rho.truncated}{A numeric value defining the lower bound of the admissible range for \code{rho}.
+The evaluation range is \verb{[rho.truncated, 1[}.}
 
-\item{zeroinitialization}{The initial values of an auto-regressive model are
-fixed to 0 (T/F, F by default)}
+\item{zeroinitialization}{Boolean. If \code{TRUE}, the initial values of the autoregressive model are set to zero. The default is \code{FALSE}.}
 
-\item{diffuse.algorithm}{Algorithm used for diffuse initialization.
-"SqrtDiffuse" by default}
+\item{diffuse.algorithm}{A character string specifying the algorithm used for diffuse initialization. The default is \code{"SqrtDiffuse"}.}
 
-\item{diffuse.regressors}{Indicates if the coefficients of the regression
-model are diffuse (T) or fixed unknown (F, default)}
+\item{diffuse.regressors}{Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (\code{TRUE}) or as fixed unknown (\code{FALSE}, the default).}
 
-\item{nbcsts}{Number of backcast periods. Ignored when an indicator is provided.}
+\item{nbcsts}{An integer specifying the number of backcast periods.
+This argument is ignored when one or more indicator series is provided.}
 
-\item{nfcsts}{Number of forecast periods. Ignored when an indicator is provided.}
+\item{nfcsts}{An integer specifying the number of forecast periods.
+This argument is ignored when one or more indicator series is provided.}
 }
 \value{
-An object of class "JD3TempDisaggRaw"
+An object of class \code{"JD3_TEMPDISAGGRAW_RSLTS"} containing the results of the temporal disaggregation procedure.
 }
 \description{
-Perform temporal disaggregation of low frequency to high frequency time
-series by regression models. Models included are Chow-Lin, Fernandez,
-Litterman and some variants of those algorithms. This "raw" function extends
-the temporal_disaggregation() function in a way that it can deal with any
-frequency ratio.
+Perform temporal disaggregation of low-frequency to high-frequency time
+series by regression models. The implemented models include Chow-Lin,
+Fernandez, Litterman and some variants of those algorithms. The
+\code{temporal_disaggregation_raw()} function extends \code{temporal_disaggregation()}
+by allowing temporal disaggregation for any frequency ratio.
 }
 \examples{
-# use of chow-lin method to disaggregate a biennial series with an annual indicator
+\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
+# Use of Chow-lin method to disaggregate a biennial series with an annual indicator
 Y <- stats::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 0.5)
 x <- stats::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 1)
 td <- temporal_disaggregation_raw(as.numeric(Y), indicators = as.numeric(x), freqratio = 2)
 td$estimation$disagg
 
-# use of Fernandez method to disaggregate a series without indicator considering a frequency ratio of 5 (for example, it could be a quinquennial series to disaggregate on an annual basis)
+# Use of Fernandez method to disaggregate a series without indicator
+# considering a frequency ratio of 5 (for example, it could be a quinquennial
+# series to disaggregate on an annual basis)
 Y2 <- c(500,510,525,520)
 td2 <- temporal_disaggregation_raw(Y2, model = "Rw", freqratio = 5, nfcsts = 2)
 td2$estimation$disagg
 
-# same with an indicator, considering an offset in the latter
+# Same with an indicator, considering an offset in the latter
 Y2 <- c(500,510,525,520)
 x2 <- c(97,
         98, 98.5, 99.5, 104, 99,
         100, 100.5, 101, 105.5, 103,
         104.5, 103.5, 104.5, 109, 104,
         107, 103, 108, 113, 110)
-td3 <- temporal_disaggregation_raw(Y2, indicators = x2, startoffset = 1, model = "Rw", freqratio = 5)
+td3 <- temporal_disaggregation_raw(Y2, indicators = x2, startoffset = 1,
+                                   model = "Rw", freqratio = 5)
 td3$estimation$disagg
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link{temporal_interpolation_raw}}
+\code{temporal_interpolation_raw()}
 
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }
