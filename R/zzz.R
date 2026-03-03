@@ -13,7 +13,7 @@ NULL
 #' print(minimal_java_version)
 #' print(current_java_version)
 #' @export
-current_java_version <- rjd3toolkit::get_java_version()
+current_java_version <- rjd3toolkit::current_java_version
 
 #' @rdname java_version
 #' @export
