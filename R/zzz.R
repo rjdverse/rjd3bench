@@ -5,7 +5,7 @@ NULL
 #'
 #' @returns \code{current_java_version} is the current Java version and \code{minimal_java_version} is the minimum accepted Java version.
 #'
-#' @importFrom rjd3toolkit get_java_version minimal_java_version
+#' @importFrom rjd3toolkit current_java_version minimal_java_version
 #' @export
 #' @name java_version
 #'
