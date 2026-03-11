@@ -22,14 +22,14 @@ Depends:
   R (>= 4.1.0)
 Imports:
   rJava (>= 1.0-6),
-  rjd3toolkit (>= 3.6.0),
+  rjd3toolkit (>= 3.7.1),
   RProtoBuf (>= 0.4.20),
   stats,
   graphics
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-SystemRequirements: Java (>= 17)
+SystemRequirements: Java (>= 21)
 Collate: 
     'utils.R'
     'adl.R'

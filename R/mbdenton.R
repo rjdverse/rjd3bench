@@ -37,7 +37,7 @@ NULL
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' # Retail data, monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)

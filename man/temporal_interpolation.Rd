@@ -75,7 +75,7 @@ series by regression models. The implemented models include Chow-Lin,
 Fernandez, Litterman and some variants of those algorithms.
 }
 \examples{
-\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 # Chow-lin / Fernandez when the last value of the interpolated series is
 # consistent with the low-frequency series
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)

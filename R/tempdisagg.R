@@ -48,7 +48,7 @@ NULL
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' # Chow-lin with a monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
@@ -210,7 +210,7 @@ temporal_disaggregation <- function(
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' # Use of Chow-lin method to disaggregate a biennial series with an annual indicator
 #' Y <- stats::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 0.5)
 #' x <- stats::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 1)
@@ -387,7 +387,7 @@ temporal_disaggregation_raw <- function(
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' # Chow-lin / Fernandez when the last value of the interpolated series is
 #' # consistent with the low-frequency series
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
@@ -558,7 +558,7 @@ temporal_interpolation <- function(
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' # Use of Chow-lin method to interpolate a biennial series with an annual
 #' # indicator (the low-frequency series is consistent with the last value of the
 #' # interpolated series)
@@ -727,7 +727,7 @@ temporal_interpolation_raw <- function(
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' # Retail data, monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores

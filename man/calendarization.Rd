@@ -49,7 +49,7 @@ resulting daily values are aggregated into the desired calendar reference
 periods.
 }
 \examples{
-\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 
 # Example 1 (from Quenneville et al (2012))
 

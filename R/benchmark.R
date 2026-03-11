@@ -35,7 +35,7 @@ NULL
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #'
 #' # Denton PFD without a preliminary series
@@ -108,7 +108,7 @@ denton <- function(s = NULL, t, d = 1L, mul = TRUE, nfreq = 4L, modified = TRUE,
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' Y <- c(500,510,525,520)
 #' x <- c(97, 98, 98.5, 99.5, 104,
 #'        99, 100, 100.5, 101, 105.5,
@@ -212,7 +212,7 @@ denton_raw <- function(s = NULL, t, freqratio, d = 1L, mul = TRUE, modified = TR
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' data("qna_data")
 #'
 #' Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
@@ -260,7 +260,7 @@ grp <- function(s, t,
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' data("qna_data")
 #' Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 #'
@@ -330,7 +330,7 @@ cubicspline <- function(s = NULL, t, nfreq = 4L,
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' ym_true <- rjd3toolkit::Retail$RetailSalesTotal
 #' yq_true <- rjd3toolkit::aggregate(ym_true, 4)
 #' Y_full <- rjd3toolkit::aggregate(ym_true, 1)
@@ -426,7 +426,7 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf current_java_version >= minimal_java_version
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #'
 #' # Example 1: one "standard" contemporaneous constraint: x1+x2+x3 = z
 #'
