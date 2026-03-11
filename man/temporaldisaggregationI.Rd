@@ -42,7 +42,7 @@ indicator as the dependent variable and the unknown target series as the
 independent variable.
 }
 \examples{
-\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 # Retail data, monthly indicator
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::Retail$FoodAndBeverageStores

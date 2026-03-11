@@ -67,7 +67,7 @@ method relies on the principle of movement preservation and encompasses other
 reconciliation methods such as the multivariate Denton method.
 }
 \examples{
-\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 
 # Example 1: one "standard" contemporaneous constraint: x1+x2+x3 = z
 

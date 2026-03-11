@@ -55,7 +55,7 @@ additive second difference (ASD), proportional second difference (PSD), etc.
 The default and most widely used is the Denton PFD method.
 }
 \examples{
-\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 
 # Denton PFD without a preliminary series

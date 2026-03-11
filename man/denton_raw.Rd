@@ -61,7 +61,7 @@ The default and most widely used is the Denton PFD method. The \code{denton_raw(
 function extends \code{denton()} by allowing benchmarking for any frequency ratio.
 }
 \examples{
-\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 Y <- c(500,510,525,520)
 x <- c(97, 98, 98.5, 99.5, 104,
        99, 100, 100.5, 101, 105.5,

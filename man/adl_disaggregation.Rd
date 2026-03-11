@@ -48,7 +48,7 @@ Perform temporal disaggregation of low-frequency to high-frequency time
 series using an Autoregressive Distributed Lag regression model.
 }
 \examples{
-\dontshow{if (current_java_version >= minimal_java_version) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 # ADL model
 data("qna_data")
 Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
