@@ -34,10 +34,11 @@ series, and \code{c} is a constant. The \code{"+"} operator may be replaced by \
 All series names must correspond to elements in \code{xlist}. A series appearing
 on the left‑hand side cannot appear on the right‑hand side of any other
 constraint, since left‑hand side quantities are fixed while right‑hand side
-are adjusted to satisfy the equality. The default is \code{NULL}, indicating
-that no contemporaneous constraints are imposed, which is equivalent to
-applying the univariate Cholette method to each of the preliminary series
-separately.}
+are adjusted to satisfy the equality. Contemporaneous constraints must also
+be consistent with the temporal constraints (see the consistency check in
+the examples). The default is \code{NULL}, indicating that no contemporaneous
+constraints are imposed, which is equivalent to applying the univariate
+Cholette method to each of the preliminary series separately.}
 
 \item{rho}{Numeric. A smoothing parameter whose value must lie between 0 and 1.
 See the package vignette for more information on the choice of the \code{rho}
@@ -119,8 +120,9 @@ Y4 <- ts(c(40.0,41.0), frequency=1, start=c(2010,1))
 Y5 <- ts(c(25.0,20.0), frequency=1, start=c(2010,1))
 
 ### check consistency between temporal and contemporaneous constraints
-lfs <- cbind(Y1,3*Y2,0.5*Y3,Y4,Y5)
-rowSums(lfs) - stats::aggregate.ts(z1) # should all be 0
+wlfs <- cbind(Y1,3*Y2,0.5*Y3,Y4,Y5)
+rowSums(wlfs) - stats::aggregate.ts(z1) # cc1: should all be 0
+Y1 + Y2 - Y4 # cc2: should all be 0
 
 data.list <- list(x1=x1,x2=x2,x3=x3,x4=x4,x5=x5,z1=z1,Y1=Y1,Y2=Y2,Y3=Y3,Y4=Y4,Y5=Y5)
 tc <- c("Y1=sum(x1)", "Y2=sum(x2)", "Y3=sum(x3)", "Y4=sum(x4)", "Y5=sum(x5)")

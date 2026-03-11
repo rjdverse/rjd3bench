@@ -437,6 +437,8 @@ This objective function is minimized subject to
 * the temporal aggregation constraints $\sum_{t\epsilon T} y_{i,t} = Y_{i,T}$, and 
 * the contemporaneous constraints given by $\sum_{j\epsilon J_k}\omega_{k,j}x_{j,t} = z_{k,t}$.
 
+Note that consistency between the temporal aggregation constraints and the contemporaneous constraints is required (see the consistency check in the example).
+
 The method may also be applied in the absence of temporal aggregation constraints. The contemporaneous constraints are then imposed by altering the dynamic movements of the series as little as possible. Conversely, the absence of contemporaneous constraint is less relevant, as this is just equivalent to applying the univariate Cholette method to each of the preliminary series separately. In addition to binding contemporaneous constraints, non-binding constraints can also specified by modifying their formulation in the `ccvector` argument. For example, instead of imposing a binding condition such as $x_1+x_2+x_3=z_1$, one may express a non-binding constraint as $x_1+x_2+x_3-z_1=0$, which allows the $z_1$ series to be adjusted in the same manner as $x_1$, $x_2$ and $x_3$ (weights may also be introduced when needed). 
 
 As in the univariate case, the multivariate Cholette method is driven by a couple of parameters: 
