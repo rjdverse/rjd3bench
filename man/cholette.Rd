@@ -15,22 +15,22 @@ cholette(
 )
 }
 \arguments{
-\item{s}{Preliminary series. Mandatory. It must be the same class as t.}
+\item{s}{mandatory ts object or numeric vector, same as t. Preliminary series.}
 
-\item{t}{Aggregation constraint. Mandatory. It must be either an object of class ts or a numeric vector.}
+\item{t}{mandatory ts object or numeric vector. Aggregation constraint.}
 
-\item{rho}{Numeric. Smoothing parameter whose value should be between 0 and 1. See vignette for more information on the choice of the rho parameter.}
+\item{rho}{numeric. Smoothing parameter whose value should be between 0 and 1. See vignette for more information on the choice of the rho parameter.}
 
-\item{lambda}{Numeric. Adjustment model parameter. Typically, lambda = 1 for proportional benchmarking; lambda = 0 for additive benchmarking; and lambda = 0.5 with rho = 0 for the naive pro-rating method. See vignette for more information on the choice of the lambda parameter.}
+\item{lambda}{numeric. Adjustment model parameter. Typically, lambda = 1 for proportional benchmarking; lambda = 0 for additive benchmarking; and lambda = 0.5 with rho = 0 for the naive pro-rating method. See vignette for more information on the choice of the lambda parameter.}
 
-\item{bias}{Character. Bias correction factor. No systematic bias is considered by default. See vignette for more details.}
+\item{bias}{character. Bias correction factor. "None" by default. Other options are: "Additive" and "Multiplicative". See vignette for more details.}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by default.}
+\item{conversion}{character. Conversion rule. Most commonly used are: "Sum" (default) and "Average". Other options are: "Last", "First" or "UserDefined".}
 
-\item{obsposition}{Position of the observation in the aggregated period (only used with "UserDefined" conversion).}
+\item{obsposition}{integer. Position of the observation in the aggregated period (only used with "UserDefined" conversion)}
 }
 \value{
-The benchmarked series is returned
+Time-series object. The benchmarked series is returned.
 }
 \description{
 Cholette method is based on a benchmarking methodology developed at
@@ -71,9 +71,9 @@ cholette(s = xm, t = Y, rho = 0, lambda = 0.5)
 }
 \references{
 Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006).
-  Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
-  Statistics Canada. Statistics Canada, Working paper of the Time Series
-  Research and Analysis Centre.
+Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
+Statistics Canada. Statistics Canada, Working paper of the Time Series
+Research and Analysis Centre.
 }
 \seealso{
 For more information, see the vignette:

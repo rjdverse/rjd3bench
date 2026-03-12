@@ -18,36 +18,32 @@ denton(
 )
 }
 \arguments{
-\item{s}{Preliminary series. If not NULL, it must be the same class as t.}
+\item{s}{NULL or same class as t. Preliminary series.}
 
-\item{t}{Aggregation constraint. Mandatory. it must be either an object of
-class ts or a numeric vector.}
+\item{t}{mandatory ts object or numeric vector. Aggregation constraint.}
 
-\item{d}{Differencing order. 1 by default.}
+\item{d}{integer. Differencing order. 1 by default.}
 
-\item{mul}{Multiplicative or additive benchmarking. Multiplicative by
-default.}
+\item{mul}{boolean. Multiplicative (default) or additive benchmarking.}
 
-\item{nfreq}{Annual frequency of the disaggregated variable. Used if no
+\item{nfreq}{integer. Annual frequency of the disaggregated variable. Used if no
 disaggregated series is provided.}
 
-\item{modified}{Modified (TRUE) or unmodified (FALSE) Denton. Modified by
-default.}
+\item{modified}{boolean. If TRUE (default), modified Denton is used, if FALSE unmodified.}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by
-default.}
+\item{conversion}{character. Conversion rule. Most commonly used are: "Sum" (default) and "Average". Other options are: "Last", "First" or "UserDefined".}
 
-\item{obsposition}{Position of the observation in the aggregated period (only
-used with "UserDefined" conversion).}
+\item{obsposition}{integer. Position of the observed indicator in the aggregated
+periods (for instance 7th month of the year). Only used with "UserDefined" conversion.}
 
-\item{nbcsts}{Number of backcast periods. Ignored when a preliminary
+\item{nbcsts}{integer. Number of backcast periods. Ignored when a preliminary
 series is provided. (not yet implemented)}
 
-\item{nfcsts}{Number of forecast periods. Ignored when a preliminary
+\item{nfcsts}{integer. Number of forecast periods. Ignored when a preliminary
 series is provided. (not yet implemented)}
 }
 \value{
-The benchmarked series is returned
+Time-Series object. The benchmarked series is returned.
 }
 \description{
 Denton method relies on the principle of movement preservation. There exist a
@@ -72,7 +68,6 @@ denton(s = x, t = Y)
 
 # denton AFD with a preliminary series
 denton(s = x, t = Y, mul = FALSE)
-
 }
 \seealso{
 For more information, see the vignette:

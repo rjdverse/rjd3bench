@@ -3,7 +3,7 @@
 \name{denton_modelbased}
 \alias{denton_modelbased}
 \title{Temporal disaggregation & interpolation of a time series by
-  model-based Denton proportional method}
+model-based Denton proportional method}
 \usage{
 denton_modelbased(
   series,
@@ -16,26 +16,24 @@ denton_modelbased(
 )
 }
 \arguments{
-\item{series}{Aggregation constraint. Mandatory. It must be either an object
-of class ts or a numeric vector.}
+\item{series}{mandatory ts object or numeric vector. Aggregation constraint.}
 
-\item{indicator}{High-frequency indicator. Mandatory. It must be of same
-class as series}
+\item{indicator}{mandatory ts object or numeric vector, same as the \code{series}. High-frequency indicator.}
 
-\item{differencing}{Not implemented yet. Keep it equals to 1 (Denton PFD
-method).}
+\item{differencing}{integer. The default is 1 (Denton PFD
+method). Not implemented yet.}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by
-default.}
+\item{conversion}{integer. Conversion mode. Most comonly used are: "Sum" (default) and "Average".
+Other options are: "Last", "First" or "UserDefined".}
 
-\item{conversion.obsposition}{Position of the observation in the aggregated
-period (only used with "UserDefined" conversion)}
+\item{conversion.obsposition}{integer. Position of the observed indicator in the aggregated
+periods (for instance 7th month of the year). Only used with "UserDefined" conversion.}
 
 \item{outliers}{a list of structured definition of the outlier periods and
 their intensity. The period must be submitted first in the format
 YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
 equal sign and the intensity of the outlier, defined as the relative value
-of the 'innovation variances' (1= normal situation)}
+of the 'innovation variances' (1 = normal situation).}
 
 \item{fixedBIratios}{a list of structured definition of the periods where the
 BI ratios must be fixed. The period must be submitted first in the format
@@ -43,7 +41,12 @@ YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
 equal sign and the value of the BI ratio.}
 }
 \value{
-an object of class 'JD3MBDenton'
+An object of class "JD3MBDenton" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{estimation} \verb{[[1]]} disaggregated Time-Series, BI ratios, residuals and errors
+\item \code{likelihood} \verb{[[2]]} a list of test results
+}
 }
 \description{
 Denton proportional method can be expressed as a statistical model in a State

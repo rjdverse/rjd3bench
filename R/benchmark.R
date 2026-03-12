@@ -10,28 +10,26 @@ NULL
 #' additive second difference (ASD), proportional second difference (PSD), etc.
 #' The default and most widely used is the Denton PFD method.
 #'
-#' @param s Preliminary series. If not NULL, it must be the same class as t.
-#' @param t Aggregation constraint. Mandatory. it must be either an object of
-#'   class ts or a numeric vector.
-#' @param d Differencing order. 1 by default.
-#' @param mul Multiplicative or additive benchmarking. Multiplicative by
-#'   default.
-#' @param nfreq Annual frequency of the disaggregated variable. Used if no
+#' @param s NULL or same class as t. Preliminary series.
+#' @param t mandatory ts object or numeric vector. Aggregation constraint.
+#' @param d integer. Differencing order. 1 by default.
+#' @param mul boolean. Multiplicative (default) or additive benchmarking.
+#' @param nfreq integer. Annual frequency of the disaggregated variable. Used if no
 #'   disaggregated series is provided.
-#' @param modified Modified (TRUE) or unmodified (FALSE) Denton. Modified by
-#'   default.
-#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by
-#'   default.
-#' @param obsposition Position of the observation in the aggregated period (only
-#'   used with "UserDefined" conversion).
-#' @param nbcsts Number of backcast periods. Ignored when a preliminary
+#' @param modified boolean. If TRUE (default), modified Denton is used, if FALSE unmodified.
+#' @param conversion character. Conversion rule. Most commonly used are: "Sum" (default) and "Average". Other options are: "Last", "First" or "UserDefined".
+#' @param obsposition integer. Position of the observed indicator in the aggregated
+#'         periods (for instance 7th month of the year). Only used with "UserDefined" conversion.
+#' @param nbcsts integer. Number of backcast periods. Ignored when a preliminary
 #'   series is provided. (not yet implemented)
-#' @param nfcsts Number of forecast periods. Ignored when a preliminary
+#' @param nfcsts integer. Number of forecast periods. Ignored when a preliminary
 #'   series is provided. (not yet implemented)
 #'
-#' @return The benchmarked series is returned
 #'
-#' @export
+#'
+#' @return Time-Series object. The benchmarked series is returned.
+#'
+#'
 #'
 #' @seealso For more information, see the vignette:
 #'
@@ -53,7 +51,7 @@ NULL
 #'
 #' # denton AFD with a preliminary series
 #' denton(s = x, t = Y, mul = FALSE)
-#'
+#' @export
 denton <- function(s = NULL, t, d = 1L, mul = TRUE, nfreq = 4L, modified = TRUE,
                    conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
                    obsposition = 1L, nbcsts = 0L, nfcsts = 0L) {
@@ -84,28 +82,23 @@ denton <- function(s = NULL, t, d = 1L, mul = TRUE, nfreq = 4L, modified = TRUE,
 #' frequency ratio between the preliminary series and the aggregation
 #' constraint.
 #'
-#' @param s Preliminary series. If not NULL, it must be a numeric vector.
-#' @param t Aggregation constraint. Mandatory. It must be a numeric vector.
-#' @param freqratio Frequency ratio between the benchmarked series and the
-#'   aggregation constraint. Mandatory. It must be a positive integer.
-#' @param d Differencing order. 1 by default.
-#' @param mul Multiplicative or additive benchmarking. Multiplicative by
-#'   default.
-#' @param modified Modified (TRUE) or unmodified (FALSE) Denton. Modified by
-#'   default.
-#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by
-#'   default.
-#' @param obsposition Position of the observation in the aggregated period (only
-#'   used with "UserDefined" conversion).
-#' @param startoffset Number of initial observations in the indicator(s) series that are prior to
-#' the period covered by the low-frequency series.
-#' Must be 0 or a positive integer. 0 by default. Ignored when no preliminary series is provided.
-#' @param nbcsts Number of backcast periods. Ignored when a preliminary series
+#' @param s NULL or numeric vector. Preliminary series.
+#' @param t mandatory numeric vector. Aggregation constraint.
+#' @param freqratio mandatory positive integer. Frequency ratio between the benchmarked series and the
+#'   aggregation constraint.
+#' @param d integer. Differencing order. 1 by default.
+#' @param mul boolean. Multiplicative (default) or additive benchmarking.
+#' @param modified boolean. If TRUE (default), modified Denton is used, if FALSE unmodified.
+#' @param conversion character. Conversion rule. Most commonly used are: "Sum" (default) and "Average". Other options are: "Last", "First" or "UserDefined".
+#' @param obsposition integer. Position of the observed indicator in the aggregated
+#'         periods (for instance 7th month of the year). Only used with "UserDefined" conversion.
+#' @param startoffset positive integer or 0 (default). Number of initial observations in the indicator(s) series that are prior to the period covered by the low-frequency series. Ignored when no preliminary series is provided.
+#' @param nbcsts integer. Number of backcast periods. Ignored when a preliminary series
 #'   is provided. (not yet implemented)
-#' @param nfcsts Number of forecast periods. Ignored when a preliminary series
+#' @param nfcsts integer. Number of forecast periods. Ignored when a preliminary series
 #'   is provided. (not yet implemented)
 #'
-#' @return Numeric vector. The benchmarked series.
+#' @return Numeric vector. The benchmarked series is returned.
 #'
 #' @export
 #'
@@ -177,25 +170,26 @@ denton_raw<-function(s = NULL, t, freqratio, d = 1L, mul = TRUE, modified = TRUE
 #' used as line-search algorithm for the reduced unconstrained minimization
 #' problem.
 #'
-#' @param s Preliminary series. Mandatory. It must be a ts object.
-#' @param t Aggregation constraint. Mandatory. It must be a ts object.
-#' @param objective Objective function. See vignette and/or Daalmans et al.
+#' @param s mandatory ts object. Preliminary series.
+#' @param t mandatory ts object. Aggregation constraint.
+#' @param objective character. Objective function. "Forward" by default. Other options are: "Backward", "Symmetric", "Log". See vignette and/or Daalmans et al.
 #'   (2018) for more information.
-#' @param conversion Conversion rule. "Sum" by default.
-#' @param obsposition Position of the observation in the aggregated period (only
-#'   used with "UserDefined" conversion)
-#' @param eps Numeric. Defines the convergence precision. BFGS algorithm is run
-#'   until the reduction in the objective is within this eps value (1e-12 is the
+#' @param conversion character. Conversion rule. Most commonly used are: "Sum" (default) and "Average". Other options are: "Last", "First" or "UserDefined".
+#' @param obsposition integer. Position of the observed indicator in the aggregated
+#'         periods (for instance 7th month of the year). Only used with "UserDefined" conversion.
+#' @param eps numeric. Defines the convergence precision. BFGS algorithm is run
+#'   until the reduction in the objective is within this `eps` value (1e-12 is the
 #'   default) or until the maximum number of iterations is hit.
-#' @param iter Integer. Maximum number of iterations in BFGS algorithm (500 is
+#' @param iter integer. Maximum number of iterations in BFGS algorithm (500 is
 #'   the default).
-#' @param dentoninitialization indicate whether the series benchmarked via
+#' @param dentoninitialization boolean. If TRUE (default), the series benchmarked via
 #'   modified Denton PFD is used as starting values of the GRP optimization
-#'   procedure (TRUE/FALSE, TRUE by default). If FALSE, the average benchmark is
+#'   procedure. If FALSE, the average benchmark is
 #'   used for flow variables (e.g. t/4 for quarterly series with annual
 #'   constraints and conversion = 'Sum'), or the benchmark for stock variables.
 #'
-#' @return The benchmarked series is returned
+#' @return Time-Series object. The benchmarked series is returned.
+#'
 #' @references  Causey, B., and Trager, M.L. (1981). Derivation of Solution to
 #'   the Benchmarking Problem: Trend Revision. Unpublished research notes, U.S.
 #'   Census Bureau, Washington D.C. Available as an appendix in Bozik and Otto
@@ -248,13 +242,13 @@ grp <- function(s, t,
 #' period estimates are then simply the product between the smoothed high
 #' frequency BI ratio and the indicator.
 #'
-#' @param s Preliminary series. If not NULL, it must be the same class as t.
-#' @param t Aggregation constraint. Mandatory. it must be either an object of class ts or a numeric vector.
-#' @param nfreq Integer. Annual frequency of the benchmarked series. Used if no preliminary series is provided.
-#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by default.
-#' @param obsposition Integer. Postion of the observation in the aggregated period (only used with "UserDefined" conversion)
+#' @param s NULL or same class as t. Preliminary series.
+#' @param t mandatory ts object or numeric vector. Aggregation constraint.
+#' @param nfreq integer. Annual frequency of the benchmarked series. Used if no preliminary series is provided.
+#' @param conversion character. Conversion rule. Most commonly used are: "Sum" (default) and "Average". Other options are: "Last", "First" or "UserDefined".
+#' @param obsposition integer. Position of the observation in the aggregated period (only used with "UserDefined" conversion)
 #'
-#' @return The benchmarked series is returned
+#' @return Numeric vector. The benchmarked series is returned.
 #' @export
 #'
 #' @seealso For more information, see the vignette:
@@ -306,15 +300,15 @@ cubicspline <- function(s = NULL, t, nfreq = 4L,
 #' This method has been widely used for the purpose of benchmarking seasonally
 #' adjusted series among others.
 #'
-#' @param s Preliminary series. Mandatory. It must be the same class as t.
-#' @param t Aggregation constraint. Mandatory. It must be either an object of class ts or a numeric vector.
-#' @param rho Numeric. Smoothing parameter whose value should be between 0 and 1. See vignette for more information on the choice of the rho parameter.
-#' @param lambda Numeric. Adjustment model parameter. Typically, lambda = 1 for proportional benchmarking; lambda = 0 for additive benchmarking; and lambda = 0.5 with rho = 0 for the naive pro-rating method. See vignette for more information on the choice of the lambda parameter.
-#' @param bias Character. Bias correction factor. No systematic bias is considered by default. See vignette for more details.
-#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by default.
-#' @param obsposition Position of the observation in the aggregated period (only used with "UserDefined" conversion).
+#' @param s mandatory ts object or numeric vector, same as t. Preliminary series.
+#' @param t mandatory ts object or numeric vector. Aggregation constraint.
+#' @param rho numeric. Smoothing parameter whose value should be between 0 and 1. See vignette for more information on the choice of the rho parameter.
+#' @param lambda numeric. Adjustment model parameter. Typically, lambda = 1 for proportional benchmarking; lambda = 0 for additive benchmarking; and lambda = 0.5 with rho = 0 for the naive pro-rating method. See vignette for more information on the choice of the lambda parameter.
+#' @param bias character. Bias correction factor. "None" by default. Other options are: "Additive" and "Multiplicative". See vignette for more details.
+#' @param conversion character. Conversion rule. Most commonly used are: "Sum" (default) and "Average". Other options are: "Last", "First" or "UserDefined".
+#' @param obsposition integer. Position of the observation in the aggregated period (only used with "UserDefined" conversion)
 #'
-#' @return The benchmarked series is returned
+#' @return Time-series object. The benchmarked series is returned.
 #'
 #' @references Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006).
 #'   Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
@@ -386,29 +380,22 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'   low-frequency series corresponding to one of the temporal aggregation
 #'   constraints or a high-frequency series corresponding to one of the
 #'   contemporaneous constraints).
-#' @param tcvector a character vector defining each temporal constraints. Each
+#' @param tcvector NULL (default) or character vector defining each temporal constraints. If NULL, no temporal constrains are considered. Otherwise, each
 #'   element of the vector must be written as "Y = sum(x)" where "Y" is the name
 #'   of a low frequency temporal constraint and "x" is the name of a
 #'   high-frequency preliminary series. The names are the one given in the
-#'   'xlist' argument. Default is NULL, which means that no temporal constraint
-#'   is considered.
-#' @param ccvector a character vector defining each contemporaneous constraints.
-#'   Each element of the vector must be written in the form
-#'   "z=[w1*]x1+...+[wn*]xn" or "c=[w1*]x1+...+[wn*]xn" where "z" is the name of
-#'   a high frequency contemporaneous constraint, wj are optional numeric
-#'   weights, "x1,...,xn" are the names of the high-frequency preliminary series
-#'   and c is a constant. The "+" operator can be replaced by "-". The names of
-#'   the contemporaneous constraint(s) and the preliminary series are the one
-#'   given in the 'xlist' argument. Note that any series put on the left
-#'   hand side cannot appear on the right hand side of any other constraint. This
-#'   is because left hand side quantities are fixed while right hand side
-#'   quantities are adjusted so the equality holds. Default is NULL, which means
-#'   that no contemporaneous constraint is considered. This is equivalent to
-#'   applying the univariate Cholette method to each of the preliminary series
-#'   separately.
-#' @param rho Numeric. Smoothing parameter whose value should be between 0 and
-#'   1. See vignette for more information on the choice of the rho parameter.
-#' @param lambda Numeric. Adjustment model parameter. Typically, lambda = 0 for
+#'   'xlist' argument.
+#' @param ccvector NULL (default) or a character vector defining each contemporaneous constraints. If NULL, no contemporaneous constraint is considered.This is equivalent to applying the univariate Cholette method to each of the preliminary series separately. Otherwise, each element of the vector must be written in the form \eqn{z=w_1 x_1+\ldots+w_n x_n} or \eqn{c=w_1 x_1+\ldots+w_n x_n} where:
+#' * \eqn{z} is the name of a high-frequency contemporaneous constraint,
+#' * \eqn{(w_1,\ldots,w_n)} are optional numeric weights,
+#' * \eqn{(x_1,\ldots,x_n)} are the names of the high-frequency preliminary series and
+#' * \eqn{c} is a constant.
+#'
+#' The \eqn{+} operator can be replaced by \eqn{-}. The names of the contemporaneous constraint(s) and the preliminary series are the one given in the `xlist` argument.
+#'
+#' \strong{Important}: Any series placed on the left-hand side of a constraint cannot appear on the right-hand side of any other constraint. This is because quantities on the left-hand side are fixed, while those on the right-hand side are adjusted to satisfy the equality.
+#' @param rho numeric. Smoothing parameter whose value should be between 0 and 1. See vignette for more information on the choice of the rho parameter.
+#' @param lambda numeric. Adjustment model parameter. Typically, lambda = 0 for
 #'   additive benchmarking and lambda close to 1 to approach proportional
 #'   benchmarking. Setting lambda = 1 is also an option but it should be used
 #'   with caution as, in the case of a multivariate model, it may sometimes
@@ -416,7 +403,7 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'   preliminary series. See vignette for more information on the choice of the
 #'   lambda parameter.
 #'
-#' @return a named list with the benchmarked series is returned
+#' @return A list of Time-Series objects. A named list with the benchmarked series is returned.
 #' @export
 #'
 #' @seealso For more information, see the vignette:

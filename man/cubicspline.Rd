@@ -13,18 +13,18 @@ cubicspline(
 )
 }
 \arguments{
-\item{s}{Preliminary series. If not NULL, it must be the same class as t.}
+\item{s}{NULL or same class as t. Preliminary series.}
 
-\item{t}{Aggregation constraint. Mandatory. it must be either an object of class ts or a numeric vector.}
+\item{t}{mandatory ts object or numeric vector. Aggregation constraint.}
 
-\item{nfreq}{Integer. Annual frequency of the benchmarked series. Used if no preliminary series is provided.}
+\item{nfreq}{integer. Annual frequency of the benchmarked series. Used if no preliminary series is provided.}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by default.}
+\item{conversion}{character. Conversion rule. Most commonly used are: "Sum" (default) and "Average". Other options are: "Last", "First" or "UserDefined".}
 
-\item{obsposition}{Integer. Postion of the observation in the aggregated period (only used with "UserDefined" conversion)}
+\item{obsposition}{integer. Position of the observation in the aggregated period (only used with "UserDefined" conversion)}
 }
 \value{
-The benchmarked series is returned
+Numeric vector. The benchmarked series is returned.
 }
 \description{
 Cubic splines are piecewise cubic functions that are linked together in

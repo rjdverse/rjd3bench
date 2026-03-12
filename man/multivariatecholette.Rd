@@ -19,32 +19,27 @@ low-frequency series corresponding to one of the temporal aggregation
 constraints or a high-frequency series corresponding to one of the
 contemporaneous constraints).}
 
-\item{tcvector}{a character vector defining each temporal constraints. Each
+\item{tcvector}{NULL (default) or character vector defining each temporal constraints. If NULL, no temporal constrains are considered. Otherwise, each
 element of the vector must be written as "Y = sum(x)" where "Y" is the name
 of a low frequency temporal constraint and "x" is the name of a
 high-frequency preliminary series. The names are the one given in the
-'xlist' argument. Default is NULL, which means that no temporal constraint
-is considered.}
+'xlist' argument.}
 
-\item{ccvector}{a character vector defining each contemporaneous constraints.
-Each element of the vector must be written in the form
-"z=[w1*]x1+...+[wn*]xn" or "c=[w1*]x1+...+[wn*]xn" where "z" is the name of
-a high frequency contemporaneous constraint, wj are optional numeric
-weights, "x1,...,xn" are the names of the high-frequency preliminary series
-and c is a constant. The "+" operator can be replaced by "-". The names of
-the contemporaneous constraint(s) and the preliminary series are the one
-given in the 'xlist' argument. Note that any series put on the left
-hand side cannot appear on the right hand side of any other constraint. This
-is because left hand side quantities are fixed while right hand side
-quantities are adjusted so the equality holds. Default is NULL, which means
-that no contemporaneous constraint is considered. This is equivalent to
-applying the univariate Cholette method to each of the preliminary series
-separately.}
+\item{ccvector}{NULL (default) or a character vector defining each contemporaneous constraints. If NULL, no contemporaneous constraint is considered.This is equivalent to applying the univariate Cholette method to each of the preliminary series separately. Otherwise, each element of the vector must be written in the form \eqn{z=w_1 x_1+\ldots+w_n x_n} or \eqn{c=w_1 x_1+\ldots+w_n x_n} where:
+\itemize{
+\item \eqn{z} is the name of a high-frequency contemporaneous constraint,
+\item \eqn{(w_1,\ldots,w_n)} are optional numeric weights,
+\item \eqn{(x_1,\ldots,x_n)} are the names of the high-frequency preliminary series and
+\item \eqn{c} is a constant.
+}
 
-\item{rho}{Numeric. Smoothing parameter whose value should be between 0 and
-1. See vignette for more information on the choice of the rho parameter.}
+The \eqn{+} operator can be replaced by \eqn{-}. The names of the contemporaneous constraint(s) and the preliminary series are the one given in the \code{xlist} argument.
 
-\item{lambda}{Numeric. Adjustment model parameter. Typically, lambda = 0 for
+\strong{Important}: Any series placed on the left-hand side of a constraint cannot appear on the right-hand side of any other constraint. This is because quantities on the left-hand side are fixed, while those on the right-hand side are adjusted to satisfy the equality.}
+
+\item{rho}{numeric. Smoothing parameter whose value should be between 0 and 1. See vignette for more information on the choice of the rho parameter.}
+
+\item{lambda}{numeric. Adjustment model parameter. Typically, lambda = 0 for
 additive benchmarking and lambda close to 1 to approach proportional
 benchmarking. Setting lambda = 1 is also an option but it should be used
 with caution as, in the case of a multivariate model, it may sometimes
@@ -53,7 +48,7 @@ preliminary series. See vignette for more information on the choice of the
 lambda parameter.}
 }
 \value{
-a named list with the benchmarked series is returned
+A list of Time-Series objects. A named list with the benchmarked series is returned.
 }
 \description{
 This is a multivariate extension of the Cholette benchmarking method which

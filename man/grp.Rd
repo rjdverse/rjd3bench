@@ -16,33 +16,33 @@ grp(
 )
 }
 \arguments{
-\item{s}{Preliminary series. Mandatory. It must be a ts object.}
+\item{s}{mandatory ts object. Preliminary series.}
 
-\item{t}{Aggregation constraint. Mandatory. It must be a ts object.}
+\item{t}{mandatory ts object. Aggregation constraint.}
 
-\item{objective}{Objective function. See vignette and/or Daalmans et al.
+\item{objective}{character. Objective function. "Forward" by default. Other options are: "Backward", "Symmetric", "Log". See vignette and/or Daalmans et al.
 (2018) for more information.}
 
-\item{conversion}{Conversion rule. "Sum" by default.}
+\item{conversion}{character. Conversion rule. Most commonly used are: "Sum" (default) and "Average". Other options are: "Last", "First" or "UserDefined".}
 
-\item{obsposition}{Position of the observation in the aggregated period (only
-used with "UserDefined" conversion)}
+\item{obsposition}{integer. Position of the observed indicator in the aggregated
+periods (for instance 7th month of the year). Only used with "UserDefined" conversion.}
 
-\item{eps}{Numeric. Defines the convergence precision. BFGS algorithm is run
-until the reduction in the objective is within this eps value (1e-12 is the
+\item{eps}{numeric. Defines the convergence precision. BFGS algorithm is run
+until the reduction in the objective is within this \code{eps} value (1e-12 is the
 default) or until the maximum number of iterations is hit.}
 
-\item{iter}{Integer. Maximum number of iterations in BFGS algorithm (500 is
+\item{iter}{integer. Maximum number of iterations in BFGS algorithm (500 is
 the default).}
 
-\item{dentoninitialization}{indicate whether the series benchmarked via
+\item{dentoninitialization}{boolean. If TRUE (default), the series benchmarked via
 modified Denton PFD is used as starting values of the GRP optimization
-procedure (TRUE/FALSE, TRUE by default). If FALSE, the average benchmark is
+procedure. If FALSE, the average benchmark is
 used for flow variables (e.g. t/4 for quarterly series with annual
 constraints and conversion = 'Sum'), or the benchmark for stock variables.}
 }
 \value{
-The benchmarked series is returned
+Time-Series object. The benchmarked series is returned.
 }
 \description{
 GRP is a method which explicitly preserves the period-to-period growth rates
@@ -61,17 +61,17 @@ grp(s = x, t = Y)
 }
 \references{
 Causey, B., and Trager, M.L. (1981). Derivation of Solution to
-  the Benchmarking Problem: Trend Revision. Unpublished research notes, U.S.
-  Census Bureau, Washington D.C. Available as an appendix in Bozik and Otto
-  (1988).
+the Benchmarking Problem: Trend Revision. Unpublished research notes, U.S.
+Census Bureau, Washington D.C. Available as an appendix in Bozik and Otto
+(1988).
 
-  Di Fonzo, T., and Marini, M. (2011). A Newton's Method for Benchmarking
-  Time Series according to a Growth Rates Preservation Principle. *IMF
-  WP/11/179*.
+Di Fonzo, T., and Marini, M. (2011). A Newton's Method for Benchmarking
+Time Series according to a Growth Rates Preservation Principle. \emph{IMF
+WP/11/179}.
 
-  Daalmans, J., Di Fonzo, T., Mushkudiani, N. and Bikker, R. (2018). Growth
-  Rates Preservation (GRP) temporal benchmarking: Drawbacks and alternative
-  solutions. *Statistics Canada*.
+Daalmans, J., Di Fonzo, T., Mushkudiani, N. and Bikker, R. (2018). Growth
+Rates Preservation (GRP) temporal benchmarking: Drawbacks and alternative
+solutions. \emph{Statistics Canada}.
 }
 \seealso{
 For more information, see the vignette:

@@ -15,24 +15,30 @@ temporaldisaggregationI(
 )
 }
 \arguments{
-\item{series}{The time series that will be disaggregated. It must be a ts object.}
+\item{series}{ts object. The time series that will be disaggregated.}
 
-\item{indicator}{The high-frequency indicator. It must be a ts object.}
+\item{indicator}{ts object. The high-frequency indicator.}
 
-\item{conversion}{Conversion mode (Usually "Sum" or "Average")}
+\item{conversion}{integer. Conversion mode. Most commonly used are: "Sum" (default) and "Average".
+Other options are: "Last", "First" or "UserDefined".}
 
-\item{conversion.obsposition}{Integer. Only used with "UserDefined" mode.
-Position of the observed indicator in the aggregated periods (for instance
-7th month of the year)}
+\item{conversion.obsposition}{integer. Position of the observed indicator in the aggregated
+periods (for instance 7th month of the year). Only used with "UserDefined" conversion.}
 
-\item{rho}{(Initial) value of the parameter.}
+\item{rho}{numeric. (Initial) value of the parameter.}
 
-\item{rho.fixed}{Fixed rho (T/F, F by default).}
+\item{rho.fixed}{boolean. If TRUE, fixed rho is used. The default is FALSE.}
 
-\item{rho.truncated}{Range for Rho evaluation (in [rho.truncated, 1[)}
+\item{rho.truncated}{numeric. Range for rho evaluation (in [\code{rho.truncated}, 1]).}
 }
 \value{
-An object of class "JD3TempDisaggI"
+An object of class "JD3TempDisaggI" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients
+\item \code{estimation} \verb{[[2]]} disaggregated Time-Series
+\item \code{likelihood} \verb{[[3]]} a list of test results
+}
 }
 \description{
 Perform temporal disaggregation and interpolation of low frequency to high
@@ -60,7 +66,7 @@ td$regression$b
 }
 \references{
 Bournay J., Laroque G. (1979). Reflexions sur la methode
-  d'elaboration des comptes trimestriels. Annales de l'Insee, n°36, pp.3-30.
+d'elaboration des comptes trimestriels. Annales de l'Insee, n°36, pp.3-30.
 }
 \seealso{
 For more information, see the vignette:

@@ -8,29 +8,37 @@ NULL
 #' series by regression models. Models included are Chow-Lin, Fernandez,
 #' Litterman and some variants of those algorithms.
 #'
-#' @param series The low frequency time series that will be disaggregated. It must be a ts object.
-#' @param constant Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.
-#' @param trend Linear trend (T/F, F by default)
-#' @param indicators High-frequency indicator(s) used in the temporal disaggregation.
-#' It must be a (list of) ts object(s).
-#' @param model Model of the error term (at the disaggregated level).
-#' "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
-#' @param freq Integer. Annual frequency of the disaggregated series.
-#' Ignored when an indicator is provided.
-#' @param average Average conversion (T/F). Default is F, which means additive conversion.
-#' @param rho (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
-#' @param rho.fixed Fixed rho (T/F, F by default)
-#' @param rho.truncated Range for rho evaluation (in [rho.truncated, 1[)
-#' @param zeroinitialization The initial values of an auto-regressive model are
-#'   fixed to 0 (T/F, F by default)
-#' @param diffuse.algorithm Algorithm used for diffuse initialization.
-#'   "SqrtDiffuse" by default.
-#' @param diffuse.regressors Indicates if the coefficients of the regression
-#'   model are diffuse (T) or fixed unknown (F, default)
-#' @param nbcsts Number of backcast periods. Ignored when an indicator is provided.
-#' @param nfcsts Number of forecast periods. Ignored when an indicator is provided.
+#' @param series ts object. The low frequency time series that will be disaggregated.
+#' @param series ts object. The low frequency time series that will be disaggregated.
+#' @param constant boolean. if TRUE, constant term is used. Parameter can only be used
+#'      when `model` is set to "Ar1" (Chow-Lin) and when `zeroinitialization` is set to FALSE.
+#' @param trend boolean. If TRUE, the linear trend is used. The default is FALSE.
+#' @param indicators a (list of) ts object(s). High-frequency indicator(s) used in the
+#'      temporal disaggregation.
+#' @param model character. Model of the error term (at the disaggregated level).
+#'      "Ar1" = Chow-Lin (default), "Rw" = Fernandez, "RwAr1" = Litterman.
+#' @param freq integer. Annual frequency of the disaggregated series.
+#'      Ignored when an indicator is provided.
+#' @param average boolean. if FALSE (default), mean additive conversion is used. Setting the
+#'      parameter to TRUE uses average conversion.
+#' @param rho numeric. (Initial) value of the parameter; only used with Ar1/RwAr1 models.
+#' @param rho.fixed boolean. If TRUE, fixed rho is used. The default is FALSE.
+#' @param rho.truncated numeric. Range for rho evaluation (in \[`rho.truncated`, 1\]).
+#' @param zeroinitialization boolean. If TRUE, the initial values of an auto-regressive
+#'      model are fixed to 0. The default is FALSE.
+#' @param diffuse.algorithm character. Algorithm used for diffuse initialization.
+#'   "SqrtDiffuse" (default), "Diffuse" and "Augmented".
+#' @param diffuse.regressors boolean. If FALSE (default), the coefficients of the
+#'      regression model are fixed unknown. If TRUE, the coefficients of the regression
+#'      model are diffuse.
+#' @param nbcsts integer. Number of backcast periods; ignored when an indicator is provided.
+#' @param nfcsts integer. Number of forecast periods; ignored when an indicator is provided.
 #'
-#' @return An object of class "JD3TempDisagg"
+#' @return An object of class "JD3TempDisagg" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients
+#' * `estimation` `[[2]]` disaggregated Time-Series, errors, residuals and other parameters
+#' * `likelihood` `[[3]]` a list of test results
 #' @export
 #'
 #' @seealso \code{\link{temporal_interpolation}} for interpolation,
@@ -170,32 +178,38 @@ temporal_disaggregation <- function(
 #' the temporal_disaggregation() function in a way that it can deal with any
 #' frequency ratio.
 #'
-#' @param series The low frequency series that will be disaggregated. Must be a numeric vector.
-#' @param constant Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.
-#' @param trend Linear trend (T/F)
-#' @param indicators High-frequency indicator(s) used in the temporal disaggregation.
-#' If not NULL, it must be either a numeric vector or a matrix.
-#' @param startoffset Number of initial observations in the indicator(s) series that are prior to
-#' the start of the period covered by the low-frequency series.
-#' Must be 0 or a positive integer. 0 by default. Ignored when no indicator is provided.
-#' @param model Model of the error term (at the disaggregated level).
-#' "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
-#' @param freqratio Frequency ratio between the disaggregated series and the low frequency series.
-#' Mandatory. Must be a positive integer.
-#' @param average Average conversion (T/F). Default is F, which means additive conversion.
-#' @param rho (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
-#' @param rho.fixed Fixed rho (T/F, F by default)
-#' @param rho.truncated Range for Rho evaluation (in [rho.truncated, 1[)
-#' @param zeroinitialization The initial values of an auto-regressive model are
-#'   fixed to 0 (T/F, F by default)
-#' @param diffuse.algorithm Algorithm used for diffuse initialization.
-#'   "SqrtDiffuse" by default
-#' @param diffuse.regressors Indicates if the coefficients of the regression
-#'   model are diffuse (T) or fixed unknown (F, default)
-#' @param nbcsts Number of backcast periods. Ignored when an indicator is provided.
-#' @param nfcsts Number of forecast periods. Ignored when an indicator is provided.
+#' @param series ts object. The low frequency time series that will be disaggregated.
+#' @param constant boolean. if TRUE, constant term is used. Parameter can only be used
+#'      when `model` is set to "Ar1" (Chow-Lin) and when `zeroinitialization` is set to FALSE.
+#' @param trend boolean. If TRUE, the linear trend is used. The default is FALSE.
+#' @param indicators a (list of) ts object(s). High-frequency indicator(s) used in the
+#'      temporal disaggregation.
+#' @param startoffset integer. Number of initial observations in the indicator(s) series that are
+#' prior to the start of the period covered by the low-frequency series. Must be 0 or a positive
+#' integer. The default is 0.
+#' @param model character. Model of the error term (at the disaggregated level).
+#'      "Ar1" = Chow-Lin (default), "Rw" = Fernandez, "RwAr1" = Litterman.
+#' @param freqratio a mandatory positive integer. Frequency ratio between the disaggregated series and the low frequency series.
+#' @param average boolean. if FALSE (default), mean additive conversion is used. Setting the
+#'      parameter to TRUE uses average conversion.
+#' @param rho numeric. (Initial) value of the parameter; only used with Ar1/RwAr1 models.
+#' @param rho.fixed boolean. If TRUE, fixed rho is used. The default is FALSE.
+#' @param rho.truncated numeric. Range for rho evaluation (in \[`rho.truncated`, 1\]).
+#' @param zeroinitialization boolean. If TRUE, the initial values of an auto-regressive
+#'      model are fixed to 0. The default is FALSE.
+#' @param diffuse.algorithm character. Algorithm used for diffuse initialization.
+#'   "SqrtDiffuse" (default), "Diffuse" and "Augmented".
+#' @param diffuse.regressors boolean. If FALSE (default), the coefficients of the
+#'      regression model are fixed unknown. If TRUE, the coefficients of the regression
+#'      model are diffuse.
+#' @param nbcsts integer. Number of backcast periods. Ignored when an indicator is provided.
+#' @param nfcsts integer. Number of forecast periods. Ignored when an indicator is provided.
 #'
-#' @return An object of class "JD3TempDisaggRaw"
+#' @return An object of class "JD3TempDisaggRaw" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients
+#' * `estimation` `[[2]]` disaggregated values, errors, residuals and other parameters
+#' * `likelihood` `[[3]]` a list of test results
 #' @export
 #'
 #' @seealso \code{\link{temporal_interpolation_raw}}
@@ -334,36 +348,40 @@ temporal_disaggregation_raw <- function(
 #' series by regression models. Models included are Chow-Lin, Fernandez,
 #' Litterman and some variants of those algorithms.
 #'
-#' @param series The low frequency time series that will be interpolated. It must be a ts object.
-#' @param constant Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.
-#' @param trend Linear trend (T/F, F by default)
-#' @param indicators High-frequency indicator(s) used in the interpolation.
-#' It must be a (list of) ts object(s).
-#' @param model Model of the error term (at the higher-frequency level).
-#' "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
-#' @param freq Integer. Annual frequency of the interpolated series.
+#' @param series ts object. The low frequency time series that will be interpolatedted.
+#' @param constant boolean. if TRUE, constant term is used. Parameter can only be used
+#'      when `model` is set to "Ar1" (Chow-Lin) and when `zeroinitialization` is set to FALSE.
+#' @param trend boolean. If TRUE, the linear trend is used. The default is FALSE.
+#' @param indicators a (list of) ts object(s). High-frequency indicator(s) used in the
+#'      interpolation.
+#' @param model character. Model of the error term (at the disaggregated level).
+#'      "Ar1" = Chow-Lin (default), "Rw" = Fernandez, "RwAr1" = Litterman.
+#' @param freq integer. Annual frequency of the interpolated series.
 #' Ignored when an indicator is provided.
-#' @param obsposition Integer. Position of the observations of the low frequency
-#'   series in the interpolated series. (e.g. 1st month of the year, 2d month of
-#'   the year, etc.). It must be a positive integer or -1 (the default). The
-#'   default value is equivalent to setting the value of the parameter equal to
-#'   the frequency of the series, meaning that the last value of the
-#'   interpolated series is consistent with the low frequency series.
-#' @param rho (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
-#' @param rho.fixed Fixed rho (T/F, F by default)
-#' @param rho.truncated Range for rho evaluation (in [rho.truncated, 1[)
-#' @param zeroinitialization The initial values of an auto-regressive model are
-#'   fixed to 0 (T/F, F by default)
-#' @param diffuse.algorithm Algorithm used for diffuse initialization.
-#'   "SqrtDiffuse" by default.
-#' @param diffuse.regressors Indicates if the coefficients of the regression
-#'   model are diffuse (T) or fixed unknown (F, default)
-#' @param nbcsts Number of backcast periods. Ignored when an indicator is provided.
-#' @param nfcsts Number of forecast periods. Ignored when an indicator is provided.
+#' @param obsposition positive integer or -1 (default). Position of the observations
+#'   of the low frequency series in the interpolated series. (e.g. 1st month of the year,
+#'   2d month of the year, etc.). The default value is equivalent to setting the value
+#'   of the parameter equal to the frequency of the series, meaning that the last
+#'   value of the interpolated series is consistent with the low frequency series.
+#' @param rho numeric. (Initial) value of the parameter; only used with Ar1/RwAr1 models.
+#' @param rho.fixed boolean. If TRUE, fixed rho is used. The default is FALSE.
+#' @param rho.truncated numeric. Range for rho evaluation (in \[`rho.truncated`, 1\]).
+#' @param zeroinitialization boolean. If TRUE, the initial values of an auto-regressive
+#'      model are fixed to 0. The default is FALSE.
+#' @param diffuse.algorithm character. Algorithm used for diffuse initialization.
+#'   "SqrtDiffuse" (default), "Diffuse" and "Augmented".
+#' @param diffuse.regressors boolean. If FALSE (default), the coefficients of the
+#'      regression model are fixed unknown. If TRUE, the coefficients of the regression
+#'      model are diffuse.
+#' @param nbcsts integer. Number of backcast periods. Ignored when an indicator is provided.
+#' @param nfcsts integer. Number of forecast periods. Ignored when an indicator is provided.
 #'
-#' @return An object of class "JD3Interpolation"
+#' @return An object of class "JD3Interpolation" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients
+#' * `estimation` `[[2]]` interpolated Time-Series, errors, residuals and other parameters
+#' * `likelihood` `[[3]]` a list of test results
 #' @export
-#'
 #' @seealso \code{\link{temporal_disaggregation}},
 #'
 #' \code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series,
@@ -505,38 +523,44 @@ temporal_interpolation <- function(
 #' the temporal_interpolation() function in a way that it can deal with any
 #' frequency ratio.
 #'
-#' @param series The low frequency series that will be interpolated. Must be a numeric vector.
-#' @param constant Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.
-#' @param trend Linear trend (T/F, F by default)
-#' @param indicators High-frequency indicator(s) used in the interpolation.
-#' If not NULL, it must be either a numeric vector or a matrix.
-#' @param startoffset Number of initial observations in the indicator(s) series
+#' @param series ts object. The low frequency time series that will be interpolatedted.
+#' @param constant boolean. if TRUE, constant term is used. Parameter can only be used
+#'      when `model` is set to "Ar1" (Chow-Lin) and when `zeroinitialization` is set to FALSE.
+#' @param trend boolean. If TRUE, the linear trend is used. The default is FALSE.
+#' @param indicators a (list of) ts object(s). High-frequency indicator(s) used in the
+#'      interpolation.
+#' @param startoffset integer. Number of initial observations in the indicator(s) series
 #'   that are prior to the first observation of the low-frequency series.
-#' Must be 0 or a positive integer. 0 by default. Ignored when no indicator is provided.
-#' @param model Model of the error term (at the higher-frequency level).
-#' "Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
-#' @param freqratio Frequency ratio between the interpolated series and the low frequency series.
-#' Mandatory. Must be a positive integer.
-#' @param obsposition Integer. Position of the observations of the low frequency
-#'   series in the interpolated series. (e.g. 1st month of the year, 2d month of
-#'   the year, etc.). It must be a positive integer or -1 (the default). The
-#'   default value is equivalent to setting the value of the parameter equal to
-#'   the frequency of the series, meaning that the last value of the
-#'   interpolated series is consistent with the low frequency series.
-#' @param rho (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
-#' @param rho.fixed Fixed rho (T/F, F by default)
-#' @param rho.truncated Range for Rho evaluation (in [rho.truncated, 1[)
-#' @param zeroinitialization The initial values of an auto-regressive model are
-#'   fixed to 0 (T/F, F by default)
-#' @param diffuse.algorithm Algorithm used for diffuse initialization.
-#'   "SqrtDiffuse" by default
-#' @param diffuse.regressors Indicates if the coefficients of the regression
-#'   model are diffuse (T) or fixed unknown (F, default)
-#' @param nbcsts Number of backcast periods. Ignored when an indicator is provided.
-#' @param nfcsts Number of forecast periods. Ignored when an indicator is provided.
+#' Must be 0 or a positive integer. 0 by default.
+#' @param model character. Model of the error term (at the disaggregated level).
+#'      "Ar1" = Chow-Lin (default), "Rw" = Fernandez, "RwAr1" = Litterman.
+#' @param freqratio a mandatory positive integer. Frequency ratio
+#'                between the interpolated series and the low frequency series.
+#' @param obsposition positive integer or -1 (default). Position of the observations
+#'   of the low frequency series in the interpolated series. (e.g. 1st month of the year,
+#'   2d month of the year, etc.). The default value is equivalent to setting the value
+#'   of the parameter equal to the frequency of the series, meaning that the last
+#'   value of the interpolated series is consistent with the low frequency series.
+#' @param rho numeric. (Initial) value of the parameter; only used with Ar1/RwAr1 models.
+#' @param rho.fixed boolean. If TRUE, fixed rho is used. The default is FALSE.
+#' @param rho.truncated numeric. Range for rho evaluation (in \[`rho.truncated`, 1\]).
+#' @param zeroinitialization boolean. If TRUE, the initial values of an auto-regressive
+#'      model are fixed to 0. The default is FALSE.
+#' @param diffuse.algorithm character. Algorithm used for diffuse initialization.
+#'   "SqrtDiffuse" (default), "Diffuse" and "Augmented".
+#' @param diffuse.regressors boolean. If FALSE (default), the coefficients of the
+#'      regression model are fixed unknown. If TRUE, the coefficients of the regression
+#'      model are diffuse.
+#' @param nbcsts integer. Number of backcast periods. Ignored when an indicator is provided.
+#' @param nfcsts integer. Number of forecast periods. Ignored when an indicator is provided.
 #'
-#' @return An object of class "JD3InterpolationRaw"
+#' @return An object of class "JD3InterpolationRaw" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients
+#' * `estimation` `[[2]]` interpolated values, errors, residuals and other parameters
+#' * `likelihood` `[[3]]` a list of test results
 #' @export
+
 #' @seealso \code{\link{temporal_disaggregation_raw}}
 #'
 #' For more information, see the vignette:
@@ -687,16 +711,20 @@ temporal_interpolation_raw <- function(
 #' indicator as the dependent variable and the unknown target series as the
 #' independent variable.
 #'
-#' @param series The time series that will be disaggregated. It must be a ts object.
-#' @param indicator The high-frequency indicator. It must be a ts object.
-#' @param conversion Conversion mode (Usually "Sum" or "Average")
-#' @param conversion.obsposition Integer. Only used with "UserDefined" mode.
-#' Position of the observed indicator in the aggregated periods (for instance
-#' 7th month of the year)
-#' @param rho (Initial) value of the parameter.
-#' @param rho.fixed Fixed rho (T/F, F by default).
-#' @param rho.truncated Range for Rho evaluation (in [rho.truncated, 1[)
-#' @return An object of class "JD3TempDisaggI"
+#' @param series ts object. The time series that will be disaggregated.
+#' @param indicator ts object. The high-frequency indicator.
+#' @param conversion integer. Conversion mode. Most commonly used are: "Sum" (default) and "Average".
+#'         Other options are: "Last", "First" or "UserDefined".
+#' @param conversion.obsposition integer. Position of the observed indicator in the aggregated
+#'         periods (for instance 7th month of the year). Only used with "UserDefined" conversion.
+#' @param rho numeric. (Initial) value of the parameter.
+#' @param rho.fixed boolean. If TRUE, fixed rho is used. The default is FALSE.
+#' @param rho.truncated numeric. Range for rho evaluation (in \[`rho.truncated`, 1\]).
+#' @return An object of class "JD3TempDisaggI" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients
+#' * `estimation` `[[2]]` disaggregated Time-Series
+#' * `likelihood` `[[3]]` a list of test results
 #'
 #' @references  Bournay J., Laroque G. (1979). Reflexions sur la methode
 #'   d'elaboration des comptes trimestriels. Annales de l'Insee, n°36, pp.3-30.

@@ -15,23 +15,20 @@ NULL
 #' resulting daily values are aggregated into the desired calendar reference
 #' periods.
 #'
-#' @param calendarobs A named list with the observed data. The list must be
+#' @param calendarobs a named list with the observed data. The list must be
 #'   composed of three elements: start, end and value, the first two
 #'   corresponding to the starting and ending date of the observation. See
 #'   example.
-#' @param freq Annual frequency. If 0, only the daily series are computed.
-#' @param start Starting day of the calendarization. Could be before the
-#'   starting date of the first observation (retropolation).
-#' @param end Ending day of the calendarization. Could be after the ending date
-#' of the last observation (extrapolation).
-#' @param dailyweights Daily indicator values (or weights). Should have the same
-#'   length as the requested series. If available, it typically reflects the
+#' @param freq integer. Annual frequency. If 0, only the daily series are computed.
+#' @param start NULL or character. If character, starting day of the calendarization must be provided in the format `YYYY-MM-DD`. Could be before the starting date of the first observation (retropolation).
+#' @param end NULL or character. If character, ending day of the calendarization must be provided in the format `YYYY-MM-DD`. Could be after the ending date of the last observation (extrapolation).
+#' @param dailyweights NULL or character. If character, daily indicator values (or weights). Should have the same length as the requested series. If available, it typically reflects the
 #'   daily level of activity that may be varying in function for instance of
 #' seasonality, trading day or other calendar effects such as public holidays.
-#' @param stde Boolean. If TRUE, the function also returns the standard errors
+#' @param stde boolean. If TRUE, the function also returns the standard errors
 #'   associated to the results. Default is FALSE.
 #'
-#' @return a list with the disaggregated daily values, the final aggregated
+#' @return A list with the disaggregated daily values, the final aggregated
 #'   results, and their associated errors if requested.
 #'
 #' @references  Quenneville, B., Picard F., Fortier S. (2012). Calendarization

@@ -18,28 +18,35 @@ adl_disaggregation(
 )
 }
 \arguments{
-\item{series}{The low frequency time series that will be disaggregated. It must be a ts object.}
+\item{series}{ts object. The low frequency time series that will be disaggregated.}
 
-\item{constant}{Constant term (T/F, T by default)}
+\item{constant}{boolean. if TRUE, constant term is used. The default is FALSE.}
 
-\item{trend}{Linear trend (T/F, F by default)}
+\item{trend}{boolean. If TRUE, the linear trend is used. The default is FALSE.}
 
-\item{indicators}{High-frequency indicator(s). It must be a (list of) ts object(s).}
+\item{indicators}{a (list of) ts object(s). High-frequency indicator(s).}
 
-\item{average}{Average conversion (T/F). Default is F, which means additive conversion.}
+\item{average}{boolean. if FALSE (default), mean additive conversion is used. Setting the
+parameter to TRUE uses average conversion.}
 
-\item{phi}{(Initial) value of the phi parameter}
+\item{phi}{number. (Initial) value of the phi parameter.}
 
-\item{phi.fixed}{Fixed phi (T/F, F by default)}
+\item{phi.fixed}{boolean. If TRUE, fixed phi is used. The default is FALSE.}
 
-\item{phi.truncated}{Range for phi evaluation (in [phi.truncated, 1[)}
+\item{phi.truncated}{numeric. Range for phi evaluation (in [\code{phi.truncated}, 1]).}
 
-\item{xar}{Constraints on the coefficients of the lagged regression variables. See vignette for more information on this.}
+\item{xar}{character. Constraints on the coefficients of the lagged regression variables. "FREE" by default (no constrains). Other options are: "SAME" and "NONE". See vignette for more information on this.}
 
-\item{diffuse}{Indicates if the coefficients of the regression model are diffuse (T) or fixed unknown (F, default)}
+\item{diffuse}{boolean. If FALSE (default), the coefficients of the regression model are fixed unknown, if set to TRUE, they are diffuse.}
 }
 \value{
-An object of class "JD3AdlDisagg"
+An object of class "JD3AdlDisagg" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients
+\item \code{estimation} \verb{[[2]]} disaggregated Time-Series, errors, residuals and other parameters
+\item \code{likelihood} \verb{[[3]]} a list of test results
+}
 }
 \description{
 Temporal disaggregation of a time series with ADL models
@@ -60,8 +67,10 @@ td4 <- adl_disaggregation(Y, indicators = x, xar = "NONE") # ~ Santos Silva-Card
 }
 \references{
 Proietti, P. (2005). Temporal Disaggregation by State Space
-  Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
-  European Commission, ISSN 1725-4825.
+Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
+Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
+Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
+European Commission, ISSN 1725-4825.
 }
 \seealso{
 For more information, see the vignette:

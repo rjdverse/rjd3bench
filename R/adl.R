@@ -1,19 +1,25 @@
 #' Temporal disaggregation of a time series with ADL models
 #'
-#' @param series The low frequency time series that will be disaggregated. It must be a ts object.
-#' @param constant Constant term (T/F, T by default)
-#' @param trend Linear trend (T/F, F by default)
-#' @param indicators High-frequency indicator(s). It must be a (list of) ts object(s).
-#' @param average Average conversion (T/F). Default is F, which means additive conversion.
-#' @param phi (Initial) value of the phi parameter
-#' @param phi.fixed Fixed phi (T/F, F by default)
-#' @param phi.truncated Range for phi evaluation (in [phi.truncated, 1[)
-#' @param xar Constraints on the coefficients of the lagged regression variables. See vignette for more information on this.
-#' @param diffuse Indicates if the coefficients of the regression model are diffuse (T) or fixed unknown (F, default)
-#'
-#' @return An object of class "JD3AdlDisagg"
+#' @param series ts object. The low frequency time series that will be disaggregated.
+#' @param constant boolean. if TRUE, constant term is used. The default is FALSE.
+#' @param trend boolean. If TRUE, the linear trend is used. The default is FALSE.
+#' @param indicators a (list of) ts object(s). High-frequency indicator(s).
+#' @param average boolean. if FALSE (default), mean additive conversion is used. Setting the
+#'      parameter to TRUE uses average conversion.
+#' @param phi number. (Initial) value of the phi parameter.
+#' @param phi.fixed boolean. If TRUE, fixed phi is used. The default is FALSE.
+#' @param phi.truncated numeric. Range for phi evaluation (in \[`phi.truncated`, 1\]).
+#' @param xar character. Constraints on the coefficients of the lagged regression variables. "FREE" by default (no constrains). Other options are: "SAME" and "NONE". See vignette for more information on this.
+#' @param diffuse boolean. If FALSE (default), the coefficients of the regression model are fixed unknown, if set to TRUE, they are diffuse.
+#' @return An object of class "JD3AdlDisagg" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients
+#' * `estimation` `[[2]]` disaggregated Time-Series, errors, residuals and other parameters
+#' * `likelihood` `[[3]]` a list of test results
 #'
 #' @references  Proietti, P. (2005). Temporal Disaggregation by State Space
+#'   Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
+#'   Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
 #'   Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
 #'   European Commission, ISSN 1725-4825.
 #'

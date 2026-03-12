@@ -14,30 +14,27 @@ calendarization(
 )
 }
 \arguments{
-\item{calendarobs}{A named list with the observed data. The list must be
+\item{calendarobs}{a named list with the observed data. The list must be
 composed of three elements: start, end and value, the first two
 corresponding to the starting and ending date of the observation. See
 example.}
 
-\item{freq}{Annual frequency. If 0, only the daily series are computed.}
+\item{freq}{integer. Annual frequency. If 0, only the daily series are computed.}
 
-\item{start}{Starting day of the calendarization. Could be before the
-starting date of the first observation (retropolation).}
+\item{start}{NULL or character. If character, starting day of the calendarization must be provided in the format \code{YYYY-MM-DD}. Could be before the starting date of the first observation (retropolation).}
 
-\item{end}{Ending day of the calendarization. Could be after the ending date
-of the last observation (extrapolation).}
+\item{end}{NULL or character. If character, ending day of the calendarization must be provided in the format \code{YYYY-MM-DD}. Could be after the ending date of the last observation (extrapolation).}
 
-\item{dailyweights}{Daily indicator values (or weights). Should have the same
-  length as the requested series. If available, it typically reflects the
-  daily level of activity that may be varying in function for instance of
+\item{dailyweights}{NULL or character. If character, daily indicator values (or weights). Should have the same length as the requested series. If available, it typically reflects the
+daily level of activity that may be varying in function for instance of
 seasonality, trading day or other calendar effects such as public holidays.}
 
-\item{stde}{Boolean. If TRUE, the function also returns the standard errors
+\item{stde}{boolean. If TRUE, the function also returns the standard errors
 associated to the results. Default is FALSE.}
 }
 \value{
-a list with the disaggregated daily values, the final aggregated
-  results, and their associated errors if requested.
+A list with the disaggregated daily values, the final aggregated
+results, and their associated errors if requested.
 }
 \description{
 Time series data do not always coincide with calendar periods (e.g., fiscal
@@ -93,8 +90,8 @@ yq_2 <- cal_2$rslt
 }
 \references{
 Quenneville, B., Picard F., Fortier S. (2012). Calendarization
-  with interpolating splines and state space models. Statistics Canada, Appl.
-  Statistics (2013) 62, part 3, pp 371-399.
+with interpolating splines and state space models. Statistics Canada, Appl.
+Statistics (2013) 62, part 3, pp 371-399.
 }
 \seealso{
 For more information, see the vignette:

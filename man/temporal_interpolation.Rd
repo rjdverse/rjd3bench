@@ -23,49 +23,56 @@ temporal_interpolation(
 )
 }
 \arguments{
-\item{series}{The low frequency time series that will be interpolated. It must be a ts object.}
+\item{series}{ts object. The low frequency time series that will be interpolatedted.}
 
-\item{constant}{Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.}
+\item{constant}{boolean. if TRUE, constant term is used. Parameter can only be used
+when \code{model} is set to "Ar1" (Chow-Lin) and when \code{zeroinitialization} is set to FALSE.}
 
-\item{trend}{Linear trend (T/F, F by default)}
+\item{trend}{boolean. If TRUE, the linear trend is used. The default is FALSE.}
 
-\item{indicators}{High-frequency indicator(s) used in the interpolation.
-It must be a (list of) ts object(s).}
+\item{indicators}{a (list of) ts object(s). High-frequency indicator(s) used in the
+interpolation.}
 
-\item{model}{Model of the error term (at the higher-frequency level).
-"Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.}
+\item{model}{character. Model of the error term (at the disaggregated level).
+"Ar1" = Chow-Lin (default), "Rw" = Fernandez, "RwAr1" = Litterman.}
 
-\item{freq}{Integer. Annual frequency of the interpolated series.
+\item{freq}{integer. Annual frequency of the interpolated series.
 Ignored when an indicator is provided.}
 
-\item{obsposition}{Integer. Position of the observations of the low frequency
-series in the interpolated series. (e.g. 1st month of the year, 2d month of
-the year, etc.). It must be a positive integer or -1 (the default). The
-default value is equivalent to setting the value of the parameter equal to
-the frequency of the series, meaning that the last value of the
-interpolated series is consistent with the low frequency series.}
+\item{obsposition}{positive integer or -1 (default). Position of the observations
+of the low frequency series in the interpolated series. (e.g. 1st month of the year,
+2d month of the year, etc.). The default value is equivalent to setting the value
+of the parameter equal to the frequency of the series, meaning that the last
+value of the interpolated series is consistent with the low frequency series.}
 
-\item{rho}{(Initial) value of the parameter. Only used with Ar1/RwAr1 models.}
+\item{rho}{numeric. (Initial) value of the parameter; only used with Ar1/RwAr1 models.}
 
-\item{rho.fixed}{Fixed rho (T/F, F by default)}
+\item{rho.fixed}{boolean. If TRUE, fixed rho is used. The default is FALSE.}
 
-\item{rho.truncated}{Range for rho evaluation (in [rho.truncated, 1[)}
+\item{rho.truncated}{numeric. Range for rho evaluation (in [\code{rho.truncated}, 1]).}
 
-\item{zeroinitialization}{The initial values of an auto-regressive model are
-fixed to 0 (T/F, F by default)}
+\item{zeroinitialization}{boolean. If TRUE, the initial values of an auto-regressive
+model are fixed to 0. The default is FALSE.}
 
-\item{diffuse.algorithm}{Algorithm used for diffuse initialization.
-"SqrtDiffuse" by default.}
+\item{diffuse.algorithm}{character. Algorithm used for diffuse initialization.
+"SqrtDiffuse" (default), "Diffuse" and "Augmented".}
 
-\item{diffuse.regressors}{Indicates if the coefficients of the regression
-model are diffuse (T) or fixed unknown (F, default)}
+\item{diffuse.regressors}{boolean. If FALSE (default), the coefficients of the
+regression model are fixed unknown. If TRUE, the coefficients of the regression
+model are diffuse.}
 
-\item{nbcsts}{Number of backcast periods. Ignored when an indicator is provided.}
+\item{nbcsts}{integer. Number of backcast periods. Ignored when an indicator is provided.}
 
-\item{nfcsts}{Number of forecast periods. Ignored when an indicator is provided.}
+\item{nfcsts}{integer. Number of forecast periods. Ignored when an indicator is provided.}
 }
 \value{
-An object of class "JD3Interpolation"
+An object of class "JD3Interpolation" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients
+\item \code{estimation} \verb{[[2]]} interpolated Time-Series, errors, residuals and other parameters
+\item \code{likelihood} \verb{[[3]]} a list of test results
+}
 }
 \description{
 Perform temporal interpolation of low frequency to high frequency time
@@ -98,7 +105,6 @@ ti4$estimation$interp
 \code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series,
 
 \code{\link{temporal_disaggregation_raw}} for temporal disaggregation of atypical frequency series
-
 
 For more information, see the vignette:
 

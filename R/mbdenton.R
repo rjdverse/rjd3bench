@@ -13,27 +13,28 @@ NULL
 #' method. Outliers and their intensity are defined by changing the value of the
 #' 'innovation variances'.
 #'
-#' @param series Aggregation constraint. Mandatory. It must be either an object
-#'   of class ts or a numeric vector.
-#' @param indicator High-frequency indicator. Mandatory. It must be of same
-#'   class as series
-#' @param differencing Not implemented yet. Keep it equals to 1 (Denton PFD
-#'   method).
-#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by
-#'   default.
-#' @param conversion.obsposition Position of the observation in the aggregated
-#'   period (only used with "UserDefined" conversion)
+#' @param series mandatory ts object or numeric vector. Aggregation constraint.
+#' @param indicator mandatory ts object or numeric vector, same as the `series`. High-frequency indicator.
+#' @param differencing integer. The default is 1 (Denton PFD
+#'   method). Not implemented yet.
+#' @param conversion integer. Conversion mode. Most comonly used are: "Sum" (default) and "Average".
+#'         Other options are: "Last", "First" or "UserDefined".
+#' @param conversion.obsposition integer. Position of the observed indicator in the aggregated
+#'         periods (for instance 7th month of the year). Only used with "UserDefined" conversion.
 #' @param outliers a list of structured definition of the outlier periods and
 #'   their intensity. The period must be submitted first in the format
 #'   YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
 #'   equal sign and the intensity of the outlier, defined as the relative value
-#'   of the 'innovation variances' (1= normal situation)
+#'   of the 'innovation variances' (1 = normal situation).
 #' @param fixedBIratios a list of structured definition of the periods where the
 #'   BI ratios must be fixed. The period must be submitted first in the format
 #'   YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
 #'   equal sign and the value of the BI ratio.
 #'
-#' @return an object of class 'JD3MBDenton'
+#' @return An object of class "JD3MBDenton" is returned. The following are returned
+#' invisibly as a list:
+#' * `estimation` `[[1]]` disaggregated Time-Series, BI ratios, residuals and errors
+#' * `likelihood` `[[2]]` a list of test results
 #' @export
 #'
 #' @seealso For more information, see the vignette:

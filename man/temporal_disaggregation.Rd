@@ -23,44 +23,53 @@ temporal_disaggregation(
 )
 }
 \arguments{
-\item{series}{The low frequency time series that will be disaggregated. It must be a ts object.}
+\item{series}{ts object. The low frequency time series that will be disaggregated.}
 
-\item{constant}{Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.}
+\item{constant}{boolean. if TRUE, constant term is used. Parameter can only be used
+when \code{model} is set to "Ar1" (Chow-Lin) and when \code{zeroinitialization} is set to FALSE.}
 
-\item{trend}{Linear trend (T/F, F by default)}
+\item{trend}{boolean. If TRUE, the linear trend is used. The default is FALSE.}
 
-\item{indicators}{High-frequency indicator(s) used in the temporal disaggregation.
-It must be a (list of) ts object(s).}
+\item{indicators}{a (list of) ts object(s). High-frequency indicator(s) used in the
+temporal disaggregation.}
 
-\item{model}{Model of the error term (at the disaggregated level).
-"Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.}
+\item{model}{character. Model of the error term (at the disaggregated level).
+"Ar1" = Chow-Lin (default), "Rw" = Fernandez, "RwAr1" = Litterman.}
 
-\item{freq}{Integer. Annual frequency of the disaggregated series.
+\item{freq}{integer. Annual frequency of the disaggregated series.
 Ignored when an indicator is provided.}
 
-\item{average}{Average conversion (T/F). Default is F, which means additive conversion.}
+\item{average}{boolean. if FALSE (default), mean additive conversion is used. Setting the
+parameter to TRUE uses average conversion.}
 
-\item{rho}{(Initial) value of the parameter. Only used with Ar1/RwAr1 models.}
+\item{rho}{numeric. (Initial) value of the parameter; only used with Ar1/RwAr1 models.}
 
-\item{rho.fixed}{Fixed rho (T/F, F by default)}
+\item{rho.fixed}{boolean. If TRUE, fixed rho is used. The default is FALSE.}
 
-\item{rho.truncated}{Range for rho evaluation (in [rho.truncated, 1[)}
+\item{rho.truncated}{numeric. Range for rho evaluation (in [\code{rho.truncated}, 1]).}
 
-\item{zeroinitialization}{The initial values of an auto-regressive model are
-fixed to 0 (T/F, F by default)}
+\item{zeroinitialization}{boolean. If TRUE, the initial values of an auto-regressive
+model are fixed to 0. The default is FALSE.}
 
-\item{diffuse.algorithm}{Algorithm used for diffuse initialization.
-"SqrtDiffuse" by default.}
+\item{diffuse.algorithm}{character. Algorithm used for diffuse initialization.
+"SqrtDiffuse" (default), "Diffuse" and "Augmented".}
 
-\item{diffuse.regressors}{Indicates if the coefficients of the regression
-model are diffuse (T) or fixed unknown (F, default)}
+\item{diffuse.regressors}{boolean. If FALSE (default), the coefficients of the
+regression model are fixed unknown. If TRUE, the coefficients of the regression
+model are diffuse.}
 
-\item{nbcsts}{Number of backcast periods. Ignored when an indicator is provided.}
+\item{nbcsts}{integer. Number of backcast periods; ignored when an indicator is provided.}
 
-\item{nfcsts}{Number of forecast periods. Ignored when an indicator is provided.}
+\item{nfcsts}{integer. Number of forecast periods; ignored when an indicator is provided.}
 }
 \value{
-An object of class "JD3TempDisagg"
+An object of class "JD3TempDisagg" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients
+\item \code{estimation} \verb{[[2]]} disaggregated Time-Series, errors, residuals and other parameters
+\item \code{likelihood} \verb{[[3]]} a list of test results
+}
 }
 \description{
 Perform temporal disaggregation of low frequency to high frequency time
@@ -97,7 +106,6 @@ td3$estimation$disagg
 \code{\link{temporal_disaggregation_raw}} for temporal disaggregation of atypical frequency series,
 
 \code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series
-
 
 For more information, see the vignette:
 

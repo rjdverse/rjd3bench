@@ -19,39 +19,34 @@ denton_raw(
 )
 }
 \arguments{
-\item{s}{Preliminary series. If not NULL, it must be a numeric vector.}
+\item{s}{NULL or numeric vector. Preliminary series.}
 
-\item{t}{Aggregation constraint. Mandatory. It must be a numeric vector.}
+\item{t}{mandatory numeric vector. Aggregation constraint.}
 
-\item{freqratio}{Frequency ratio between the benchmarked series and the
-aggregation constraint. Mandatory. It must be a positive integer.}
+\item{freqratio}{mandatory positive integer. Frequency ratio between the benchmarked series and the
+aggregation constraint.}
 
-\item{d}{Differencing order. 1 by default.}
+\item{d}{integer. Differencing order. 1 by default.}
 
-\item{mul}{Multiplicative or additive benchmarking. Multiplicative by
-default.}
+\item{mul}{boolean. Multiplicative (default) or additive benchmarking.}
 
-\item{modified}{Modified (TRUE) or unmodified (FALSE) Denton. Modified by
-default.}
+\item{modified}{boolean. If TRUE (default), modified Denton is used, if FALSE unmodified.}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by
-default.}
+\item{conversion}{character. Conversion rule. Most commonly used are: "Sum" (default) and "Average". Other options are: "Last", "First" or "UserDefined".}
 
-\item{obsposition}{Position of the observation in the aggregated period (only
-used with "UserDefined" conversion).}
+\item{obsposition}{integer. Position of the observed indicator in the aggregated
+periods (for instance 7th month of the year). Only used with "UserDefined" conversion.}
 
-\item{startoffset}{Number of initial observations in the indicator(s) series that are prior to
-the period covered by the low-frequency series.
-Must be 0 or a positive integer. 0 by default. Ignored when no preliminary series is provided.}
+\item{startoffset}{positive integer or 0 (default). Number of initial observations in the indicator(s) series that are prior to the period covered by the low-frequency series. Ignored when no preliminary series is provided.}
 
-\item{nbcsts}{Number of backcast periods. Ignored when a preliminary series
+\item{nbcsts}{integer. Number of backcast periods. Ignored when a preliminary series
 is provided. (not yet implemented)}
 
-\item{nfcsts}{Number of forecast periods. Ignored when a preliminary series
+\item{nfcsts}{integer. Number of forecast periods. Ignored when a preliminary series
 is provided. (not yet implemented)}
 }
 \value{
-Numeric vector. The benchmarked series.
+Numeric vector. The benchmarked series is returned.
 }
 \description{
 Denton method relies on the principle of movement preservation. There exist a

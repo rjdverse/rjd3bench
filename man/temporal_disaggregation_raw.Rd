@@ -24,48 +24,56 @@ temporal_disaggregation_raw(
 )
 }
 \arguments{
-\item{series}{The low frequency series that will be disaggregated. Must be a numeric vector.}
+\item{series}{ts object. The low frequency time series that will be disaggregated.}
 
-\item{constant}{Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.}
+\item{constant}{boolean. if TRUE, constant term is used. Parameter can only be used
+when \code{model} is set to "Ar1" (Chow-Lin) and when \code{zeroinitialization} is set to FALSE.}
 
-\item{trend}{Linear trend (T/F)}
+\item{trend}{boolean. If TRUE, the linear trend is used. The default is FALSE.}
 
-\item{indicators}{High-frequency indicator(s) used in the temporal disaggregation.
-If not NULL, it must be either a numeric vector or a matrix.}
+\item{indicators}{a (list of) ts object(s). High-frequency indicator(s) used in the
+temporal disaggregation.}
 
-\item{startoffset}{Number of initial observations in the indicator(s) series that are prior to
-the start of the period covered by the low-frequency series.
-Must be 0 or a positive integer. 0 by default. Ignored when no indicator is provided.}
+\item{startoffset}{integer. Number of initial observations in the indicator(s) series that are
+prior to the start of the period covered by the low-frequency series. Must be 0 or a positive
+integer. The default is 0.}
 
-\item{model}{Model of the error term (at the disaggregated level).
-"Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.}
+\item{model}{character. Model of the error term (at the disaggregated level).
+"Ar1" = Chow-Lin (default), "Rw" = Fernandez, "RwAr1" = Litterman.}
 
-\item{freqratio}{Frequency ratio between the disaggregated series and the low frequency series.
-Mandatory. Must be a positive integer.}
+\item{freqratio}{a mandatory positive integer. Frequency ratio between the disaggregated series and the low frequency series.}
 
-\item{average}{Average conversion (T/F). Default is F, which means additive conversion.}
+\item{average}{boolean. if FALSE (default), mean additive conversion is used. Setting the
+parameter to TRUE uses average conversion.}
 
-\item{rho}{(Initial) value of the parameter. Only used with Ar1/RwAr1 models.}
+\item{rho}{numeric. (Initial) value of the parameter; only used with Ar1/RwAr1 models.}
 
-\item{rho.fixed}{Fixed rho (T/F, F by default)}
+\item{rho.fixed}{boolean. If TRUE, fixed rho is used. The default is FALSE.}
 
-\item{rho.truncated}{Range for Rho evaluation (in [rho.truncated, 1[)}
+\item{rho.truncated}{numeric. Range for rho evaluation (in [\code{rho.truncated}, 1]).}
 
-\item{zeroinitialization}{The initial values of an auto-regressive model are
-fixed to 0 (T/F, F by default)}
+\item{zeroinitialization}{boolean. If TRUE, the initial values of an auto-regressive
+model are fixed to 0. The default is FALSE.}
 
-\item{diffuse.algorithm}{Algorithm used for diffuse initialization.
-"SqrtDiffuse" by default}
+\item{diffuse.algorithm}{character. Algorithm used for diffuse initialization.
+"SqrtDiffuse" (default), "Diffuse" and "Augmented".}
 
-\item{diffuse.regressors}{Indicates if the coefficients of the regression
-model are diffuse (T) or fixed unknown (F, default)}
+\item{diffuse.regressors}{boolean. If FALSE (default), the coefficients of the
+regression model are fixed unknown. If TRUE, the coefficients of the regression
+model are diffuse.}
 
-\item{nbcsts}{Number of backcast periods. Ignored when an indicator is provided.}
+\item{nbcsts}{integer. Number of backcast periods. Ignored when an indicator is provided.}
 
-\item{nfcsts}{Number of forecast periods. Ignored when an indicator is provided.}
+\item{nfcsts}{integer. Number of forecast periods. Ignored when an indicator is provided.}
 }
 \value{
-An object of class "JD3TempDisaggRaw"
+An object of class "JD3TempDisaggRaw" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients
+\item \code{estimation} \verb{[[2]]} disaggregated values, errors, residuals and other parameters
+\item \code{likelihood} \verb{[[3]]} a list of test results
+}
 }
 \description{
 Perform temporal disaggregation of low frequency to high frequency time
