@@ -67,13 +67,13 @@ print.JD3_MBDENTON_RSLTS <- function(x, ...) {
     if (is.null(x$estimation$disagg)) {
         cat("Invalid estimation")
     } else {
-        cat("Available estimates:\n")
+        cat("Available output:\n")
         print.default(names(x$estimation), ...)
 
         cat("\n")
-        cat("Use summary() for more details. \n",
-            "Use plot() to see the disaggregated series and BI ratio together ",
-            "with their respective confidence interval")
+        cat("Use summary() for more details.\n",
+            "Use plot() to see the disaggregated series and BI ratio",
+            "with their respective confidence interval.")
     }
 }
 
@@ -121,7 +121,7 @@ summary.JD3_MBDENTON_RSLTS <- function(object, ...) {
         cat("Likelihood statistics", "\n")
         cat("\n")
         cat("Number of observations: ", object$likelihood$nobs, "\n")
-        cat("Number of effective observations: ", object$likelihood$neffective, "\n")
+        #cat("Number of effective observations: ", object$likelihood$neffective, "\n")
         cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
         cat("Standard error: ", "\n")
         cat("AIC: ", object$likelihood$aic, "\n")
@@ -129,7 +129,7 @@ summary.JD3_MBDENTON_RSLTS <- function(object, ...) {
 
         cat("\n")
         cat("\n")
-        cat("Available estimates:\n")
+        cat("Available output:\n")
         print.default(names(object$estimation))
     }
 }
@@ -150,7 +150,7 @@ summary.JD3_TEMPDISAGGI_RSLTS <- function(object, ...) {
         cat("Likelihood statistics", "\n")
         cat("\n")
         cat("Number of observations: ", object$likelihood$nobs, "\n")
-        cat("Number of effective observations: ", object$likelihood$neffective, "\n")
+        #cat("Number of effective observations: ", object$likelihood$neffective, "\n")
         cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
         cat("LogLikelihood: ", object$likelihood$ll, "\n")
         cat("Standard error: ", "\n")
@@ -187,6 +187,7 @@ plot.JD3_TEMPDISAGG_RSLTS <- function(x, ...) {
         stats::ts.plot(
             td_series, reg_effect, smoothing_effect,
             gpars = list(
+                main = "Decomposition",
                 col = c("orange", "green", "blue"),
                 xlab = "",
                 xaxt = "n",
@@ -225,6 +226,7 @@ plot.JD3_INTERP_RSLTS <- function(x, ...) {
         stats::ts.plot(
             ti_series, reg_effect, smoothing_effect,
             gpars = list(
+                main = "Decomposition",
                 col = c("orange", "green", "blue"),
                 xlab = "",
                 xaxt = "n",
@@ -250,20 +252,25 @@ plot.JD3_MBDENTON_RSLTS <- function(x, ...) {
     if (is.null(x)) {
         cat("Invalid estimation")
     } else {
+        oldpar <- graphics::par(no.readonly = TRUE)
+        on.exit(graphics::par(oldpar))
+
         td <- x$estimation$disagg
         td.sd <- x$estimation$edisagg
         td.lb <- td - 1.96 * td.sd
         td.ub <- td + 1.96 * td.sd
+
         bi <- x$estimation$biratio
         bi.sd <- x$estimation$ebiratio
         bi.lb <- bi - 1.96 * bi.sd
         bi.ub <- bi + 1.96 * bi.sd
 
         graphics::par(mfrow = c(2L, 1L))
+
         stats::ts.plot(
             td, td.lb, td.ub,
             gpars = list(
-                main = "Disaggragated series and BI ratio with confidence interval",
+                main = "Disaggragated series and BI ratio",
                 xlab = "",
                 ylab = "disaggragated series",
                 lty = c(1L, 3L, 3L),
