@@ -173,7 +173,7 @@ summary_disagg <- function(object) {
         cat("Likelihood statistics", "\n")
         cat("\n")
         cat("Number of observations: ", object$likelihood$nobs, "\n")
-        cat("Number of effective observations: ", object$likelihood$neffective, "\n")
+        #cat("Number of effective observations: ", object$likelihood$neffective, "\n") # to fix
         cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
         cat("LogLikelihood: ", object$likelihood$ll, "\n")
         cat("Standard error: ", "\n")

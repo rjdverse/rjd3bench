@@ -56,10 +56,15 @@ NULL
 #' bi2 <- td2$estimation$biratio
 #' y1 <- td1$estimation$disagg
 #' y2 <- td2$estimation$disagg
-#' \dontrun{
-#' stats::ts.plot(bi1,bi2,gpars = list(col = c("red","blue")))
-#' stats::ts.plot(y1,y2,gpars = list(col = c("red","blue")))
-#' }
+#'
+#' stats::ts.plot(bi2, bi1, main = "BI ratios",
+#'                gpars = list(col = c("red", "black")))
+#' graphics::legend("topright", lty = 1, col = c("black", "red"),
+#'                  legend = c("td1", "td2"))
+#' stats::ts.plot(y2, y1, main = "Disaggregated series",
+#'                gpars = list(col = c("red", "black")))
+#' graphics::legend("topleft", lty = 1, col = c("black", "red"),
+#'                  legend = c("td1", "td2"))
 #'
 denton_modelbased <- function(
         series,
