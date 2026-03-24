@@ -16,12 +16,13 @@ compress_html:
   clippings: all
   blanklines: true
 ---
-
 ```{r setup, include = FALSE}
+is_cran <- identical(Sys.getenv("_R_CHECK_CRAN_INCOMING_"), "TRUE")
+
 knitr::opts_chunk$set(
     collapse = TRUE,
     echo = TRUE,
-    eval = TRUE,
+    eval = !is_cran,
     comment = "#>"
 )
 ```
@@ -139,8 +140,8 @@ $$
 subject to the temporal constraint (flow variables)
 $$
 \sum_{t} y_t = Y_T
-$$ 
-where $y_t$ is the value of the estimate of the high frequency series at period t, $x_t$ is the value of the high frequency indicator at period t and $Y_T$ is the value of the low frequency series (i.e. the benchmark series) at period T. 
+$$
+where $y_t$ is the value of the estimate of the high frequency series at period t, $x_t$ is the value of the high frequency indicator at period t and $Y_T$ is the value of the low frequency series (i.e. the benchmark series) at period T.
 
 Equivalently, the Denton PFD method can also be expressed as a statistical model considering the following state space representation
 
@@ -153,7 +154,7 @@ $$
 
 where the temporal constraints are taken care of by considering a cumulated series $y^c_t$ instead of the original series $y_t$. Hence, the last high frequency period (for example, the last quarter of the year) is observed and corresponds to the value of the benchmark. The value of the other periods are initially defined as missing and estimated by maximum likelihood.
 
-This alternative representation of Denton PFD method is interesting as it allows more flexibility. We might now include outliers - namely, level shift(s) in the Benchmark to Indicator ratio - that could otherwise induce undesirable wave effects. Outliers and their intensity are defined by changing the value of the innovation variances. There is also the possibility to freeze the disaggregated series at some specific period(s) or prior a certain date by fixing the high-frequency BI ratio(s). Following the principle of movement preservation inherent to Denton, the model-based Denton PFD method constitutes an interesting alternative for temporal disaggregation, interpolation and benchmarking. Here is a [link](https://www.youtube.com/watch?v=PC0tj2jMcuU) to a presentation on the subject which include some comparison with the regression-based methods for temporal disaggregation.  
+This alternative representation of Denton PFD method is interesting as it allows more flexibility. We might now include outliers - namely, level shift(s) in the Benchmark to Indicator ratio - that could otherwise induce undesirable wave effects. Outliers and their intensity are defined by changing the value of the innovation variances. There is also the possibility to freeze the disaggregated series at some specific period(s) or prior a certain date by fixing the high-frequency BI ratio(s). Following the principle of movement preservation inherent to Denton, the model-based Denton PFD method constitutes an interesting alternative for temporal disaggregation, interpolation and benchmarking. Here is a [link](https://www.youtube.com/watch?v=PC0tj2jMcuU) to a presentation on the subject which include some comparison with the regression-based methods for temporal disaggregation.
 
 The model-base Denton method can be applied with the `denton_modelbased()` function. The output of the `denton_modelbased()` function contains information about the disaggregated/interpolated series and the BI ratio as well as their respecting errors making it possible to construct confidence intervals. The print(), summary() and plot() functions can also be applied on the output object.The plot() function displays the disaggregated series and the BI ratio together with their respective 95% confidence interval.
 
@@ -168,7 +169,7 @@ print(td_mbd)
 ```
 
 
-## Autoregressive Distributed Lag (ADL) Models 
+## Autoregressive Distributed Lag (ADL) Models
 
 Based on Proietti (2005), we consider a first order Autoregressive Distributed Lag model, or ADL(1,1), which takes the
 form:
@@ -239,7 +240,7 @@ LR_stat <- -2 * (td_adl_constr_1$likelihood$ll - td_adl$likelihood$ll) # -> H0 n
 
 ## Reverse regression
 
-Bournay and Laroque (1979) proposed an alternative regression-based approach for temporal disaggregation. Unlike previous models, where the target series (the disaggregated or interpolated series) was defined as the dependent variable, this approach flips the regression and treats the high-frequency indicator as the dependent variable and the target series as the independent variable. 
+Bournay and Laroque (1979) proposed an alternative regression-based approach for temporal disaggregation. Unlike previous models, where the target series (the disaggregated or interpolated series) was defined as the dependent variable, this approach flips the regression and treats the high-frequency indicator as the dependent variable and the target series as the independent variable.
 
 Let $Y_T$, $T=1,...,m$, and $x_t$, $t=1,...,n$, be, respectively the observed low frequency benchmark and a single high-frequency indicator of the unknown high frequency target variable $y_t$. The model is defined as:
 
@@ -251,19 +252,21 @@ subject to the temporal constraint (flow variables)
 $$
 \sum_{t} y_t = Y_T
 $$
-The choice of which variable is dependent and which is independent is far from arbitrary. It changes the assumptions and the interpretation of the model, and the outcome may be very different too. In particular, if the fit between the benchmark and the indicator is globally poor, the smoothing part of the Chow-Lin model usually becomes more influential (if constant > 0), resulting in a disaggregated series that is smoother, meaning that the indicator's movements are dampened. Conversely, under the reverse model above, we can have a high estimate for parameter $a$ and a low estimate for $b$, which may result in a disaggregated series being more volatile, effectively amplifying the indicator's movements.   
+The choice of which variable is dependent and which is independent is far from arbitrary. It changes the assumptions and the interpretation of the model, and the outcome may be very different too. In particular, if the fit between the benchmark and the indicator is globally poor, the smoothing part of the Chow-Lin model usually becomes more influential (if constant > 0), resulting in a disaggregated series that is smoother, meaning that the indicator's movements are dampened. Conversely, under the reverse model above, we can have a high estimate for parameter $a$ and a low estimate for $b$, which may result in a disaggregated series being more volatile, effectively amplifying the indicator's movements.
 
 The reverse regression method can be called with the `temporaldisaggregationI()` function. The output of the function `temporaldisaggregationI()` contains the disaggregated series as well as the estimates of the model coefficients. A print(), summary() and plot() functions can be applied on the output object.
 
-```{r, fig.show = "hide"}
+```{r}
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
 td_rv <- temporaldisaggregationI(Y, indicator = x)
 
 y_rv <- td_rv$estimation$disagg # the disaggregated series
 print(td_rv)
+```
 
-# comparison with Chow-Lin
+```{r, eval = FALSE}
+# Comparison with Chow-Lin
 td_cl <- temporal_disaggregation(Y, indicators = x)
 y_cl <- td_cl$estimation$disagg
 stats::ts.plot(y_rv, y_cl, gpars=list(col=c("red", "blue"), xaxt="n", main="Reverse regression vs Chow-Lin"))
@@ -273,19 +276,19 @@ legend("topleft",c("Reverse regression", "Chow-Lin"), lty = c(1,1), col=c("red",
 
 # Benchmarking methods
 
-The benchmarking problem arises when time series data for the same target variable are measured at two different frequencies with different levels of accuracy. Typically, the high frequency series is less reliable than the low frequency series, referred to as the benchmark. Thus, benchmarking is the process of adjusting the high frequency series to make it consistent with the more reliable low frequency series. 
+The benchmarking problem arises when time series data for the same target variable are measured at two different frequencies with different levels of accuracy. Typically, the high frequency series is less reliable than the low frequency series, referred to as the benchmark. Thus, benchmarking is the process of adjusting the high frequency series to make it consistent with the more reliable low frequency series.
 
 As for the temporal disaggregation/interpolation method Chow-Lin and its variants, a *raw* version of the `denton()` benchamrking method is made available to the user. The function `denton_raw()` enables the user to deal with atypical frequency data and with any frequency ratio.
 
 ## Denton
 
-Denton methods relies on the principle of movement preservation. There exist several variants corresponding to different definitions of movement preservation: additive first difference (AFD), proportional first difference (PFD), additive second difference (ASD), proportional second difference (PSD).  
+Denton methods relies on the principle of movement preservation. There exist several variants corresponding to different definitions of movement preservation: additive first difference (AFD), proportional first difference (PFD), additive second difference (ASD), proportional second difference (PSD).
 
 The most widely used is the Denton PFD variant. Let $Y_T$, $T=1,...,m$, and $x_t$, $t=1,...,n$, be, respectively the temporal benchmarks and the high-frequency preliminary values of an unknown target variable $y_t$. The objective function of the Denton PFD method is as follows (considering the small modification suggested by Cholette to deal with the starting conditions of the problem):
 $$
 min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
 $$
-This objective function is minimized subject to the temporal aggregation constraints $\sum_{t\epsilon T} y_t = Y_T$, $T=1,...,m$ (flows variables). In other words, the benchmarked series is estimated in such a way that the "Benchmark-to-Indicator" ratio $\frac{y_t}{x_t}$ remains as smooth as possible, which is often of key interest in benchmarking. 
+This objective function is minimized subject to the temporal aggregation constraints $\sum_{t\epsilon T} y_t = Y_T$, $T=1,...,m$ (flows variables). In other words, the benchmarked series is estimated in such a way that the "Benchmark-to-Indicator" ratio $\frac{y_t}{x_t}$ remains as smooth as possible, which is often of key interest in benchmarking.
 
 In the literature (see for example Di Fonzo and Marini, 2011), Denton PFD is generally considered as a good approximation of the [GRP method](#grp), meaning that it preserves the period-to-period growth rates of the preliminary series. It is also argued that in many applications, Denton PFD is more appropriate than GRP method as it deals with a linear problem which is computationally easier, and does not suffer from the issues related to time irreversibility and singular objective function when $y_t$ approaches 0 (see Daalmans et al, 2018).
 
@@ -321,26 +324,26 @@ Let $Y_T$, $T=1,...,m$, and $x_t$, $t=1,...,n$, be, respectively the temporal be
 
 $$
 f(x) = \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2
-$$ 
+$$
 and look for values $y_t^*$, $t=1,...,n$, which minimize it subject to the temporal aggregation constraints $\sum_{t\epsilon T} y_t = Y_T$, $T=1,...,m$ (flows variables). In other words, the benchmarked series is estimated in such a way that its temporal dynamics; as expressed by the growth rates $\frac{y_t^*}{y_{t-1}^*}$, $t=2,...,n$, be "as close as possible" to the temporal dynamics of the preliminary series, where the "distance" from the preliminary growth rates $\frac{x_t}{x_{t-1}}$ is given by the sum of the squared differences. (Di Fonzo, Marini, 2011)
 
-The objective function considered by Cauley and Trager is a natural measure of the movement of a time series and as one would expect, it is usually slightly better than the Denton PFD method at preserving the movement of the series (Di Fonzo, Marini, 2011). However, unlike the Denton PFD method which deals with a linear problem, GRP solves a more difficult nonlinear problem. Furthermore, the GRP method suffers from a couple of drawbacks, which are time irreversibility and potential singularities in the objective function when $y_{t-1}$ approaches to 0, which could lead to undesirable results (see Daalmans et al, 2018).  
+The objective function considered by Cauley and Trager is a natural measure of the movement of a time series and as one would expect, it is usually slightly better than the Denton PFD method at preserving the movement of the series (Di Fonzo, Marini, 2011). However, unlike the Denton PFD method which deals with a linear problem, GRP solves a more difficult nonlinear problem. Furthermore, the GRP method suffers from a couple of drawbacks, which are time irreversibility and potential singularities in the objective function when $y_{t-1}$ approaches to 0, which could lead to undesirable results (see Daalmans et al, 2018).
 
 The standard objective function for GRP considered by Cauley and Trager and defined above means that we apply the benchmarking forward. Alternatively, we could apply it backward, which means performing the benchmarking on the reversed time series. As previsouly mentionned, this is not equivalent when using GRP method. As altenatives, Daalmans et al (2018) proposed two other objective functions for GRP (symmetric GRP and logarithmic GRP) which are "time symmetric".
 
 Backward GRP:
 $$
 f(x) = \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
-$$ 
+$$
 Symmetric GRP:
 $$
-f(x) = \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2 + 
+f(x) = \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2 +
 \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
 $$
 Logarithmic GRP:
 $$
 f(x) = \sum_{t=2}^{n}\left(log\left(\frac{y_t}{y_{t-1}}\right) - log\left(\frac{x_t}{x_{t-1}}\right) \right)^2
-$$ 
+$$
 
 The GRP method, corresponding to the method of Cauley and Trager, using the solution proposed by Di Fonzo and Marini (2011), can be called with the `grp()` function. An alternative objective function as those suggested by Daalmans et al (2018) can also be considered. The `grp()` function returns the high frequency series benchmarked with the GRP method.
 
@@ -379,9 +382,9 @@ Let $Y_T$, $T=1,...,m$, and $x_t$, $t=1,...,n$, be, respectively the temporal be
 $$
 f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \sum_{t=2}^{n}\left[\left(\frac{x_t - y_t}{|x_t|^\lambda}\right) - \rho \left(\frac{x_{t-1} - y_{t-1}}{|x_{t-1}|^\lambda}\right)\right]^2
 $$
-This objective function is minimized subject to the temporal aggregation constraints $\sum_{t\epsilon T} y_t = Y_T$, $T=1,...,m$ (flows variables). The method is driven by a couple of parameters: 
+This objective function is minimized subject to the temporal aggregation constraints $\sum_{t\epsilon T} y_t = Y_T$, $T=1,...,m$ (flows variables). The method is driven by a couple of parameters:
 
-- The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$. Set $\lambda = 0$ for an additive benchmarking model and $\lambda = 1$ for a proportional benchmarking model. Finally, set $\lambda = 0.5$ with $\rho = 0$, for the naive pro-rating method.  
+- The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$. Set $\lambda = 0$ for an additive benchmarking model and $\lambda = 1$ for a proportional benchmarking model. Finally, set $\lambda = 0.5$ with $\rho = 0$, for the naive pro-rating method.
 - The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$ determines the degree of movement preservation. When $\lambda = 1$, the closer $\rho$ is to 1, the smoother will be the ratios of the benchmarks to the corresponding totals in the preliminary series and the better the movement of the latter will be preserved.
 
 Cholette method also provides for the possibility of considering a bias correction factor, which is the expected discrepancy between the benchmarks and the high-frequency preliminary series. The additive and multiplicative bias correction factor are estimated respectively as:
@@ -392,11 +395,11 @@ b_a &= \frac{\sum_{T=1}^{m}{Y_T} - \sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}{m} \\
 b_m &= \frac{\sum_{T=1}^{m}{Y_T}}{\sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}
 \end{aligned}
 $$
-If a bias correction factor is considered, the preliminary series is re-scaled in the objective function above: $x_t^*$ replaces $x_t$, where $x_t^*=b_a+x_t$ in the additive case and $x_t^*=b_m \times x_t$ in the multiplicative case. The rationale for considering a bias correction factor with this method is provided in Dagum and Cholette (2006, Ch. 6). It mainly impacts the observations at the end of the series that are not covered by a benchmark. In particular, when $\rho < 1$, the Benchmark-to-Indicator ratios (BI ratios) at the end of the series converge to the bias correction factor. By default, no bias is considered, meaning that we do not expected a systematic bias between the benchmarks and the preliminary series ($b_a = 0$ or $b_m = 1$). 
+If a bias correction factor is considered, the preliminary series is re-scaled in the objective function above: $x_t^*$ replaces $x_t$, where $x_t^*=b_a+x_t$ in the additive case and $x_t^*=b_m \times x_t$ in the multiplicative case. The rationale for considering a bias correction factor with this method is provided in Dagum and Cholette (2006, Ch. 6). It mainly impacts the observations at the end of the series that are not covered by a benchmark. In particular, when $\rho < 1$, the Benchmark-to-Indicator ratios (BI ratios) at the end of the series converge to the bias correction factor. By default, no bias is considered, meaning that we do not expected a systematic bias between the benchmarks and the preliminary series ($b_a = 0$ or $b_m = 1$).
 
-Cholette method has been widely used to benchmark seasonally adjusted series to annual totals derived from the raw series. For this purpose, Quenneville et al (2006) argues that an undesirable feature of the Denton PFD method is that it repeats the last BI ratio for the observations at the end of the series that are not covered by a benchmark. For observations without a benchmark, the best estimate of the BI-ratio is the estimated value of the bias; so, repeating the last value is not appropriate. Instead, to obtain a smooth transition from this last BI-ratio to the bias, one can set $\rho < 1$. For observations with a benchmark, the BI-ratios are closer to those obtained with the Denton PFD method ($\rho = 1$) and smoother when $\rho \to 1$. As a pragmatic benchmarking method routinely applicable to large numbers of seasonal time series Dagum and Cholette (2006) recommend the proportional benchmarking method ($\lambda = 1$) with a value of $\rho = 0.90$ for monthly series and $\rho = 0.90^3= 0.729$ for quarterly series. An alternative would be to estimate the autocorrelation structure of the error instead of using those default values. 
+Cholette method has been widely used to benchmark seasonally adjusted series to annual totals derived from the raw series. For this purpose, Quenneville et al (2006) argues that an undesirable feature of the Denton PFD method is that it repeats the last BI ratio for the observations at the end of the series that are not covered by a benchmark. For observations without a benchmark, the best estimate of the BI-ratio is the estimated value of the bias; so, repeating the last value is not appropriate. Instead, to obtain a smooth transition from this last BI-ratio to the bias, one can set $\rho < 1$. For observations with a benchmark, the BI-ratios are closer to those obtained with the Denton PFD method ($\rho = 1$) and smoother when $\rho \to 1$. As a pragmatic benchmarking method routinely applicable to large numbers of seasonal time series Dagum and Cholette (2006) recommend the proportional benchmarking method ($\lambda = 1$) with a value of $\rho = 0.90$ for monthly series and $\rho = 0.90^3= 0.729$ for quarterly series. An alternative would be to estimate the autocorrelation structure of the error instead of using those default values.
 
-Cholette method can be called with the `cholette()` function. The `cholette()` function returns the high frequency series benchmarked with the Cholette method. 
+Cholette method can be called with the `cholette()` function. The `cholette()` function returns the high frequency series benchmarked with the Cholette method.
 
 In practice, the benchmarked series is estimated based on an equivalent state space representation of the Cholette method described above.
 
@@ -408,7 +411,7 @@ x <- ts(xn, start = start(Y), frequency = 4)
 
 y_cho1 <- cholette(s = x, t = Y, rho = 0.729, lambda = 1, bias = "Multiplicative")  # proportional benchmarking
 y_cho2 <- cholette(s = x, t = Y, rho = 0.729, lambda = 1) # proportional benchmarking with no bias (assuming bm=1)
-y_cho3 <- cholette(s = x, t = Y, rho = 0.729, lambda = 0, bias = "Additive")  # additive benchmarking 
+y_cho3 <- cholette(s = x, t = Y, rho = 0.729, lambda = 0, bias = "Additive")  # additive benchmarking
 y_cho4 <- cholette(s = x, t = Y, rho = 1, lambda = 1) # Denton PFD
 y_cho5 <- cholette(s = x, t = Y, rho = 0, lambda = 0.5) # pro-rating
 ```
@@ -418,9 +421,9 @@ y_cho5 <- cholette(s = x, t = Y, rho = 0, lambda = 0.5) # pro-rating
 
 ## Multivariate Cholette
 
-This is a multivariate extension of the [Cholette benchmarking method](#cholette) which can be used for the purpose of reconciliation. While standard benchmarking methods consider one target series at a time, reconciliation techniques aim to restore consistency in a system of time series with regards to both contemporaneous and temporal constraints. Reconciliation techniques are typically needed when the total and its components are estimated independently (the so-called direct approach). The multivariate Cholette method relies on the principle of movement preservation and encompasses other reconciliation methods such as the multivariate Denton method. 
+This is a multivariate extension of the [Cholette benchmarking method](#cholette) which can be used for the purpose of reconciliation. While standard benchmarking methods consider one target series at a time, reconciliation techniques aim to restore consistency in a system of time series with regards to both contemporaneous and temporal constraints. Reconciliation techniques are typically needed when the total and its components are estimated independently (the so-called direct approach). The multivariate Cholette method relies on the principle of movement preservation and encompasses other reconciliation methods such as the multivariate Denton method.
 
-Let 
+Let
 
 * $Y_{i,T}$, $T=1,...,m$, $i=1,...,I$, be the set of temporal benchmarks
 * $z_{k,t}$, $t=1,...,n$, $k=1,...,K$, be the set of contemporaneous constraints
@@ -430,16 +433,16 @@ The objective function of the multivariate Cholette method is:
 $$
 f(x) = (1-\rho^2) \sum_{i=1}^{I}\left(\frac{x_{i,1} - y_{i,1}}{|x_{i,1}|^\lambda}\right)^2 + \sum_{i=1}^{I}\sum_{t=2}^{n}\left[\left(\frac{x_{i,t} - y_{i,t}}{|x_{i,t}|^\lambda}\right) - \rho \left(\frac{x_{i,t-1} - y_{i,t-1}}{|x_{i,t-1}|^\lambda}\right)\right]^2
 $$
-This objective function is minimized subject to 
+This objective function is minimized subject to
 
-* the temporal aggregation constraints $\sum_{t\epsilon T} y_{i,t} = Y_{i,T}$, and 
+* the temporal aggregation constraints $\sum_{t\epsilon T} y_{i,t} = Y_{i,T}$, and
 * the contemporaneous constraints given by $\sum_{j\epsilon J_k}\omega_{k,j}x_{j,t} = z_{k,t}$.
 
 Note that consistency between the temporal aggregation constraints and the contemporaneous constraints is required (see the consistency check in the example).
 
-The method may also be applied in the absence of temporal aggregation constraints. The contemporaneous constraints are then imposed by altering the dynamic movements of the series as little as possible. Conversely, the absence of contemporaneous constraint is less relevant, as this is just equivalent to applying the univariate Cholette method to each of the preliminary series separately. In addition to binding contemporaneous constraints, non-binding constraints can also specified by modifying their formulation in the `ccvector` argument. For example, instead of imposing a binding condition such as $x_1+x_2+x_3=z_1$, one may express a non-binding constraint as $x_1+x_2+x_3-z_1=0$, which allows the $z_1$ series to be adjusted in the same manner as $x_1$, $x_2$ and $x_3$ (weights may also be introduced when needed). 
+The method may also be applied in the absence of temporal aggregation constraints. The contemporaneous constraints are then imposed by altering the dynamic movements of the series as little as possible. Conversely, the absence of contemporaneous constraint is less relevant, as this is just equivalent to applying the univariate Cholette method to each of the preliminary series separately. In addition to binding contemporaneous constraints, non-binding constraints can also specified by modifying their formulation in the `ccvector` argument. For example, instead of imposing a binding condition such as $x_1+x_2+x_3=z_1$, one may express a non-binding constraint as $x_1+x_2+x_3-z_1=0$, which allows the $z_1$ series to be adjusted in the same manner as $x_1$, $x_2$ and $x_3$ (weights may also be introduced when needed).
 
-As in the univariate case, the multivariate Cholette method is driven by a couple of parameters: 
+As in the univariate case, the multivariate Cholette method is driven by a couple of parameters:
 
 - The adjustment model parameter $\lambda$, $\lambda \in \mathbb{R}$ makes the trade‑off between an additive and a proportional reconciliation model, and therefore determines how strongly the relative size of each series influences the distribution of discrepancies. Setting $\lambda = 0$ yields a purely additive model, while values of $\lambda$ close to 1 approximate a proportional model in which larger series absorb a larger share of the adjustment. Although $\lambda = 1$ is also possible, it should be used with caution in a multivariate context. This is because contemporaneous constraints, combined with the fact that pure movement preservation specifies nothing about the level of the individual reconciled series, may sometimes produce substantial differences in level between the preliminary and the benchmarked series. This is especially true in the absence of temporal constraints where strong movement preservation should not be pursued during reconciliation. Finally, as in the univariate case, the naive pro-rating method corresponds to setting $\lambda = 0.5$ with $\rho = 0$.
 
@@ -488,15 +491,15 @@ The calendarization process involves two steps:
 - Temporal disaggregation of the observed data into daily values using or not an indicator
 - Aggregation of the resulting daily values into the desired calendar reference periods.
 
-Based on the paper from Quenneville et al (2012), the temporal disaggregation step is performed by considering a state-space representation of the Denton proportional first difference (PFD) method. Recall the objective function of the (modified) Denton PFD method  
+Based on the paper from Quenneville et al (2012), the temporal disaggregation step is performed by considering a state-space representation of the Denton proportional first difference (PFD) method. Recall the objective function of the (modified) Denton PFD method
 $$
 min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
 $$
-which is minimized under the temporal aggregation constraints 
+which is minimized under the temporal aggregation constraints
 $$
 \sum_{t\epsilon l} y_t = Y_l
 $$
-$Y_l$, $l=1,...,q$, are the observed values to be distributed and $x_t$, $t=1,...,n$ are the daily indicator values that represent the daily movement of the unknown target variable $y_t$. In the absence of such information, a constant indicator (say, a vector of 1) is used instead.   
+$Y_l$, $l=1,...,q$, are the observed values to be distributed and $x_t$, $t=1,...,n$ are the daily indicator values that represent the daily movement of the unknown target variable $y_t$. In the absence of such information, a constant indicator (say, a vector of 1) is used instead.
 
 The calendarization process can be called with the `calendarization()` function. By default, a constant indicator is considered which means that the daily level of activity is assumed to be constant. To include an indicator into the disaggregation process, the function parameter `dailyweights` has to be filled. If provided, the daily indicator values (or weights) should reflect the daily level of activity that may be varying in function for instance of seasonality, trading day or other calendar effects such as public holidays.
 
@@ -505,7 +508,7 @@ The `calendarization()` function returns a list with the final aggregated result
 ```{r}
 # Example of calendarization (from Quenneville et al (2012))
 
-## Observed data 
+## Observed data
 obs <- list(
     list(start = "2009-02-18", end = "2009-03-17", value = 9000),
     list(start = "2009-03-18", end = "2009-04-14", value = 5000),
@@ -530,11 +533,11 @@ eym_2 <- cal_2$erslt
 yd_2 <- cal_2$days
 eyd_2 <- cal_2$edays
 ```
- 
+
 
 # References
 
-Bournay J., Laroque G. (1979). Reflexions sur la methode d'elaboration des comptes trimestriels. *Annales de l'Insee, n°36, pp.3-30.* 
+Bournay J., Laroque G. (1979). Reflexions sur la methode d'elaboration des comptes trimestriels. *Annales de l'Insee, n°36, pp.3-30.*
 
 Causey, B., and Trager, M.L. (1981). Derivation of Solution to the Benchmarking Problem: Trend Revision. *Unpublished research notes, U.S. Census Bureau, Washington D.C. Available as an appendix in Bozik and Otto (1988).*
 

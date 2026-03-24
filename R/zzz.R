@@ -10,6 +10,10 @@ NULL
 
 .onLoad <- function(libname, pkgname) {
 
+    jar_dir <- system.file("java", package = "rjd3bench")
+    jars <- list.files(jar_dir, pattern = "\\.jar$", full.names = TRUE)
+    rJava::.jaddClassPath(jars)
+
     result <- rJava::.jpackage(pkgname, lib.loc = libname)
     if (!result) stop("Loading java packages failed", call. = FALSE)
 
