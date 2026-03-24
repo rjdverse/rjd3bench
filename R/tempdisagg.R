@@ -306,7 +306,7 @@ temporal_disaggregation_raw <- function(
     se <- sqrt(diag(bcov))
     t <- coef/se
     m <- data.frame(coef, se, t)
-    row.names(m) <- vars
+    if(nrow(m) > 0) row.names(m) <- vars
 
     regression <- list(
         type = model,
@@ -667,7 +667,7 @@ temporal_interpolation_raw <- function(
     se <- sqrt(diag(bcov))
     t <- coef/se
     m <- data.frame(coef, se, t)
-    row.names(m) <- vars
+    if(nrow(m) > 0) row.names(m) <- vars
 
     regression <- list(
         type = model,
