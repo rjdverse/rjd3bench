@@ -2,7 +2,7 @@
 % Please edit documentation in R/benchmark.R
 \name{denton}
 \alias{denton}
-\title{Benchmarking by means of the Denton method.}
+\title{Benchmarking by means of the Denton Method.}
 \usage{
 denton(
   s = NULL,
@@ -18,36 +18,34 @@ denton(
 )
 }
 \arguments{
-\item{s}{Preliminary series. If not NULL, it must be the same class as t.}
+\item{s}{A preliminary series. If not \code{NULL}, it must be of the same class as \code{t}.}
 
-\item{t}{Aggregation constraint. Mandatory. it must be either an object of
-class ts or a numeric vector.}
+\item{t}{The low-frequency aggregation constraint. It must be either a \code{"ts"} object or a numeric vector.}
 
-\item{d}{Differencing order. 1 by default.}
+\item{d}{An integer specifying the differencing order. The default is \code{1}.}
 
-\item{mul}{Multiplicative or additive benchmarking. Multiplicative by
-default.}
+\item{mul}{Boolean. Indicates whether benchmarking is multiplicative (\code{TRUE}) or additive (\code{FALSE}). The default is multiplicative.}
 
-\item{nfreq}{Annual frequency of the disaggregated variable. Used if no
-disaggregated series is provided.}
+\item{nfreq}{An integer giving the annual frequency of the benchmarked series.
+This argument is used only when no preliminary series is provided.}
 
-\item{modified}{Modified (TRUE) or unmodified (FALSE) Denton. Modified by
-default.}
+\item{modified}{Boolean. Specifies whether the modified Denton method (\code{TRUE}) or the unmodified Denton method (\code{FALSE}) is applied. The default is \code{TRUE}.}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by
-default.}
+\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} or \code{"Average"}. The default is \code{"Sum"}.}
 
-\item{obsposition}{Position of the observation in the aggregated period (only
-used with "UserDefined" conversion).}
+\item{obsposition}{An integer specifying the position of the observations of the low-frequency constraint within the benchmarked series (e.g. the 7th month of the year).
+This argument is used only when \code{conversion = "UserDefined"}.}
 
-\item{nbcsts}{Number of backcast periods. Ignored when a preliminary
-series is provided. (not yet implemented)}
+\item{nbcsts}{An integer specifying the number of backcast periods.
+This argument is ignored when a preliminary series is provided.
+(Not yet implemented.)}
 
-\item{nfcsts}{Number of forecast periods. Ignored when a preliminary
-series is provided. (not yet implemented)}
+\item{nfcsts}{An integer specifying the number of forecast periods.
+This argument is ignored when a preliminary series is provided.
+(Not yet implemented.)}
 }
 \value{
-The benchmarked series is returned
+A \code{"ts"} object with the benchmarked series
 }
 \description{
 Denton method relies on the principle of movement preservation. There exist a
@@ -57,25 +55,26 @@ additive second difference (ASD), proportional second difference (PSD), etc.
 The default and most widely used is the Denton PFD method.
 }
 \examples{
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 
-# denton PFD without a preliminary series
+# Denton PFD without a preliminary series
 y1 <- denton(t = Y, nfreq = 4)
 print(y1)
 
-# denton PFD without a preliminary series and conversion = "Average"
+# Denton PFD without a preliminary series and conversion = "Average"
 denton(t = Y, nfreq = 4, conversion = "Average")
 
-# denton PFD with a preliminary series
+# Denton PFD with a preliminary series
 x <- y1 + rnorm(n = length(y1), mean = 0, sd = 10000)
 denton(s = x, t = Y)
 
-# denton AFD with a preliminary series
+# Denton AFD with a preliminary series
 denton(s = x, t = Y, mul = FALSE)
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }
