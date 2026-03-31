@@ -11,7 +11,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/rjdverse/rjd3bench/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/rjdverse/rjd3bench/blob/v3.1.1/DESCRIPTION)
 
 Palate J, Lemasson C (2026). *rjd3bench: Temporal Disaggregation and
 Benchmarking in 'JDemetra+' 3.x*. R package version 3.1.1,
