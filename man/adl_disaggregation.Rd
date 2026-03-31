@@ -2,7 +2,7 @@
 % Please edit documentation in R/adl.R
 \name{adl_disaggregation}
 \alias{adl_disaggregation}
-\title{Temporal disaggregation of a time series with ADL models}
+\title{Temporal Disaggregation of a Time Series by ADL Model}
 \usage{
 adl_disaggregation(
   series,
@@ -18,53 +18,56 @@ adl_disaggregation(
 )
 }
 \arguments{
-\item{series}{The low frequency time series that will be disaggregated. It must be a ts object.}
+\item{series}{A low-frequency time series to be disaggregated. It must be \code{"ts"} object.}
 
-\item{constant}{Constant term (T/F, T by default)}
+\item{constant}{Boolean. Indicates whether a constant term is included in the model. The default is \code{TRUE}.}
 
-\item{trend}{Linear trend (T/F, F by default)}
+\item{trend}{Boolean. Indicates whether a linear trend is included in the model. The default is \code{FALSE}.}
 
-\item{indicators}{High-frequency indicator(s). It must be a (list of) ts object(s).}
+\item{indicators}{One or more high-frequency indicator series. If not NULL (the default), this must be a \code{"ts"} object or a list of \code{"ts"} objects.}
 
-\item{average}{Average conversion (T/F). Default is F, which means additive conversion.}
+\item{average}{Boolean. Indicates whether an average conversion should be considered. The default is \code{FALSE}, corresponding to additive conversion.}
 
-\item{phi}{(Initial) value of the phi parameter}
+\item{phi}{A numeric value giving the (initial) value of the phi parameter}
 
-\item{phi.fixed}{Fixed phi (T/F, F by default)}
+\item{phi.fixed}{Boolean. Specifies whether the supplied value of \code{phi} is fixed. The default is \code{FALSE}, which indicates that \code{phi} is estimated.}
 
-\item{phi.truncated}{Range for phi evaluation (in [phi.truncated, 1[)}
+\item{phi.truncated}{A numeric value defining the lower bound of the admissible range for \code{phi}.
+The evaluation range is \verb{[phi.truncated, 1[}.}
 
-\item{xar}{Constraints on the coefficients of the lagged regression variables. See vignette for more information on this.}
+\item{xar}{A character string specifying the constraints imposed on the coefficients of the lagged regression variables. The default is \code{"FREE"}, which indicates that no constraints are applied.
+For additional information, see the package vignette.}
 
-\item{diffuse}{Indicates if the coefficients of the regression model are diffuse (T) or fixed unknown (F, default)}
+\item{diffuse}{Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (\code{TRUE}) or as fixed unknown (\code{FALSE}, the default).}
 }
 \value{
-An object of class "JD3AdlDisagg"
+An object of class \code{"JD3_ADLDISAGG_RSLTS"} containing the results of the temporal disaggregation procedure.
 }
 \description{
-Temporal disaggregation of a time series with ADL models
+Perform temporal disaggregation of low-frequency to high-frequency time
+series using an Autoregressive Distributed Lag regression model.
 }
 \examples{
-# adl model
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
+# ADL model
 data("qna_data")
 Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 td1 <- adl_disaggregation(Y, indicators = x, xar = "FREE")
 td1$estimation$disagg
 
-# adl models with constraints
+# ADL models with constraints
 td2 <- adl_disaggregation(Y, indicators = x, xar = "SAME") # ~ Chow-Lin
-td3 <- adl_disaggregation(Y, constant = FALSE, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) # ~ Fernandez
+td3 <- adl_disaggregation(Y, constant = FALSE, indicators = x,
+                          xar = "SAME", phi = 1, phi.fixed = TRUE) # ~ Fernandez
 td4 <- adl_disaggregation(Y, indicators = x, xar = "NONE") # ~ Santos Silva-Cardoso
-
+\dontshow{\}) # examplesIf}
 }
 \references{
-Proietti, P. (2005). Temporal Disaggregation by State Space
-  Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
-  European Commission, ISSN 1725-4825.
+Proietti, P. (2005). Temporal Disaggregation by State Space Methods: Dynamic Regression Methods Revisited. Working papers and Studies, European Commission, ISSN 1725-4825.
 }
 \seealso{
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

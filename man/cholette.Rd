@@ -2,7 +2,7 @@
 % Please edit documentation in R/benchmark.R
 \name{cholette}
 \alias{cholette}
-\title{Benchmarking by means of the Cholette method}
+\title{Benchmarking by means of the Cholette Method}
 \usage{
 cholette(
   s,
@@ -15,22 +15,26 @@ cholette(
 )
 }
 \arguments{
-\item{s}{Preliminary series. Mandatory. It must be the same class as t.}
+\item{s}{A preliminary series. It must be of the same class as \code{t}.}
 
-\item{t}{Aggregation constraint. Mandatory. It must be either an object of class ts or a numeric vector.}
+\item{t}{The low-frequency aggregation constraint. It must be either a \code{"ts"} object or a numeric vector.}
 
-\item{rho}{Numeric. Smoothing parameter whose value should be between 0 and 1. See vignette for more information on the choice of the rho parameter.}
+\item{rho}{Numeric. A smoothing parameter whose value must lie between 0 and 1.
+See the package vignette for more information on the choice of the \code{rho} parameter.}
 
-\item{lambda}{Numeric. Adjustment model parameter. Typically, lambda = 1 for proportional benchmarking; lambda = 0 for additive benchmarking; and lambda = 0.5 with rho = 0 for the naive pro-rating method. See vignette for more information on the choice of the lambda parameter.}
+\item{lambda}{Numeric. The adjustment model parameter. Typical choices include \code{lambda = 1} for proportional benchmarking, \code{lambda = 0} for additive benchmarking, and \code{lambda = 0.5} with \code{rho = 0} for the naive pro-rating method.
+See the package vignette for more information on the choice of the \code{lambda} parameter.}
 
-\item{bias}{Character. Bias correction factor. No systematic bias is considered by default. See vignette for more details.}
+\item{bias}{Character. Specifies the bias-correction factor. By default, no systematic bias is considered.
+See the package vignette for more information on the other alternatives.}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by default.}
+\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} or \code{"Average"}. The default is \code{"Sum"}.}
 
-\item{obsposition}{Position of the observation in the aggregated period (only used with "UserDefined" conversion).}
+\item{obsposition}{An integer specifying the position of the observations of the low-frequency constraint within the benchmarked series (e.g. the 7th month of the year).
+This argument is used only when \code{conversion = "UserDefined"}.}
 }
 \value{
-The benchmarked series is returned
+A \code{"ts"} object with the benchmarked series
 }
 \description{
 Cholette method is based on a benchmarking methodology developed at
@@ -42,6 +46,7 @@ This method has been widely used for the purpose of benchmarking seasonally
 adjusted series among others.
 }
 \examples{
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 ym_true <- rjd3toolkit::Retail$RetailSalesTotal
 yq_true <- rjd3toolkit::aggregate(ym_true, 4)
 Y_full <- rjd3toolkit::aggregate(ym_true, 1)
@@ -51,7 +56,7 @@ xm <- ym_true + rnorm(n = length(ym_true), mean = -5000, sd = 10000)
 xq <- rjd3toolkit::aggregate(xm, 4)
 
 # Proportional benchmarking with a bias and some recommended value of rho for
-# monthly and quarterly series respectively (see vignette)
+# monthly and quarterly series respectively
 cholette(s = xm, t = Y, rho = 0.9, lambda = 1, bias = "Multiplicative")
 cholette(s = xq, t = Y, rho = 0.729, lambda = 1, bias = "Multiplicative")
 
@@ -67,16 +72,16 @@ cholette(s = xm, t = Y, rho = 1, lambda = 1)
 
 # Pro-rating
 cholette(s = xm, t = Y, rho = 0, lambda = 0.5)
-
+\dontshow{\}) # examplesIf}
 }
 \references{
 Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006).
-  Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
-  Statistics Canada. Statistics Canada, Working paper of the Time Series
-  Research and Analysis Centre.
+Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
+Statistics Canada. Statistics Canada, Working paper of the Time Series
+Research and Analysis Centre.
 }
 \seealso{
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

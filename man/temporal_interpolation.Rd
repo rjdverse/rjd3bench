@@ -2,7 +2,7 @@
 % Please edit documentation in R/tempdisagg.R
 \name{temporal_interpolation}
 \alias{temporal_interpolation}
-\title{Interpolation of a time series by regression models.}
+\title{Interpolation of a Time Series by Regression Models.}
 \usage{
 temporal_interpolation(
   series,
@@ -23,58 +23,61 @@ temporal_interpolation(
 )
 }
 \arguments{
-\item{series}{The low frequency time series that will be interpolated. It must be a ts object.}
+\item{series}{A low-frequency time series to be interpolated. It must be a \code{"ts"} object.}
 
-\item{constant}{Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.}
+\item{constant}{Boolean. Indicates whether a constant term is included in the model. The default is \code{TRUE}.
+Note that this argument is used only with \code{model = "Ar1"} when \code{zeroinitialization = FALSE}. For additional information, see the package vignette.}
 
-\item{trend}{Linear trend (T/F, F by default)}
+\item{trend}{Boolean. Indicates whether a linear trend is included in the model. The default is \code{FALSE}.}
 
-\item{indicators}{High-frequency indicator(s) used in the interpolation.
-It must be a (list of) ts object(s).}
+\item{indicators}{One or more high-frequency indicator series used in the temporal interpolation.
+If \code{NULL} (the default), no indicator is used. When provided, the argument must be a \code{"ts"} object or a list of \code{"ts"} objects.}
 
-\item{model}{Model of the error term (at the higher-frequency level).
-"Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.}
+\item{model}{A character string specifying the model of the error term at the interpolated level.
+The options are: \code{"Ar1"} (Chow Lin), \code{"Rw"} (Fernandez), and \code{"RwAr1"} (Litterman).}
 
-\item{freq}{Integer. Annual frequency of the interpolated series.
-Ignored when an indicator is provided.}
+\item{freq}{An integer giving the annual frequency of the interpolated series.
+This argument is ignored when one or more indicator series is provided.}
 
-\item{obsposition}{Integer. Position of the observations of the low frequency
-series in the interpolated series. (e.g. 1st month of the year, 2d month of
-the year, etc.). It must be a positive integer or -1 (the default). The
-default value is equivalent to setting the value of the parameter equal to
-the frequency of the series, meaning that the last value of the
-interpolated series is consistent with the low frequency series.}
+\item{obsposition}{An integer specifying the position of the low-frequency
+observations within the interpolated series (e.g. the 1st month of the
+year, the 2d month, etc.). The value must be a positive integer or \code{-1} (the
+default). The default value is equivalent to setting the value of the
+parameter equal to the frequency of the series, meaning that the last value
+of the interpolated series is consistent with the low-frequency series.}
 
-\item{rho}{(Initial) value of the parameter. Only used with Ar1/RwAr1 models.}
+\item{rho}{A numeric value giving the (initial) value of the autoregressive parameter.
+This argument is used only for \code{"Ar1"} and \code{"RwAr1"} models.}
 
-\item{rho.fixed}{Fixed rho (T/F, F by default)}
+\item{rho.fixed}{Boolean. Specifies whether the supplied value of \code{rho} is fixed. The default is \code{FALSE}, which indicates that \code{rho} is estimated.}
 
-\item{rho.truncated}{Range for rho evaluation (in [rho.truncated, 1[)}
+\item{rho.truncated}{A numeric value defining the lower bound of the admissible range for \code{rho}.
+The evaluation range is \verb{[rho.truncated, 1[}.}
 
-\item{zeroinitialization}{The initial values of an auto-regressive model are
-fixed to 0 (T/F, F by default)}
+\item{zeroinitialization}{Boolean. If \code{TRUE}, the initial values of the autoregressive model are set to zero. The default is \code{FALSE}.}
 
-\item{diffuse.algorithm}{Algorithm used for diffuse initialization.
-"SqrtDiffuse" by default.}
+\item{diffuse.algorithm}{A character string specifying the algorithm used for diffuse initialization. The default is \code{"SqrtDiffuse"}.}
 
-\item{diffuse.regressors}{Indicates if the coefficients of the regression
-model are diffuse (T) or fixed unknown (F, default)}
+\item{diffuse.regressors}{Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (\code{TRUE}) or as fixed unknown (\code{FALSE}, the default).}
 
-\item{nbcsts}{Number of backcast periods. Ignored when an indicator is provided.}
+\item{nbcsts}{An integer specifying the number of backcast periods.
+This argument is ignored when one or more indicator series is provided.}
 
-\item{nfcsts}{Number of forecast periods. Ignored when an indicator is provided.}
+\item{nfcsts}{An integer specifying the number of forecast periods.
+This argument is ignored when one or more indicator series is provided.}
 }
 \value{
-An object of class "JD3Interpolation"
+An object of class "JD3_INTERP_RSLTS" containing the results of the temporal interpolation procedure.
 }
 \description{
-Perform temporal interpolation of low frequency to high frequency time
-series by regression models. Models included are Chow-Lin, Fernandez,
-Litterman and some variants of those algorithms.
+Perform temporal interpolation of low-frequency to high-frequency time
+series by regression models. The implemented models include Chow-Lin,
+Fernandez, Litterman and some variants of those algorithms.
 }
 \examples{
-# chow-lin/fernandez when the last value of the interpolated series is
-# consistent with the low frequency series.
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
+# Chow-lin / Fernandez when the last value of the interpolated series is
+# consistent with the low-frequency series
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::Retail$FoodAndBeverageStores
 ti1 <- temporal_interpolation(Y, indicators = x)
@@ -83,24 +86,22 @@ ti1$estimation$interp
 ti2 <- temporal_interpolation(Y, indicators = x, model = "Rw")
 ti2$estimation$interp
 
-# same without indicator
+# Same without indicator
 ti3 <- temporal_interpolation(Y, model = "Rw", freq = 12, nfcsts = 6)
 ti3$estimation$interp
 
-# consistent with the low frequency series.
 ti4 <- temporal_interpolation(Y, indicators = x, obsposition = 1)
 ti4$estimation$interp
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link{temporal_disaggregation}},
+\code{temporal_disaggregation()},
 
-\code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series,
+\code{temporal_interpolation_raw()} for interpolation of atypical frequency series,
 
-\code{\link{temporal_disaggregation_raw}} for temporal disaggregation of atypical frequency series
-
+\code{temporal_disaggregation_raw()} for temporal disaggregation of atypical frequency series
 
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }
