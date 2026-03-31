@@ -1,4 +1,4 @@
-# Benchmarking by means of the Denton method.
+# Benchmarking by means of the Denton Method.
 
 Denton method relies on the principle of movement preservation. There
 exist a few variants corresponding to different definitions of movement
@@ -28,66 +28,72 @@ denton(
 
 - s:
 
-  Preliminary series. If not NULL, it must be the same class as t.
+  A preliminary series. If not `NULL`, it must be of the same class as
+  `t`.
 
 - t:
 
-  Aggregation constraint. Mandatory. it must be either an object of
-  class ts or a numeric vector.
+  The low-frequency aggregation constraint. It must be either a `"ts"`
+  object or a numeric vector.
 
 - d:
 
-  Differencing order. 1 by default.
+  An integer specifying the differencing order. The default is `1`.
 
 - mul:
 
-  Multiplicative or additive benchmarking. Multiplicative by default.
+  Boolean. Indicates whether benchmarking is multiplicative (`TRUE`) or
+  additive (`FALSE`). The default is multiplicative.
 
 - nfreq:
 
-  Annual frequency of the disaggregated variable. Used if no
-  disaggregated series is provided.
+  An integer giving the annual frequency of the benchmarked series. This
+  argument is used only when no preliminary series is provided.
 
 - modified:
 
-  Modified (TRUE) or unmodified (FALSE) Denton. Modified by default.
+  Boolean. Specifies whether the modified Denton method (`TRUE`) or the
+  unmodified Denton method (`FALSE`) is applied. The default is `TRUE`.
 
 - conversion:
 
-  Conversion rule. Usually "Sum" or "Average". Sum by default.
+  A character string specifying the conversion mode, typically `"Sum"`
+  or `"Average"`. The default is `"Sum"`.
 
 - obsposition:
 
-  Position of the observation in the aggregated period (only used with
-  "UserDefined" conversion).
+  An integer specifying the position of the observations of the
+  low-frequency constraint within the benchmarked series (e.g. the 7th
+  month of the year). This argument is used only when
+  `conversion = "UserDefined"`.
 
 - nbcsts:
 
-  Number of backcast periods. Ignored when a preliminary series is
-  provided. (not yet implemented)
+  An integer specifying the number of backcast periods. This argument is
+  ignored when a preliminary series is provided. (Not yet implemented.)
 
 - nfcsts:
 
-  Number of forecast periods. Ignored when a preliminary series is
-  provided. (not yet implemented)
+  An integer specifying the number of forecast periods. This argument is
+  ignored when a preliminary series is provided. (Not yet implemented.)
 
 ## Value
 
-The benchmarked series is returned
+A `"ts"` object with the benchmarked series
 
 ## See also
 
 For more information, see the vignette:
 
-[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
-`browseVignettes(package = "rjd3bench")`
+[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
+e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 
 ``` r
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 
-# denton PFD without a preliminary series
+# Denton PFD without a preliminary series
 y1 <- denton(t = Y, nfreq = 4)
 print(y1)
 #>           Qtr1      Qtr2      Qtr3      Qtr4
@@ -111,7 +117,7 @@ print(y1)
 #> 2009  921713.2  902491.3  900006.8  914259.6
 #> 2010  945249.8  968492.5  983987.6  991735.1
 
-# denton PFD without a preliminary series and conversion = "Average"
+# Denton PFD without a preliminary series and conversion = "Average"
 denton(t = Y, nfreq = 4, conversion = "Average")
 #>         Qtr1    Qtr2    Qtr3    Qtr4
 #> 1992 1793839 1802590 1820091 1846344
@@ -134,50 +140,50 @@ denton(t = Y, nfreq = 4, conversion = "Average")
 #> 2009 3686853 3609965 3600027 3657039
 #> 2010 3780999 3873970 3935950 3966940
 
-# denton PFD with a preliminary series
+# Denton PFD with a preliminary series
 x <- y1 + rnorm(n = length(y1), mean = 0, sd = 10000)
 denton(s = x, t = Y)
 #>           Qtr1      Qtr2      Qtr3      Qtr4
-#> 1992  452252.4  431594.5  475592.7  456276.4
-#> 1993  464975.1  478932.7  483960.9  514379.3
-#> 1994  518589.7  514922.4  544945.1  531563.8
-#> 1995  538353.4  550675.2  560070.4  573405.0
-#> 1996  578870.7  600143.2  580999.0  606652.1
-#> 1997  610164.7  613745.5  629293.1  620799.7
-#> 1998  631687.8  639941.5  651952.2  663523.5
-#> 1999  667225.9  690848.6  714652.8  735828.8
-#> 2000  730899.3  756724.9  745494.5  755637.4
-#> 2001  754324.1  760258.1  774506.7  778636.1
-#> 2002  769589.6  773817.5  778185.6  812729.3
-#> 2003  806202.6  814316.4  813723.1  833911.8
-#> 2004  841584.0  874817.2  867352.0  896676.8
-#> 2005  908245.6  908998.7  954678.6  924768.0
-#> 2006  949567.4  962146.7  972408.7  996013.2
-#> 2007  999617.3 1002049.5 1000039.9 1004091.4
-#> 2008  999962.4 1002485.6  979654.1  970830.8
-#> 2009  913661.4  906649.3  901955.8  916204.5
-#> 2010  950510.3  948778.9  990446.3  999729.4
+#> 1992  438596.9  451485.7  461066.2  464567.2
+#> 1993  471614.7  480671.3  468443.1  521518.9
+#> 1994  512564.8  524549.3  537115.1  535791.8
+#> 1995  554904.6  550191.1  543000.6  574407.6
+#> 1996  568378.9  584555.6  601940.8  611789.6
+#> 1997  620849.5  616436.7  630245.2  606471.6
+#> 1998  629644.3  637489.0  647741.2  672230.5
+#> 1999  674855.9  696106.3  711147.8  726446.0
+#> 2000  737826.0  735409.7  750978.8  764541.4
+#> 2001  773175.0  757352.9  775858.3  761338.9
+#> 2002  771849.9  774304.4  784530.0  803637.6
+#> 2003  813043.7  809390.9  818533.2  827186.2
+#> 2004  865185.8  862483.1  874536.8  878224.3
+#> 2005  902974.8  913019.6  945874.7  934821.9
+#> 2006  957489.5  961460.0  958176.9 1003009.7
+#> 2007  976438.1 1003018.3 1012315.8 1014025.9
+#> 2008 1023771.3 1003964.1  979149.9  946047.7
+#> 2009  915040.2  897219.6  908797.0  917414.2
+#> 2010  962864.6  958656.3  982300.7  985643.4
 
-# denton AFD with a preliminary series
+# Denton AFD with a preliminary series
 denton(s = x, t = Y, mul = FALSE)
 #>           Qtr1      Qtr2      Qtr3      Qtr4
-#> 1992  452254.0  431266.1  475891.5  456304.4
-#> 1993  465013.3  478952.1  483988.9  514293.6
-#> 1994  518674.6  515075.8  544865.8  531404.8
-#> 1995  538073.7  550590.5  560194.9  573644.9
-#> 1996  579072.0  599971.4  581257.0  606364.6
-#> 1997  610023.9  613739.5  629348.8  620890.8
-#> 1998  631716.9  639937.6  651951.8  663498.7
-#> 1999  667029.7  690782.8  714741.3  736002.2
-#> 2000  730954.2  756758.3  745459.5  755584.0
-#> 2001  754293.5  760253.7  774525.6  778652.2
-#> 2002  769595.5  773820.9  778201.6  812704.0
-#> 2003  806278.0  814376.2  813708.0  833791.8
-#> 2004  841352.1  874804.1  867388.8  896885.0
-#> 2005  908442.3  909176.7  954340.9  924731.0
-#> 2006  949418.2  962111.0  972506.4  996100.4
-#> 2007  999651.1 1002037.9 1000031.2 1004077.8
-#> 2008 1000109.3 1002713.2  979582.9  970527.6
-#> 2009  913319.0  906597.8  902153.1  916401.1
-#> 2010  950519.9  948870.0  990394.1  999681.0
+#> 1992  438935.0  451607.0  460943.9  464230.2
+#> 1993  471229.8  480560.0  468194.8  522263.4
+#> 1994  512940.1  524664.3  536900.3  535516.3
+#> 1995  554682.3  550150.0  543017.7  574653.9
+#> 1996  568418.9  584574.8  601934.3  611737.0
+#> 1997  620740.9  616415.4  630109.5  606737.2
+#> 1998  629734.3  637549.1  647724.3  672097.3
+#> 1999  674707.0  696050.4  711211.0  726587.6
+#> 2000  737919.5  735394.4  750930.7  764511.4
+#> 2001  773233.9  757270.8  775938.4  761281.9
+#> 2002  771827.4  774304.8  784554.0  803635.9
+#> 2003  813093.6  809492.5  818519.6  827048.3
+#> 2004  865044.9  862423.4  874619.5  878342.2
+#> 2005  903110.2  913056.0  945835.4  934689.4
+#> 2006  957396.7  961427.9  958236.4 1003075.0
+#> 2007  976739.9 1003027.1 1012168.9 1013862.1
+#> 2008 1023603.0 1003980.0  979229.1  946120.9
+#> 2009  915102.1  897246.0  908766.4  917356.4
+#> 2010  962825.6  958634.1  982323.2  985682.2
 ```

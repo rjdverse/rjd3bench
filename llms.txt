@@ -8,8 +8,9 @@ built](https://github.com/rjdverse/rjd3bench/actions/workflows/pkgdown.yaml/badg
 
 ## Overview
 
-rjd3bench provides a variety of methods for temporal disaggregation &
-interpolation, benchmarking, reconciliation and calendarization.
+The package `rjd3bench` provides a variety of methods for temporal
+disaggregation, interpolation, benchmarking, reconciliation and
+calendarization, using highly efficient algorithms.
 
 Temporal disaggregation & interpolation:
 
@@ -33,13 +34,19 @@ Calendarization
 
 ## Installation
 
-Running rjd3 packages requires **Java 17 or higher**. How to set up such
+Running rjd3 packages requires **Java 21 or higher**. How to set up such
 a configuration in R is explained
 [here](https://jdemetra-new-documentation.netlify.app/#Rconfig)
 
 ### Latest release
 
 To get the current stable version (from the latest release):
+
+- From CRAN:
+
+``` r
+install.packages("rjd3bench")
+```
 
 - From GitHub:
 
@@ -82,83 +89,45 @@ Licence
 ## All functions
 
 - [`adl_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.md)
-  : Temporal disaggregation of a time series with ADL models
+  : Temporal Disaggregation of a Time Series by ADL Model
 - [`calendarization()`](https://rjdverse.github.io/rjd3bench/reference/calendarization.md)
   : Calendarization
 - [`cholette()`](https://rjdverse.github.io/rjd3bench/reference/cholette.md)
-  : Benchmarking by means of the Cholette method
+  : Benchmarking by means of the Cholette Method
 - [`cubicspline()`](https://rjdverse.github.io/rjd3bench/reference/cubicspline.md)
-  : Benchmarking by means of cubic splines
+  : Benchmarking by means of Cubic Splines
 - [`denton()`](https://rjdverse.github.io/rjd3bench/reference/denton.md)
-  : Benchmarking by means of the Denton method.
+  : Benchmarking by means of the Denton Method.
 - [`denton_modelbased()`](https://rjdverse.github.io/rjd3bench/reference/denton_modelbased.md)
-  : Temporal disaggregation & interpolation of a time series by
-  model-based Denton proportional method
+  : Temporal Disaggregation and Interpolation of a Time Series using the
+  Model-Based Denton Proportional Method
 - [`denton_raw()`](https://rjdverse.github.io/rjd3bench/reference/denton_raw.md)
-  : Benchmarking of an atypical frequency series by means of the Denton
-  method.
+  : Benchmarking of an Atypical Frequency Series by means of the Denton
+  Method.
 - [`temporaldisaggregation()`](https://rjdverse.github.io/rjd3bench/reference/deprecated-rjd3bench.md)
-  : Deprecated functions
+  : Deprecated Functions
 - [`grp()`](https://rjdverse.github.io/rjd3bench/reference/grp.md) :
-  Benchmarking following the growth rate preservation principle.
+  Benchmarking following the Growth Rate Preservation Principle.
 - [`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)
-  : Reconciliation by means of the Multivariate Cholette method
-- [`plot(`*`<JD3AdlDisagg>`*`)`](https://rjdverse.github.io/rjd3bench/reference/plot.JD3AdlDisagg.md)
-  : Plot function for object of class JD3AdlDisagg
-- [`plot(`*`<JD3Interpolation>`*`)`](https://rjdverse.github.io/rjd3bench/reference/plot.JD3Interpolation.md)
-  : Plot function for object of class JD3Interpolation
-- [`plot(`*`<JD3MBDenton>`*`)`](https://rjdverse.github.io/rjd3bench/reference/plot.JD3MBDenton.md)
-  : Plot function for object of class JD3MBDenton
-- [`plot(`*`<JD3TempDisagg>`*`)`](https://rjdverse.github.io/rjd3bench/reference/plot.JD3TempDisagg.md)
-  : Plot function for object of class JD3TempDisagg
-- [`plot(`*`<JD3TempDisaggI>`*`)`](https://rjdverse.github.io/rjd3bench/reference/plot.JD3TempDisaggI.md)
-  : Plot function for object of class JD3TempDisaggI
-- [`print(`*`<JD3AdlDisagg>`*`)`](https://rjdverse.github.io/rjd3bench/reference/print.JD3AdlDisagg.md)
-  : Print function for object of class JD3AdlDisagg
-- [`print(`*`<JD3Interpolation>`*`)`](https://rjdverse.github.io/rjd3bench/reference/print.JD3Interpolation.md)
-  : Print function for object of class JD3Interpolation
-- [`print(`*`<JD3InterpolationRaw>`*`)`](https://rjdverse.github.io/rjd3bench/reference/print.JD3InterpolationRaw.md)
-  : Print function for object of class JD3InterpolationRaw
-- [`print(`*`<JD3MBDenton>`*`)`](https://rjdverse.github.io/rjd3bench/reference/print.JD3MBDenton.md)
-  : Print function for object of class JD3MBDenton
-- [`print(`*`<JD3TempDisagg>`*`)`](https://rjdverse.github.io/rjd3bench/reference/print.JD3TempDisagg.md)
-  : Print function for object of class JD3TempDisagg
-- [`print(`*`<JD3TempDisaggI>`*`)`](https://rjdverse.github.io/rjd3bench/reference/print.JD3TempDisaggI.md)
-  : Print function for object of class JD3TempDisaggI
-- [`print(`*`<JD3TempDisaggRaw>`*`)`](https://rjdverse.github.io/rjd3bench/reference/print.JD3TempDisaggRaw.md)
-  : Print function for object of class JD3TempDisaggRaw
+  : Reconciliation by means of the Multivariate Cholette Method
 - [`qna_data`](https://rjdverse.github.io/rjd3bench/reference/qna_data.md)
   : Quarterly National Accounts data for temporal disaggregation
-- [`summary(`*`<JD3AdlDisagg>`*`)`](https://rjdverse.github.io/rjd3bench/reference/summary.JD3AdlDisagg.md)
-  : Summary function for object of class JD3AdlDisagg
-- [`summary(`*`<JD3Interpolation>`*`)`](https://rjdverse.github.io/rjd3bench/reference/summary.JD3Interpolation.md)
-  : Summary function for object of class JD3Interpolation
-- [`summary(`*`<JD3InterpolationRaw>`*`)`](https://rjdverse.github.io/rjd3bench/reference/summary.JD3InterpolationRaw.md)
-  : Summary function for object of class JD3InterpolationRaw
-- [`summary(`*`<JD3MBDenton>`*`)`](https://rjdverse.github.io/rjd3bench/reference/summary.JD3MBDenton.md)
-  : Summary function for object of class JD3MBDenton
-- [`summary(`*`<JD3TempDisagg>`*`)`](https://rjdverse.github.io/rjd3bench/reference/summary.JD3TempDisagg.md)
-  : Summary function for object of class JD3TempDisagg
-- [`summary(`*`<JD3TempDisaggI>`*`)`](https://rjdverse.github.io/rjd3bench/reference/summary.JD3TempDisaggI.md)
-  : Summary function for object of class JD3TempDisaggI
-- [`summary(`*`<JD3TempDisaggRaw>`*`)`](https://rjdverse.github.io/rjd3bench/reference/summary.JD3TempDisaggRaw.md)
-  : Summary function for object of class JD3TempDisaggRaw
 - [`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
-  : Temporal disaggregation of a time series by regression models.
+  : Temporal Disaggregation of a Time Series by Regression Models.
 - [`temporal_disaggregation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
-  : Temporal disaggregation of an atypical frequency series by
-  regression models.
+  : Temporal Disaggregation of an Atypical Frequency Series by
+  Regression Models.
 - [`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md)
-  : Interpolation of a time series by regression models.
+  : Interpolation of a Time Series by Regression Models.
 - [`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
-  : Interpolation of an atypical frequency series by regression models.
+  : Interpolation of an Atypical Frequency Series by Regression Models.
 - [`temporaldisaggregationI()`](https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.md)
-  : Temporal disaggregation of a time series by means of a reverse
-  regression model.
+  : Temporal Disaggregation and Interpolation of a Time Series by means
+  of a Reverse Regression Model.
 
 # Articles
 
 ### All vignettes
 
-- [Temporal disaggregation and Benchmarking methods based on JDemetra+
-  v3.x](https://rjdverse.github.io/rjd3bench/articles/rjd3bench.md):
+- [Temporal disaggregation and Benchmarking methods based on 'JDemetra+'
+  3.x](https://rjdverse.github.io/rjd3bench/articles/rjd3bench.md):

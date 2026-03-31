@@ -1,6 +1,6 @@
-# Temporal disaggregation of a time series by means of a reverse regression model.
+# Temporal Disaggregation and Interpolation of a Time Series by means of a Reverse Regression Model.
 
-Perform temporal disaggregation and interpolation of low frequency to
+Perform temporal disaggregation and interpolation of low-frequency to
 high frequency time series by means of a reverse regression model.
 Unlike the usual regression-based models, this approach treats a
 high-frequency indicator as the dependent variable and the unknown
@@ -24,55 +24,61 @@ temporaldisaggregationI(
 
 - series:
 
-  The time series that will be disaggregated. It must be a ts object.
+  A low-frequency time series to be disaggregated or interpolated. It
+  must be a `"ts"` object.
 
 - indicator:
 
-  The high-frequency indicator. It must be a ts object.
+  A high-frequency indicator series. It must be a `"ts"` object.
 
 - conversion:
 
-  Conversion mode (Usually "Sum" or "Average")
+  A character string specifying the conversion mode, typically `"Sum"`
+  or `"Average"` for disaggregation. The default is `"Sum"`.
 
 - conversion.obsposition:
 
-  Integer. Only used with "UserDefined" mode. Position of the observed
-  indicator in the aggregated periods (for instance 7th month of the
-  year)
+  An integer specifying the position of the low-frequency observations
+  within the interpolated series (e.g. the 7th month of the year). This
+  argument is used only for interpolation when
+  `conversion = "UserDefined"`.
 
 - rho:
 
-  (Initial) value of the parameter.
+  A numeric value giving the (initial) value of the autoregressive
+  parameter.
 
 - rho.fixed:
 
-  Fixed rho (T/F, F by default).
+  Boolean. Specifies whether the supplied value of `rho` is fixed. The
+  default is `FALSE`, which indicates that `rho` is estimated.
 
 - rho.truncated:
 
-  Range for Rho evaluation (in \[rho.truncated, 1\[)
+  A numeric value defining the lower bound of the admissible range for
+  `rho`. The evaluation range is `[rho.truncated, 1[`.
 
 ## Value
 
-An object of class "JD3TempDisaggI"
+An object of class "JD3_TEMPDISAGGI_RSLTS" containing the results of the
+temporal disaggregation or interpolation procedure.
 
 ## References
 
 Bournay J., Laroque G. (1979). Reflexions sur la methode d'elaboration
-des comptes trimestriels. Annales de l'Insee, n°36, pp.3-30.
+des comptes trimestriels. Annales de l'Insee, n. 36, pp.3-30.
 
 ## See also
 
 For more information, see the vignette:
 
-[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
-`browseVignettes(package = "rjd3bench")`
+[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
+e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 
 ``` r
 # Retail data, monthly indicator
-
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::Retail$FoodAndBeverageStores
 td <- temporaldisaggregationI(Y, indicator = x)

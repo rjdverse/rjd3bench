@@ -8,8 +8,9 @@ built](https://github.com/rjdverse/rjd3bench/actions/workflows/pkgdown.yaml/badg
 
 ## Overview
 
-rjd3bench provides a variety of methods for temporal disaggregation &
-interpolation, benchmarking, reconciliation and calendarization.
+The package `rjd3bench` provides a variety of methods for temporal
+disaggregation, interpolation, benchmarking, reconciliation and
+calendarization, using highly efficient algorithms.
 
 Temporal disaggregation & interpolation:
 
@@ -33,13 +34,19 @@ Calendarization
 
 ## Installation
 
-Running rjd3 packages requires **Java 17 or higher**. How to set up such
+Running rjd3 packages requires **Java 21 or higher**. How to set up such
 a configuration in R is explained
 [here](https://jdemetra-new-documentation.netlify.app/#Rconfig)
 
 ### Latest release
 
 To get the current stable version (from the latest release):
+
+- From CRAN:
+
+``` r
+install.packages("rjd3bench")
+```
 
 - From GitHub:
 

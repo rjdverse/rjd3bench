@@ -1,4 +1,4 @@
-# Benchmarking following the growth rate preservation principle.
+# Benchmarking following the Growth Rate Preservation Principle.
 
 GRP is a method which explicitly preserves the period-to-period growth
 rates of the preliminary series. It corresponds to the method of Cauley
@@ -25,48 +25,52 @@ grp(
 
 - s:
 
-  Preliminary series. Mandatory. It must be a ts object.
+  A preliminary series. It must be a `"ts"` object.
 
 - t:
 
-  Aggregation constraint. Mandatory. It must be a ts object.
+  The low-frequency aggregation constraint. It must be a `"ts"` object.
 
 - objective:
 
-  Objective function. See vignette and/or Daalmans et al. (2018) for
-  more information.
+  A character string specifying the objective function. For additional
+  information on this, see the package vignette.
 
 - conversion:
 
-  Conversion rule. "Sum" by default.
+  A character string specifying the conversion mode, typically `"Sum"`
+  or `"Average"`. The default is `"Sum"`.
 
 - obsposition:
 
-  Position of the observation in the aggregated period (only used with
-  "UserDefined" conversion)
+  An integer specifying the position of the observations of the
+  low-frequency constraint within the benchmarked series (e.g. the 7th
+  month of the year). This argument is used only when
+  `conversion = "UserDefined"`.
 
 - eps:
 
-  Numeric. Defines the convergence precision. BFGS algorithm is run
-  until the reduction in the objective is within this eps value (1e-12
-  is the default) or until the maximum number of iterations is hit.
+  A numeric value specifying the convergence tolerance. The BFGS
+  algorithm proceeds until the reduction in the objective function is
+  within this tolerance (default is `1e-12`) or until the maximum number
+  of iterations is reached.
 
 - iter:
 
-  Integer. Maximum number of iterations in BFGS algorithm (500 is the
-  default).
+  An integer giving the maximum number of iterations allowed in the BFGS
+  algorithm. The default is `500`.
 
 - dentoninitialization:
 
-  indicate whether the series benchmarked via modified Denton PFD is
-  used as starting values of the GRP optimization procedure (TRUE/FALSE,
-  TRUE by default). If FALSE, the average benchmark is used for flow
-  variables (e.g. t/4 for quarterly series with annual constraints and
-  conversion = 'Sum'), or the benchmark for stock variables.
+  Boolean. Indicates whether the series obtained via the modified Denton
+  PFD method is used as the starting values for the GRP optimization
+  procedure. The default is `TRUE`. If `FALSE`, the starting values are
+  derived directly from the aggregation constraint (e.g. `t/4` for
+  quarterly series with annual constraint and `conversion = "Sum"`).
 
 ## Value
 
-The benchmarked series is returned
+A `"ts"` object with the benchmarked series
 
 ## References
 
@@ -76,19 +80,19 @@ Census Bureau, Washington D.C. Available as an appendix in Bozik and
 Otto (1988).
 
 Di Fonzo, T., and Marini, M. (2011). A Newton's Method for Benchmarking
-Time Series according to a Growth Rates Preservation Principle. \*IMF
-WP/11/179\*.
+Time Series according to a Growth Rates Preservation Principle. *IMF
+WP/11/179*.
 
 Daalmans, J., Di Fonzo, T., Mushkudiani, N. and Bikker, R. (2018).
 Growth Rates Preservation (GRP) temporal benchmarking: Drawbacks and
-alternative solutions. \*Statistics Canada\*.
+alternative solutions. *Statistics Canada*.
 
 ## See also
 
 For more information, see the vignette:
 
-[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
-`browseVignettes(package = "rjd3bench")`
+[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
+e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 
@@ -99,16 +103,16 @@ Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- denton(t = Y, nfreq = 4) + rnorm(n = length(Y) * 4, mean = 0, sd = 10)
 grp(s = x, t = Y)
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2009 4391.190 4385.290 4401.376 4376.544
-#> 2010 4370.800 4387.240 4437.022 4525.038
-#> 2011 4632.272 4716.528 4763.753 4743.448
-#> 2012 4736.253 4716.864 4696.824 4699.759
-#> 2013 4667.696 4663.047 4674.790 4707.966
-#> 2014 4722.907 4757.000 4762.253 4765.840
-#> 2015 4787.509 4814.325 4829.647 4862.519
-#> 2016 4905.966 4906.591 4938.273 4927.570
-#> 2017 4957.467 4968.445 5062.909 5161.079
-#> 2018 5280.554 5394.618 5502.633 5589.595
-#> 2019 5635.901 5670.028 5638.706 5569.565
-#> 2020 5471.618 5409.293 5365.378 5320.211
+#> 2009 4401.435 4401.478 4368.816 4382.670
+#> 2010 4367.369 4394.138 4436.358 4522.235
+#> 2011 4624.236 4701.365 4768.325 4762.073
+#> 2012 4742.554 4717.748 4698.807 4690.591
+#> 2013 4674.068 4677.785 4687.841 4673.805
+#> 2014 4716.244 4740.478 4758.178 4793.100
+#> 2015 4787.351 4803.442 4830.292 4872.915
+#> 2016 4891.612 4926.765 4930.383 4929.640
+#> 2017 4944.282 4991.178 5053.669 5160.771
+#> 2018 5305.466 5395.682 5505.310 5560.942
+#> 2019 5645.579 5639.614 5645.524 5583.483
+#> 2020 5470.927 5395.838 5357.786 5341.949
 ```

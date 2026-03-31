@@ -1,10 +1,11 @@
-# Temporal disaggregation of an atypical frequency series by regression models.
+# Temporal Disaggregation of an Atypical Frequency Series by Regression Models.
 
-Perform temporal disaggregation of low frequency to high frequency time
-series by regression models. Models included are Chow-Lin, Fernandez,
-Litterman and some variants of those algorithms. This "raw" function
-extends the temporal_disaggregation() function in a way that it can deal
-with any frequency ratio.
+Perform temporal disaggregation of low-frequency to high-frequency time
+series by regression models. The implemented models include Chow-Lin,
+Fernandez, Litterman and some variants of those algorithms. The
+`temporal_disaggregation_raw()` function extends
+[`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
+by allowing temporal disaggregation for any frequency ratio.
 
 ## Usage
 
@@ -33,96 +34,111 @@ temporal_disaggregation_raw(
 
 - series:
 
-  The low frequency series that will be disaggregated. Must be a numeric
+  A low-frequency time series to be disaggregated. It must be a numeric
   vector.
 
 - constant:
 
-  Constant term (T/F). Only used with "Ar1" model when
-  zeroinitialization = F.
+  Boolean. Indicates whether a constant term is included in the model.
+  The default is `TRUE`. Note that this argument is used only with
+  `model = "Ar1"` when `zeroinitialization = FALSE`. For additional
+  information on this, see the package vignette.
 
 - trend:
 
-  Linear trend (T/F)
+  Boolean. Indicates whether a linear trend is included in the model.
+  The default is `FALSE`.
 
 - indicators:
 
-  High-frequency indicator(s) used in the temporal disaggregation. If
-  not NULL, it must be either a numeric vector or a matrix.
+  One or more high-frequency indicator series used in the temporal
+  disaggregation. If `NULL` (the default), no indicator is used. When
+  provided, the argument must be a numeric vector or a matrix.
 
 - startoffset:
 
-  Number of initial observations in the indicator(s) series that are
-  prior to the start of the period covered by the low-frequency series.
-  Must be 0 or a positive integer. 0 by default. Ignored when no
-  indicator is provided.
+  The number of initial observations in the indicator series that
+  precede the start of the low-frequency series. The value must be
+  either 0 or a positive integer (default is 0). This argument is
+  ignored when no indicator is provided.
 
 - model:
 
-  Model of the error term (at the disaggregated level). "Ar1" =
-  Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
+  A character string specifying the model of the error term at the
+  disaggregated level. The options are: `"Ar1"` (Chow Lin), `"Rw"`
+  (Fernandez), and `"RwAr1"` (Litterman).
 
 - freqratio:
 
-  Frequency ratio between the disaggregated series and the low frequency
-  series. Mandatory. Must be a positive integer.
+  An integer specifying the frequency ratio between the disaggregated
+  series and the low-frequency series. This argument is mandatory and
+  must be a positive integer.
 
 - average:
 
-  Average conversion (T/F). Default is F, which means additive
-  conversion.
+  Boolean. Indicates whether an average conversion should be considered.
+  The default is `FALSE`, corresponding to additive conversion.
 
 - rho:
 
-  (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
+  A numeric value giving the (initial) value of the autoregressive
+  parameter. This argument is used only for `"Ar1"` and `"RwAr1"`
+  models.
 
 - rho.fixed:
 
-  Fixed rho (T/F, F by default)
+  Boolean. Specifies whether the supplied value of `rho` is fixed. The
+  default is `FALSE`, which indicates that `rho` is estimated.
 
 - rho.truncated:
 
-  Range for Rho evaluation (in \[rho.truncated, 1\[)
+  A numeric value defining the lower bound of the admissible range for
+  `rho`. The evaluation range is `[rho.truncated, 1[`.
 
 - zeroinitialization:
 
-  The initial values of an auto-regressive model are fixed to 0 (T/F, F
-  by default)
+  Boolean. If `TRUE`, the initial values of the autoregressive model are
+  set to zero. The default is `FALSE`.
 
 - diffuse.algorithm:
 
-  Algorithm used for diffuse initialization. "SqrtDiffuse" by default
+  A character string specifying the algorithm used for diffuse
+  initialization. The default is `"SqrtDiffuse"`.
 
 - diffuse.regressors:
 
-  Indicates if the coefficients of the regression model are diffuse (T)
-  or fixed unknown (F, default)
+  Boolean. Indicates whether the coefficients of the regression model
+  are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the
+  default).
 
 - nbcsts:
 
-  Number of backcast periods. Ignored when an indicator is provided.
+  An integer specifying the number of backcast periods. This argument is
+  ignored when one or more indicator series is provided.
 
 - nfcsts:
 
-  Number of forecast periods. Ignored when an indicator is provided.
+  An integer specifying the number of forecast periods. This argument is
+  ignored when one or more indicator series is provided.
 
 ## Value
 
-An object of class "JD3TempDisaggRaw"
+An object of class `"JD3_TEMPDISAGGRAW_RSLTS"` containing the results of
+the temporal disaggregation procedure.
 
 ## See also
 
-[`temporal_interpolation_raw`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
+[`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
 
 For more information, see the vignette:
 
-[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
-`browseVignettes(package = "rjd3bench")`
+[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
+e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 
 ``` r
-# use of chow-lin method to disaggregate a biennial series with an annual indicator
+# Use of Chow-lin method to disaggregate a biennial series with an annual indicator
 Y <- stats::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 0.5)
 x <- stats::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 1)
 td <- temporal_disaggregation_raw(as.numeric(Y), indicators = as.numeric(x), freqratio = 2)
@@ -131,7 +147,9 @@ td$estimation$disagg
 #> [10] 3120753 3141809 3260667 3478645 3698476 3902189 3983745 3853109 3738295
 #> [19] 3973614
 
-# use of Fernandez method to disaggregate a series without indicator considering a frequency ratio of 5 (for example, it could be a quinquennial series to disaggregate on an annual basis)
+# Use of Fernandez method to disaggregate a series without indicator
+# considering a frequency ratio of 5 (for example, it could be a quinquennial
+# series to disaggregate on an annual basis)
 Y2 <- c(500,510,525,520)
 td2 <- temporal_disaggregation_raw(Y2, model = "Rw", freqratio = 5, nfcsts = 2)
 td2$estimation$disagg
@@ -140,14 +158,15 @@ td2$estimation$disagg
 #> [15] 105.12039 104.61112 104.20371 103.89815 103.69444 103.59258 103.59258
 #> [22] 103.59258
 
-# same with an indicator, considering an offset in the latter
+# Same with an indicator, considering an offset in the latter
 Y2 <- c(500,510,525,520)
 x2 <- c(97,
         98, 98.5, 99.5, 104, 99,
         100, 100.5, 101, 105.5, 103,
         104.5, 103.5, 104.5, 109, 104,
         107, 103, 108, 113, 110)
-td3 <- temporal_disaggregation_raw(Y2, indicators = x2, startoffset = 1, model = "Rw", freqratio = 5)
+td3 <- temporal_disaggregation_raw(Y2, indicators = x2, startoffset = 1,
+                                   model = "Rw", freqratio = 5)
 td3$estimation$disagg
 #>  [1]  98.77697  99.16257  99.39121  99.84848 101.69120  99.90653 100.47131
 #>  [8] 100.94308 101.51462 103.72835 103.34265 104.59913 104.59495 105.06531

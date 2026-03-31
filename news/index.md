@@ -1,6 +1,8 @@
 # Changelog
 
-## rjd3bench 3.1.0.9000
+## rjd3bench 3.1.1
+
+CRAN release: 2026-03-29
 
 All notable changes to this project will be documented in this file.
 
@@ -9,6 +11,14 @@ Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### [Unreleased](https://github.com/rjdverse/rjd3bench/compare/v3.1.0...HEAD)
+
+#### Changed
+
+- Enhancing documentation
+
+#### Fixed
+
+- Prepare package for CRAN
 
 ### [3.1.0](https://github.com/rjdverse/rjd3bench/compare/v3.0.0...v3.1.0) - 2025-12-19
 
@@ -69,7 +79,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - new jars related to version
   [1.2.1](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v1.2.1)\*
 
-### [2.0.0](https://github.com/rjdverse/rjd3bench/compare/v1.0.0...2.0.0) - 2023-12-12
+### [2.0.0](https://github.com/rjdverse/rjd3bench/compare/v1.0.0...v2.0.0) - 2023-12-12
 
 #### Added
 

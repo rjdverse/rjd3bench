@@ -1,8 +1,8 @@
-# Interpolation of a time series by regression models.
+# Interpolation of a Time Series by Regression Models.
 
-Perform temporal interpolation of low frequency to high frequency time
-series by regression models. Models included are Chow-Lin, Fernandez,
-Litterman and some variants of those algorithms.
+Perform temporal interpolation of low-frequency to high-frequency time
+series by regression models. The implemented models include Chow-Lin,
+Fernandez, Litterman and some variants of those algorithms.
 
 ## Usage
 
@@ -30,100 +30,117 @@ temporal_interpolation(
 
 - series:
 
-  The low frequency time series that will be interpolated. It must be a
-  ts object.
+  A low-frequency time series to be interpolated. It must be a `"ts"`
+  object.
 
 - constant:
 
-  Constant term (T/F). Only used with "Ar1" model when
-  zeroinitialization = F.
+  Boolean. Indicates whether a constant term is included in the model.
+  The default is `TRUE`. Note that this argument is used only with
+  `model = "Ar1"` when `zeroinitialization = FALSE`. For additional
+  information, see the package vignette.
 
 - trend:
 
-  Linear trend (T/F, F by default)
+  Boolean. Indicates whether a linear trend is included in the model.
+  The default is `FALSE`.
 
 - indicators:
 
-  High-frequency indicator(s) used in the interpolation. It must be a
-  (list of) ts object(s).
+  One or more high-frequency indicator series used in the temporal
+  interpolation. If `NULL` (the default), no indicator is used. When
+  provided, the argument must be a `"ts"` object or a list of `"ts"`
+  objects.
 
 - model:
 
-  Model of the error term (at the higher-frequency level). "Ar1" =
-  Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
+  A character string specifying the model of the error term at the
+  interpolated level. The options are: `"Ar1"` (Chow Lin), `"Rw"`
+  (Fernandez), and `"RwAr1"` (Litterman).
 
 - freq:
 
-  Integer. Annual frequency of the interpolated series. Ignored when an
-  indicator is provided.
+  An integer giving the annual frequency of the interpolated series.
+  This argument is ignored when one or more indicator series is
+  provided.
 
 - obsposition:
 
-  Integer. Position of the observations of the low frequency series in
-  the interpolated series. (e.g. 1st month of the year, 2d month of the
-  year, etc.). It must be a positive integer or -1 (the default). The
-  default value is equivalent to setting the value of the parameter
-  equal to the frequency of the series, meaning that the last value of
-  the interpolated series is consistent with the low frequency series.
+  An integer specifying the position of the low-frequency observations
+  within the interpolated series (e.g. the 1st month of the year, the 2d
+  month, etc.). The value must be a positive integer or `-1` (the
+  default). The default value is equivalent to setting the value of the
+  parameter equal to the frequency of the series, meaning that the last
+  value of the interpolated series is consistent with the low-frequency
+  series.
 
 - rho:
 
-  (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
+  A numeric value giving the (initial) value of the autoregressive
+  parameter. This argument is used only for `"Ar1"` and `"RwAr1"`
+  models.
 
 - rho.fixed:
 
-  Fixed rho (T/F, F by default)
+  Boolean. Specifies whether the supplied value of `rho` is fixed. The
+  default is `FALSE`, which indicates that `rho` is estimated.
 
 - rho.truncated:
 
-  Range for rho evaluation (in \[rho.truncated, 1\[)
+  A numeric value defining the lower bound of the admissible range for
+  `rho`. The evaluation range is `[rho.truncated, 1[`.
 
 - zeroinitialization:
 
-  The initial values of an auto-regressive model are fixed to 0 (T/F, F
-  by default)
+  Boolean. If `TRUE`, the initial values of the autoregressive model are
+  set to zero. The default is `FALSE`.
 
 - diffuse.algorithm:
 
-  Algorithm used for diffuse initialization. "SqrtDiffuse" by default.
+  A character string specifying the algorithm used for diffuse
+  initialization. The default is `"SqrtDiffuse"`.
 
 - diffuse.regressors:
 
-  Indicates if the coefficients of the regression model are diffuse (T)
-  or fixed unknown (F, default)
+  Boolean. Indicates whether the coefficients of the regression model
+  are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the
+  default).
 
 - nbcsts:
 
-  Number of backcast periods. Ignored when an indicator is provided.
+  An integer specifying the number of backcast periods. This argument is
+  ignored when one or more indicator series is provided.
 
 - nfcsts:
 
-  Number of forecast periods. Ignored when an indicator is provided.
+  An integer specifying the number of forecast periods. This argument is
+  ignored when one or more indicator series is provided.
 
 ## Value
 
-An object of class "JD3Interpolation"
+An object of class "JD3_INTERP_RSLTS" containing the results of the
+temporal interpolation procedure.
 
 ## See also
 
-[`temporal_disaggregation`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md),
+[`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md),
 
-[`temporal_interpolation_raw`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
+[`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
 for interpolation of atypical frequency series,
 
-[`temporal_disaggregation_raw`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
+[`temporal_disaggregation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
 for temporal disaggregation of atypical frequency series
 
 For more information, see the vignette:
 
-[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
-`browseVignettes(package = "rjd3bench")`
+[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
+e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 
 ``` r
-# chow-lin/fernandez when the last value of the interpolated series is
-# consistent with the low frequency series.
+# Chow-lin / Fernandez when the last value of the interpolated series is
+# consistent with the low-frequency series
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::Retail$FoodAndBeverageStores
 ti1 <- temporal_interpolation(Y, indicators = x)
@@ -212,7 +229,7 @@ ti2$estimation$interp
 #> 2009 3398987 3326881 3638471
 #> 2010 3498864 3528265 3889465
 
-# same without indicator
+# Same without indicator
 ti3 <- temporal_interpolation(Y, model = "Rw", freq = 12, nfcsts = 6)
 ti3$estimation$interp
 #>          Jan     Feb     Mar     Apr     May     Jun     Jul     Aug     Sep
@@ -258,7 +275,6 @@ ti3$estimation$interp
 #> 2010 3847633 3868549 3889465
 #> 2011                        
 
-# consistent with the low frequency series.
 ti4 <- temporal_interpolation(Y, indicators = x, obsposition = 1)
 ti4$estimation$interp
 #>          Jan     Feb     Mar     Apr     May     Jun     Jul     Aug     Sep

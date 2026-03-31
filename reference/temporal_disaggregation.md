@@ -1,8 +1,8 @@
-# Temporal disaggregation of a time series by regression models.
+# Temporal Disaggregation of a Time Series by Regression Models.
 
-Perform temporal disaggregation of low frequency to high frequency time
-series by regression models. Models included are Chow-Lin, Fernandez,
-Litterman and some variants of those algorithms.
+Perform temporal disaggregation of low-frequency to high-frequency time
+series by regression models. The implemented models include Chow-Lin,
+Fernandez, Litterman and some variants of those algorithms.
 
 ## Usage
 
@@ -30,96 +30,112 @@ temporal_disaggregation(
 
 - series:
 
-  The low frequency time series that will be disaggregated. It must be a
-  ts object.
+  A low-frequency time series to be disaggregated. It must be a `"ts"`
+  object.
 
 - constant:
 
-  Constant term (T/F). Only used with "Ar1" model when
-  zeroinitialization = F.
+  Boolean. Indicates whether a constant term is included in the model.
+  The default is `TRUE`. Note that this argument is used only with
+  `model = "Ar1"` when `zeroinitialization = FALSE`. For additional
+  information, see the package vignette.
 
 - trend:
 
-  Linear trend (T/F, F by default)
+  Boolean. Indicates whether a linear trend is included in the model.
+  The default is `FALSE`.
 
 - indicators:
 
-  High-frequency indicator(s) used in the temporal disaggregation. It
-  must be a (list of) ts object(s).
+  One or more high-frequency indicator series used in the temporal
+  disaggregation. If `NULL` (the default), no indicator is used. When
+  provided, the argument must be a `"ts"` object or a list of `"ts"`
+  objects.
 
 - model:
 
-  Model of the error term (at the disaggregated level). "Ar1" =
-  Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.
+  A character string specifying the model of the error term at the
+  disaggregated level. The options are: `"Ar1"` (Chow Lin), `"Rw"`
+  (Fernandez), and `"RwAr1"` (Litterman).
 
 - freq:
 
-  Integer. Annual frequency of the disaggregated series. Ignored when an
-  indicator is provided.
+  An integer giving the annual frequency of the disaggregated series.
+  This argument is ignored when one or more indicator series is
+  provided.
 
 - average:
 
-  Average conversion (T/F). Default is F, which means additive
-  conversion.
+  Boolean. Indicates whether an average conversion should be considered.
+  The default is `FALSE`, corresponding to additive conversion.
 
 - rho:
 
-  (Initial) value of the parameter. Only used with Ar1/RwAr1 models.
+  A numeric value giving the (initial) value of the autoregressive
+  parameter. This argument is used only for `"Ar1"` and `"RwAr1"`
+  models.
 
 - rho.fixed:
 
-  Fixed rho (T/F, F by default)
+  Boolean. Specifies whether the supplied value of `rho` is fixed. The
+  default is `FALSE`, which indicates that `rho` is estimated.
 
 - rho.truncated:
 
-  Range for rho evaluation (in \[rho.truncated, 1\[)
+  A numeric value defining the lower bound of the admissible range for
+  `rho`. The evaluation range is `[rho.truncated, 1[`.
 
 - zeroinitialization:
 
-  The initial values of an auto-regressive model are fixed to 0 (T/F, F
-  by default)
+  Boolean. If `TRUE`, the initial values of the autoregressive model are
+  set to zero. The default is `FALSE`.
 
 - diffuse.algorithm:
 
-  Algorithm used for diffuse initialization. "SqrtDiffuse" by default.
+  A character string specifying the algorithm used for diffuse
+  initialization. The default is `"SqrtDiffuse"`.
 
 - diffuse.regressors:
 
-  Indicates if the coefficients of the regression model are diffuse (T)
-  or fixed unknown (F, default)
+  Boolean. Indicates whether the coefficients of the regression model
+  are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the
+  default).
 
 - nbcsts:
 
-  Number of backcast periods. Ignored when an indicator is provided.
+  An integer specifying the number of backcast periods. This argument is
+  ignored when one or more indicator series is provided.
 
 - nfcsts:
 
-  Number of forecast periods. Ignored when an indicator is provided.
+  An integer specifying the number of forecast periods. This argument is
+  ignored when one or more indicator series is provided.
 
 ## Value
 
-An object of class "JD3TempDisagg"
+An object of class `"JD3_TEMPDISAGG_RSLTS"` containing the results of
+the temporal disaggregation procedure.
 
 ## See also
 
-[`temporal_interpolation`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md)
+[`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md)
 for interpolation,
 
-[`temporal_disaggregation_raw`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
+[`temporal_disaggregation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
 for temporal disaggregation of atypical frequency series,
 
-[`temporal_interpolation_raw`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
+[`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
 for interpolation of atypical frequency series
 
 For more information, see the vignette:
 
-[`browseVignettes`](https://rdrr.io/r/utils/browseVignettes.html)
-`browseVignettes(package = "rjd3bench")`
+[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
+e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 
 ``` r
-# chow-lin with monthly indicator
+# Chow-lin with a monthly indicator
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::Retail$FoodAndBeverageStores
 td <- temporal_disaggregation(Y, indicators = x)
@@ -165,7 +181,7 @@ td$estimation$disagg
 #> 2009 289382.4 306533.3 302747.1 351184.0
 #> 2010 318514.0 331406.4 334459.9 382144.6
 
-# fernandez with/without quarterly indicator
+# Fernandez with and without a quarterly indicator
 data("qna_data")
 Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
@@ -204,7 +220,7 @@ td2$estimation$disagg
 #> 2021 5329.168 5329.168 5329.168 5329.168
 #> 2022 5329.168 5329.168                  
 
-# chow-lin on index series
+# Chow-lin applied to index series
 Y_index <- 100 * Y / Y[1]
 x_index <- 100 * x / x[1]
 td3 <- temporal_disaggregation(Y, indicators = x, average = TRUE)

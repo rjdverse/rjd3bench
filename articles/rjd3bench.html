@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x • rjd3bench</title>
+<title>Temporal disaggregation and Benchmarking methods based on 'JDemetra+' 3.x • rjd3bench</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -15,7 +15,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Temporal disaggregation and Benchmarking methods based on 'JDemetra+' 3.x">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rjd3bench</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.svg" class="logo" alt=""><h1>Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Temporal disaggregation and Benchmarking methods based on 'JDemetra+' 3.x</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rjdverse/rjd3bench/blob/develop/vignettes/rjd3bench.Rmd" class="external-link"><code>vignettes/rjd3bench.Rmd</code></a></small>
@@ -65,46 +65,43 @@
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      The package rjd3bench provides a variety of methods for temporal
-      disaggregation, interpolation, benchmarking, reconciliation and
-      calendarization. It is part of the interface to ‘JDemetra+ 3.x’
-      software. Methods of temporal disaggregation, interpolation and
-      benchmarking are used to derive high frequency time series from
-      low frequency time series with or without the help of high
-      frequency information. For temporal disaggregation, consistency of
-      the high frequency series with the low frequency series can be
-      achieved either by sum or average. For interpolation, the low
-      frequency series can be the first or last value of the high
-      frequency series, or any other value. In addition to temporal
-      constraints, reconciliation methods deals with contemporaneous
-      consistency while adjusting multiple time series. Finally,
-      calendarization method can be used when time series data do not
-      coincide with calendar periods.
+      The <code>rjd3bench</code> package provides a variety of methods
+      for temporal disaggregation, interpolation, benchmarking,
+      reconciliation and calendarization. It is part of the interface to
+      the ‘JDemetra+’ 3.x time series analysis software and incorporates
+      statistical methods described in the latest European Statistical
+      System (ESS) guidelines on temporal disaggregation, benchmarking,
+      and reconciliation (2018 edition). Most algorithms implemented in
+      the package rely on an equivalent state‑space representation of
+      the underlying model or mathematical problem, where computational
+      efficiency is further improved by replacing matrix operations with
+      functional forms, thereby enabling highly efficient estimates.
     </div>
     
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The methods implemented in the package rjd3bench intend to bridge the
-gap when there is a lack of high frequency time series or when there are
-temporal and/or contemporaneous inconsistencies between the high
-frequency series and the corresponding low frequency series. Although
-this can be an issue in any fields of research dealing with time series,
-methods of temporal disaggregation, interpolation, benchmarking,
-reconciliation and calendarization are often encountered in the
-production of official statistics. For example, National Accounts are
-often compiled according to two frequencies of production: annual
+<p>The methods implemented in the package <code>rjd3bench</code> intend
+to bridge the gap when there is a lack of high frequency time series or
+when there are temporal and/or contemporaneous inconsistencies between
+the high frequency series and the corresponding low frequency series.
+Although this can be an issue in any fields of research dealing with
+time series, methods of temporal disaggregation, interpolation,
+benchmarking, reconciliation and calendarization are often encountered
+in the production of official statistics. For example, National Accounts
+are often compiled according to two frequencies of production: annual
 series, the low frequency data, based on precise and detailed sources
 and quarterly series, the high frequency data, which usually rely on
 less accurate sources but give information on a timelier basis. In such
 case, the use of temporal disaggregation, benchmarking, and
 reconciliation methods can be used to achieve consistency between annual
 and quarterly national accounts over time.</p>
-<p>The package rjd3bench is an R interface to the highly efficient
-algorithms and modeling developed in the official ‘JDemetra+ 3.x’
-software. It provides a wide variety of methods, included those
-suggested in the <em>ESS guidelines on temporal disaggregation,
-benchmarking and reconciliation (Eurostat, 2018)</em>.</p>
+<p>The package <code>rjd3bench</code> is an interface to the highly
+efficient algorithms and modeling developed in the official ‘JDemetra+’
+3.x time series software. It provides a wide variety of methods,
+included those suggested in the <em>ESS guidelines on temporal
+disaggregation, benchmarking and reconciliation (Eurostat,
+2018)</em>.</p>
 </div>
 <div class="section level2">
 <h2 id="set-up-data">Set-up &amp; Data<a class="anchor" aria-label="anchor" href="#set-up-data"></a>
@@ -227,6 +224,29 @@ Alternatively, the functions <code><a href="../reference/temporal_disaggregation
 and <code><a href="../reference/temporal_interpolation_raw.html">temporal_interpolation_raw()</a></code> require a numeric vector
 as input series and extend the previous functions in a way that they can
 deal with atypical frequency series and with any frequency ratio.</p>
+<p>The output of the functions <code><a href="../reference/temporal_disaggregation.html">temporal_disaggregation()</a></code>,
+<code><a href="../reference/temporal_interpolation.html">temporal_interpolation()</a></code>,
+<code><a href="../reference/temporal_disaggregation_raw.html">temporal_disaggregation_raw()</a></code> and
+<code><a href="../reference/temporal_interpolation_raw.html">temporal_interpolation_raw()</a></code> contains the most important
+information about the regression including the estimates of model
+coefficients and their covariance matrix, the decomposition of the
+disaggregated/interpolated series and information about the residuals. A
+print() and summary() functions can be applied on the output object. The
+plot() function, which displays the decomposition of the
+disaggregated/interpolated series between regression and smoothing
+effect, can be applied on the output object of the functions
+<code><a href="../reference/temporal_disaggregation.html">temporal_disaggregation()</a></code> and
+<code><a href="../reference/temporal_interpolation.html">temporal_interpolation()</a></code>.</p>
+<p>In practice, Chow-Lin and its variants Fernandez and Litterman are
+estimated based on an equivalent state space representation of the
+model. By default, for Fernandez and Litterman, a diffuse initialization
+is considered for the estimation of the initial values of the states so
+that those integrate the estimate of the constant term. The latter is
+thus ‘hidden’ and does not appear explicitly in the output. To make the
+estimates of the constant term visible - thus recovering the usual
+output from the classic formulation of the model - one option is to
+change the argument <code>zeroinitialization = TRUE</code> with
+<code>constant=TRUE</code> when calling the function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example 1: TD using Chow-Lin to disaggregate annual value added in construction sector using a quarterly indicator</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -235,8 +255,13 @@ deal with atypical frequency series and with any frequency ratio.</p>
 <span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">td</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span> <span class="co"># the disaggregated series</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">td</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">td</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">td</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Model: Ar1 </span></span>
+<span><span class="co">#&gt;             coef         se         t</span></span>
+<span><span class="co">#&gt; const 2078.60371 234.756347  8.854302</span></span>
+<span><span class="co">#&gt; var-1   24.25466   1.994171 12.162783</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Use summary() for more details. </span></span>
+<span><span class="co">#&gt; Use plot() to see the decomposition of the disaggregated series.</span></span>
 <span></span>
 <span><span class="co"># Example 2: interpolation using Fernandez without indicator when the last value (default) of the interpolated series is the one consistent with the low frequency series.</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="fu">rjd3toolkit</span><span class="fu">::</span><span class="va"><a href="https://rjdverse.github.io/rjd3toolkit/reference/Retail.html" class="external-link">Retail</a></span><span class="op">$</span><span class="va">RetailSalesTotal</span>, <span class="fl">1</span><span class="op">)</span></span>
@@ -262,30 +287,6 @@ deal with atypical frequency series and with any frequency ratio.</p>
 <span>       <span class="fl">560</span><span class="op">)</span></span>
 <span><span class="va">ti_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/temporal_interpolation_raw.html">temporal_interpolation_raw</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>,  model <span class="op">=</span> <span class="st">"Rw"</span>, freqratio <span class="op">=</span> <span class="fl">5</span>, obsposition <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">ti_raw</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">interp</span></span></code></pre></div>
-<p>The output of the functions <code><a href="../reference/temporal_disaggregation.html">temporal_disaggregation()</a></code>,
-<code><a href="../reference/temporal_interpolation.html">temporal_interpolation()</a></code>,
-<code><a href="../reference/temporal_disaggregation_raw.html">temporal_disaggregation_raw()</a></code> and
-<code><a href="../reference/temporal_interpolation_raw.html">temporal_interpolation_raw()</a></code> contains the most important
-information about the regression including the estimates of model
-coefficients and their covariance matrix, the decomposition of the
-disaggregated/interpolated series and information about the residuals. A
-print() and summary() functions can be applied on the output object. The
-plot() function, which displays the decomposition of the
-disaggregated/interpolated series between regression and smoothing
-effect, can be applied on the output object of the functions
-<code><a href="../reference/temporal_disaggregation.html">temporal_disaggregation()</a></code> and
-<code><a href="../reference/temporal_interpolation.html">temporal_interpolation()</a></code>.</p>
-<p>In practice, Chow-Lin and its variants Fernandez and Litterman are
-estimated based on an equivalent state space representation of the
-model, which makes it possible to obtain estimates in a very efficient
-way. Note that, by default, for Fernandez and Litterman, a diffuse
-initialization is considered for the estimation of the initial values of
-the states so that those integrate the constant estimates. The latter is
-thus ‘hidden’ and does not appear in the results. To make the estimates
-of the constant visible (and therefore finding back the usual output
-from the classic formulation of the model), one option is to change the
-argument<code>zeroinitialization = TRUE</code> with
-<code>constant=TRUE</code> before running the function.</p>
 </div>
 <div class="section level3">
 <h3 id="model-based-denton">Model-based Denton<a class="anchor" aria-label="anchor" href="#model-based-denton"></a>
@@ -341,22 +342,26 @@ Here is a <a href="https://www.youtube.com/watch?v=PC0tj2jMcuU" class="external-
 to a presentation on the subject which include some comparison with the
 regression-based methods for temporal disaggregation.</p>
 <p>The model-base Denton method can be applied with the
-<code><a href="../reference/denton_modelbased.html">denton_modelbased()</a></code> function.</p>
+<code><a href="../reference/denton_modelbased.html">denton_modelbased()</a></code> function. The output of the
+<code><a href="../reference/denton_modelbased.html">denton_modelbased()</a></code> function contains information about the
+disaggregated/interpolated series and the BI ratio as well as their
+respecting errors making it possible to construct confidence intervals.
+The print(), summary() and plot() functions can also be applied on the
+output object.The plot() function displays the disaggregated series and
+the BI ratio together with their respective 95% confidence interval.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: Use of model-based Denton for temporal disaggregation</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">TURN_Q_data</span><span class="op">[</span>, <span class="st">"TURN_INDEX_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">td_mbd</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton_modelbased.html">denton_modelbased</a></span><span class="op">(</span><span class="va">Y</span>, <span class="va">x</span>, outliers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"2020-01-01"</span> <span class="op">=</span> <span class="fl">100</span>, <span class="st">"2020-04-01"</span> <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">td_mbd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/denton_modelbased.html">denton_modelbased</a></span><span class="op">(</span><span class="va">Y</span>, <span class="va">x</span>, outliers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"2020-01-01"</span> <span class="op">=</span> <span class="fl">100</span>, <span class="st">"2020-04-01"</span> <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">y_mbd</span> <span class="op">&lt;-</span> <span class="va">td_mbd</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">td_mbd</span><span class="op">)</span></span></code></pre></div>
-<p>The output of the <code><a href="../reference/denton_modelbased.html">denton_modelbased()</a></code> function contains
-information about the disaggregated/interpolated series and the BI ratio
-as well as their respecting errors making it possible to construct
-confidence intervals. The print(), summary() and plot() functions can
-also be applied on the output object.The plot() function displays the
-disaggregated series and the BI ratio together with their respective 95%
-confidence interval.</p>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">td_mbd</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Available output:</span></span>
+<span><span class="co">#&gt; [1] "disagg"   "edisagg"  "biratio"  "ebiratio"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Use summary() for more details.</span></span>
+<span><span class="co">#&gt;  Use plot() to see the disaggregated series and BI ratio with their respective confidence interval.</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="autoregressive-distributed-lag-adl-models">Autoregressive Distributed Lag (ADL) Models<a class="anchor" aria-label="anchor" href="#autoregressive-distributed-lag-adl-models"></a>
@@ -435,6 +440,13 @@ statistic (cfr. example below). Finally, you can set the parameter to
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>)
 which corresponds to the method suggested by Santos Silva and Cardoso
 (2001).</p>
+<p>The output of the function <code><a href="../reference/adl_disaggregation.html">adl_disaggregation()</a></code> contains
+the most important information about the regression including the
+estimates of model coefficients and their covariance matrix, the
+disaggregated series and information about the residuals. A print(),
+summary() and plot() functions can be applied on the output object.</p>
+<p>In practice, the ADL model is estimated based on an equivalent state
+space representation.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: Use of ADL models for temporal disaggregation</span></span>
 <span></span>
@@ -443,31 +455,31 @@ which corresponds to the method suggested by Santos Silva and Cardoso
 <span></span>
 <span><span class="co">## 1. without constraints</span></span>
 <span></span>
-<span><span class="va">td_adl</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"FREE"</span><span class="op">)</span></span>
+<span><span class="va">td_adl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"FREE"</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">td_adl</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span> <span class="co"># the disaggregated series</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">td_adl</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">td_adl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Model: FREE </span></span>
+<span><span class="co">#&gt;        coef        se         t</span></span>
+<span><span class="co">#&gt; 1 591.96748 58.844898 10.059793</span></span>
+<span><span class="co">#&gt; 2  38.85308  6.334725  6.133349</span></span>
+<span><span class="co">#&gt; 3 -31.75200  6.194977 -5.125442</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Use summary() for more details. </span></span>
+<span><span class="co">#&gt; Use plot() to see the decomposition of the disaggregated series.</span></span>
 <span></span>
 <span><span class="co">## 2. with constraints</span></span>
 <span></span>
 <span><span class="co">### b1 = -phi * b0 (~ Chow-Lin)</span></span>
-<span><span class="va">td_adl_constr_1</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"SAME"</span><span class="op">)</span></span>
+<span><span class="va">td_adl_constr_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"SAME"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">### phi = 1 and b1 = -b0 (~ Fernandez)</span></span>
-<span><span class="va">td_adl_constr_2</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, constant <span class="op">=</span> <span class="cn">FALSE</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"SAME"</span>, phi <span class="op">=</span> <span class="fl">1</span>, phi.fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">td_adl_constr_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, constant <span class="op">=</span> <span class="cn">FALSE</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"SAME"</span>, phi <span class="op">=</span> <span class="fl">1</span>, phi.fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">### b1 = 0 (~ Santos Silva-Cardoso)</span></span>
-<span><span class="va">td_adl_constr_3</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"NONE"</span><span class="op">)</span></span>
+<span><span class="va">td_adl_constr_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/adl_disaggregation.html">adl_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span>, xar <span class="op">=</span> <span class="st">"NONE"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## LR test for assessing constraint(s)</span></span>
 <span><span class="va">LR_stat</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="va">td_adl_constr_1</span><span class="op">$</span><span class="va">likelihood</span><span class="op">$</span><span class="va">ll</span> <span class="op">-</span> <span class="va">td_adl</span><span class="op">$</span><span class="va">likelihood</span><span class="op">$</span><span class="va">ll</span><span class="op">)</span> <span class="co"># -&gt; H0 not rejected. Chow-Lin specification is supported here.</span></span></code></pre></div>
-<p>The output of the function <code><a href="../reference/adl_disaggregation.html">adl_disaggregation()</a></code> contains
-the most important information about the regression including the
-estimates of model coefficients and their covariance matrix, the
-disaggregated series and information about the residuals. A print(),
-summary() and plot() functions can be applied on the output object.</p>
-<p>In practice, ADL are estimated based on an equivalent state space
-representation of the model, which makes it possible to obtain estimates
-in a very efficient way.</p>
 </div>
 <div class="section level3">
 <h3 id="reverse-regression">Reverse regression<a class="anchor" aria-label="anchor" href="#reverse-regression"></a>
@@ -509,26 +521,30 @@ and a low estimate for
 which may result in a disaggregated series being more volatile,
 effectively amplifying the indicator’s movements.</p>
 <p>The reverse regression method can be called with the
-<code><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI()</a></code> function.</p>
+<code><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI()</a></code> function. The output of the
+function <code><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI()</a></code> contains the
+disaggregated series as well as the estimates of the model coefficients.
+A print(), summary() and plot() functions can be applied on the output
+object.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">TURN_Q_data</span><span class="op">[</span>, <span class="st">"TURN_INDEX_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">td_rv</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI</a></span><span class="op">(</span><span class="va">Y</span>, indicator <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
+<span><span class="va">td_rv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI</a></span><span class="op">(</span><span class="va">Y</span>, indicator <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">y_rv</span> <span class="op">&lt;-</span> <span class="va">td_rv</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span> <span class="co"># the disaggregated series</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">td_rv</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">td_rv</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">td_rv</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># comparison with Chow-Lin</span></span>
-<span><span class="va">td_cl</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/temporal_disaggregation.html">temporal_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       coef</span></span>
+<span><span class="co">#&gt; a -72.0977</span></span>
+<span><span class="co">#&gt; b   0.0385</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Use summary() for more details. </span></span>
+<span><span class="co">#&gt; Use plot() to visualize the disaggregated series.</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Comparison with Chow-Lin</span></span>
+<span><span class="va">td_cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/temporal_disaggregation.html">temporal_disaggregation</a></span><span class="op">(</span><span class="va">Y</span>, indicators <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
 <span><span class="va">y_cl</span> <span class="op">&lt;-</span> <span class="va">td_cl</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span></span>
 <span><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/ts.plot.html" class="external-link">ts.plot</a></span><span class="op">(</span><span class="va">y_rv</span>, <span class="va">y_cl</span>, gpars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span>, xaxt<span class="op">=</span><span class="st">"n"</span>, main<span class="op">=</span><span class="st">"Reverse regression vs Chow-Lin"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Reverse regression"</span>, <span class="st">"Chow-Lin"</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>The output of the function <code><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI()</a></code>
-contains the disaggregated series as well as the estimates of the model
-coefficients. A print(), summary() and plot() functions can be applied
-on the output object.</p>
 </div>
 </div>
 <div class="section level2">
@@ -591,16 +607,17 @@ quarterly, annual to monthly or quarterly to monthly). Alternatively,
 the <code><a href="../reference/denton_raw.html">denton_raw()</a></code> function requires a numeric vector as
 input series, but extends the <code><a href="../reference/denton.html">denton()</a></code> function in a way
 that it can deal with atypical frequency series and with any frequency
-ratio.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+ratio. The <code><a href="../reference/denton.html">denton()</a></code> and <code><a href="../reference/denton_raw.html">denton_raw()</a></code> functions
+return the high frequency series benchmarked with the Denton method.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example 1: use of Denton method for benchmarking</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_HH"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">y_den0</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># denton PFD without high frequency series</span></span>
+<span><span class="va">y_den0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># denton PFD without high frequency series</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">y_den0</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y_den0</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="va">y_den1</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span> <span class="co"># denton PFD (= the default)</span></span>
-<span><span class="va">y_den2</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, d <span class="op">=</span> <span class="fl">2</span>, mul <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># denton ASD</span></span>
+<span><span class="va">y_den1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span> <span class="co"># denton PFD (= the default)</span></span>
+<span><span class="va">y_den2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, d <span class="op">=</span> <span class="fl">2</span>, mul <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># denton ASD</span></span>
 <span></span>
 <span><span class="co"># Example 2: use of of Denton method for benchmarking atypical frequency data</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">500</span>,<span class="fl">510</span>,<span class="fl">525</span>,<span class="fl">520</span><span class="op">)</span></span>
@@ -611,8 +628,6 @@ ratio.</p>
 <span>       <span class="fl">110</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">y_denraw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/denton_raw.html">denton_raw</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">Y</span>, freqratio <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="co"># for example, x and Y could be annual and quiquennal series respectively</span></span></code></pre></div>
-<p>The <code><a href="../reference/denton.html">denton()</a></code> and <code><a href="../reference/denton_raw.html">denton_raw()</a></code> functions
-return the high frequency series benchmarked with the Denton method.</p>
 </div>
 <div class="section level3">
 <h3 id="grp">Growth rate preservation (GRP)<a class="anchor" aria-label="anchor" href="#grp"></a>
@@ -670,7 +685,7 @@ logarithmic GRP) which are “time symmetric”.</p>
 f(x) = \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
 </annotation></semantics></math> Symmetric GRP:
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo>−</mo><mfrac><msub><mi>x</mi><mi>t</mi></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>y</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
-f(x) = \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2 + 
+f(x) = \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2 +
 \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
 </annotation></semantics></math> Logarithmic GRP:
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>t</mi></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
@@ -679,17 +694,17 @@ f(x) = \sum_{t=2}^{n}\left(log\left(\frac{y_t}{y_{t-1}}\right) - log\left(\frac{
 <p>The GRP method, corresponding to the method of Cauley and Trager,
 using the solution proposed by Di Fonzo and Marini (2011), can be called
 with the <code><a href="../reference/grp.html">grp()</a></code> function. An alternative objective function
-as those suggested by Daalmans et al (2018) can also be considered.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+as those suggested by Daalmans et al (2018) can also be considered. The
+<code><a href="../reference/grp.html">grp()</a></code> function returns the high frequency series
+benchmarked with the GRP method.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: use GRP method for benchmarking</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_HH"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">y_den0</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">y_den0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">y_den0</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y_den0</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">y_grpf</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/grp.html">grp</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span></span>
-<span><span class="va">y_grpl</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/grp.html">grp</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, objective <span class="op">=</span> <span class="st">"Log"</span><span class="op">)</span></span></code></pre></div>
-<p>The <code><a href="../reference/grp.html">grp()</a></code> function returns the high frequency series
-benchmarked with the GRP method.</p>
+<span><span class="va">y_grpf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/grp.html">grp</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span></span>
+<span><span class="va">y_grpl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/grp.html">grp</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, objective <span class="op">=</span> <span class="st">"Log"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="cubic-splines">Cubic splines<a class="anchor" aria-label="anchor" href="#cubic-splines"></a>
@@ -703,15 +718,14 @@ data but the Benchmark-to-Indicator (BI ratio) is the one being
 smoothed. Sub-period estimates are then simply the product between the
 smoothed high frequency BI ratio and the indicator.</p>
 <p>The method can be called through the <code><a href="../reference/cubicspline.html">cubicspline()</a></code>
-function. Here are a few examples on how to use it:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+function. The <code><a href="../reference/cubicspline.html">cubicspline()</a></code> function returns the high
+frequency series benchmarked with cubic spline method.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: use cubic splines for benchmarking</span></span>
-<span><span class="va">y_cs1</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cubicspline.html">cubicspline</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># without high frequency series (smoothing)</span></span>
+<span><span class="va">y_cs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cubicspline.html">cubicspline</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># without high frequency series (smoothing)</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">y_cs1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y_cs1</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="va">y_cs2</span> <span class="op">&lt;-</span> <span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cubicspline.html">cubicspline</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span> <span class="co"># with a high frequency preliminary series to benchmark</span></span></code></pre></div>
-<p>The <code><a href="../reference/cubicspline.html">cubicspline()</a></code> function returns the high frequency
-series benchmarked with cubic spline method.</p>
+<span><span class="va">y_cs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cubicspline.html">cubicspline</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span> <span class="co"># with a high frequency preliminary series to benchmark</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="cholette">Cholette method<a class="anchor" aria-label="anchor" href="#cholette"></a>
@@ -752,8 +766,7 @@ for a proportional benchmarking model. Finally, set
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\lambda = 0.5</annotation></semantics></math>
 with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\rho = 0</annotation></semantics></math>,
-for the naive pro-rating method.<br>
-</li>
+for the naive pro-rating method.</li>
 <li>The smoothing parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>ρ</mi><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 \leq \rho \leq 1</annotation></semantics></math>.
@@ -824,24 +837,22 @@ for quarterly series. An alternative would be to estimate the
 autocorrelation structure of the error instead of using those default
 values.</p>
 <p>Cholette method can be called with the <code><a href="../reference/cholette.html">cholette()</a></code>
-function.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Example: use Cholette method for benchmarking</span></span>
-<span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_HH"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">xn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">*</span><span class="fl">4</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, <span class="fl">5750</span>, <span class="fl">5800</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">xn</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/start.html" class="external-link">start</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">1</span>, bias <span class="op">=</span> <span class="st">"Multiplicative"</span><span class="op">)</span>  <span class="co"># proportional benchmarking</span></span>
-<span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># proportional benchmarking with no bias (assuming bm=1)</span></span>
-<span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">0</span>, bias <span class="op">=</span> <span class="st">"Additive"</span><span class="op">)</span>  <span class="co"># additive benchmarking </span></span>
-<span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># Denton PFD</span></span>
-<span><span class="fu">rjd3bench</span><span class="fu">::</span><span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="co"># pro-rating</span></span></code></pre></div>
-<p>The <code><a href="../reference/cholette.html">cholette()</a></code> function returns the high frequency
-series benchmarked with the Cholette method.</p>
+function. The <code><a href="../reference/cholette.html">cholette()</a></code> function returns the high
+frequency series benchmarked with the Cholette method.</p>
 <p>In practice, the benchmarked series is estimated based on an
 equivalent state space representation of the Cholette method described
-above, which makes it possible to obtain estimates in a very efficient
-way.</p>
+above.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example: use Cholette method for benchmarking</span></span>
+<span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_HH"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">xn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/denton.html">denton</a></span><span class="op">(</span>t <span class="op">=</span> <span class="va">Y</span>, nfreq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">*</span><span class="fl">4</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, <span class="fl">5750</span>, <span class="fl">5800</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">xn</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/start.html" class="external-link">start</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">y_cho1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">1</span>, bias <span class="op">=</span> <span class="st">"Multiplicative"</span><span class="op">)</span>  <span class="co"># proportional benchmarking</span></span>
+<span><span class="va">y_cho2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># proportional benchmarking with no bias (assuming bm=1)</span></span>
+<span><span class="va">y_cho3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">0</span>, bias <span class="op">=</span> <span class="st">"Additive"</span><span class="op">)</span>  <span class="co"># additive benchmarking</span></span>
+<span><span class="va">y_cho4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># Denton PFD</span></span>
+<span><span class="va">y_cho5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cholette.html">cholette</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span>, rho <span class="op">=</span> <span class="fl">0</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="co"># pro-rating</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -890,28 +901,49 @@ and</li>
 <li>the contemporaneous constraints given by
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>j</mi><mi>ϵ</mi><msub><mi>J</mi><mi>k</mi></msub></mrow></msub><msub><mi>ω</mi><mrow><mi>k</mi><mo>,</mo><mi>j</mi></mrow></msub><msub><mi>x</mi><mrow><mi>j</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>z</mi><mrow><mi>k</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\sum_{j\epsilon J_k}\omega_{k,j}x_{j,t} = z_{k,t}</annotation></semantics></math>.</li>
 </ul>
-<p>The method may also be considered in absence of temporal aggregation
+<p>Note that consistency between the temporal aggregation constraints
+and the contemporaneous constraints is required (see the consistency
+check in the example).</p>
+<p>The method may also be applied in the absence of temporal aggregation
 constraints. The contemporaneous constraints are then imposed by
-altering the dynamic movements of the series as little as possible. On
-the other hand, the absence of contemporaneous constraint is less
-relevant, as this is just equivalent to applying the univariate Cholette
-method to each of the preliminary series separately.</p>
+altering the dynamic movements of the series as little as possible.
+Conversely, the absence of contemporaneous constraint is less relevant,
+as this is just equivalent to applying the univariate Cholette method to
+each of the preliminary series separately. In addition to binding
+contemporaneous constraints, non-binding constraints can also specified
+by modifying their formulation in the <code>ccvector</code> argument.
+For example, instead of imposing a binding condition such as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>x</mi><mn>3</mn></msub><mo>=</mo><msub><mi>z</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1+x_2+x_3=z_1</annotation></semantics></math>,
+one may express a non-binding constraint as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>x</mi><mn>3</mn></msub><mo>−</mo><msub><mi>z</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x_1+x_2+x_3-z_1=0</annotation></semantics></math>,
+which allows the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">z_1</annotation></semantics></math>
+series to be adjusted in the same manner as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="application/x-tex">x_2</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>3</mn></msub><annotation encoding="application/x-tex">x_3</annotation></semantics></math>
+(weights may also be introduced when needed).</p>
 <p>As in the univariate case, the multivariate Cholette method is driven
 by a couple of parameters:</p>
 <ul>
 <li><p>The adjustment model parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>∈</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">\lambda \in \mathbb{R}</annotation></semantics></math>.
-Set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>∈</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">\lambda \in \mathbb{R}</annotation></semantics></math>
+makes the trade‑off between an additive and a proportional
+reconciliation model, and therefore determines how strongly the relative
+size of each series influences the distribution of discrepancies.
+Setting
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\lambda = 0</annotation></semantics></math>
-for an additive model and
+yields a purely additive model, while values of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
-close to 1 to approximate a proportional model; while
+close to 1 approximate a proportional model in which larger series
+absorb a larger share of the adjustment. Although
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\lambda = 1</annotation></semantics></math>
-is also possible, it should be used cautiously in a multivariate
-context. This is because contemporaneous constraints combined with the
+is also possible, it should be used with caution in a multivariate
+context. This is because contemporaneous constraints, combined with the
 fact that pure movement preservation specifies nothing about the level
-of the individual reconciled series may sometimes produce substantial
+of the individual reconciled series, may sometimes produce substantial
 differences in level between the preliminary and the benchmarked series.
 This is especially true in the absence of temporal constraints where
 strong movement preservation should not be pursued during
@@ -933,8 +965,14 @@ corresponding totals in the preliminary series and the better the
 movement of the latter will be preserved.</p></li>
 </ul>
 <p>The multivariate Cholette method can be called with the
-<code><a href="../reference/multivariatecholette.html">multivariatecholette()</a></code> function.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code><a href="../reference/multivariatecholette.html">multivariatecholette()</a></code> function. The
+<code><a href="../reference/multivariatecholette.html">multivariatecholette()</a></code> function returns a list of
+benchmarked series, fulfilling both the contemporary and the temporal
+constraints (if any).</p>
+<p>In practice, the benchmarked series are estimated based on an
+equivalent state space representation of the multivariate Cholette
+method described above.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: use the multivariate Cholette method for reconciliation</span></span>
 <span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7.2</span>, <span class="fl">8.1</span>, <span class="fl">7.5</span>, <span class="fl">8.5</span>, <span class="fl">7.8</span>, <span class="fl">8.1</span>, <span class="fl">8.4</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">19.5</span>, <span class="fl">19.0</span>, <span class="fl">19.7</span>, <span class="fl">18.5</span>, <span class="fl">19.0</span>, <span class="fl">20.3</span>, <span class="fl">20.0</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -948,22 +986,34 @@ movement of the latter will be preserved.</p></li>
 <span></span>
 <span><span class="co">### check consistency between temporal and contemporaneous constraints</span></span>
 <span><span class="va">lfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">Y1</span>,<span class="va">Y2</span>,<span class="va">Y3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">lfs</span><span class="op">)</span> <span class="op">-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate.ts</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="co"># should all be 0</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">lfs</span><span class="op">)</span> <span class="op">-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate.ts</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span> <span class="co"># should all be 0</span></span>
+<span><span class="co">#&gt; [1] 0 0</span></span>
 <span></span>
 <span><span class="va">data_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x1 <span class="op">=</span> <span class="va">x1</span>, x2 <span class="op">=</span> <span class="va">x2</span>, x3 <span class="op">=</span> <span class="va">x3</span>, z <span class="op">=</span> <span class="va">z</span>, Y1 <span class="op">=</span> <span class="va">Y1</span>, Y2 <span class="op">=</span> <span class="va">Y2</span>, Y3 <span class="op">=</span> <span class="va">Y3</span><span class="op">)</span></span>
 <span><span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Y1 = sum(x1)"</span>, <span class="st">"Y2 = sum(x2)"</span>, <span class="st">"Y3 = sum(x3)"</span><span class="op">)</span> <span class="co"># temporal constraints</span></span>
-<span><span class="va">cc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z = x1+x2+x3"</span><span class="op">)</span> <span class="co"># contemporaneous constraints</span></span>
+<span><span class="va">cc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z = x1+x2+x3"</span><span class="op">)</span> <span class="co"># (binding) contemporaneous constraint</span></span>
+<span><span class="va">cc_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0 = x1+x2+x3-z"</span><span class="op">)</span> <span class="co"># non-binding contemporaneous constraint</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="co"># Denton</span></span>
-<span><span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">0.729</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="co"># Cholette</span></span>
-<span><span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="cn">NULL</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">1</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="co"># no temporal constraints</span></span></code></pre></div>
-<p>The <code><a href="../reference/multivariatecholette.html">multivariatecholette()</a></code> function returns a list of
-benchmarked series, fulfilling both the contemporary and the temporal
-constraints (if any).</p>
-<p>In practice, the benchmarked series are estimated based on an
-equivalent state space representation of the multivariate Cholette
-method described above, which makes it possible to obtain estimates in a
-very efficient way.</p>
+<span><span class="va">rec1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">.5</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="co"># trade-off values for rho and lambda</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rec1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $x1</span></span>
+<span><span class="co">#&gt;          Qtr1     Qtr2     Qtr3     Qtr4</span></span>
+<span><span class="co">#&gt; 2010 7.051902 7.371871 8.069296 7.506931</span></span>
+<span><span class="co">#&gt; 2011 7.916967 6.956146 7.572586 8.154301</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $x2</span></span>
+<span><span class="co">#&gt;          Qtr1     Qtr2     Qtr3     Qtr4</span></span>
+<span><span class="co">#&gt; 2010 18.55737 20.59774 19.80615 21.03874</span></span>
+<span><span class="co">#&gt; 2011 19.19172 19.27605 21.37229 21.35994</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $x3</span></span>
+<span><span class="co">#&gt;          Qtr1     Qtr2     Qtr3     Qtr4</span></span>
+<span><span class="co">#&gt; 2010 1.490728 1.830389 2.024550 2.654333</span></span>
+<span><span class="co">#&gt; 2011 2.191317 1.667802 1.955124 2.285758</span></span>
+<span><span class="va">rec2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># Denton</span></span>
+<span><span class="va">rec3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">0.729</span><span class="op">)</span> <span class="co"># Cholette</span></span>
+<span><span class="va">rec4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="cn">NULL</span>, ccvector <span class="op">=</span> <span class="va">cc</span><span class="op">)</span> <span class="co"># no temporal constraints</span></span>
+<span><span class="va">rec5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc_nb</span><span class="op">)</span> <span class="co"># non-binding contemporaneous constraint</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -985,7 +1035,8 @@ reference periods.</li>
 <p>Based on the paper from Quenneville et al (2012), the temporal
 disaggregation step is performed by considering a state-space
 representation of the Denton proportional first difference (PFD) method.
-Recall the objective function of the (modified) Denton PFD method<br><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><mo minsize="2.4" maxsize="2.4" stretchy="false" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><msup><mo minsize="2.4" maxsize="2.4" stretchy="false" form="postfix">]</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+Recall the objective function of the (modified) Denton PFD method
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><mo minsize="2.4" maxsize="2.4" stretchy="false" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><msup><mo minsize="2.4" maxsize="2.4" stretchy="false" form="postfix">]</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
 min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
 </annotation></semantics></math> which is minimized under the temporal
 aggregation constraints
@@ -1010,10 +1061,15 @@ filled. If provided, the daily indicator values (or weights) should
 reflect the daily level of activity that may be varying in function for
 instance of seasonality, trading day or other calendar effects such as
 public holidays.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>The <code><a href="../reference/calendarization.html">calendarization()</a></code> function returns a list with the
+final aggregated results (after running the two steps process described
+above) and their associated errors, as well as the disaggregated daily
+values (after running the first step only) and their associated
+errors.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example of calendarization (from Quenneville et al (2012))</span></span>
 <span></span>
-<span><span class="co">## Observed data </span></span>
+<span><span class="co">## Observed data</span></span>
 <span><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>start <span class="op">=</span> <span class="st">"2009-02-18"</span>, end <span class="op">=</span> <span class="st">"2009-03-17"</span>, value <span class="op">=</span> <span class="fl">9000</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>start <span class="op">=</span> <span class="st">"2009-03-18"</span>, end <span class="op">=</span> <span class="st">"2009-04-14"</span>, value <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span>,</span>
@@ -1027,6 +1083,61 @@ public holidays.</p>
 <span><span class="va">eym_1</span> <span class="op">&lt;-</span> <span class="va">cal_1</span><span class="op">$</span><span class="va">erslt</span></span>
 <span><span class="va">yd_1</span> <span class="op">&lt;-</span> <span class="va">cal_1</span><span class="op">$</span><span class="va">days</span></span>
 <span><span class="va">eyd_1</span> <span class="op">&lt;-</span> <span class="va">cal_1</span><span class="op">$</span><span class="va">edays</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cal_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $rslt</span></span>
+<span><span class="co">#&gt;           Feb      Mar      Apr      May      Jun</span></span>
+<span><span class="co">#&gt; 2009 4012.553 7370.539 7842.402 9330.171 6399.954</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $erslt</span></span>
+<span><span class="co">#&gt;            Feb       Mar       Apr       May       Jun</span></span>
+<span><span class="co">#&gt; 2009 0.1758821 0.2712289 0.2517507 0.2588054 0.9227178</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $start</span></span>
+<span><span class="co">#&gt; [1] "2009-02-18"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $days</span></span>
+<span><span class="co">#&gt;   [1] 372.6235 372.2312 371.4466 370.2697 368.7005 366.7390 364.3852 361.6391</span></span>
+<span><span class="co">#&gt;   [9] 358.5008 354.9701 351.0471 346.7318 342.0242 336.9244 331.4322 325.5477</span></span>
+<span><span class="co">#&gt;  [17] 319.2709 312.6019 305.5405 298.0868 290.2409 282.0026 273.3720 264.3492</span></span>
+<span><span class="co">#&gt;  [25] 254.9340 245.1266 234.9268 224.3348 213.3504 203.2359 193.9911 185.6162</span></span>
+<span><span class="co">#&gt;  [33] 178.1111 171.4757 165.7102 160.8145 156.7886 153.6325 151.3463 149.9298</span></span>
+<span><span class="co">#&gt;  [41] 149.3831 149.7062 150.8992 152.9619 155.8945 159.6968 164.3690 169.9110</span></span>
+<span><span class="co">#&gt;  [49] 176.3228 183.6044 191.7558 200.7770 210.6680 221.4288 233.0594 245.5598</span></span>
+<span><span class="co">#&gt;  [57] 258.9301 271.5329 283.3684 294.4365 304.7372 314.2706 323.0366 331.0352</span></span>
+<span><span class="co">#&gt;  [65] 338.2664 344.7303 350.4268 355.3559 359.5176 362.9119 365.5389 367.3985</span></span>
+<span><span class="co">#&gt;  [73] 368.4907 368.8156 368.3731 367.1632 365.1859 362.4412 358.9292 354.6498</span></span>
+<span><span class="co">#&gt;  [81] 349.6030 343.7889 337.2073 329.8584 321.7421 313.9157 306.3792 299.1325</span></span>
+<span><span class="co">#&gt;  [89] 292.1757 285.5087 279.1317 273.0444 267.2471 261.7396 256.5220 251.5943</span></span>
+<span><span class="co">#&gt;  [97] 246.9564 242.6084 238.5502 234.7820 231.3036 228.1150 225.2164 222.6075</span></span>
+<span><span class="co">#&gt; [105] 220.2886 218.2595 216.5203 215.0710 213.9115 213.0419 212.4622 212.1723</span></span>
+<span><span class="co">#&gt; [113] 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723</span></span>
+<span><span class="co">#&gt; [121] 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723</span></span>
+<span><span class="co">#&gt; [129] 212.1723 212.1723 212.1723 212.1723 212.1723</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $edays</span></span>
+<span><span class="co">#&gt;   [1] 0.02755654 0.02585358 0.02421679 0.02265858 0.02119317 0.01983673</span></span>
+<span><span class="co">#&gt;   [7] 0.01860719 0.01752375 0.01660579 0.01587096 0.01533271 0.01499758</span></span>
+<span><span class="co">#&gt;  [13] 0.01486308 0.01491698 0.01513844 0.01550048 0.01597297 0.01652522</span></span>
+<span><span class="co">#&gt;  [19] 0.01712775 0.01775322 0.01837661 0.01897502 0.01952716 0.02001275</span></span>
+<span><span class="co">#&gt;  [25] 0.02041181 0.02070393 0.02086731 0.02087768 0.02070666 0.02039086</span></span>
+<span><span class="co">#&gt;  [31] 0.01995956 0.01943922 0.01885468 0.01822994 0.01758875 0.01695495</span></span>
+<span><span class="co">#&gt;  [37] 0.01635260 0.01580565 0.01533732 0.01496886 0.01471803 0.01459732</span></span>
+<span><span class="co">#&gt;  [43] 0.01461245 0.01476162 0.01503571 0.01541933 0.01589252 0.01643244</span></span>
+<span><span class="co">#&gt;  [49] 0.01701480 0.01761482 0.01820774 0.01876884 0.01927325 0.01969535</span></span>
+<span><span class="co">#&gt;  [55] 0.02000799 0.02018138 0.02018138 0.02000799 0.01969535 0.01927325</span></span>
+<span><span class="co">#&gt;  [61] 0.01876884 0.01820774 0.01761482 0.01701480 0.01643244 0.01589252</span></span>
+<span><span class="co">#&gt;  [67] 0.01541933 0.01503571 0.01476162 0.01461245 0.01459732 0.01471803</span></span>
+<span><span class="co">#&gt;  [73] 0.01496886 0.01533732 0.01580565 0.01635260 0.01695495 0.01758875</span></span>
+<span><span class="co">#&gt;  [79] 0.01822994 0.01885468 0.01943922 0.01995956 0.02039086 0.02070666</span></span>
+<span><span class="co">#&gt;  [85] 0.02087768 0.02086731 0.02070393 0.02041181 0.02001275 0.01952716</span></span>
+<span><span class="co">#&gt;  [91] 0.01897502 0.01837661 0.01775322 0.01712775 0.01652522 0.01597297</span></span>
+<span><span class="co">#&gt;  [97] 0.01550048 0.01513844 0.01491698 0.01486308 0.01499758 0.01533271</span></span>
+<span><span class="co">#&gt; [103] 0.01587096 0.01660579 0.01752375 0.01860719 0.01983673 0.02119317</span></span>
+<span><span class="co">#&gt; [109] 0.02265858 0.02421679 0.02585358 0.02755654 0.02931489 0.03097358</span></span>
+<span><span class="co">#&gt; [115] 0.03254786 0.03404942 0.03548750 0.03686954 0.03820161 0.03948877</span></span>
+<span><span class="co">#&gt; [121] 0.04073528 0.04194476 0.04312033 0.04426469 0.04538020 0.04646895</span></span>
+<span><span class="co">#&gt; [127] 0.04753276 0.04857327 0.04959196 0.05059015 0.05156901 0.05252964</span></span>
+<span><span class="co">#&gt; [133] 0.05347301</span></span>
 <span></span>
 <span><span class="co">## calendarization in presence of daily indicator values (or weights)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.0</span>, <span class="fl">1.2</span>, <span class="fl">1.8</span> , <span class="fl">1.6</span>, <span class="fl">0.0</span>, <span class="fl">0.6</span>, <span class="fl">0.8</span><span class="op">)</span>, <span class="fl">19</span><span class="op">)</span></span>
@@ -1036,11 +1147,6 @@ public holidays.</p>
 <span><span class="va">eym_2</span> <span class="op">&lt;-</span> <span class="va">cal_2</span><span class="op">$</span><span class="va">erslt</span></span>
 <span><span class="va">yd_2</span> <span class="op">&lt;-</span> <span class="va">cal_2</span><span class="op">$</span><span class="va">days</span></span>
 <span><span class="va">eyd_2</span> <span class="op">&lt;-</span> <span class="va">cal_2</span><span class="op">$</span><span class="va">edays</span></span></code></pre></div>
-<p>The <code><a href="../reference/calendarization.html">calendarization()</a></code> function returns a list with the
-final aggregated results (after running the two steps process described
-above) and their associated errors, as well as the disaggregated daily
-values (after running the first step only) and their associated
-errors.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -1064,6 +1170,8 @@ pp. 43-60 Statistics Canada, Catalogue No. 12-001-X</em>.</p>
 <p>Dagum, E. B., and Cholette, P. A. (2006): Benchmarking, Temporal
 Distribution and Reconciliation Methods of Time Series.
 <em>Springer-Verlag, New York, Lecture notes in Statistics</em>.</p>
+<p>Eurostat (2018). ESS guidelines on temporal disaggregation,
+benchmarking and reconciliation. <em>2018 edition</em>.</p>
 <p>Proietti, P. (2005). Temporal Disaggregation by State Space Methods:
 Dynamic Regression Methods Revisited. <em>Working papers and Studies,
 European Commission, ISSN 1725-4825</em>.</p>

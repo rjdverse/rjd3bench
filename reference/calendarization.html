@@ -25,7 +25,7 @@ periods."><meta property="og:image" content="https://rjdverse.github.io/rjd3benc
 
     <a class="navbar-brand me-2" href="../index.html">rjd3bench</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,53 +81,50 @@ periods.</p>
 
 
 <dl><dt id="arg-calendarobs">calendarobs<a class="anchor" aria-label="anchor" href="#arg-calendarobs"></a></dt>
-<dd><p>A named list with the observed data. The list must be
-composed of three elements: start, end and value, the first two
-corresponding to the starting and ending date of the observation. See
-example.</p></dd>
+<dd><p>A named list containing the observed data. The list must
+consist of three elements: <code>start</code>, <code>end</code> and <code>value</code>, where the first two
+indicate the starting and ending dates of the observation. See the example.</p></dd>
 
 
 <dt id="arg-freq">freq<a class="anchor" aria-label="anchor" href="#arg-freq"></a></dt>
-<dd><p>Annual frequency. If 0, only the daily series are computed.</p></dd>
+<dd><p>An integer specifying the annual frequency. If set to <code>0</code>, only the daily series is computed.</p></dd>
 
 
 <dt id="arg-start">start<a class="anchor" aria-label="anchor" href="#arg-start"></a></dt>
-<dd><p>Starting day of the calendarization. Could be before the
-starting date of the first observation (retropolation).</p></dd>
+<dd><p>The starting day of the calendarization. This date may precede the first observed data (retropolation).</p></dd>
 
 
 <dt id="arg-end">end<a class="anchor" aria-label="anchor" href="#arg-end"></a></dt>
-<dd><p>Ending day of the calendarization. Could be after the ending date
-of the last observation (extrapolation).</p></dd>
+<dd><p>The ending day of the calendarization. This date may exceed the last observed data (extrapolation).</p></dd>
 
 
 <dt id="arg-dailyweights">dailyweights<a class="anchor" aria-label="anchor" href="#arg-dailyweights"></a></dt>
-<dd><p>Daily indicator values (or weights). Should have the same
-  length as the requested series. If available, it typically reflects the
-  daily level of activity that may be varying in function for instance of
-seasonality, trading day or other calendar effects such as public holidays.</p></dd>
+<dd><p>A numeric vector of daily indicator values (or weights).
+The vector must have the same length as the requested daily series. When
+available, these weights typically reflects daily levels of activity, which
+may vary due to seasonality, trading day effects, or other calendar effects
+such as public holidays.</p></dd>
 
 
 <dt id="arg-stde">stde<a class="anchor" aria-label="anchor" href="#arg-stde"></a></dt>
-<dd><p>Boolean. If TRUE, the function also returns the standard errors
-associated to the results. Default is FALSE.</p></dd>
+<dd><p>Boolean. If <code>TRUE</code>, the function also returns the standard errors associated with the results.
+The default is <code>FALSE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a list with the disaggregated daily values, the final aggregated
-  results, and their associated errors if requested.</p>
+    <p>A list containing the disaggregated daily values, the final aggregated series, and their associated standard errors if requested.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Quenneville, B., Picard F., Fortier S. (2012). Calendarization
-  with interpolating splines and state space models. Statistics Canada, Appl.
-  Statistics (2013) 62, part 3, pp 371-399.</p>
+with interpolating splines and state space models. Statistics Canada, Appl.
+Statistics (2013) 62, part 3, pp 371-399.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>For more information, see the vignette:</p>
-<p><code><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></code> <code>browseVignettes(package = "rjd3bench")</code></p></div>
+<p><code><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">utils::browseVignettes()</a></code>, e.g. <code>browseVignettes(package = "rjd3bench")</code></p></div>
     </div>
 
     <div class="section level2">
@@ -169,7 +166,6 @@ associated to the results. Default is FALSE.</p></dd>
 <span class="r-in"><span><span class="va">cal_2</span> <span class="op">&lt;-</span> <span class="fu">calendarization</span><span class="op">(</span><span class="va">obs_2</span>, <span class="fl">4</span>, end <span class="op">=</span> <span class="st">"2003-12-31"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">yq_2</span> <span class="op">&lt;-</span> <span class="va">cal_2</span><span class="op">$</span><span class="va">rslt</span></span></span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

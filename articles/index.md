@@ -2,5 +2,5 @@
 
 ### All vignettes
 
-- [Temporal disaggregation and Benchmarking methods based on JDemetra+
-  v3.x](https://rjdverse.github.io/rjd3bench/articles/rjd3bench.md):
+- [Temporal disaggregation and Benchmarking methods based on 'JDemetra+'
+  3.x](https://rjdverse.github.io/rjd3bench/articles/rjd3bench.md):

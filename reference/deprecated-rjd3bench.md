@@ -1,7 +1,10 @@
-# Deprecated functions
+# Deprecated Functions
 
-This function is deprecated. You should start using the functions
-temporal_disaggregation() or temporal_interpolation() instead.
+This function is deprecated. Use the function
+[`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
+or
+[`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md)
+instead.
 
 ## Usage
 
@@ -31,3 +34,7 @@ temporaldisaggregation(
   zeroinitialization, diffuse.algorithm, diffuse.regressors:
 
   Parameters.
+
+## Value
+
+Return the same value as either function that replaces it.

@@ -1,25 +1,22 @@
-# Temporal disaggregation and Benchmarking methods based on JDemetra+ v3.x
+# Temporal disaggregation and Benchmarking methods based on 'JDemetra+' 3.x
 
 Abstract
 
-The package rjd3bench provides a variety of methods for temporal
+The `rjd3bench` package provides a variety of methods for temporal
 disaggregation, interpolation, benchmarking, reconciliation and
-calendarization. It is part of the interface to ‘JDemetra+ 3.x’
-software. Methods of temporal disaggregation, interpolation and
-benchmarking are used to derive high frequency time series from low
-frequency time series with or without the help of high frequency
-information. For temporal disaggregation, consistency of the high
-frequency series with the low frequency series can be achieved either by
-sum or average. For interpolation, the low frequency series can be the
-first or last value of the high frequency series, or any other value. In
-addition to temporal constraints, reconciliation methods deals with
-contemporaneous consistency while adjusting multiple time series.
-Finally, calendarization method can be used when time series data do not
-coincide with calendar periods.
+calendarization. It is part of the interface to the ‘JDemetra+’ 3.x time
+series analysis software and incorporates statistical methods described
+in the latest European Statistical System (ESS) guidelines on temporal
+disaggregation, benchmarking, and reconciliation (2018 edition). Most
+algorithms implemented in the package rely on an equivalent state‑space
+representation of the underlying model or mathematical problem, where
+computational efficiency is further improved by replacing matrix
+operations with functional forms, thereby enabling highly efficient
+estimates.
 
 ## Introduction
 
-The methods implemented in the package rjd3bench intend to bridge the
+The methods implemented in the package `rjd3bench` intend to bridge the
 gap when there is a lack of high frequency time series or when there are
 temporal and/or contemporaneous inconsistencies between the high
 frequency series and the corresponding low frequency series. Although
@@ -35,9 +32,9 @@ case, the use of temporal disaggregation, benchmarking, and
 reconciliation methods can be used to achieve consistency between annual
 and quarterly national accounts over time.
 
-The package rjd3bench is an R interface to the highly efficient
-algorithms and modeling developed in the official ‘JDemetra+ 3.x’
-software. It provides a wide variety of methods, included those
+The package `rjd3bench` is an interface to the highly efficient
+algorithms and modeling developed in the official ‘JDemetra+’ 3.x time
+series software. It provides a wide variety of methods, included those
 suggested in the *ESS guidelines on temporal disaggregation,
 benchmarking and reconciliation (Eurostat, 2018)*.
 
@@ -152,6 +149,34 @@ require a numeric vector as input series and extend the previous
 functions in a way that they can deal with atypical frequency series and
 with any frequency ratio.
 
+The output of the functions
+[`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md),
+[`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md),
+[`temporal_disaggregation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
+and
+[`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
+contains the most important information about the regression including
+the estimates of model coefficients and their covariance matrix, the
+decomposition of the disaggregated/interpolated series and information
+about the residuals. A print() and summary() functions can be applied on
+the output object. The plot() function, which displays the decomposition
+of the disaggregated/interpolated series between regression and
+smoothing effect, can be applied on the output object of the functions
+[`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
+and
+[`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md).
+
+In practice, Chow-Lin and its variants Fernandez and Litterman are
+estimated based on an equivalent state space representation of the
+model. By default, for Fernandez and Litterman, a diffuse initialization
+is considered for the estimation of the initial values of the states so
+that those integrate the estimate of the constant term. The latter is
+thus ‘hidden’ and does not appear explicitly in the output. To make the
+estimates of the constant term visible - thus recovering the usual
+output from the classic formulation of the model - one option is to
+change the argument `zeroinitialization = TRUE` with `constant=TRUE`
+when calling the function.
+
 ``` r
 # Example 1: TD using Chow-Lin to disaggregate annual value added in construction sector using a quarterly indicator
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
@@ -160,8 +185,13 @@ td <- rjd3bench::temporal_disaggregation(Y, indicators = x)
 
 y <- td$estimation$disagg # the disaggregated series
 print(td)
-summary(td)
-plot(td)
+#> Model: Ar1 
+#>             coef         se         t
+#> const 2078.60371 234.756347  8.854302
+#> var-1   24.25466   1.994171 12.162783
+#> 
+#> Use summary() for more details. 
+#> Use plot() to see the decomposition of the disaggregated series.
 
 # Example 2: interpolation using Fernandez without indicator when the last value (default) of the interpolated series is the one consistent with the low frequency series.
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
@@ -188,35 +218,6 @@ x <- c(490, 492.5, 497.5, 520, 495,
 ti_raw <- temporal_interpolation_raw(Y, indicators = x,  model = "Rw", freqratio = 5, obsposition = 1)
 y <- ti_raw$estimation$interp
 ```
-
-The output of the functions
-[`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md),
-[`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md),
-[`temporal_disaggregation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
-and
-[`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
-contains the most important information about the regression including
-the estimates of model coefficients and their covariance matrix, the
-decomposition of the disaggregated/interpolated series and information
-about the residuals. A print() and summary() functions can be applied on
-the output object. The plot() function, which displays the decomposition
-of the disaggregated/interpolated series between regression and
-smoothing effect, can be applied on the output object of the functions
-[`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
-and
-[`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md).
-
-In practice, Chow-Lin and its variants Fernandez and Litterman are
-estimated based on an equivalent state space representation of the
-model, which makes it possible to obtain estimates in a very efficient
-way. Note that, by default, for Fernandez and Litterman, a diffuse
-initialization is considered for the estimation of the initial values of
-the states so that those integrate the constant estimates. The latter is
-thus ‘hidden’ and does not appear in the results. To make the estimates
-of the constant visible (and therefore finding back the usual output
-from the classic formulation of the model), one option is to change the
-argument`zeroinitialization = TRUE` with `constant=TRUE` before running
-the function.
 
 ### Model-based Denton
 
@@ -261,19 +262,7 @@ regression-based methods for temporal disaggregation.
 
 The model-base Denton method can be applied with the
 [`denton_modelbased()`](https://rjdverse.github.io/rjd3bench/reference/denton_modelbased.md)
-function.
-
-``` r
-# Example: Use of model-based Denton for temporal disaggregation
-Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
-x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
-td_mbd <- rjd3bench::denton_modelbased(Y, x, outliers = list("2020-01-01" = 100, "2020-04-01" = 100))
-
-y_mbd <- td_mbd$estimation$disagg
-plot(td_mbd)
-```
-
-The output of the
+function. The output of the
 [`denton_modelbased()`](https://rjdverse.github.io/rjd3bench/reference/denton_modelbased.md)
 function contains information about the disaggregated/interpolated
 series and the BI ratio as well as their respecting errors making it
@@ -281,6 +270,21 @@ possible to construct confidence intervals. The print(), summary() and
 plot() functions can also be applied on the output object.The plot()
 function displays the disaggregated series and the BI ratio together
 with their respective 95% confidence interval.
+
+``` r
+# Example: Use of model-based Denton for temporal disaggregation
+Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
+x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
+td_mbd <- denton_modelbased(Y, x, outliers = list("2020-01-01" = 100, "2020-04-01" = 100))
+
+y_mbd <- td_mbd$estimation$disagg
+print(td_mbd)
+#> Available output:
+#> [1] "disagg"   "edisagg"  "biratio"  "ebiratio"
+#> 
+#> Use summary() for more details.
+#>  Use plot() to see the disaggregated series and BI ratio with their respective confidence interval.
+```
 
 ### Autoregressive Distributed Lag (ADL) Models
 
@@ -338,6 +342,16 @@ Finally, you can set the parameter to “NONE”, which means an ADL(1,0)
 model is considered (no lag on $x_{t}$) which corresponds to the method
 suggested by Santos Silva and Cardoso (2001).
 
+The output of the function
+[`adl_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.md)
+contains the most important information about the regression including
+the estimates of model coefficients and their covariance matrix, the
+disaggregated series and information about the residuals. A print(),
+summary() and plot() functions can be applied on the output object.
+
+In practice, the ADL model is estimated based on an equivalent state
+space representation.
+
 ``` r
 # Example: Use of ADL models for temporal disaggregation
 
@@ -346,35 +360,32 @@ x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 
 
 ## 1. without constraints
 
-td_adl <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "FREE")
+td_adl <- adl_disaggregation(Y, indicators = x, xar = "FREE")
 y <- td_adl$estimation$disagg # the disaggregated series
-summary(td_adl)
+print(td_adl)
+#> Model: FREE 
+#>        coef        se         t
+#> 1 591.96748 58.844898 10.059793
+#> 2  38.85308  6.334725  6.133349
+#> 3 -31.75200  6.194977 -5.125442
+#> 
+#> Use summary() for more details. 
+#> Use plot() to see the decomposition of the disaggregated series.
 
 ## 2. with constraints
 
 ### b1 = -phi * b0 (~ Chow-Lin)
-td_adl_constr_1 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "SAME")
+td_adl_constr_1 <- adl_disaggregation(Y, indicators = x, xar = "SAME")
 
 ### phi = 1 and b1 = -b0 (~ Fernandez)
-td_adl_constr_2 <- rjd3bench::adl_disaggregation(Y, constant = FALSE, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE)
+td_adl_constr_2 <- adl_disaggregation(Y, constant = FALSE, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE)
 
 ### b1 = 0 (~ Santos Silva-Cardoso)
-td_adl_constr_3 <- rjd3bench::adl_disaggregation(Y, indicators = x, xar = "NONE")
+td_adl_constr_3 <- adl_disaggregation(Y, indicators = x, xar = "NONE")
 
 ## LR test for assessing constraint(s)
 LR_stat <- -2 * (td_adl_constr_1$likelihood$ll - td_adl$likelihood$ll) # -> H0 not rejected. Chow-Lin specification is supported here.
 ```
-
-The output of the function
-[`adl_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.md)
-contains the most important information about the regression including
-the estimates of model coefficients and their covariance matrix, the
-disaggregated series and information about the residuals. A print(),
-summary() and plot() functions can be applied on the output object.
-
-In practice, ADL are estimated based on an equivalent state space
-representation of the model, which makes it possible to obtain estimates
-in a very efficient way.
 
 ### Reverse regression
 
@@ -406,30 +417,34 @@ effectively amplifying the indicator’s movements.
 
 The reverse regression method can be called with the
 [`temporaldisaggregationI()`](https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.md)
-function.
-
-``` r
-Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
-x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
-td_rv <- rjd3bench::temporaldisaggregationI(Y, indicator = x)
-
-y_rv <- td_rv$estimation$disagg # the disaggregated series
-print(td_rv)
-summary(td_rv)
-plot(td_rv)
-
-# comparison with Chow-Lin
-td_cl <- rjd3bench::temporal_disaggregation(Y, indicators = x)
-y_cl <- td_cl$estimation$disagg
-stats::ts.plot(y_rv, y_cl, gpars=list(col=c("red", "blue"), xaxt="n", main="Reverse regression vs Chow-Lin"))
-legend("topleft",c("Reverse regression", "Chow-Lin"), lty = c(1,1), col=c("red", "blue"))
-```
-
-The output of the function
+function. The output of the function
 [`temporaldisaggregationI()`](https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.md)
 contains the disaggregated series as well as the estimates of the model
 coefficients. A print(), summary() and plot() functions can be applied
 on the output object.
+
+``` r
+Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
+x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
+td_rv <- temporaldisaggregationI(Y, indicator = x)
+
+y_rv <- td_rv$estimation$disagg # the disaggregated series
+print(td_rv)
+#>       coef
+#> a -72.0977
+#> b   0.0385
+#> 
+#> Use summary() for more details. 
+#> Use plot() to visualize the disaggregated series.
+```
+
+``` r
+# Comparison with Chow-Lin
+td_cl <- temporal_disaggregation(Y, indicators = x)
+y_cl <- td_cl$estimation$disagg
+stats::ts.plot(y_rv, y_cl, gpars=list(col=c("red", "blue"), xaxt="n", main="Reverse regression vs Chow-Lin"))
+legend("topleft",c("Reverse regression", "Chow-Lin"), lty = c(1,1), col=c("red", "blue"))
+```
 
 ## Benchmarking methods
 
@@ -488,17 +503,22 @@ the
 function requires a numeric vector as input series, but extends the
 [`denton()`](https://rjdverse.github.io/rjd3bench/reference/denton.md)
 function in a way that it can deal with atypical frequency series and
-with any frequency ratio.
+with any frequency ratio. The
+[`denton()`](https://rjdverse.github.io/rjd3bench/reference/denton.md)
+and
+[`denton_raw()`](https://rjdverse.github.io/rjd3bench/reference/denton_raw.md)
+functions return the high frequency series benchmarked with the Denton
+method.
 
 ``` r
 # Example 1: use of Denton method for benchmarking
 Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
 
-y_den0 <- rjd3bench::denton(t = Y, nfreq = 4) # denton PFD without high frequency series
+y_den0 <- denton(t = Y, nfreq = 4) # denton PFD without high frequency series
 
 x <- y_den0 + rnorm(n = length(y_den0), mean = 0, sd = 10)
-y_den1 <- rjd3bench::denton(s = x, t = Y) # denton PFD (= the default)
-y_den2 <- rjd3bench::denton(s = x, t = Y, d = 2, mul = FALSE) # denton ASD
+y_den1 <- denton(s = x, t = Y) # denton PFD (= the default)
+y_den2 <- denton(s = x, t = Y, d = 2, mul = FALSE) # denton ASD
 
 # Example 2: use of of Denton method for benchmarking atypical frequency data
 Y <- c(500,510,525,520)
@@ -510,13 +530,6 @@ x <- c(97, 98, 98.5, 99.5, 104,
 
 y_denraw <- denton_raw(x, Y, freqratio = 5) # for example, x and Y could be annual and quiquennal series respectively
 ```
-
-The
-[`denton()`](https://rjdverse.github.io/rjd3bench/reference/denton.md)
-and
-[`denton_raw()`](https://rjdverse.github.io/rjd3bench/reference/denton_raw.md)
-functions return the high frequency series benchmarked with the Denton
-method.
 
 ### Growth rate preservation (GRP)
 
@@ -568,21 +581,20 @@ The GRP method, corresponding to the method of Cauley and Trager, using
 the solution proposed by Di Fonzo and Marini (2011), can be called with
 the [`grp()`](https://rjdverse.github.io/rjd3bench/reference/grp.md)
 function. An alternative objective function as those suggested by
-Daalmans et al (2018) can also be considered.
+Daalmans et al (2018) can also be considered. The
+[`grp()`](https://rjdverse.github.io/rjd3bench/reference/grp.md)
+function returns the high frequency series benchmarked with the GRP
+method.
 
 ``` r
 # Example: use GRP method for benchmarking
 Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
-y_den0 <- rjd3bench::denton(t = Y, nfreq = 4)
+y_den0 <- denton(t = Y, nfreq = 4)
 x <- y_den0 + rnorm(n = length(y_den0), mean = 0, sd = 10)
 
-y_grpf <- rjd3bench::grp(s = x, t = Y)
-y_grpl <- rjd3bench::grp(s = x, t = Y, objective = "Log")
+y_grpf <- grp(s = x, t = Y)
+y_grpl <- grp(s = x, t = Y, objective = "Log")
 ```
-
-The [`grp()`](https://rjdverse.github.io/rjd3bench/reference/grp.md)
-function returns the high frequency series benchmarked with the GRP
-method.
 
 ### Cubic splines
 
@@ -597,20 +609,18 @@ high frequency BI ratio and the indicator.
 
 The method can be called through the
 [`cubicspline()`](https://rjdverse.github.io/rjd3bench/reference/cubicspline.md)
-function. Here are a few examples on how to use it:
-
-``` r
-# Example: use cubic splines for benchmarking
-y_cs1 <- rjd3bench::cubicspline(t = Y, nfreq = 4) # without high frequency series (smoothing)
-
-x <- y_cs1 + rnorm(n = length(y_cs1), mean = 0, sd = 10)
-y_cs2 <- rjd3bench::cubicspline(s = x, t = Y) # with a high frequency preliminary series to benchmark
-```
-
-The
+function. The
 [`cubicspline()`](https://rjdverse.github.io/rjd3bench/reference/cubicspline.md)
 function returns the high frequency series benchmarked with cubic spline
 method.
+
+``` r
+# Example: use cubic splines for benchmarking
+y_cs1 <- cubicspline(t = Y, nfreq = 4) # without high frequency series (smoothing)
+
+x <- y_cs1 + rnorm(n = length(y_cs1), mean = 0, sd = 10)
+y_cs2 <- cubicspline(s = x, t = Y) # with a high frequency preliminary series to benchmark
+```
 
 ### Cholette method
 
@@ -633,7 +643,7 @@ variables). The method is driven by a couple of parameters:
 - The adjustment model parameter $\lambda$, $\lambda \in {\mathbb{R}}$.
   Set $\lambda = 0$ for an additive benchmarking model and $\lambda = 1$
   for a proportional benchmarking model. Finally, set $\lambda = 0.5$
-  with $\rho = 0$, for the naive pro-rating method.  
+  with $\rho = 0$, for the naive pro-rating method.
 - The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$
   determines the degree of movement preservation. When $\lambda = 1$,
   the closer $\rho$ is to 1, the smoother will be the ratios of the
@@ -682,29 +692,26 @@ those default values.
 
 Cholette method can be called with the
 [`cholette()`](https://rjdverse.github.io/rjd3bench/reference/cholette.md)
-function.
-
-``` r
-# Example: use Cholette method for benchmarking
-Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
-xn <- c(rjd3bench::denton(t = Y, nfreq = 4) + rnorm(n = length(Y)*4, mean = 0, sd = 10), 5750, 5800)
-x <- ts(xn, start = start(Y), frequency = 4)
-
-rjd3bench::cholette(s = x, t = Y, rho = 0.729, lambda = 1, bias = "Multiplicative")  # proportional benchmarking
-rjd3bench::cholette(s = x, t = Y, rho = 0.729, lambda = 1) # proportional benchmarking with no bias (assuming bm=1)
-rjd3bench::cholette(s = x, t = Y, rho = 0.729, lambda = 0, bias = "Additive")  # additive benchmarking 
-rjd3bench::cholette(s = x, t = Y, rho = 1, lambda = 1) # Denton PFD
-rjd3bench::cholette(s = x, t = Y, rho = 0, lambda = 0.5) # pro-rating
-```
-
-The
+function. The
 [`cholette()`](https://rjdverse.github.io/rjd3bench/reference/cholette.md)
 function returns the high frequency series benchmarked with the Cholette
 method.
 
 In practice, the benchmarked series is estimated based on an equivalent
-state space representation of the Cholette method described above, which
-makes it possible to obtain estimates in a very efficient way.
+state space representation of the Cholette method described above.
+
+``` r
+# Example: use Cholette method for benchmarking
+Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
+xn <- c(denton(t = Y, nfreq = 4) + rnorm(n = length(Y)*4, mean = 0, sd = 10), 5750, 5800)
+x <- ts(xn, start = start(Y), frequency = 4)
+
+y_cho1 <- cholette(s = x, t = Y, rho = 0.729, lambda = 1, bias = "Multiplicative")  # proportional benchmarking
+y_cho2 <- cholette(s = x, t = Y, rho = 0.729, lambda = 1) # proportional benchmarking with no bias (assuming bm=1)
+y_cho3 <- cholette(s = x, t = Y, rho = 0.729, lambda = 0, bias = "Additive")  # additive benchmarking
+y_cho4 <- cholette(s = x, t = Y, rho = 1, lambda = 1) # Denton PFD
+y_cho5 <- cholette(s = x, t = Y, rho = 0, lambda = 0.5) # pro-rating
+```
 
 ## Reconciliation and multivariate temporal disaggregation
 
@@ -739,29 +746,44 @@ This objective function is minimized subject to
 - the contemporaneous constraints given by
   $\sum_{j\epsilon J_{k}}\omega_{k,j}x_{j,t} = z_{k,t}$.
 
-The method may also be considered in absence of temporal aggregation
+Note that consistency between the temporal aggregation constraints and
+the contemporaneous constraints is required (see the consistency check
+in the example).
+
+The method may also be applied in the absence of temporal aggregation
 constraints. The contemporaneous constraints are then imposed by
-altering the dynamic movements of the series as little as possible. On
-the other hand, the absence of contemporaneous constraint is less
-relevant, as this is just equivalent to applying the univariate Cholette
-method to each of the preliminary series separately.
+altering the dynamic movements of the series as little as possible.
+Conversely, the absence of contemporaneous constraint is less relevant,
+as this is just equivalent to applying the univariate Cholette method to
+each of the preliminary series separately. In addition to binding
+contemporaneous constraints, non-binding constraints can also specified
+by modifying their formulation in the `ccvector` argument. For example,
+instead of imposing a binding condition such as
+$x_{1} + x_{2} + x_{3} = z_{1}$, one may express a non-binding
+constraint as $x_{1} + x_{2} + x_{3} - z_{1} = 0$, which allows the
+$z_{1}$ series to be adjusted in the same manner as $x_{1}$, $x_{2}$ and
+$x_{3}$ (weights may also be introduced when needed).
 
 As in the univariate case, the multivariate Cholette method is driven by
 a couple of parameters:
 
-- The adjustment model parameter $\lambda$, $\lambda \in {\mathbb{R}}$.
-  Set $\lambda = 0$ for an additive model and $\lambda$ close to 1 to
-  approximate a proportional model; while $\lambda = 1$ is also
-  possible, it should be used cautiously in a multivariate context. This
-  is because contemporaneous constraints combined with the fact that
-  pure movement preservation specifies nothing about the level of the
-  individual reconciled series may sometimes produce substantial
-  differences in level between the preliminary and the benchmarked
-  series. This is especially true in the absence of temporal constraints
-  where strong movement preservation should not be pursued during
-  reconciliation. Finally, as in the univariate case, the naive
-  pro-rating method corresponds to setting $\lambda = 0.5$ with
-  $\rho = 0$.
+- The adjustment model parameter $\lambda$, $\lambda \in {\mathbb{R}}$
+  makes the trade‑off between an additive and a proportional
+  reconciliation model, and therefore determines how strongly the
+  relative size of each series influences the distribution of
+  discrepancies. Setting $\lambda = 0$ yields a purely additive model,
+  while values of $\lambda$ close to 1 approximate a proportional model
+  in which larger series absorb a larger share of the adjustment.
+  Although $\lambda = 1$ is also possible, it should be used with
+  caution in a multivariate context. This is because contemporaneous
+  constraints, combined with the fact that pure movement preservation
+  specifies nothing about the level of the individual reconciled series,
+  may sometimes produce substantial differences in level between the
+  preliminary and the benchmarked series. This is especially true in the
+  absence of temporal constraints where strong movement preservation
+  should not be pursued during reconciliation. Finally, as in the
+  univariate case, the naive pro-rating method corresponds to setting
+  $\lambda = 0.5$ with $\rho = 0$.
 
 - The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$
   determines the degree of movement preservation. When $\lambda = 1$,
@@ -771,7 +793,14 @@ a couple of parameters:
 
 The multivariate Cholette method can be called with the
 [`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)
-function.
+function. The
+[`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)
+function returns a list of benchmarked series, fulfilling both the
+contemporary and the temporal constraints (if any).
+
+In practice, the benchmarked series are estimated based on an equivalent
+state space representation of the multivariate Cholette method described
+above.
 
 ``` r
 # Example: use the multivariate Cholette method for reconciliation
@@ -787,26 +816,35 @@ Y3 <- ts(c(8.0, 8.1), frequency = 1, start = c(2010, 1))
 
 ### check consistency between temporal and contemporaneous constraints
 lfs <- cbind(Y1,Y2,Y3)
-rowSums(lfs) - stats::aggregate.ts(z) # should all be 0
+as.numeric(rowSums(lfs) - stats::aggregate.ts(z)) # should all be 0
+#> [1] 0 0
 
 data_list <- list(x1 = x1, x2 = x2, x3 = x3, z = z, Y1 = Y1, Y2 = Y2, Y3 = Y3)
 tc <- c("Y1 = sum(x1)", "Y2 = sum(x2)", "Y3 = sum(x3)") # temporal constraints
-cc <- c("z = x1+x2+x3") # contemporaneous constraints
+cc <- c("z = x1+x2+x3") # (binding) contemporaneous constraint
+cc_nb <- c("0 = x1+x2+x3-z") # non-binding contemporaneous constraint
 
-multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5) # Denton
-multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729, lambda = .5) # Cholette
-multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc, rho = 1, lambda = .5) # no temporal constraints
+rec1 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, lambda = .5) # trade-off values for rho and lambda
+print(rec1)
+#> $x1
+#>          Qtr1     Qtr2     Qtr3     Qtr4
+#> 2010 7.051902 7.371871 8.069296 7.506931
+#> 2011 7.916967 6.956146 7.572586 8.154301
+#> 
+#> $x2
+#>          Qtr1     Qtr2     Qtr3     Qtr4
+#> 2010 18.55737 20.59774 19.80615 21.03874
+#> 2011 19.19172 19.27605 21.37229 21.35994
+#> 
+#> $x3
+#>          Qtr1     Qtr2     Qtr3     Qtr4
+#> 2010 1.490728 1.830389 2.024550 2.654333
+#> 2011 2.191317 1.667802 1.955124 2.285758
+rec2 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1) # Denton
+rec3 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729) # Cholette
+rec4 <- multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc) # no temporal constraints
+rec5 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb) # non-binding contemporaneous constraint
 ```
-
-The
-[`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)
-function returns a list of benchmarked series, fulfilling both the
-contemporary and the temporal constraints (if any).
-
-In practice, the benchmarked series are estimated based on an equivalent
-state space representation of the multivariate Cholette method described
-above, which makes it possible to obtain estimates in a very efficient
-way.
 
 ## Calendarization
 
@@ -827,7 +865,7 @@ The calendarization process involves two steps:
 Based on the paper from Quenneville et al (2012), the temporal
 disaggregation step is performed by considering a state-space
 representation of the Denton proportional first difference (PFD) method.
-Recall the objective function of the (modified) Denton PFD method  
+Recall the objective function of the (modified) Denton PFD method
 $$min_{y_{t}}\sum\limits_{t = 2}^{n}\lbrack\frac{y_{t}}{x_{t}} - \frac{y_{t - 1}}{x_{t - 1}}\rbrack^{2}$$
 which is minimized under the temporal aggregation constraints
 $$\sum\limits_{t\epsilon l}y_{t} = Y_{l}$$$Y_{l}$, $l = 1,...,q$, are
@@ -846,10 +884,17 @@ an indicator into the disaggregation process, the function parameter
 varying in function for instance of seasonality, trading day or other
 calendar effects such as public holidays.
 
+The
+[`calendarization()`](https://rjdverse.github.io/rjd3bench/reference/calendarization.md)
+function returns a list with the final aggregated results (after running
+the two steps process described above) and their associated errors, as
+well as the disaggregated daily values (after running the first step
+only) and their associated errors.
+
 ``` r
 # Example of calendarization (from Quenneville et al (2012))
 
-## Observed data 
+## Observed data
 obs <- list(
     list(start = "2009-02-18", end = "2009-03-17", value = 9000),
     list(start = "2009-03-18", end = "2009-04-14", value = 5000),
@@ -863,6 +908,61 @@ ym_1 <- cal_1$rslt
 eym_1 <- cal_1$erslt
 yd_1 <- cal_1$days
 eyd_1 <- cal_1$edays
+print(cal_1)
+#> $rslt
+#>           Feb      Mar      Apr      May      Jun
+#> 2009 4012.553 7370.539 7842.402 9330.171 6399.954
+#> 
+#> $erslt
+#>            Feb       Mar       Apr       May       Jun
+#> 2009 0.1758821 0.2712289 0.2517507 0.2588054 0.9227178
+#> 
+#> $start
+#> [1] "2009-02-18"
+#> 
+#> $days
+#>   [1] 372.6235 372.2312 371.4466 370.2697 368.7005 366.7390 364.3852 361.6391
+#>   [9] 358.5008 354.9701 351.0471 346.7318 342.0242 336.9244 331.4322 325.5477
+#>  [17] 319.2709 312.6019 305.5405 298.0868 290.2409 282.0026 273.3720 264.3492
+#>  [25] 254.9340 245.1266 234.9268 224.3348 213.3504 203.2359 193.9911 185.6162
+#>  [33] 178.1111 171.4757 165.7102 160.8145 156.7886 153.6325 151.3463 149.9298
+#>  [41] 149.3831 149.7062 150.8992 152.9619 155.8945 159.6968 164.3690 169.9110
+#>  [49] 176.3228 183.6044 191.7558 200.7770 210.6680 221.4288 233.0594 245.5598
+#>  [57] 258.9301 271.5329 283.3684 294.4365 304.7372 314.2706 323.0366 331.0352
+#>  [65] 338.2664 344.7303 350.4268 355.3559 359.5176 362.9119 365.5389 367.3985
+#>  [73] 368.4907 368.8156 368.3731 367.1632 365.1859 362.4412 358.9292 354.6498
+#>  [81] 349.6030 343.7889 337.2073 329.8584 321.7421 313.9157 306.3792 299.1325
+#>  [89] 292.1757 285.5087 279.1317 273.0444 267.2471 261.7396 256.5220 251.5943
+#>  [97] 246.9564 242.6084 238.5502 234.7820 231.3036 228.1150 225.2164 222.6075
+#> [105] 220.2886 218.2595 216.5203 215.0710 213.9115 213.0419 212.4622 212.1723
+#> [113] 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723
+#> [121] 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723 212.1723
+#> [129] 212.1723 212.1723 212.1723 212.1723 212.1723
+#> 
+#> $edays
+#>   [1] 0.02755654 0.02585358 0.02421679 0.02265858 0.02119317 0.01983673
+#>   [7] 0.01860719 0.01752375 0.01660579 0.01587096 0.01533271 0.01499758
+#>  [13] 0.01486308 0.01491698 0.01513844 0.01550048 0.01597297 0.01652522
+#>  [19] 0.01712775 0.01775322 0.01837661 0.01897502 0.01952716 0.02001275
+#>  [25] 0.02041181 0.02070393 0.02086731 0.02087768 0.02070666 0.02039086
+#>  [31] 0.01995956 0.01943922 0.01885468 0.01822994 0.01758875 0.01695495
+#>  [37] 0.01635260 0.01580565 0.01533732 0.01496886 0.01471803 0.01459732
+#>  [43] 0.01461245 0.01476162 0.01503571 0.01541933 0.01589252 0.01643244
+#>  [49] 0.01701480 0.01761482 0.01820774 0.01876884 0.01927325 0.01969535
+#>  [55] 0.02000799 0.02018138 0.02018138 0.02000799 0.01969535 0.01927325
+#>  [61] 0.01876884 0.01820774 0.01761482 0.01701480 0.01643244 0.01589252
+#>  [67] 0.01541933 0.01503571 0.01476162 0.01461245 0.01459732 0.01471803
+#>  [73] 0.01496886 0.01533732 0.01580565 0.01635260 0.01695495 0.01758875
+#>  [79] 0.01822994 0.01885468 0.01943922 0.01995956 0.02039086 0.02070666
+#>  [85] 0.02087768 0.02086731 0.02070393 0.02041181 0.02001275 0.01952716
+#>  [91] 0.01897502 0.01837661 0.01775322 0.01712775 0.01652522 0.01597297
+#>  [97] 0.01550048 0.01513844 0.01491698 0.01486308 0.01499758 0.01533271
+#> [103] 0.01587096 0.01660579 0.01752375 0.01860719 0.01983673 0.02119317
+#> [109] 0.02265858 0.02421679 0.02585358 0.02755654 0.02931489 0.03097358
+#> [115] 0.03254786 0.03404942 0.03548750 0.03686954 0.03820161 0.03948877
+#> [121] 0.04073528 0.04194476 0.04312033 0.04426469 0.04538020 0.04646895
+#> [127] 0.04753276 0.04857327 0.04959196 0.05059015 0.05156901 0.05252964
+#> [133] 0.05347301
 
 ## calendarization in presence of daily indicator values (or weights)
 x <- rep(c(1.0, 1.2, 1.8 , 1.6, 0.0, 0.6, 0.8), 19)
@@ -873,13 +973,6 @@ eym_2 <- cal_2$erslt
 yd_2 <- cal_2$days
 eyd_2 <- cal_2$edays
 ```
-
-The
-[`calendarization()`](https://rjdverse.github.io/rjd3bench/reference/calendarization.md)
-function returns a list with the final aggregated results (after running
-the two steps process described above) and their associated errors, as
-well as the disaggregated daily values (after running the first step
-only) and their associated errors.
 
 ## References
 
@@ -906,6 +999,9 @@ pp. 43-60 Statistics Canada, Catalogue No. 12-001-X*.
 Dagum, E. B., and Cholette, P. A. (2006): Benchmarking, Temporal
 Distribution and Reconciliation Methods of Time Series.
 *Springer-Verlag, New York, Lecture notes in Statistics*.
+
+Eurostat (2018). ESS guidelines on temporal disaggregation, benchmarking
+and reconciliation. *2018 edition*.
 
 Proietti, P. (2005). Temporal Disaggregation by State Space Methods:
 Dynamic Regression Methods Revisited. *Working papers and Studies,

@@ -1,12 +1,13 @@
 # Quarterly National Accounts data for temporal disaggregation
 
-List of two datasets. The first data set 'B1G_Y_data' includes three
-annual benchmark series which are the Belgian annual value added on the
-period 2009-2020 in chemical industry (CE), construction (FF) and
-transport services (HH). The second data set 'TURN_Q_data' includes the
-corresponding quarterly indicators which are (modified) production
-indicators derived from VAT statistics and covering the period
-2009Q1-2021Q4.
+This dataset contains two data frames used for temporal disaggregation
+and benchmarking exercises. The first data frame, `B1G_Y_data`, includes
+three annual benchmark series corresponding to Belgian annual value
+added for the period 2009–2020 in three industries: chemical industry
+(CE), construction (FF), and transport services (HH). The second data
+frame, `TURN_Q_data`, contains the corresponding quarterly indicator
+series derived from VAT-based production indicators, covering the period
+2009Q1–2021Q4.
 
 ## Usage
 
@@ -16,8 +17,47 @@ qna_data
 
 ## Format
 
-A list with two data frames, including a 'DATE' column and three columns
-with the data related to the three industries.
+A named list with two elements:
+
+- `B1G_Y_data`:
+
+  A data frame with columns:
+
+  `DATE`
+
+  :   Annual periods.
+
+  `B1G_CE`
+
+  :   Value added for chemical industry.
+
+  `B1G_FF`
+
+  :   Value added for construction.
+
+  `B1G_HH`
+
+  :   Value added for transport services.
+
+- `TURN_Q_data`:
+
+  A data frame with columns:
+
+  `DATE`
+
+  :   Quarterly periods.
+
+  `TURN_INDEX_CE`
+
+  :   Quarterly indicator for chemical industry.
+
+  `TURN_INDEX_FF`
+
+  :   Quarterly indicator for construction.
+
+  `TURN_INDEX_HH`
+
+  :   Quarterly indicator for transport services.
 
 ## Source
 
