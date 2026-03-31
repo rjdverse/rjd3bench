@@ -1,8 +1,6 @@
 # Changelog
 
-## rjd3bench 3.1.1
-
-CRAN release: 2026-03-29
+## rjd3bench 3.1.1.9000
 
 All notable changes to this project will be documented in this file.
 
