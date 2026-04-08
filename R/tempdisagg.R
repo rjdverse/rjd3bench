@@ -774,3 +774,192 @@ temporaldisaggregationI <- function(series, indicator,
     class(output) <- "JD3_TEMPDISAGGI_RSLTS"
     return(output)
 }
+
+
+#' Multivariate Chow-Lin
+multivariatechowlin <- function(series,
+                                constant = TRUE,
+                                trend = FALSE,
+                                indicators = NULL,
+                                ccseries = NULL,
+                                ccdefinition = NULL,
+                                freq = 4L,
+                                rhos = 1,
+                                var = c("fromUnivariate", "allEquals", "userDefined"),
+                                var.matrix = NULL) {
+
+    var <- match.arg(var)
+
+    n <- length(series)
+    snames <- names(series)
+    are_lists <- is.list(series) && is.list(indicators)
+    same_size <- length(indicators) == n
+    same_names <- setequal(snames, names(indicators))
+    if (!are_lists || !same_size || !same_names) {
+        stop("The 'series' and 'indicators' arguments must be lists with matching size and names.")
+    }
+
+    # create the input
+    jdic_series <- .jnew("jdplus/toolkit/base/r/util/Dictionary")
+    for (i in seq_along(series)){
+        .jcall(jdic_series, "V", "add",
+               snames[i],
+               rjd3toolkit::.r2jd_tsdata(series[[i]]))
+    }
+
+    ncst <- length(constant)
+    if (ncst == 1) {
+        constant <- rep(constant, n)
+    } else if (ncst != n) {
+        stop("Size of 'constant' must be 1 or match number of series.")
+    }
+    jcst <- .jarray(as.logical(constant), contents.class = "Z")
+
+    ntrend <- length(trend)
+    if (ntrend == 1) {
+        trend <- rep(trend, n)
+    } else if (ntrend != n) {
+        stop("Size of 'trend' must be 1 or match number of series.")
+    }
+    jtrend <- .jarray(as.logical(trend), contents.class = "Z")
+
+    jarrdic_indic <- .jnew("jdplus/benchmarking/base/r/util/DictionaryGroups")
+    for (i in seq_along(indicators)){
+        if(!is.list(indicators[[i]])) indicators[[i]] <- list(x = indicators[[i]])
+
+        for(j in seq_along(indicators[[i]])){
+            indic <- indicators[[i]][[j]]
+
+            if (stats::is.ts(indic)) {
+               .jcall(jarrdic_indic, "V", "add",
+                      names(indicators)[i],
+                      rjd3toolkit::.r2jd_tsdata(indic))
+            } else if (is.null(indic)) {
+               .jcall(jarrdic_indic, "V", "add",
+                      names(indicators)[i],
+                      .jnull("jdplus/toolkit/base/api/timeseries/TsData"))
+            }
+        }
+    }
+
+    if(!is.list(ccseries)) stop("'ccseries' must be a list.")
+    jdic_ccseries <- .jnew("jdplus/toolkit/base/r/util/Dictionary")
+    for (i in seq_along(ccseries)) {
+        .jcall(jdic_ccseries, "V", "add",
+               names(ccseries)[i],
+               rjd3toolkit::.r2jd_tsdata(ccseries[[i]]))
+    }
+
+    if (is.null(ccdefinition)) {
+        jccdef <- .jnull("[Ljava/lang/String;")
+    } else if (is.character(ccdefinition)) {
+        jccdef <- .jarray(as.character(ccdefinition), contents.class = "java/lang/String")
+    } else {
+        stop("'ccdefinition' must be NULL or a character vector.")
+    }
+
+    nrhos <- length(rhos)
+    if (nrhos == 1) {
+        rhos <- rep(rhos, n)
+    } else if (nrhos != n) {
+        stop("Size of 'rhos' must be 1 or match number of series.")
+    }
+    jrhos <- .jarray(as.numeric(rhos), contents.class = "D")
+
+    jvar_mat <- rjd3toolkit::.r2jd_matrix(var.matrix)
+
+    jrslt <- .jcall(obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
+                    returnSig = "Ljdplus/benchmarking/base/api/multivariate/MultivariateChowLinResults;",
+                    method = "multiChowLin",
+                    jdic_series,
+                    jcst,
+                    jtrend,
+                    jarrdic_indic,
+                    jdic_ccseries,
+                    jccdef,
+                    as.integer(freq),
+                    jrhos,
+                    var,
+                    jvar_mat)
+
+    .jd2r_lhmap <- function(result, method, key, key.class = c("String"), value.class = c("TsData", "Matrix", "DoubleSeq")) {
+        key.class <- match.arg(key.class)
+        value.class <- match.arg(value.class)
+
+        jmap <- .jcall(result, "Ljava/util/Map;", method)
+
+        jkey <- .jnew("java/lang/String", key)
+        jobject <- .jcall(jmap, "Ljava/lang/Object;", "get", .jcast(jkey, "java/lang/Object"))
+
+        if(is.null(jobject)) return(NULL)
+
+        if (value.class == "TsData") {
+            out <- rjd3toolkit::.jd2r_tsdata(.jcast(jobject, "jdplus/toolkit/base/api/timeseries/TsData"))
+        } else if (value.class == "Matrix") {
+            out <- rjd3toolkit::.jd2r_matrix(jobject)
+        } else if (value.class == "DoubleSeq") {
+            out <- .jcall(jobject, "[D", "toArray")
+        }
+        return(out)
+    }
+
+    disagg <- edisagg <- regeffect <- reg <- model <- list()
+
+    for (i in seq_along(series)) {
+        sname <- snames[i]
+        disagg[[sname]] <- .jd2r_lhmap(jrslt,
+                                       "getDisaggregatedSeries",
+                                       sname,
+                                       value.class = "TsData")
+        edisagg[[sname]] <- .jd2r_lhmap(jrslt,
+                                        "getStdevDisaggregatedSeries",
+                                        sname,
+                                        value.class = "TsData")
+        regeffect[[sname]] <- .jd2r_lhmap(jrslt,
+                                          "getRegressionEffects",
+                                          sname,
+                                          value.class = "TsData")
+        reg[[sname]] <- .jd2r_lhmap(jrslt,
+                                    "getRegressors",
+                                    sname,
+                                    value.class = "Matrix")
+        coef <- .jd2r_lhmap(jrslt,
+                            "getCoefficients",
+                            sname,
+                            value.class = "DoubleSeq")
+
+        coef_var <- .jd2r_lhmap(jrslt,
+                                "getCoefficientsVariance",
+                                sname,
+                                value.class = "DoubleSeq")
+        if(!is.null(coef)) {
+            se <- sqrt(coef_var)
+            t <- coef / se
+            model[[sname]] <- data.frame(coef, se, t)
+            # TODO: add rownames to model!
+        }
+    }
+
+    regression <- list(
+        type = ifelse(rhos == 1, "Rw", "Ar1"),
+        conversion = "Sum",
+        model = model
+        # bcov -> TODO
+    )
+    estimation <- list(
+        disagg = disagg,
+        edisagg = edisagg,
+        regeffect = regeffect,
+        # smoothingpart -> TODO
+        parameters = rhos
+        # eparameter -> TODO
+        # residuals -> TODO
+    )
+
+    output <- list(
+        regression = regression,
+        estimation = estimation
+    )
+
+    return(output)
+}
