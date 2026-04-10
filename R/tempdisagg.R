@@ -866,6 +866,10 @@ multivariatechowlin <- function(series,
     }
     jrhos <- .jarray(as.numeric(rhos), contents.class = "D")
 
+    # fix constant if rho = 1 (diffuse initialization)
+    constant[rhos == 1] <- FALSE
+    jcst <- .jarray(as.logical(constant), contents.class = "Z")
+
     jvar_mat <- rjd3toolkit::.r2jd_matrix(var.matrix)
 
     jrslt <- .jcall(obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
