@@ -408,16 +408,13 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'   the examples). The default is `NULL`, indicating that no contemporaneous
 #'   constraints are imposed, which is equivalent to applying the univariate
 #'   Cholette method to each of the preliminary series separately.
-#' @param rho Numeric. A smoothing parameter whose value must lie between 0 and 1.
-#'   See the package vignette for more information on the choice of the `rho`
-#'   parameter.
-#' @param lambda Numeric. The adjustment model parameter. Typically, `lambda = 0`
-#'   corresponds to additive benchmarking, while values of `lambda` close to
-#'   1 approximate proportional benchmarking. Setting `lambda = 1` is possible
-#'   but should be used with caution in multivariate model, as it may, in some
-#'   situation, produce benchmarked series whose levels differ substantially
-#'   from the preliminary series. See the package vignette for more information
-#'   on the choice of the `lambda` parameter.
+#' @param rho Numeric. The smoothing parameter whose value must lie between 0
+#'   and 1. See the package vignette for more information on the choice of the
+#'   `rho` parameter.
+#' @param lambda Numeric. The adjustment model parameter. Typically, setting
+#'   `lambda = 0` yields a purely additive model, while `lambda = 1` corresponds
+#'   to a proportional model. See the package vignette for more information on
+#'   the choice of the `lambda` parameter.
 #'
 #' @return A named list containing the benchmarked series
 #'
@@ -490,7 +487,7 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'
 #' multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc)
 #'
-multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 1., lambda = 0.8) {
+multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 0.8, lambda = 1.0) {
     if (!is.list(xlist) || length(xlist) < 3L) {
         stop("incorrect argument, first argument should be a list of at least 3 time series")
     }
