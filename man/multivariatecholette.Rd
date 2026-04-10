@@ -8,8 +8,8 @@ multivariatecholette(
   xlist,
   tcvector = NULL,
   ccvector = NULL,
-  rho = 1,
-  lambda = 0.8
+  rho = 0.8,
+  lambda = 1
 )
 }
 \arguments{
@@ -40,17 +40,14 @@ the examples). The default is \code{NULL}, indicating that no contemporaneous
 constraints are imposed, which is equivalent to applying the univariate
 Cholette method to each of the preliminary series separately.}
 
-\item{rho}{Numeric. A smoothing parameter whose value must lie between 0 and 1.
-See the package vignette for more information on the choice of the \code{rho}
-parameter.}
+\item{rho}{Numeric. The smoothing parameter whose value must lie between 0
+and 1. See the package vignette for more information on the choice of the
+\code{rho} parameter.}
 
-\item{lambda}{Numeric. The adjustment model parameter. Typically, \code{lambda = 0}
-corresponds to additive benchmarking, while values of \code{lambda} close to
-1 approximate proportional benchmarking. Setting \code{lambda = 1} is possible
-but should be used with caution in multivariate model, as it may, in some
-situation, produce benchmarked series whose levels differ substantially
-from the preliminary series. See the package vignette for more information
-on the choice of the \code{lambda} parameter.}
+\item{lambda}{Numeric. The adjustment model parameter. Typically, setting
+\code{lambda = 0} yields a purely additive model, while \code{lambda = 1} corresponds
+to a proportional model. See the package vignette for more information on
+the choice of the \code{lambda} parameter.}
 }
 \value{
 A named list containing the benchmarked series
