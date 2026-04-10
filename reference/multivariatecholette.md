@@ -18,8 +18,8 @@ multivariatecholette(
   xlist,
   tcvector = NULL,
   ccvector = NULL,
-  rho = 1,
-  lambda = 0.8
+  rho = 0.8,
+  lambda = 1
 )
 ```
 
@@ -61,19 +61,16 @@ multivariatecholette(
 
 - rho:
 
-  Numeric. A smoothing parameter whose value must lie between 0 and 1.
+  Numeric. The smoothing parameter whose value must lie between 0 and 1.
   See the package vignette for more information on the choice of the
   `rho` parameter.
 
 - lambda:
 
-  Numeric. The adjustment model parameter. Typically, `lambda = 0`
-  corresponds to additive benchmarking, while values of `lambda` close
-  to 1 approximate proportional benchmarking. Setting `lambda = 1` is
-  possible but should be used with caution in multivariate model, as it
-  may, in some situation, produce benchmarked series whose levels differ
-  substantially from the preliminary series. See the package vignette
-  for more information on the choice of the `lambda` parameter.
+  Numeric. The adjustment model parameter. Typically, setting
+  `lambda = 0` yields a purely additive model, while `lambda = 1`
+  corresponds to a proportional model. See the package vignette for more
+  information on the choice of the `lambda` parameter.
 
 ## Value
 
@@ -137,75 +134,75 @@ multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, 
 multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1) # Denton
 #> $x1
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 7.088834 7.358409 8.085514 7.467243
-#> 2011 8.051632 7.121157 7.536549 7.890661
+#> 2010 7.109788 7.348007 8.098412 7.443793
+#> 2011 8.068169 7.171383 7.521261 7.839187
 #> 
 #> $x2
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 18.51861 20.62328 19.76787 21.09024
-#> 2011 19.07413 19.10573 21.41986 21.60028
+#> 2010 18.49262 20.63609 19.75331 21.11798
+#> 2011 19.05164 19.05459 21.44008 21.65369
 #> 
 #> $x3
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 1.492557 1.818311 2.046613 2.642519
-#> 2011 2.174241 1.673108 1.943591 2.309060
+#> 2010 1.497594 1.815902 2.048278 2.638227
+#> 2011 2.180191 1.674030 1.938655 2.307125
 #> 
 multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729) # Cholette
 #> $x1
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 7.097866 7.365841 8.087746 7.448548
-#> 2011 7.977588 7.066299 7.542584 8.013529
+#> 2010 7.110119 7.354400 8.104941 7.430540
+#> 2011 7.996154 7.118404 7.526617 7.958825
 #> 
 #> $x2
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 18.50927 20.61878 19.76868 21.10326
-#> 2011 19.12059 19.14458 21.41573 21.51911
+#> 2010 18.49427 20.63342 19.74918 21.12313
+#> 2011 19.09391 19.09204 21.43681 21.57723
 #> 
 #> $x3
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 1.492863 1.815376 2.043571 2.648191
-#> 2011 2.201825 1.689122 1.941689 2.267364
+#> 2010 1.495609 1.812181 2.045881 2.646328
+#> 2011 2.209936 1.689551 1.936570 2.263943
 #> 
 
 ## Run function without temporal constraints
 multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc)
 #> $x1
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 3.099237 3.243449 3.678532 3.276217
-#> 2011 3.851349 3.424127 3.766501 3.985738
+#> 2010 7.035015 7.305950 8.142694 7.625994
+#> 2011 8.476264 7.689833 8.167650 8.569816
 #> 
 #> $x2
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 19.21686 20.95378 20.09270 20.49772
-#> 2011 19.32383 19.70037 21.79812 21.66938
+#> 2010 18.55560 20.67671 19.74027 21.04165
+#> 2011 18.80902 18.70399 21.01921 21.21138
 #> 
 #> $x3
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 4.783907 5.602769 6.128769 7.426064
-#> 2011 6.124823 4.775501 5.335379 6.144883
+#> 2010 1.509381 1.817336 2.017032 2.532351
+#> 2011 2.014717 1.506181 1.713135 2.018808
 #> 
 
 ## Run function considering non-binding contemporaneous constraint
 multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb)
 #> $x1
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 7.138104 7.338293 8.114190 7.409413
-#> 2011 8.101444 7.227812 7.498480 7.772264
+#> 2010 7.137892 7.337006 8.132007 7.393095
+#> 2011 8.058743 7.218032 7.493719 7.829506
 #> 
 #> $x2
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 18.77401 20.54000 19.87748 20.80852
-#> 2011 19.24470 19.54733 21.26834 21.13963
+#> 2010 18.69127 20.52611 19.92074 20.86188
+#> 2011 19.31437 19.60965 21.25741 21.01857
 #> 
 #> $x3
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 1.499392 1.818320 2.050439 2.631850
-#> 2011 2.177807 1.681152 1.941392 2.299649
+#> 2010 1.497120 1.812273 2.049118 2.641490
+#> 2011 2.205157 1.690150 1.936369 2.268324
 #> 
 #> $z
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 27.41150 29.69661 30.04211 30.84978
-#> 2011 29.52395 28.45629 30.70822 31.21154
+#> 2010 27.32628 29.67539 30.10186 30.89647
+#> 2011 29.57827 28.51784 30.68750 31.11640
 #> 
 
 # Example 2: two contemporaneous constraints: x1+3*x2+0.5*x3+x4+x5 = z1 and x1+x2 = x4
@@ -246,27 +243,27 @@ cc <- c("z1=x1+3*x2+0.5*x3+x4+x5", "0=x1+x2-x4")
 multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc)
 #> $x1
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 7.656913 7.459133 7.691486 7.192468
-#> 2011 7.202555 7.844736 7.928212 7.524497
+#> 2010 7.732899 7.514571 7.684436 7.068094
+#> 2011 7.032284 7.840724 7.971234 7.655758
 #> 
 #> $x2
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 2.038004 2.240979 2.542287 3.178730
-#> 2011 2.690178 2.243273 2.563886 3.002663
+#> 2010 1.881409 2.224601 2.571501 3.322489
+#> 2011 2.816953 2.239080 2.536850 2.907117
 #> 
 #> $x3
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 20.29245 20.00733 19.93548 19.76474
-#> 2011 19.18196 19.81496 20.94547 21.05761
+#> 2010 20.90075 19.94897 19.87199 19.27828
+#> 2011 18.89146 19.86125 20.96279 21.28449
 #> 
 #> $x4
 #>           Qtr1      Qtr2      Qtr3      Qtr4
-#> 2010  9.694917  9.700111 10.233773 10.371198
-#> 2011  9.892733 10.088009 10.492098 10.527160
+#> 2010  9.614307  9.739172 10.255937 10.390583
+#> 2011  9.849236 10.079804 10.508084 10.562875
 #> 
 #> $x5
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 4.487934 7.914155 6.380138 6.217772
-#> 2011 4.043199 4.529957 5.315297 6.111547
+#> 2010 4.658191 7.897966 6.309128 6.134714
+#> 2011 4.021890 4.531604 5.328738 6.117769
 #> 
 ```

@@ -10,6 +10,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### [Unreleased](https://github.com/rjdverse/rjd3bench/compare/v3.1.1...HEAD)
 
+#### Fixed
+
+- Fix documentation and default value of parameters in multivariate
+  Cholette
+
 ### [3.1.1](https://github.com/rjdverse/rjd3bench/compare/v3.1.0...v3.1.1) - 2026-03-31
 
 #### Fixed
@@ -26,7 +31,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 #### Changed
 
-- Default value of lambda is changed to 0.8 in multivariate Cholette
+- Default value of parameters changed in multivariate Cholette
 - Re-ordering of the returned benchmarked series in multivariate
   Cholette
 - Change/add parameters in adl_disaggregation() function

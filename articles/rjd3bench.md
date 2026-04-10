@@ -644,6 +644,7 @@ variables). The method is driven by a couple of parameters:
   Set $\lambda = 0$ for an additive benchmarking model and $\lambda = 1$
   for a proportional benchmarking model. Finally, set $\lambda = 0.5$
   with $\rho = 0$, for the naive pro-rating method.
+
 - The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$
   determines the degree of movement preservation. When $\lambda = 1$,
   the closer $\rho$ is to 1, the smoother will be the ratios of the
@@ -681,9 +682,9 @@ the BI-ratio is the estimated value of the bias; so, repeating the last
 value is not appropriate. Instead, to obtain a smooth transition from
 this last BI-ratio to the bias, one can set $\rho < 1$. For observations
 with a benchmark, the BI-ratios are closer to those obtained with the
-Denton PFD method ($\rho = 1$) and smoother when
+Denton PFD method ($\lambda = 1$) and smoother when
 $\left. \rho\rightarrow 1 \right.$. As a pragmatic benchmarking method
-routinely applicable to large numbers of seasonal time series Dagum and
+routinely applicable to large numbers of seasonal time series, Dagum and
 Cholette (2006) recommend the proportional benchmarking method
 ($\lambda = 1$) with a value of $\rho = 0.90$ for monthly series and
 $\rho = 0.90^{3} = 0.729$ for quarterly series. An alternative would be
@@ -755,41 +756,43 @@ constraints. The contemporaneous constraints are then imposed by
 altering the dynamic movements of the series as little as possible.
 Conversely, the absence of contemporaneous constraint is less relevant,
 as this is just equivalent to applying the univariate Cholette method to
-each of the preliminary series separately. In addition to binding
-contemporaneous constraints, non-binding constraints can also specified
-by modifying their formulation in the `ccvector` argument. For example,
-instead of imposing a binding condition such as
-$x_{1} + x_{2} + x_{3} = z_{1}$, one may express a non-binding
-constraint as $x_{1} + x_{2} + x_{3} - z_{1} = 0$, which allows the
-$z_{1}$ series to be adjusted in the same manner as $x_{1}$, $x_{2}$ and
-$x_{3}$ (weights may also be introduced when needed).
+each of the preliminary series separately.
+
+In addition to binding contemporaneous constraints, non-binding
+constraints can also be specified by modifying their formulation in the
+`ccvector` argument. For example, instead of imposing a binding
+condition such as $x_{1} + x_{2} + x_{3} = z_{1}$, one may express a
+non-binding constraint as $x_{1} + x_{2} + x_{3} - z_{1} = 0$, which
+allows the $z_{1}$ series to be adjusted in the same manner as $x_{1}$,
+$x_{2}$ and $x_{3}$ (weights may be introduced if necessary).
 
 As in the univariate case, the multivariate Cholette method is driven by
 a couple of parameters:
 
-- The adjustment model parameter $\lambda$, $\lambda \in {\mathbb{R}}$
-  makes the trade‑off between an additive and a proportional
-  reconciliation model, and therefore determines how strongly the
-  relative size of each series influences the distribution of
-  discrepancies. Setting $\lambda = 0$ yields a purely additive model,
-  while values of $\lambda$ close to 1 approximate a proportional model
-  in which larger series absorb a larger share of the adjustment.
-  Although $\lambda = 1$ is also possible, it should be used with
-  caution in a multivariate context. This is because contemporaneous
-  constraints, combined with the fact that pure movement preservation
-  specifies nothing about the level of the individual reconciled series,
-  may sometimes produce substantial differences in level between the
-  preliminary and the benchmarked series. This is especially true in the
-  absence of temporal constraints where strong movement preservation
-  should not be pursued during reconciliation. Finally, as in the
-  univariate case, the naive pro-rating method corresponds to setting
-  $\lambda = 0.5$ with $\rho = 0$.
+- The adjustment model parameter $\lambda$, $\lambda \in {\mathbb{R}}$,
+  but typically, $0 \leq \lambda \leq 1$. $\lambda$ makes the trade‑off
+  between an additive and a proportional reconciliation model, and
+  therefore determines how strongly the relative size of each series
+  influences the distribution of the discrepancies. Setting
+  $\lambda = 0$ yields a purely additive model, while $\lambda = 1$
+  corresponds to a proportional model in which larger series absorb a
+  larger share of the adjustment.
 
 - The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$
   determines the degree of movement preservation. When $\lambda = 1$,
-  the closer $\rho$ is to 1, the smoother will be the ratios of the
-  benchmarks to the corresponding totals in the preliminary series and
-  the better the movement of the latter will be preserved.
+  the closer $\rho$ is to 1, the smoother will be the ratios between the
+  benchmarked and the preliminary series and the better the movement (or
+  growth rates) of the latter will be preserved. Although setting
+  $\rho = 1$ is an option, it should be used with caution in a
+  multivariate context. This is because contemporaneous constraints,
+  combined with the fact that pure movement preservation specifies
+  nothing about the level of the individual reconciled series, may
+  sometimes produce substantial differences in level between the
+  preliminary and the benchmarked series. This is especially true in the
+  absence of temporal constraints where strong movement preservation
+  should not be pursued during reconciliation. Finally, as in the
+  univariate case, the naive pro-rating method is achieved by setting
+  $\lambda = 0.5$ with $\rho = 0$.
 
 The multivariate Cholette method can be called with the
 [`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)

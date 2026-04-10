@@ -67,8 +67,8 @@ reconciliation methods such as the multivariate Denton method.</p>
 <span>  <span class="va">xlist</span>,</span>
 <span>  tcvector <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ccvector <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  rho <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  lambda <span class="op">=</span> <span class="fl">0.8</span></span>
+<span>  rho <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  lambda <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -110,19 +110,16 @@ Cholette method to each of the preliminary series separately.</p></dd>
 
 
 <dt id="arg-rho">rho<a class="anchor" aria-label="anchor" href="#arg-rho"></a></dt>
-<dd><p>Numeric. A smoothing parameter whose value must lie between 0 and 1.
-See the package vignette for more information on the choice of the <code>rho</code>
-parameter.</p></dd>
+<dd><p>Numeric. The smoothing parameter whose value must lie between 0
+and 1. See the package vignette for more information on the choice of the
+<code>rho</code> parameter.</p></dd>
 
 
 <dt id="arg-lambda">lambda<a class="anchor" aria-label="anchor" href="#arg-lambda"></a></dt>
-<dd><p>Numeric. The adjustment model parameter. Typically, <code>lambda = 0</code>
-corresponds to additive benchmarking, while values of <code>lambda</code> close to
-1 approximate proportional benchmarking. Setting <code>lambda = 1</code> is possible
-but should be used with caution in multivariate model, as it may, in some
-situation, produce benchmarked series whose levels differ substantially
-from the preliminary series. See the package vignette for more information
-on the choice of the <code>lambda</code> parameter.</p></dd>
+<dd><p>Numeric. The adjustment model parameter. Typically, setting
+<code>lambda = 0</code> yields a purely additive model, while <code>lambda = 1</code> corresponds
+to a proportional model. See the package vignette for more information on
+the choice of the <code>lambda</code> parameter.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -186,75 +183,75 @@ on the choice of the <code>lambda</code> parameter.</p></dd>
 <span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># Denton</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.088834 7.358409 8.085514 7.467243</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 8.051632 7.121157 7.536549 7.890661</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.109788 7.348007 8.098412 7.443793</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 8.068169 7.171383 7.521261 7.839187</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 18.51861 20.62328 19.76787 21.09024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.07413 19.10573 21.41986 21.60028</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 18.49262 20.63609 19.75331 21.11798</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.05164 19.05459 21.44008 21.65369</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 1.492557 1.818311 2.046613 2.642519</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.174241 1.673108 1.943591 2.309060</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 1.497594 1.815902 2.048278 2.638227</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.180191 1.674030 1.938655 2.307125</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">0.729</span><span class="op">)</span> <span class="co"># Cholette</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.097866 7.365841 8.087746 7.448548</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 7.977588 7.066299 7.542584 8.013529</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.110119 7.354400 8.104941 7.430540</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 7.996154 7.118404 7.526617 7.958825</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 18.50927 20.61878 19.76868 21.10326</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.12059 19.14458 21.41573 21.51911</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 18.49427 20.63342 19.74918 21.12313</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.09391 19.09204 21.43681 21.57723</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 1.492863 1.815376 2.043571 2.648191</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.201825 1.689122 1.941689 2.267364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 1.495609 1.812181 2.045881 2.646328</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.209936 1.689551 1.936570 2.263943</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Run function without temporal constraints</span></span></span>
 <span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="cn">NULL</span>, ccvector <span class="op">=</span> <span class="va">cc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 3.099237 3.243449 3.678532 3.276217</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 3.851349 3.424127 3.766501 3.985738</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.035015 7.305950 8.142694 7.625994</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 8.476264 7.689833 8.167650 8.569816</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 19.21686 20.95378 20.09270 20.49772</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.32383 19.70037 21.79812 21.66938</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 18.55560 20.67671 19.74027 21.04165</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 18.80902 18.70399 21.01921 21.21138</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 4.783907 5.602769 6.128769 7.426064</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 6.124823 4.775501 5.335379 6.144883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 1.509381 1.817336 2.017032 2.532351</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.014717 1.506181 1.713135 2.018808</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Run function considering non-binding contemporaneous constraint</span></span></span>
 <span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc_nb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.138104 7.338293 8.114190 7.409413</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 8.101444 7.227812 7.498480 7.772264</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.137892 7.337006 8.132007 7.393095</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 8.058743 7.218032 7.493719 7.829506</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 18.77401 20.54000 19.87748 20.80852</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.24470 19.54733 21.26834 21.13963</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 18.69127 20.52611 19.92074 20.86188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.31437 19.60965 21.25741 21.01857</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 1.499392 1.818320 2.050439 2.631850</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.177807 1.681152 1.941392 2.299649</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 1.497120 1.812273 2.049118 2.641490</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.205157 1.690150 1.936369 2.268324</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $z</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 27.41150 29.69661 30.04211 30.84978</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 29.52395 28.45629 30.70822 31.21154</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 27.32628 29.67539 30.10186 30.89647</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 29.57827 28.51784 30.68750 31.11640</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 2: two contemporaneous constraints: x1+3*x2+0.5*x3+x4+x5 = z1 and x1+x2 = x4</span></span></span>
@@ -295,28 +292,28 @@ on the choice of the <code>lambda</code> parameter.</p></dd>
 <span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data.list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.656913 7.459133 7.691486 7.192468</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 7.202555 7.844736 7.928212 7.524497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.732899 7.514571 7.684436 7.068094</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 7.032284 7.840724 7.971234 7.655758</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 2.038004 2.240979 2.542287 3.178730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.690178 2.243273 2.563886 3.002663</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 1.881409 2.224601 2.571501 3.322489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.816953 2.239080 2.536850 2.907117</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 20.29245 20.00733 19.93548 19.76474</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.18196 19.81496 20.94547 21.05761</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 20.90075 19.94897 19.87199 19.27828</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 18.89146 19.86125 20.96279 21.28449</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           Qtr1      Qtr2      Qtr3      Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010  9.694917  9.700111 10.233773 10.371198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011  9.892733 10.088009 10.492098 10.527160</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010  9.614307  9.739172 10.255937 10.390583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011  9.849236 10.079804 10.508084 10.562875</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 4.487934 7.914155 6.380138 6.217772</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 4.043199 4.529957 5.315297 6.111547</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 4.658191 7.897966 6.309128 6.134714</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 4.021890 4.531604 5.328738 6.117769</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
