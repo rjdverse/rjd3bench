@@ -411,10 +411,9 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #' @param rho Numeric. The smoothing parameter whose value must lie between 0
 #'   and 1. See the package vignette for more information on the choice of the
 #'   `rho` parameter.
-#' @param lambda Numeric. The adjustment model parameter. Typically, setting
-#'   `lambda = 0` yields a purely additive model, while `lambda = 1` corresponds
-#'   to a proportional model. See the package vignette for more information on
-#'   the choice of the `lambda` parameter.
+#' @param lambda Numeric. The adjustment model parameter. Typical values include
+#'   `lambda = 0`, `lambda = 0.5` and `lambda = 1`.See the package vignette for
+#'   more information on the choice of the `lambda` parameter.
 #'
 #' @return A named list containing the benchmarked series
 #'
@@ -487,7 +486,7 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'
 #' multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc)
 #'
-multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 0.8, lambda = 1.0) {
+multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 0.8, lambda = 0.5) {
     if (!is.list(xlist) || length(xlist) < 3L) {
         stop("incorrect argument, first argument should be a list of at least 3 time series")
     }
