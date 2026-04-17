@@ -373,7 +373,7 @@ temporal_disaggregation_raw <- function(
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
 #' The evaluation range is `[rho.truncated, 1]`.
 #' @param zeroinitialization Boolean. If `TRUE`, the initial values of the autoregressive model are set to zero. The default is `FALSE`.
-#' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`.Other options are: `"Diffuse"` and `"Augmented"`.
+#' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`. Other options are: `"Diffuse"` and `"Augmented"`.
 #' @param diffuse.regressors Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
 #' @param nbcsts An integer specifying the number of backcast periods.
 #' This argument is ignored when one or more indicator series is provided.
