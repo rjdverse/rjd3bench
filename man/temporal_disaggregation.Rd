@@ -34,7 +34,7 @@ Note that this argument is used only with \code{model = "Ar1"} when \code{zeroin
 If \code{NULL} (the default), no indicator is used. When provided, the argument must be a \code{"ts"} object or a list of \code{"ts"} objects.}
 
 \item{model}{A character string specifying the model of the error term at the disaggregated level.
-The options are: \code{"Ar1"} (Chow Lin), \code{"Rw"} (Fernandez), and \code{"RwAr1"} (Litterman).}
+The options are: \code{"Ar1"} (Chow Lin, the default), \code{"Rw"} (Fernandez), and \code{"RwAr1"} (Litterman).}
 
 \item{freq}{An integer giving the annual frequency of the disaggregated series.
 This argument is ignored when one or more indicator series is provided.}
@@ -47,11 +47,11 @@ This argument is used only for \code{"Ar1"} and \code{"RwAr1"} models.}
 \item{rho.fixed}{Boolean. Specifies whether the supplied value of \code{rho} is fixed. The default is \code{FALSE}, which indicates that \code{rho} is estimated.}
 
 \item{rho.truncated}{A numeric value defining the lower bound of the admissible range for \code{rho}.
-The evaluation range is \verb{[rho.truncated, 1[}.}
+The evaluation range is \verb{[rho.truncated, 1]}.}
 
 \item{zeroinitialization}{Boolean. If \code{TRUE}, the initial values of the autoregressive model are set to zero. The default is \code{FALSE}.}
 
-\item{diffuse.algorithm}{A character string specifying the algorithm used for diffuse initialization. The default is \code{"SqrtDiffuse"}.}
+\item{diffuse.algorithm}{A character string specifying the algorithm used for diffuse initialization. The default is \code{"SqrtDiffuse"}. Other options are: \code{"Diffuse"} and \code{"Augmented"}.}
 
 \item{diffuse.regressors}{Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (\code{TRUE}) or as fixed unknown (\code{FALSE}, the default).}
 
@@ -62,7 +62,13 @@ This argument is ignored when one or more indicator series is provided.}
 This argument is ignored when one or more indicator series is provided.}
 }
 \value{
-An object of class \code{"JD3_TEMPDISAGG_RSLTS"} containing the results of the temporal disaggregation procedure.
+An object of class "JD3_TEMPDISAGG_RSLTS" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients;
+\item \code{estimation} \verb{[[2]]} disaggregated Time-Series, errors, residuals and other parameters;
+\item \code{likelihood} \verb{[[3]]} a list of test results.
+}
 }
 \description{
 Perform temporal disaggregation of low-frequency to high-frequency time
