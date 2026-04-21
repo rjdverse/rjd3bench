@@ -16,7 +16,7 @@ NULL
 #' @param phi A numeric value giving the (initial) value of the phi parameter
 #' @param phi.fixed Boolean. Specifies whether the supplied value of `phi` is fixed. The default is `FALSE`, which indicates that `phi` is estimated.
 #' @param phi.truncated A numeric value defining the lower bound of the admissible range for `phi`.
-#' The evaluation range is `[phi.truncated, 1]`.
+#' The evaluation range is `[phi.truncated, 1[`.
 #' @param xar A character string specifying the constraints imposed on the coefficients of the lagged regression variables. The default is `"FREE"`, which indicates that no constraints are applied. Other options are: `"SAME"`and `"NONE"`.
 #' For additional information, see the package vignette.
 #' @param diffuse Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
@@ -24,8 +24,8 @@ NULL
 #' @return An object of class "JD3_ADLDISAGG_RSLTS" is returned. The following are returned
 #' invisibly as a list:
 #' * `regression` `[[1]]` regression coefficients;
-#' * `estimation` `[[2]]` disaggregated Time-Series, errors, residuals and other parameters;
-#' * `likelihood` `[[3]]` a list of test results.
+#' * `estimation` `[[2]]` disaggregated Time-Series and standard deviation, parameter and residuals;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @references  Proietti, P. (2005). Temporal Disaggregation by State Space Methods: Dynamic Regression Methods Revisited. Working papers and Studies, European Commission, ISSN 1725-4825.
 #'
