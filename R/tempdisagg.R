@@ -24,7 +24,7 @@ NULL
 #' This argument is used only for `"Ar1"` and `"RwAr1"` models.
 #' @param rho.fixed Boolean. Specifies whether the supplied value of `rho` is fixed. The default is `FALSE`, which indicates that `rho` is estimated.
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
-#' The evaluation range is `[rho.truncated, 1]`.
+#' The evaluation range is `[rho.truncated, 1[`.
 #' @param zeroinitialization Boolean. If `TRUE`, the initial values of the autoregressive model are set to zero. The default is `FALSE`.
 #' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`. Other options are: `"Diffuse"` and `"Augmented"`.
 #' @param diffuse.regressors Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
@@ -36,8 +36,8 @@ NULL
 #' @return An object of class "JD3_TEMPDISAGG_RSLTS" is returned. The following are returned
 #' invisibly as a list:
 #' * `regression` `[[1]]` regression coefficients;
-#' * `estimation` `[[2]]` disaggregated Time-Series, errors, residuals and other parameters;
-#' * `likelihood` `[[3]]` a list of test results.
+#' * `estimation` `[[2]]` disaggregated Time-Series and standard deviation, regression effects, smoothing part, parameter and residuals;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
 #'
@@ -195,7 +195,7 @@ temporal_disaggregation <- function(
 #' This argument is used only for `"Ar1"` and `"RwAr1"` models.
 #' @param rho.fixed Boolean. Specifies whether the supplied value of `rho` is fixed. The default is `FALSE`, which indicates that `rho` is estimated.
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
-#' The evaluation range is `[rho.truncated, 1]`.
+#' The evaluation range is `[rho.truncated, 1[`.
 #' @param zeroinitialization Boolean. If `TRUE`, the initial values of the autoregressive model are set to zero. The default is `FALSE`.
 #' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`. Other options are: `"Diffuse"` and `"Augmented"`.
 #' @param diffuse.regressors Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
@@ -207,8 +207,8 @@ temporal_disaggregation <- function(
 #' @return An object of class "JD3_TEMPDISAGGRAW_RSLTS" is returned. The following are returned
 #' invisibly as a list:
 #' * `regression` `[[1]]` regression coefficients;
-#' * `estimation` `[[2]]` disaggregated values, errors, residuals and other parameters;
-#' * `likelihood` `[[3]]` a list of test results.
+#' * `estimation` `[[2]]` disaggregated values and standard deviation, regression effects, smoothing part, parameter and residuals;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
 #'
@@ -371,7 +371,7 @@ temporal_disaggregation_raw <- function(
 #' This argument is used only for `"Ar1"` and `"RwAr1"` models.
 #' @param rho.fixed Boolean. Specifies whether the supplied value of `rho` is fixed. The default is `FALSE`, which indicates that `rho` is estimated.
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
-#' The evaluation range is `[rho.truncated, 1]`.
+#' The evaluation range is `[rho.truncated, 1[`.
 #' @param zeroinitialization Boolean. If `TRUE`, the initial values of the autoregressive model are set to zero. The default is `FALSE`.
 #' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`. Other options are: `"Diffuse"` and `"Augmented"`.
 #' @param diffuse.regressors Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
@@ -383,8 +383,8 @@ temporal_disaggregation_raw <- function(
 #' @return An object of class "JD3_INTERP_RSLTS" is returned. The following are returned
 #' invisibly as a list:
 #' * `regression` `[[1]]` regression coefficients;
-#' * `estimation` `[[2]]` interpolated Time-Series, errors, residuals and other parameters;
-#' * `likelihood` `[[3]]` a list of test results.
+#' * `estimation` `[[2]]` interpolated Time-Series and standard deviation, regression effects and smoothing part, parameter and residuals;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
 #'
@@ -551,7 +551,7 @@ temporal_interpolation <- function(
 #' This argument is used only for `"Ar1"` and `"RwAr1"` models.
 #' @param rho.fixed Boolean. Specifies whether the supplied value of `rho` is fixed. The default is `FALSE`, which indicates that `rho` is estimated.
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
-#' The evaluation range is `[rho.truncated, 1]`.
+#' The evaluation range is `[rho.truncated, 1[`.
 #' @param zeroinitialization Boolean. If `TRUE`, the initial values of the autoregressive model are set to zero. The default is `FALSE`.
 #' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`. Other options are: `"Diffuse"` and `"Augmented"`.
 #' @param diffuse.regressors Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
@@ -563,8 +563,8 @@ temporal_interpolation <- function(
 #' @return An object of class "JD3_INTERPRAW_RSLTS" is returned. The following are returned
 #' invisibly as a list:
 #' * `regression` `[[1]]` regression coefficients;
-#' * `estimation` `[[2]]` interpolated values, errors, residuals and other parameters;
-#' * `likelihood` `[[3]]` a list of test results.
+#' * `estimation` `[[2]]` interpolated values and standard deviation, regression effects, smoothing part, parameter and residuals;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
 #'
@@ -730,13 +730,13 @@ temporal_interpolation_raw <- function(
 #' @param rho A numeric value giving the (initial) value of the autoregressive parameter.
 #' @param rho.fixed Boolean. Specifies whether the supplied value of `rho` is fixed. The default is `FALSE`, which indicates that `rho` is estimated.
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
-#' The evaluation range is `[rho.truncated, 1]`.
+#' The evaluation range is `[rho.truncated, 1[`.
 #'
 #' @return An object of class "JD3_TEMPDISAGGI_RSLTS" is returned. The following are returned
 #' invisibly as a list:
 #' * `regression` `[[1]]` regression coefficients;
-#' * `estimation` `[[2]]` disaggregated Time-Series;
-#' * `likelihood` `[[3]]` a list of test results.
+#' * `estimation` `[[2]]` disaggregated Time-Series and parameter;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @references  Bournay J., Laroque G. (1979). Reflexions sur la methode
 #'   d'elaboration des comptes trimestriels. Annales de l'Insee, n. 36, pp.3-30.
