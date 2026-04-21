@@ -9,7 +9,7 @@ multivariatecholette(
   tcvector = NULL,
   ccvector = NULL,
   rho = 0.8,
-  lambda = 1
+  lambda = 0.5
 )
 }
 \arguments{
@@ -38,13 +38,12 @@ The \eqn{+} operator can be replaced by \eqn{-}. The names of the contemporaneou
 \strong{Important}: Any series placed on the left-hand side of a constraint cannot appear on the right-hand side of any other constraint. This is because quantities on the left-hand side are fixed, while those on the right-hand side are adjusted to satisfy the equality.}
 
 \item{rho}{Numeric. The smoothing parameter whose value must lie between 0
-and 1. See the package vignette for more information on the choice of the
-\code{rho} parameter.}
+and 1. The default is \code{0.8}. See the package vignette for more information
+on the choice of the \code{rho} parameter.}
 
-\item{lambda}{Numeric. The adjustment model parameter. Typically, setting
-\code{lambda = 0} yields a purely additive model, while \code{lambda = 1} corresponds
-to a proportional model. See the package vignette for more information on
-the choice of the \code{lambda} parameter.}
+\item{lambda}{Numeric. The adjustment model parameter. Typical values include
+\code{lambda = 0}, \code{lambda = 0.5} (the default) and \code{lambda = 1}.See the package
+vignette for more information on the choice of the \code{lambda} parameter.}
 }
 \value{
 A named list containing the benchmarked series is returned.
@@ -62,7 +61,6 @@ reconciliation methods such as the multivariate Denton method.
 }
 \examples{
 \dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
-
 # Example 1: one "standard" contemporaneous constraint: x1+x2+x3 = z
 
 x1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
