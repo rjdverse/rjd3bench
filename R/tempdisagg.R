@@ -16,7 +16,7 @@ NULL
 #' @param indicators One or more high-frequency indicator series used in the temporal disaggregation.
 #' If `NULL` (the default), no indicator is used. When provided, the argument must be a `"ts"` object or a list of `"ts"` objects.
 #' @param model A character string specifying the model of the error term at the disaggregated level.
-#' The options are: `"Ar1"` (Chow Lin), `"Rw"` (Fernandez), and `"RwAr1"` (Litterman).
+#' The options are: `"Ar1"` (Chow Lin, the default), `"Rw"` (Fernandez), and `"RwAr1"` (Litterman).
 #' @param freq An integer giving the annual frequency of the disaggregated series.
 #' This argument is ignored when one or more indicator series is provided.
 #' @param average Boolean. Indicates whether an average conversion should be considered. The default is `FALSE`, corresponding to additive conversion.
@@ -26,14 +26,18 @@ NULL
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
 #' The evaluation range is `[rho.truncated, 1[`.
 #' @param zeroinitialization Boolean. If `TRUE`, the initial values of the autoregressive model are set to zero. The default is `FALSE`.
-#' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`.
+#' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`. Other options are: `"Diffuse"` and `"Augmented"`.
 #' @param diffuse.regressors Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
 #' @param nbcsts An integer specifying the number of backcast periods.
 #' This argument is ignored when one or more indicator series is provided.
 #' @param nfcsts An integer specifying the number of forecast periods.
 #' This argument is ignored when one or more indicator series is provided.
 #'
-#' @return An object of class `"JD3_TEMPDISAGG_RSLTS"` containing the results of the temporal disaggregation procedure.
+#' @return An object of class "JD3_TEMPDISAGG_RSLTS" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients;
+#' * `estimation` `[[2]]` disaggregated Time-Series and standard deviation, regression effects, smoothing part, parameter and residuals;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
 #'
@@ -183,7 +187,7 @@ temporal_disaggregation <- function(
 #' @param startoffset The number of initial observations in the indicator series that precede the start of the low-frequency series.
 #' The value must be either 0 or a positive integer (default is 0). This argument is ignored when no indicator is provided.
 #' @param model A character string specifying the model of the error term at the disaggregated level.
-#' The options are: `"Ar1"` (Chow Lin), `"Rw"` (Fernandez), and `"RwAr1"` (Litterman).
+#' The options are: `"Ar1"` (Chow Lin, the default), `"Rw"` (Fernandez), and `"RwAr1"` (Litterman).
 #' @param freqratio An integer specifying the frequency ratio between the disaggregated series and the low-frequency series.
 #' This argument is mandatory and must be a positive integer.
 #' @param average Boolean. Indicates whether an average conversion should be considered. The default is `FALSE`, corresponding to additive conversion.
@@ -193,14 +197,18 @@ temporal_disaggregation <- function(
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
 #' The evaluation range is `[rho.truncated, 1[`.
 #' @param zeroinitialization Boolean. If `TRUE`, the initial values of the autoregressive model are set to zero. The default is `FALSE`.
-#' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`.
+#' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`. Other options are: `"Diffuse"` and `"Augmented"`.
 #' @param diffuse.regressors Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
 #' @param nbcsts An integer specifying the number of backcast periods.
 #' This argument is ignored when one or more indicator series is provided.
 #' @param nfcsts An integer specifying the number of forecast periods.
 #' This argument is ignored when one or more indicator series is provided.
 #'
-#' @return An object of class `"JD3_TEMPDISAGGRAW_RSLTS"` containing the results of the temporal disaggregation procedure.
+#' @return An object of class "JD3_TEMPDISAGGRAW_RSLTS" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients;
+#' * `estimation` `[[2]]` disaggregated values and standard deviation, regression effects, smoothing part, parameter and residuals;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
 #'
@@ -350,7 +358,7 @@ temporal_disaggregation_raw <- function(
 #' @param indicators One or more high-frequency indicator series used in the temporal interpolation.
 #' If `NULL` (the default), no indicator is used. When provided, the argument must be a `"ts"` object or a list of `"ts"` objects.
 #' @param model A character string specifying the model of the error term at the interpolated level.
-#' The options are: `"Ar1"` (Chow Lin), `"Rw"` (Fernandez), and `"RwAr1"` (Litterman).
+#' The options are: `"Ar1"` (Chow Lin, the default), `"Rw"` (Fernandez), and `"RwAr1"` (Litterman).
 #' @param freq An integer giving the annual frequency of the interpolated series.
 #' This argument is ignored when one or more indicator series is provided.
 #' @param obsposition An integer specifying the position of the low-frequency
@@ -365,14 +373,18 @@ temporal_disaggregation_raw <- function(
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
 #' The evaluation range is `[rho.truncated, 1[`.
 #' @param zeroinitialization Boolean. If `TRUE`, the initial values of the autoregressive model are set to zero. The default is `FALSE`.
-#' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`.
+#' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`. Other options are: `"Diffuse"` and `"Augmented"`.
 #' @param diffuse.regressors Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
 #' @param nbcsts An integer specifying the number of backcast periods.
 #' This argument is ignored when one or more indicator series is provided.
 #' @param nfcsts An integer specifying the number of forecast periods.
 #' This argument is ignored when one or more indicator series is provided.
 #'
-#' @return An object of class "JD3_INTERP_RSLTS" containing the results of the temporal interpolation procedure.
+#' @return An object of class "JD3_INTERP_RSLTS" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients;
+#' * `estimation` `[[2]]` interpolated Time-Series and standard deviation, regression effects and smoothing part, parameter and residuals;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
 #'
@@ -526,7 +538,7 @@ temporal_interpolation <- function(
 #' @param startoffset The number of initial observations in the indicator series that precede the start of the low-frequency series.
 #' The value must be either 0 or a positive integer (default is 0). This argument is ignored when no indicator is provided.
 #' @param model A character string specifying the model of the error term at the disaggregated level.
-#' The options are: `"Ar1"` (Chow Lin), `"Rw"` (Fernandez), and `"RwAr1"` (Litterman).
+#' The options are: `"Ar1"` (Chow Lin, the default), `"Rw"` (Fernandez), and `"RwAr1"` (Litterman).
 #' @param freqratio An integer specifying the frequency ratio between the interpolated series and the low-frequency series.
 #' This argument is mandatory and must be a positive integer.
 #' @param obsposition An integer specifying the position of the low-frequency
@@ -541,14 +553,18 @@ temporal_interpolation <- function(
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
 #' The evaluation range is `[rho.truncated, 1[`.
 #' @param zeroinitialization Boolean. If `TRUE`, the initial values of the autoregressive model are set to zero. The default is `FALSE`.
-#' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`.
+#' @param diffuse.algorithm A character string specifying the algorithm used for diffuse initialization. The default is `"SqrtDiffuse"`. Other options are: `"Diffuse"` and `"Augmented"`.
 #' @param diffuse.regressors Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
 #' @param nbcsts An integer specifying the number of backcast periods.
 #' This argument is ignored when one or more indicator series is provided.
 #' @param nfcsts An integer specifying the number of forecast periods.
 #' This argument is ignored when one or more indicator series is provided.
 #'
-#' @return An object of class "JD3_INTERPRAW_RSLTS" containing the results of the temporal interpolation procedure.
+#' @return An object of class "JD3_INTERPRAW_RSLTS" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients;
+#' * `estimation` `[[2]]` interpolated values and standard deviation, regression effects, smoothing part, parameter and residuals;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
 #'
@@ -708,7 +724,7 @@ temporal_interpolation_raw <- function(
 #'
 #' @param series A low-frequency time series to be disaggregated or interpolated. It must be a `"ts"` object.
 #' @param indicator A high-frequency indicator series. It must be a `"ts"` object.
-#' @param conversion A character string specifying the conversion mode, typically `"Sum"` or `"Average"` for disaggregation. The default is `"Sum"`.
+#' @param conversion A character string specifying the conversion mode, typically `"Sum"`(the default) or `"Average"`. Other options are: `"Last"`, `"First"` and `"UserDefined"`.
 #' @param conversion.obsposition An integer specifying the position of the low-frequency observations within the interpolated series (e.g. the 7th month of the year).
 #' This argument is used only for interpolation when `conversion = "UserDefined"`.
 #' @param rho A numeric value giving the (initial) value of the autoregressive parameter.
@@ -716,7 +732,11 @@ temporal_interpolation_raw <- function(
 #' @param rho.truncated A numeric value defining the lower bound of the admissible range for `rho`.
 #' The evaluation range is `[rho.truncated, 1[`.
 #'
-#' @return An object of class "JD3_TEMPDISAGGI_RSLTS" containing the results of the temporal disaggregation or interpolation procedure.
+#' @return An object of class "JD3_TEMPDISAGGI_RSLTS" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients;
+#' * `estimation` `[[2]]` disaggregated Time-Series and parameter;
+#' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @references  Bournay J., Laroque G. (1979). Reflexions sur la methode
 #'   d'elaboration des comptes trimestriels. Annales de l'Insee, n. 36, pp.3-30.
