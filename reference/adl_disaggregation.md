@@ -59,7 +59,7 @@ adl_disaggregation(
 - phi.truncated:
 
   A numeric value defining the lower bound of the admissible range for
-  `phi`. The evaluation range is `[phi.truncated, 1]`.
+  `phi`. The evaluation range is `[phi.truncated, 1[`.
 
 - xar:
 
@@ -82,10 +82,10 @@ returned invisibly as a list:
 
 - `regression` `[[1]]` regression coefficients;
 
-- `estimation` `[[2]]` disaggregated Time-Series, errors, residuals and
-  other parameters;
+- `estimation` `[[2]]` disaggregated Time-Series and standard deviation,
+  parameter and residuals;
 
-- `likelihood` `[[3]]` a list of test results.
+- `likelihood` `[[3]]` likelihood statistics.
 
 ## References
 

@@ -123,7 +123,7 @@ This argument is used only for <code>"Ar1"</code> and <code>"RwAr1"</code> model
 
 <dt id="arg-rho-truncated">rho.truncated<a class="anchor" aria-label="anchor" href="#arg-rho-truncated"></a></dt>
 <dd><p>A numeric value defining the lower bound of the admissible range for <code>rho</code>.
-The evaluation range is <code>[rho.truncated, 1]</code>.</p></dd>
+The evaluation range is <code>[rho.truncated, 1[</code>.</p></dd>
 
 
 <dt id="arg-zeroinitialization">zeroinitialization<a class="anchor" aria-label="anchor" href="#arg-zeroinitialization"></a></dt>
@@ -152,8 +152,8 @@ This argument is ignored when one or more indicator series is provided.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class "JD3_TEMPDISAGGRAW_RSLTS" is returned. The following are returned
 invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> regression coefficients;</p></li>
-<li><p><code>estimation</code> <code>[[2]]</code> disaggregated values, errors, residuals and other parameters;</p></li>
-<li><p><code>likelihood</code> <code>[[3]]</code> a list of test results.</p></li>
+<li><p><code>estimation</code> <code>[[2]]</code> disaggregated values and standard deviation, regression effects, smoothing part, parameter and residuals;</p></li>
+<li><p><code>likelihood</code> <code>[[3]]</code> likelihood statistics.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
