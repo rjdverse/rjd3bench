@@ -31,7 +31,7 @@ This argument is used only when no preliminary series is provided.}
 
 \item{modified}{Boolean. Specifies whether the modified Denton method (\code{TRUE}) or the unmodified Denton method (\code{FALSE}) is applied. The default is \code{TRUE}.}
 
-\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} or \code{"Average"}. The default is \code{"Sum"}.}
+\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} (the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
 \item{obsposition}{An integer specifying the position of the observations of the low-frequency constraint within the benchmarked series (e.g. the 7th month of the year).
 This argument is used only when \code{conversion = "UserDefined"}.}
@@ -45,7 +45,7 @@ This argument is ignored when a preliminary series is provided.
 (Not yet implemented.)}
 }
 \value{
-A \code{"ts"} object with the benchmarked series
+A \code{"ts"} object with the benchmarked series is returned.
 }
 \description{
 Denton method relies on the principle of movement preservation. There exist a

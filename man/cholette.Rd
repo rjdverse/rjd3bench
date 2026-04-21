@@ -25,16 +25,16 @@ See the package vignette for more information on the choice of the \code{rho} pa
 \item{lambda}{Numeric. The adjustment model parameter. Typical choices include \code{lambda = 1} for proportional benchmarking, \code{lambda = 0} for additive benchmarking, and \code{lambda = 0.5} with \code{rho = 0} for the naive pro-rating method.
 See the package vignette for more information on the choice of the \code{lambda} parameter.}
 
-\item{bias}{Character. Specifies the bias-correction factor. By default, no systematic bias is considered.
+\item{bias}{Character. Specifies the bias-correction factor. By default, no systematic bias is considered. Other options are: "Additive" and "Multiplicative". See vignette for more details.
 See the package vignette for more information on the other alternatives.}
 
-\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} or \code{"Average"}. The default is \code{"Sum"}.}
+\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} (the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
 \item{obsposition}{An integer specifying the position of the observations of the low-frequency constraint within the benchmarked series (e.g. the 7th month of the year).
 This argument is used only when \code{conversion = "UserDefined"}.}
 }
 \value{
-A \code{"ts"} object with the benchmarked series
+A \code{"ts"} object with the benchmarked series is returned.
 }
 \description{
 Cholette method is based on a benchmarking methodology developed at

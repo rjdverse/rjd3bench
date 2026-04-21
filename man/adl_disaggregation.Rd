@@ -35,13 +35,19 @@ adl_disaggregation(
 \item{phi.truncated}{A numeric value defining the lower bound of the admissible range for \code{phi}.
 The evaluation range is \verb{[phi.truncated, 1[}.}
 
-\item{xar}{A character string specifying the constraints imposed on the coefficients of the lagged regression variables. The default is \code{"FREE"}, which indicates that no constraints are applied.
+\item{xar}{A character string specifying the constraints imposed on the coefficients of the lagged regression variables. The default is \code{"FREE"}, which indicates that no constraints are applied. Other options are: \code{"SAME"}and \code{"NONE"}.
 For additional information, see the package vignette.}
 
 \item{diffuse}{Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (\code{TRUE}) or as fixed unknown (\code{FALSE}, the default).}
 }
 \value{
-An object of class \code{"JD3_ADLDISAGG_RSLTS"} containing the results of the temporal disaggregation procedure.
+An object of class "JD3_ADLDISAGG_RSLTS" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients;
+\item \code{estimation} \verb{[[2]]} disaggregated Time-Series and standard deviation, parameter and residuals;
+\item \code{likelihood} \verb{[[3]]} likelihood statistics.
+}
 }
 \description{
 Perform temporal disaggregation of low-frequency to high-frequency time
