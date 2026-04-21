@@ -43,21 +43,30 @@ multivariatecholette(
 
 - ccvector:
 
-  A character vector defining each contemporaneous constraints. Each
-  element must be expressed in the form `"z = [w1*]x1 + ... + [wn*]xn"`
-  or `"c = [w1*]x1 + ... + [wn*]xn"`, where `"z"` denotes the name of a
-  high-frequency contemporaneous constraint, `wj` are optional numeric
-  weights, `"x1, ..., xn"` are the names of the high-frequency
-  preliminary series, and `c` is a constant. The `"+"` operator may be
-  replaced by `"-"`. All series names must correspond to elements in
-  `xlist`. A series appearing on the left‑hand side cannot appear on the
-  right‑hand side of any other constraint, since left‑hand side
-  quantities are fixed while right‑hand side are adjusted to satisfy the
-  equality. Contemporaneous constraints must also be consistent with the
-  temporal constraints (see the consistency check in the examples). The
-  default is `NULL`, indicating that no contemporaneous constraints are
-  imposed, which is equivalent to applying the univariate Cholette
-  method to each of the preliminary series separately.
+  NULL (default) or a character vector defining each contemporaneous
+  constraints. If NULL, no contemporaneous constraint is considered.This
+  is equivalent to applying the univariate Cholette method to each of
+  the preliminary series separately. Otherwise, each element of the
+  vector must be written in the form \\z=w_1 x_1+\ldots+w_n x_n\\ or
+  \\c=w_1 x_1+\ldots+w_n x_n\\ where:
+
+  - \\z\\ is the name of a high-frequency contemporaneous constraint,
+
+  - \\(w_1,\ldots,w_n)\\ are optional numeric weights,
+
+  - \\(x_1,\ldots,x_n)\\ are the names of the high-frequency preliminary
+    series and
+
+  - \\c\\ is a constant.
+
+  The \\+\\ operator can be replaced by \\-\\. The names of the
+  contemporaneous constraint(s) and the preliminary series are the one
+  given in the `xlist` argument.
+
+  **Important**: Any series placed on the left-hand side of a constraint
+  cannot appear on the right-hand side of any other constraint. This is
+  because quantities on the left-hand side are fixed, while those on the
+  right-hand side are adjusted to satisfy the equality.
 
 - rho:
 
@@ -74,7 +83,7 @@ multivariatecholette(
 
 ## Value
 
-A named list containing the benchmarked series
+A named list containing the benchmarked series is returned.
 
 ## See also
 

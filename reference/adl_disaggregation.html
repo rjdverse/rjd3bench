@@ -90,11 +90,11 @@ series using an Autoregressive Distributed Lag regression model.</p>
 
 <dt id="arg-phi-truncated">phi.truncated<a class="anchor" aria-label="anchor" href="#arg-phi-truncated"></a></dt>
 <dd><p>A numeric value defining the lower bound of the admissible range for <code>phi</code>.
-The evaluation range is <code>[phi.truncated, 1[</code>.</p></dd>
+The evaluation range is <code>[phi.truncated, 1]</code>.</p></dd>
 
 
 <dt id="arg-xar">xar<a class="anchor" aria-label="anchor" href="#arg-xar"></a></dt>
-<dd><p>A character string specifying the constraints imposed on the coefficients of the lagged regression variables. The default is <code>"FREE"</code>, which indicates that no constraints are applied.
+<dd><p>A character string specifying the constraints imposed on the coefficients of the lagged regression variables. The default is <code>"FREE"</code>, which indicates that no constraints are applied. Other options are: <code>"SAME"</code>and <code>"NONE"</code>.
 For additional information, see the package vignette.</p></dd>
 
 
@@ -104,8 +104,11 @@ For additional information, see the package vignette.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class <code>"JD3_ADLDISAGG_RSLTS"</code> containing the results of the temporal disaggregation procedure.</p>
-    </div>
+    <p>An object of class "JD3_ADLDISAGG_RSLTS" is returned. The following are returned
+invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> regression coefficients;</p></li>
+<li><p><code>estimation</code> <code>[[2]]</code> disaggregated Time-Series, errors, residuals and other parameters;</p></li>
+<li><p><code>likelihood</code> <code>[[3]]</code> a list of test results.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Proietti, P. (2005). Temporal Disaggregation by State Space Methods: Dynamic Regression Methods Revisited. Working papers and Studies, European Commission, ISSN 1725-4825.</p>

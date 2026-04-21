@@ -41,7 +41,8 @@ cubicspline(
 - conversion:
 
   A character string specifying the conversion mode, typically `"Sum"`
-  or `"Average"`. The default is `"Sum"`.
+  (the default) or `"Average"`. Other options are: `"Last"`, `"First"`
+  and `"UserDefined"`.
 
 - obsposition:
 
@@ -52,7 +53,7 @@ cubicspline(
 
 ## Value
 
-A `"ts"` object with the benchmarked series
+A `"ts"` object with the benchmarked series is returned.
 
 ## See also
 

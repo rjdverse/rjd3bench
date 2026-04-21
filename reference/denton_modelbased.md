@@ -44,7 +44,8 @@ denton_modelbased(
 - conversion:
 
   A character string specifying the conversion mode, typically `"Sum"`
-  or `"Average"`. The default is `"Sum"`.
+  (the default) or `"Average"`. Other options are: `"Last"`, `"First"`
+  and `"UserDefined"`.
 
 - conversion.obsposition:
 
@@ -70,8 +71,13 @@ denton_modelbased(
 
 ## Value
 
-an object of class 'JD3_MBDENTON_RSLTS' containing the results of the
-temporal disaggregation or interpolation procedure.
+An object of class "JD3_MBDENTON_RSLTS" is returned. The following are
+returned invisibly as a list:
+
+- `estimation` `[[1]]` disaggregated Time-Series, BI ratios, residuals
+  and errors;
+
+- `likelihood` `[[2]]` a list of test results.
 
 ## See also
 

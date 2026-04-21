@@ -59,14 +59,15 @@ adl_disaggregation(
 - phi.truncated:
 
   A numeric value defining the lower bound of the admissible range for
-  `phi`. The evaluation range is `[phi.truncated, 1[`.
+  `phi`. The evaluation range is `[phi.truncated, 1]`.
 
 - xar:
 
   A character string specifying the constraints imposed on the
   coefficients of the lagged regression variables. The default is
-  `"FREE"`, which indicates that no constraints are applied. For
-  additional information, see the package vignette.
+  `"FREE"`, which indicates that no constraints are applied. Other
+  options are: `"SAME"`and `"NONE"`. For additional information, see the
+  package vignette.
 
 - diffuse:
 
@@ -76,8 +77,15 @@ adl_disaggregation(
 
 ## Value
 
-An object of class `"JD3_ADLDISAGG_RSLTS"` containing the results of the
-temporal disaggregation procedure.
+An object of class "JD3_ADLDISAGG_RSLTS" is returned. The following are
+returned invisibly as a list:
+
+- `regression` `[[1]]` regression coefficients;
+
+- `estimation` `[[2]]` disaggregated Time-Series, errors, residuals and
+  other parameters;
+
+- `likelihood` `[[3]]` a list of test results.
 
 ## References
 

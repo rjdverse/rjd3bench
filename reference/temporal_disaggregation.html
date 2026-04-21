@@ -88,7 +88,7 @@ If <code>NULL</code> (the default), no indicator is used. When provided, the arg
 
 <dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
 <dd><p>A character string specifying the model of the error term at the disaggregated level.
-The options are: <code>"Ar1"</code> (Chow Lin), <code>"Rw"</code> (Fernandez), and <code>"RwAr1"</code> (Litterman).</p></dd>
+The options are: <code>"Ar1"</code> (Chow Lin, the default), <code>"Rw"</code> (Fernandez), and <code>"RwAr1"</code> (Litterman).</p></dd>
 
 
 <dt id="arg-freq">freq<a class="anchor" aria-label="anchor" href="#arg-freq"></a></dt>
@@ -111,7 +111,7 @@ This argument is used only for <code>"Ar1"</code> and <code>"RwAr1"</code> model
 
 <dt id="arg-rho-truncated">rho.truncated<a class="anchor" aria-label="anchor" href="#arg-rho-truncated"></a></dt>
 <dd><p>A numeric value defining the lower bound of the admissible range for <code>rho</code>.
-The evaluation range is <code>[rho.truncated, 1[</code>.</p></dd>
+The evaluation range is <code>[rho.truncated, 1]</code>.</p></dd>
 
 
 <dt id="arg-zeroinitialization">zeroinitialization<a class="anchor" aria-label="anchor" href="#arg-zeroinitialization"></a></dt>
@@ -119,7 +119,7 @@ The evaluation range is <code>[rho.truncated, 1[</code>.</p></dd>
 
 
 <dt id="arg-diffuse-algorithm">diffuse.algorithm<a class="anchor" aria-label="anchor" href="#arg-diffuse-algorithm"></a></dt>
-<dd><p>A character string specifying the algorithm used for diffuse initialization. The default is <code>"SqrtDiffuse"</code>.</p></dd>
+<dd><p>A character string specifying the algorithm used for diffuse initialization. The default is <code>"SqrtDiffuse"</code>. Other options are: <code>"Diffuse"</code> and <code>"Augmented"</code>.</p></dd>
 
 
 <dt id="arg-diffuse-regressors">diffuse.regressors<a class="anchor" aria-label="anchor" href="#arg-diffuse-regressors"></a></dt>
@@ -138,8 +138,11 @@ This argument is ignored when one or more indicator series is provided.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class <code>"JD3_TEMPDISAGG_RSLTS"</code> containing the results of the temporal disaggregation procedure.</p>
-    </div>
+    <p>An object of class "JD3_TEMPDISAGG_RSLTS" is returned. The following are returned
+invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> regression coefficients;</p></li>
+<li><p><code>estimation</code> <code>[[2]]</code> disaggregated Time-Series, errors, residuals and other parameters;</p></li>
+<li><p><code>likelihood</code> <code>[[3]]</code> a list of test results.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="temporal_interpolation.html">temporal_interpolation()</a></code> for interpolation,</p>

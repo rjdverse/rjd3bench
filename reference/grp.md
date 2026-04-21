@@ -33,13 +33,15 @@ grp(
 
 - objective:
 
-  A character string specifying the objective function. For additional
-  information on this, see the package vignette.
+  A character string specifying the objective function. The default is
+  `"Forward"`. Other options are: `"Backward"`, `"Symmetric"` and
+  `"Log"`. For additional information on this, see the package vignette.
 
 - conversion:
 
   A character string specifying the conversion mode, typically `"Sum"`
-  or `"Average"`. The default is `"Sum"`.
+  (the default) or `"Average"`. Other options are: `"Last"`, `"First"`
+  and `"UserDefined"`.
 
 - obsposition:
 
@@ -70,7 +72,7 @@ grp(
 
 ## Value
 
-A `"ts"` object with the benchmarked series
+A `"ts"` object with the benchmarked series is returned.
 
 ## References
 

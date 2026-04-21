@@ -55,8 +55,8 @@ temporal_interpolation(
 - model:
 
   A character string specifying the model of the error term at the
-  interpolated level. The options are: `"Ar1"` (Chow Lin), `"Rw"`
-  (Fernandez), and `"RwAr1"` (Litterman).
+  interpolated level. The options are: `"Ar1"` (Chow Lin, the default),
+  `"Rw"` (Fernandez), and `"RwAr1"` (Litterman).
 
 - freq:
 
@@ -88,7 +88,7 @@ temporal_interpolation(
 - rho.truncated:
 
   A numeric value defining the lower bound of the admissible range for
-  `rho`. The evaluation range is `[rho.truncated, 1[`.
+  `rho`. The evaluation range is `[rho.truncated, 1]`.
 
 - zeroinitialization:
 
@@ -98,7 +98,8 @@ temporal_interpolation(
 - diffuse.algorithm:
 
   A character string specifying the algorithm used for diffuse
-  initialization. The default is `"SqrtDiffuse"`.
+  initialization. The default is `"SqrtDiffuse"`. Other options are:
+  `"Diffuse"` and `"Augmented"`.
 
 - diffuse.regressors:
 
@@ -118,8 +119,15 @@ temporal_interpolation(
 
 ## Value
 
-An object of class "JD3_INTERP_RSLTS" containing the results of the
-temporal interpolation procedure.
+An object of class "JD3_INTERP_RSLTS" is returned. The following are
+returned invisibly as a list:
+
+- `regression` `[[1]]` regression coefficients;
+
+- `estimation` `[[2]]` interpolated Time-Series, errors, residuals and
+  other parameters;
+
+- `likelihood` `[[3]]` a list of test results.
 
 ## See also
 

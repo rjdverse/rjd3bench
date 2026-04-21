@@ -75,7 +75,7 @@ independent variable.</p>
 
 
 <dt id="arg-conversion">conversion<a class="anchor" aria-label="anchor" href="#arg-conversion"></a></dt>
-<dd><p>A character string specifying the conversion mode, typically <code>"Sum"</code> or <code>"Average"</code> for disaggregation. The default is <code>"Sum"</code>.</p></dd>
+<dd><p>A character string specifying the conversion mode, typically <code>"Sum"</code>(the default) or <code>"Average"</code>. Other options are: <code>"Last"</code>, <code>"First"</code> and <code>"UserDefined"</code>.</p></dd>
 
 
 <dt id="arg-conversion-obsposition">conversion.obsposition<a class="anchor" aria-label="anchor" href="#arg-conversion-obsposition"></a></dt>
@@ -93,13 +93,16 @@ This argument is used only for interpolation when <code>conversion = "UserDefine
 
 <dt id="arg-rho-truncated">rho.truncated<a class="anchor" aria-label="anchor" href="#arg-rho-truncated"></a></dt>
 <dd><p>A numeric value defining the lower bound of the admissible range for <code>rho</code>.
-The evaluation range is <code>[rho.truncated, 1[</code>.</p></dd>
+The evaluation range is <code>[rho.truncated, 1]</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class "JD3_TEMPDISAGGI_RSLTS" containing the results of the temporal disaggregation or interpolation procedure.</p>
-    </div>
+    <p>An object of class "JD3_TEMPDISAGGI_RSLTS" is returned. The following are returned
+invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> regression coefficients;</p></li>
+<li><p><code>estimation</code> <code>[[2]]</code> disaggregated Time-Series;</p></li>
+<li><p><code>likelihood</code> <code>[[3]]</code> a list of test results.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Bournay J., Laroque G. (1979). Reflexions sur la methode

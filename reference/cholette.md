@@ -50,13 +50,15 @@ cholette(
 - bias:
 
   Character. Specifies the bias-correction factor. By default, no
-  systematic bias is considered. See the package vignette for more
-  information on the other alternatives.
+  systematic bias is considered. Other options are: "Additive" and
+  "Multiplicative". See vignette for more details. See the package
+  vignette for more information on the other alternatives.
 
 - conversion:
 
   A character string specifying the conversion mode, typically `"Sum"`
-  or `"Average"`. The default is `"Sum"`.
+  (the default) or `"Average"`. Other options are: `"Last"`, `"First"`
+  and `"UserDefined"`.
 
 - obsposition:
 
@@ -67,7 +69,7 @@ cholette(
 
 ## Value
 
-A `"ts"` object with the benchmarked series
+A `"ts"` object with the benchmarked series is returned.
 
 ## References
 

@@ -93,20 +93,12 @@ considered.</p></dd>
 
 
 <dt id="arg-ccvector">ccvector<a class="anchor" aria-label="anchor" href="#arg-ccvector"></a></dt>
-<dd><p>A character vector defining each contemporaneous constraints.
-Each element must be expressed in the form <code>"z = [w1*]x1 + ... + [wn*]xn"</code>
-or <code>"c = [w1*]x1 + ... + [wn*]xn"</code>, where <code>"z"</code> denotes the name of a
-high-frequency contemporaneous constraint, <code>wj</code> are optional numeric
-weights, <code>"x1, ..., xn"</code> are the names of the high-frequency preliminary
-series, and <code>c</code> is a constant. The <code>"+"</code> operator may be replaced by <code>"-"</code>.
-All series names must correspond to elements in <code>xlist</code>. A series appearing
-on the left‑hand side cannot appear on the right‑hand side of any other
-constraint, since left‑hand side quantities are fixed while right‑hand side
-are adjusted to satisfy the equality. Contemporaneous constraints must also
-be consistent with the temporal constraints (see the consistency check in
-the examples). The default is <code>NULL</code>, indicating that no contemporaneous
-constraints are imposed, which is equivalent to applying the univariate
-Cholette method to each of the preliminary series separately.</p></dd>
+<dd><p>NULL (default) or a character vector defining each contemporaneous constraints. If NULL, no contemporaneous constraint is considered.This is equivalent to applying the univariate Cholette method to each of the preliminary series separately. Otherwise, each element of the vector must be written in the form \(z=w_1 x_1+\ldots+w_n x_n\) or \(c=w_1 x_1+\ldots+w_n x_n\) where:</p><ul><li><p>\(z\) is the name of a high-frequency contemporaneous constraint,</p></li>
+<li><p>\((w_1,\ldots,w_n)\) are optional numeric weights,</p></li>
+<li><p>\((x_1,\ldots,x_n)\) are the names of the high-frequency preliminary series and</p></li>
+<li><p>\(c\) is a constant.</p></li>
+</ul><p>The \(+\) operator can be replaced by \(-\). The names of the contemporaneous constraint(s) and the preliminary series are the one given in the <code>xlist</code> argument.</p>
+<p><strong>Important</strong>: Any series placed on the left-hand side of a constraint cannot appear on the right-hand side of any other constraint. This is because quantities on the left-hand side are fixed, while those on the right-hand side are adjusted to satisfy the equality.</p></dd>
 
 
 <dt id="arg-rho">rho<a class="anchor" aria-label="anchor" href="#arg-rho"></a></dt>
@@ -124,7 +116,7 @@ the choice of the <code>lambda</code> parameter.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A named list containing the benchmarked series</p>
+    <p>A named list containing the benchmarked series is returned.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

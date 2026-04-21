@@ -33,8 +33,9 @@ temporaldisaggregationI(
 
 - conversion:
 
-  A character string specifying the conversion mode, typically `"Sum"`
-  or `"Average"` for disaggregation. The default is `"Sum"`.
+  A character string specifying the conversion mode, typically
+  `"Sum"`(the default) or `"Average"`. Other options are: `"Last"`,
+  `"First"` and `"UserDefined"`.
 
 - conversion.obsposition:
 
@@ -56,12 +57,18 @@ temporaldisaggregationI(
 - rho.truncated:
 
   A numeric value defining the lower bound of the admissible range for
-  `rho`. The evaluation range is `[rho.truncated, 1[`.
+  `rho`. The evaluation range is `[rho.truncated, 1]`.
 
 ## Value
 
-An object of class "JD3_TEMPDISAGGI_RSLTS" containing the results of the
-temporal disaggregation or interpolation procedure.
+An object of class "JD3_TEMPDISAGGI_RSLTS" is returned. The following
+are returned invisibly as a list:
+
+- `regression` `[[1]]` regression coefficients;
+
+- `estimation` `[[2]]` disaggregated Time-Series;
+
+- `likelihood` `[[3]]` a list of test results.
 
 ## References
 

@@ -76,11 +76,11 @@ problem.</p>
 
 
 <dt id="arg-objective">objective<a class="anchor" aria-label="anchor" href="#arg-objective"></a></dt>
-<dd><p>A character string specifying the objective function. For additional information on this, see the package vignette.</p></dd>
+<dd><p>A character string specifying the objective function. The default is <code>"Forward"</code>. Other options are: <code>"Backward"</code>, <code>"Symmetric"</code> and <code>"Log"</code>. For additional information on this, see the package vignette.</p></dd>
 
 
 <dt id="arg-conversion">conversion<a class="anchor" aria-label="anchor" href="#arg-conversion"></a></dt>
-<dd><p>A character string specifying the conversion mode, typically <code>"Sum"</code> or <code>"Average"</code>. The default is <code>"Sum"</code>.</p></dd>
+<dd><p>A character string specifying the conversion mode, typically <code>"Sum"</code> (the default) or <code>"Average"</code>. Other options are: <code>"Last"</code>, <code>"First"</code> and <code>"UserDefined"</code>.</p></dd>
 
 
 <dt id="arg-obsposition">obsposition<a class="anchor" aria-label="anchor" href="#arg-obsposition"></a></dt>
@@ -91,8 +91,7 @@ This argument is used only when <code>conversion = "UserDefined"</code>.</p></dd
 <dt id="arg-eps">eps<a class="anchor" aria-label="anchor" href="#arg-eps"></a></dt>
 <dd><p>A numeric value specifying the convergence tolerance. The BFGS
 algorithm proceeds until the reduction in the objective function is within
-this tolerance (default is <code>1e-12</code>) or until the maximum number of
-iterations is reached.</p></dd>
+this tolerance (default is <code>1e-12</code>) or until the maximum number of iterations is reached.</p></dd>
 
 
 <dt id="arg-iter">iter<a class="anchor" aria-label="anchor" href="#arg-iter"></a></dt>
@@ -110,7 +109,7 @@ quarterly series with annual constraint and <code>conversion = "Sum"</code>).</p
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>"ts"</code> object with the benchmarked series</p>
+    <p>A <code>"ts"</code> object with the benchmarked series is returned.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

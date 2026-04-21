@@ -59,8 +59,9 @@ denton_raw(
 
 - conversion:
 
-  character string specifying the conversion mode, typically `"Sum"` or
-  `"Average"`. The default is `"Sum"`.
+  A character string specifying the conversion mode, typically `"Sum"`
+  (the default) or `"Average"`. Other options are: `"Last"`, `"First"`
+  and `"UserDefined"`.
 
 - obsposition:
 
@@ -88,7 +89,7 @@ denton_raw(
 
 ## Value
 
-A numeric vector with the benchmarked series.
+A numeric vector with the benchmarked series is returned.
 
 ## See also
 
