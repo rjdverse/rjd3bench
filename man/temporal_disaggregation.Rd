@@ -47,7 +47,7 @@ This argument is used only for \code{"Ar1"} and \code{"RwAr1"} models.}
 \item{rho.fixed}{Boolean. Specifies whether the supplied value of \code{rho} is fixed. The default is \code{FALSE}, which indicates that \code{rho} is estimated.}
 
 \item{rho.truncated}{A numeric value defining the lower bound of the admissible range for \code{rho}.
-The evaluation range is \verb{[rho.truncated, 1]}.}
+The evaluation range is \verb{[rho.truncated, 1[}.}
 
 \item{zeroinitialization}{Boolean. If \code{TRUE}, the initial values of the autoregressive model are set to zero. The default is \code{FALSE}.}
 
@@ -66,8 +66,8 @@ An object of class "JD3_TEMPDISAGG_RSLTS" is returned. The following are returne
 invisibly as a list:
 \itemize{
 \item \code{regression} \verb{[[1]]} regression coefficients;
-\item \code{estimation} \verb{[[2]]} disaggregated Time-Series, errors, residuals and other parameters;
-\item \code{likelihood} \verb{[[3]]} a list of test results.
+\item \code{estimation} \verb{[[2]]} disaggregated Time-Series and standard deviation, regression effects, smoothing part, parameter and residuals;
+\item \code{likelihood} \verb{[[3]]} likelihood statistics.
 }
 }
 \description{
