@@ -128,6 +128,7 @@ temporal_disaggregation <- function(
 
 
     # Build the S3 result
+    browser()
     bcov <- rjd3toolkit::.proc_matrix(jrslt, "covar")
     vars <- rjd3toolkit::.proc_vector(jrslt, "regnames")
     coef <- rjd3toolkit::.proc_vector(jrslt, "coeff")
@@ -886,7 +887,7 @@ multivariatechowlin <- function(series,
                     var,
                     jvar_mat)
 
-    .jd2r_lhmap <- function(result, method, key, key.class = c("String"), value.class = c("TsData", "Matrix", "DoubleSeq")) {
+    .jd2r_lhmap <- function(result, method, key, key.class = c("String"), value.class = c("TsData", "Matrix", "DoubleSeq", "List<String>")) {
         key.class <- match.arg(key.class)
         value.class <- match.arg(value.class)
 
@@ -903,11 +904,15 @@ multivariatechowlin <- function(series,
             out <- rjd3toolkit::.jd2r_matrix(jobject)
         } else if (value.class == "DoubleSeq") {
             out <- .jcall(jobject, "[D", "toArray")
+        } else if (value.class == "List<String>") {
+            jarr <- .jcall(jobject, "[Ljava/lang/Object;", "toArray")
+            out <- sapply(jarr, .jcall, "S", "toString")
         }
         return(out)
     }
 
-    disagg <- edisagg <- regeffect <- reg <- model <- list()
+    disagg <- edisagg <- regeffect <- reg <- regnames <- list()
+    model <- vector("list", length = n) |> setNames(snames)
 
     for (i in seq_along(series)) {
         sname <- snames[i]
@@ -936,11 +941,16 @@ multivariatechowlin <- function(series,
                                 "getCoefficientsVariance",
                                 sname,
                                 value.class = "DoubleSeq")
+
+        reg_names <- .jd2r_lhmap(jrslt,
+                                 "getRegressorsNames",
+                                 sname,
+                                 value.class = "List<String>")
+
         if(!is.null(coef)) {
             se <- sqrt(coef_var)
             t <- coef / se
-            model[[sname]] <- data.frame(coef, se, t)
-            # TODO: add rownames to model!
+            model[[sname]] <- data.frame(coef, se, t, row.names = reg_names)
         }
     }
 
@@ -948,15 +958,16 @@ multivariatechowlin <- function(series,
         type = ifelse(rhos == 1, "Rw", "Ar1"),
         conversion = "Sum",
         model = model
-        # bcov -> TODO
     )
+
     estimation <- list(
         disagg = disagg,
         edisagg = edisagg,
         regeffect = regeffect,
-        # smoothingpart -> TODO
+        smoothingpart =
+            rjd3toolkit::.jd3_object(jrslt,"MTD", TRUE) |>
+            rjd3toolkit::result("smoothingpart"),
         parameters = rhos
-        # eparameter -> TODO
         # residuals -> TODO
     )
 
