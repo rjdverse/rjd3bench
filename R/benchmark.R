@@ -403,12 +403,11 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'
 #' \strong{Important}: Any series placed on the left-hand side of a constraint cannot appear on the right-hand side of any other constraint. This is because quantities on the left-hand side are fixed, while those on the right-hand side are adjusted to satisfy the equality.
 #' @param rho Numeric. The smoothing parameter whose value must lie between 0
-#'   and 1. See the package vignette for more information on the choice of the
-#'   `rho` parameter.
-#' @param lambda Numeric. The adjustment model parameter. Typically, setting
-#'   `lambda = 0` yields a purely additive model, while `lambda = 1` corresponds
-#'   to a proportional model. See the package vignette for more information on
-#'   the choice of the `lambda` parameter.
+#'   and 1. The default is `0.8`. See the package vignette for more information
+#'   on the choice of the `rho` parameter.
+#' @param lambda Numeric. The adjustment model parameter. Typical values include
+#'   `lambda = 0`, `lambda = 0.5` (the default) and `lambda = 1`.See the package
+#'   vignette for more information on the choice of the `lambda` parameter.
 #'
 #' @return A named list containing the benchmarked series is returned.
 #'
@@ -419,7 +418,6 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
 #' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
-#'
 #' # Example 1: one "standard" contemporaneous constraint: x1+x2+x3 = z
 #'
 #' x1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
@@ -481,7 +479,7 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'
 #' multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc)
 #'
-multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 0.8, lambda = 1.0) {
+multivariatecholette <- function(xlist, tcvector = NULL, ccvector = NULL, rho = 0.8, lambda = 0.5) {
     if (!is.list(xlist) || length(xlist) < 3L) {
         stop("incorrect argument, first argument should be a list of at least 3 time series")
     }
