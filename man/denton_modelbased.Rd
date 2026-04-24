@@ -2,8 +2,7 @@
 % Please edit documentation in R/mbdenton.R
 \name{denton_modelbased}
 \alias{denton_modelbased}
-\title{Temporal disaggregation & interpolation of a time series by
-  model-based Denton proportional method}
+\title{Temporal Disaggregation and Interpolation of a Time Series using the Model-Based Denton Proportional Method}
 \usage{
 denton_modelbased(
   series,
@@ -16,45 +15,47 @@ denton_modelbased(
 )
 }
 \arguments{
-\item{series}{Aggregation constraint. Mandatory. It must be either an object
-of class ts or a numeric vector.}
+\item{series}{A low-frequency time series to be disaggregated or interpolated. It must be either a \code{"ts"} object or a numeric vector.}
 
-\item{indicator}{High-frequency indicator. Mandatory. It must be of same
-class as series}
+\item{indicator}{A high-frequency indicator series. It must be of the same class as \code{series}.}
 
-\item{differencing}{Not implemented yet. Keep it equals to 1 (Denton PFD
-method).}
+\item{differencing}{Not yet implemented. This should be left equal to \code{1} (corresponding to the Denton PFD method).}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by
-default.}
+\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} (the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
-\item{conversion.obsposition}{Position of the observation in the aggregated
-period (only used with "UserDefined" conversion)}
+\item{conversion.obsposition}{An integer specifying the position of the low-frequency observations within the interpolated series (e.g. the 7th month of the year).
+This argument is used only for interpolation when \code{conversion = "UserDefined"}.}
 
-\item{outliers}{a list of structured definition of the outlier periods and
-their intensity. The period must be submitted first in the format
-YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
-equal sign and the intensity of the outlier, defined as the relative value
-of the 'innovation variances' (1= normal situation)}
+\item{outliers}{A list specifying the outlier periods and their magnitude.
+Each element must be provided as \code{"YYYY-MM-DD" = value}, where the date
+identifies the period. The numeric value specifies the intensity of the
+outlier and corresponds to the relative value of the innovation variance
+(with \code{1} indicating the normal situation).}
 
-\item{fixedBIratios}{a list of structured definition of the periods where the
-BI ratios must be fixed. The period must be submitted first in the format
-YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
-equal sign and the value of the BI ratio.}
+\item{fixedBIratios}{A list specifying the periods for which the
+Benchmark‑to‑Indicator (BI) ratios should be fixed. Each element must be
+provided as \code{"YYYY-MM-DD" = value}, where the date identifies the period
+and the numeric value specifies the fixed BI ratio.}
 }
 \value{
-an object of class 'JD3MBDenton'
+An object of class "JD3_MBDENTON_RSLTS" is returned. The following are returned invisibly as a list:
+\itemize{
+\item \code{estimation} \verb{[[1]]} disaggregated Time-Series, BI ratios and standard deviations;
+\item \code{likelihood} \verb{[[2]]} likelihood statistics.
+}
 }
 \description{
-Denton proportional method can be expressed as a statistical model in a State
-space representation (see documentation for the definition of states). This
-approach is interesting as it allows more flexibility in the model such as
-the inclusion of outliers (level shift in the Benchmark to Indicator ratio)
-that could otherwise induce unintended wave effects with standard Denton
-method. Outliers and their intensity are defined by changing the value of the
-'innovation variances'.
+The Denton proportional first difference (PFD) method can be expressed as a
+statistical model in a state-space representation. This formulation provides
+increased flexibility, including the ability to incorporate outliers, which
+correspond to level shifts in the Benchmark‑to‑Indicator (BI) ratio, that
+would otherwise induce unintended wave effects under the standard Denton PFD
+method. In addition, the approach allows the disaggregated series to be
+constrained (or 'frozen') at specific periods or prior to a given date by
+fixing the corresponding high‑frequency BI ratios.
 }
 \examples{
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 # Retail data, monthly indicator
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
@@ -67,20 +68,25 @@ Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 
 td1 <- denton_modelbased(Y, x)
-td2 <- denton_modelbased(Y, x, outliers = list("2020-04-01" = 100), fixedBIratios = list("2021-04-01" = 39.0))
-
+td2 <- denton_modelbased(Y, x, outliers = list("2020-04-01" = 100),
+                         fixedBIratios = list("2021-04-01" = 39.0))
 bi1 <- td1$estimation$biratio
 bi2 <- td2$estimation$biratio
 y1 <- td1$estimation$disagg
 y2 <- td2$estimation$disagg
-\dontrun{
-ts.plot(bi1,bi2,gpars = list(col = c("red","blue")))
-ts.plot(y1,y2,gpars = list(col = c("red","blue")))
-}
 
+stats::ts.plot(bi2, bi1, main = "BI ratios",
+               gpars = list(col = c("red", "black")))
+graphics::legend("topright", lty = 1, col = c("black", "red"),
+                 legend = c("td1", "td2"))
+stats::ts.plot(y2, y1, main = "Disaggregated series",
+               gpars = list(col = c("red", "black")))
+graphics::legend("topleft", lty = 1, col = c("black", "red"),
+                 legend = c("td1", "td2"))
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

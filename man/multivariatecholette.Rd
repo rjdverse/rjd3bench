@@ -2,58 +2,51 @@
 % Please edit documentation in R/benchmark.R
 \name{multivariatecholette}
 \alias{multivariatecholette}
-\title{Reconciliation by means of the Multivariate Cholette method}
+\title{Reconciliation by means of the Multivariate Cholette Method}
 \usage{
 multivariatecholette(
   xlist,
   tcvector = NULL,
   ccvector = NULL,
-  rho = 1,
-  lambda = 0.8
+  rho = 0.8,
+  lambda = 0.5
 )
 }
 \arguments{
-\item{xlist}{a named list of ts objects including all input. Each element of
-the list should correspond to one input series (a preliminary series, a
-low-frequency series corresponding to one of the temporal aggregation
-constraints or a high-frequency series corresponding to one of the
-contemporaneous constraints).}
+\item{xlist}{A named list of \code{ts} objects containing all input. Each element
+should correspond to one input series: a preliminary series, a
+low-frequency series representing a temporal aggregation constraint, or a
+high-frequency series representing a contemporaneous constraint.}
 
-\item{tcvector}{a character vector defining each temporal constraints. Each
-element of the vector must be written as "Y = sum(x)" where "Y" is the name
-of a low frequency temporal constraint and "x" is the name of a
-high-frequency preliminary series. The names are the one given in the
-'xlist' argument. Default is NULL, which means that no temporal constraint
-is considered.}
+\item{tcvector}{A character vector defining the temporal constraints. Each
+element must be written in the form \code{"Y = sum(x)"}, where \code{"Y"} is the name
+of a low-frequency temporal constraint and \code{"x"} is the name of a
+high-frequency preliminary series. The names must match those provided in
+\code{xlist}. The default is \code{NULL}, indicating that no temporal constraints are
+considered.}
 
-\item{ccvector}{a character vector defining each contemporaneous constraints.
-Each element of the vector must be written in the form
-"z=[w1*]x1+...+[wn*]xn" or "c=[w1*]x1+...+[wn*]xn" where "z" is the name of
-a high frequency contemporaneous constraint, wj are optional numeric
-weights, "x1,...,xn" are the names of the high-frequency preliminary series
-and c is a constant. The "+" operator can be replaced by "-". The names of
-the contemporaneous constraint(s) and the preliminary series are the one
-given in the 'xlist' argument. Note that any series put on the left
-hand side cannot appear on the right hand side of any other constraint. This
-is because left hand side quantities are fixed while right hand side
-quantities are adjusted so the equality holds. Default is NULL, which means
-that no contemporaneous constraint is considered. This is equivalent to
-applying the univariate Cholette method to each of the preliminary series
-separately.}
+\item{ccvector}{NULL (default) or a character vector defining each contemporaneous constraints. If NULL, no contemporaneous constraint is considered.This is equivalent to applying the univariate Cholette method to each of the preliminary series separately. Otherwise, each element of the vector must be written in the form \eqn{z=w_1 x_1+\ldots+w_n x_n} or \eqn{c=w_1 x_1+\ldots+w_n x_n} where:
+\itemize{
+\item \eqn{z} is the name of a high-frequency contemporaneous constraint,
+\item \eqn{(w_1,\ldots,w_n)} are optional numeric weights,
+\item \eqn{(x_1,\ldots,x_n)} are the names of the high-frequency preliminary series and
+\item \eqn{c} is a constant.
+}
 
-\item{rho}{Numeric. Smoothing parameter whose value should be between 0 and
-1. See vignette for more information on the choice of the rho parameter.}
+The \eqn{+} operator can be replaced by \eqn{-}. The names of the contemporaneous constraint(s) and the preliminary series are the one given in the \code{xlist} argument.
 
-\item{lambda}{Numeric. Adjustment model parameter. Typically, lambda = 0 for
-additive benchmarking and lambda close to 1 to approach proportional
-benchmarking. Setting lambda = 1 is also an option but it should be used
-with caution as, in the case of a multivariate model, it may sometimes
-result in benchmarked series whose level differs strongly from the
-preliminary series. See vignette for more information on the choice of the
-lambda parameter.}
+\strong{Important}: Any series placed on the left-hand side of a constraint cannot appear on the right-hand side of any other constraint. This is because quantities on the left-hand side are fixed, while those on the right-hand side are adjusted to satisfy the equality.}
+
+\item{rho}{Numeric. The smoothing parameter whose value must lie between 0
+and 1. The default is \code{0.8}. See the package vignette for more information
+on the choice of the \code{rho} parameter.}
+
+\item{lambda}{Numeric. The adjustment model parameter. Typical values include
+\code{lambda = 0}, \code{lambda = 0.5} (the default) and \code{lambda = 1}.See the package
+vignette for more information on the choice of the \code{lambda} parameter.}
 }
 \value{
-a named list with the benchmarked series is returned
+A named list containing the benchmarked series is returned.
 }
 \description{
 This is a multivariate extension of the Cholette benchmarking method which
@@ -67,7 +60,7 @@ method relies on the principle of movement preservation and encompasses other
 reconciliation methods such as the multivariate Denton method.
 }
 \examples{
-
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 # Example 1: one "standard" contemporaneous constraint: x1+x2+x3 = z
 
 x1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
@@ -80,17 +73,27 @@ Y1 <- ts(c(30.0, 30.6), frequency = 1, start = c(2010, 1))
 Y2 <- ts(c(80.0, 81.2), frequency = 1, start = c(2010, 1))
 Y3 <- ts(c(8.0, 8.1), frequency = 1, start = c(2010, 1))
 
-### check consistency between temporal and contemporaneous constraints
+## Check consistency between temporal and contemporaneous constraints
 lfs <- cbind(Y1,Y2,Y3)
 rowSums(lfs) - stats::aggregate.ts(z) # should all be 0
 
 data_list <- list(x1 = x1, x2 = x2, x3 = x3, z = z, Y1 = Y1, Y2 = Y2, Y3 = Y3)
 tc <- c("Y1 = sum(x1)", "Y2 = sum(x2)", "Y3 = sum(x3)") # temporal constraints
-cc <- c("z = x1+x2+x3") # contemporaneous constraints
+cc <- c("z = x1+x2+x3") # (binding) contemporaneous constraint
+cc_nb <- c("0 = x1+x2+x3-z") # non-binding contemporaneous constraint
 
-multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1, lambda = .5) # Denton
-multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729, lambda = .5) # Cholette
-multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc, rho = 1, lambda = .5) # no temporal constraints
+## Run function with trade-off values for rho and lambda
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, lambda = .5)
+
+## Run function with the value of rho corresponding to Denton or Cholette
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1) # Denton
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729) # Cholette
+
+## Run function without temporal constraints
+multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc)
+
+## Run function considering non-binding contemporaneous constraint
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb)
 
 # Example 2: two contemporaneous constraints: x1+3*x2+0.5*x3+x4+x5 = z1 and x1+x2 = x4
 
@@ -109,18 +112,19 @@ Y4 <- ts(c(40.0,41.0), frequency=1, start=c(2010,1))
 Y5 <- ts(c(25.0,20.0), frequency=1, start=c(2010,1))
 
 ### check consistency between temporal and contemporaneous constraints
-lfs <- cbind(Y1,3*Y2,0.5*Y3,Y4,Y5)
-rowSums(lfs) - stats::aggregate.ts(z1) # should all be 0
+wlfs <- cbind(Y1,3*Y2,0.5*Y3,Y4,Y5)
+rowSums(wlfs) - stats::aggregate.ts(z1) # cc1: should all be 0
+Y1 + Y2 - Y4 # cc2: should all be 0
 
 data.list <- list(x1=x1,x2=x2,x3=x3,x4=x4,x5=x5,z1=z1,Y1=Y1,Y2=Y2,Y3=Y3,Y4=Y4,Y5=Y5)
 tc <- c("Y1=sum(x1)", "Y2=sum(x2)", "Y3=sum(x3)", "Y4=sum(x4)", "Y5=sum(x5)")
 cc <- c("z1=x1+3*x2+0.5*x3+x4+x5", "0=x1+x2-x4")
 
 multivariatecholette(xlist = data.list, tcvector = tc, ccvector = cc)
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

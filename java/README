@@ -1,0 +1,6 @@
+Source Code Information
+=======================
+
+The java source code of can be found at [https://github.com/jdemetra/jdplus-benchmarking](https://github.com/jdemetra/jdplus-benchmarking).
+
+All other dependencies found in pom.xml of that project can be found via [Maven](https://mvnrepository.com/).

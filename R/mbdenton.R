@@ -1,46 +1,45 @@
 #' @include utils.R
 NULL
 
-#' @title Temporal disaggregation & interpolation of a time series by
-#'   model-based Denton proportional method
+#' @title Temporal Disaggregation and Interpolation of a Time Series using the Model-Based Denton Proportional Method
 #'
 #' @description
-#' Denton proportional method can be expressed as a statistical model in a State
-#' space representation (see documentation for the definition of states). This
-#' approach is interesting as it allows more flexibility in the model such as
-#' the inclusion of outliers (level shift in the Benchmark to Indicator ratio)
-#' that could otherwise induce unintended wave effects with standard Denton
-#' method. Outliers and their intensity are defined by changing the value of the
-#' 'innovation variances'.
+#' The Denton proportional first difference (PFD) method can be expressed as a
+#' statistical model in a state-space representation. This formulation provides
+#' increased flexibility, including the ability to incorporate outliers, which
+#' correspond to level shifts in the Benchmark‑to‑Indicator (BI) ratio, that
+#' would otherwise induce unintended wave effects under the standard Denton PFD
+#' method. In addition, the approach allows the disaggregated series to be
+#' constrained (or 'frozen') at specific periods or prior to a given date by
+#' fixing the corresponding high‑frequency BI ratios.
 #'
-#' @param series Aggregation constraint. Mandatory. It must be either an object
-#'   of class ts or a numeric vector.
-#' @param indicator High-frequency indicator. Mandatory. It must be of same
-#'   class as series
-#' @param differencing Not implemented yet. Keep it equals to 1 (Denton PFD
-#'   method).
-#' @param conversion Conversion rule. Usually "Sum" or "Average". Sum by
-#'   default.
-#' @param conversion.obsposition Position of the observation in the aggregated
-#'   period (only used with "UserDefined" conversion)
-#' @param outliers a list of structured definition of the outlier periods and
-#'   their intensity. The period must be submitted first in the format
-#'   YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
-#'   equal sign and the intensity of the outlier, defined as the relative value
-#'   of the 'innovation variances' (1= normal situation)
-#' @param fixedBIratios a list of structured definition of the periods where the
-#'   BI ratios must be fixed. The period must be submitted first in the format
-#'   YYYY-MM-DD and enclosed in quotation marks. This must be followed by an
-#'   equal sign and the value of the BI ratio.
+#' @param series A low-frequency time series to be disaggregated or interpolated. It must be either a `"ts"` object or a numeric vector.
+#' @param indicator A high-frequency indicator series. It must be of the same class as `series`.
+#' @param differencing Not yet implemented. This should be left equal to `1` (corresponding to the Denton PFD method).
+#' @param conversion A character string specifying the conversion mode, typically `"Sum"` (the default) or `"Average"`. Other options are: `"Last"`, `"First"` and `"UserDefined"`.
+#' @param conversion.obsposition An integer specifying the position of the low-frequency observations within the interpolated series (e.g. the 7th month of the year).
+#' This argument is used only for interpolation when `conversion = "UserDefined"`.
+#' @param outliers A list specifying the outlier periods and their magnitude.
+#'   Each element must be provided as `"YYYY-MM-DD" = value`, where the date
+#'   identifies the period. The numeric value specifies the intensity of the
+#'   outlier and corresponds to the relative value of the innovation variance
+#'   (with `1` indicating the normal situation).
+#' @param fixedBIratios A list specifying the periods for which the
+#'   Benchmark‑to‑Indicator (BI) ratios should be fixed. Each element must be
+#'   provided as `"YYYY-MM-DD" = value`, where the date identifies the period
+#'   and the numeric value specifies the fixed BI ratio.
 #'
-#' @return an object of class 'JD3MBDenton'
+#' @return An object of class "JD3_MBDENTON_RSLTS" is returned. The following are returned invisibly as a list:
+#' * `estimation` `[[1]]` disaggregated Time-Series, BI ratios and standard deviations;
+#' * `likelihood` `[[2]]` likelihood statistics.
+#'
 #' @export
 #'
 #' @seealso For more information, see the vignette:
 #'
-#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+#' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examples
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #' # Retail data, monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
@@ -53,16 +52,21 @@ NULL
 #' x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 #'
 #' td1 <- denton_modelbased(Y, x)
-#' td2 <- denton_modelbased(Y, x, outliers = list("2020-04-01" = 100), fixedBIratios = list("2021-04-01" = 39.0))
-#'
+#' td2 <- denton_modelbased(Y, x, outliers = list("2020-04-01" = 100),
+#'                          fixedBIratios = list("2021-04-01" = 39.0))
 #' bi1 <- td1$estimation$biratio
 #' bi2 <- td2$estimation$biratio
 #' y1 <- td1$estimation$disagg
 #' y2 <- td2$estimation$disagg
-#' \dontrun{
-#' ts.plot(bi1,bi2,gpars = list(col = c("red","blue")))
-#' ts.plot(y1,y2,gpars = list(col = c("red","blue")))
-#' }
+#'
+#' stats::ts.plot(bi2, bi1, main = "BI ratios",
+#'                gpars = list(col = c("red", "black")))
+#' graphics::legend("topright", lty = 1, col = c("black", "red"),
+#'                  legend = c("td1", "td2"))
+#' stats::ts.plot(y2, y1, main = "Disaggregated series",
+#'                gpars = list(col = c("red", "black")))
+#' graphics::legend("topleft", lty = 1, col = c("black", "red"),
+#'                  legend = c("td1", "td2"))
 #'
 denton_modelbased <- function(
         series,
@@ -102,142 +106,15 @@ denton_modelbased <- function(
         ebiratio = rjd3toolkit::.proc_ts(jrslt, "ebiratio")
     )
     likelihood <- rjd3toolkit::.proc_likelihood(jrslt, "likelihood.")
-    ### likelihood <- .proc_likelihood_modified_tmp(jrslt, "likelihood.") # temporary replacing the previous line to bypass a bug in rjd3toolkit (should be solved in next release)
 
     output <- list(
         estimation = estimation,
         likelihood = likelihood
     )
-    class(output) <- "JD3MBDenton"
+    class(output) <- "JD3_MBDENTON_RSLTS"
 
     return(output)
 }
 
-#' Print function for object of class JD3MBDenton
-#'
-#' @param x an object of class JD3MBDenton
-#' @param \dots further arguments passed to or from other methods.
-#'
-#' @export
-#'
-#' @examples
-#' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
-#' x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
-#' td <- denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
-#' print(td)
-#'
-print.JD3MBDenton <- function(x, ...) {
-    if (is.null(x$estimation$disagg)) {
-        cat("Invalid estimation")
-    } else {
-        cat("Available estimates:\n")
-        print.default(names(x$estimation), ...)
 
-        cat("\n")
-        cat("Use summary() for more details. \n",
-            "Use plot() to see the disaggregated series and BI ratio together ",
-            "with their respective confidence interval")
-    }
-}
-
-#' Summary function for object of class JD3MBDenton
-#'
-#' @param object an object of class JD3MBDenton
-#' @param \dots further arguments passed to or from other methods.
-#'
-#' @export
-#'
-#' @examples
-#' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
-#' x <- rjd3toolkit::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 4)
-#' td <- denton_modelbased(Y, x, outliers = list("2000-01-01" = 100, "2005-07-01" = 100))
-#' summary(td)
-#'
-summary.JD3MBDenton <- function(object, ...) {
-    if (is.null(object)) {
-        cat("Invalid estimation")
-
-    } else {
-        cat("\n")
-        cat("Likelihood statistics", "\n")
-        cat("\n")
-        cat("Number of observations: ", object$likelihood$nobs, "\n")
-        cat("Number of effective observations: ", object$likelihood$neffective, "\n")
-        cat("Number of estimated parameters: ", object$likelihood$nparams, "\n")
-        cat("Standard error: ", "\n")
-        cat("AIC: ", object$likelihood$aic, "\n")
-        cat("BIC: ", object$likelihood$bic, "\n")
-
-        cat("\n")
-        cat("\n")
-        cat("Available estimates:\n")
-        print.default(names(object$estimation))
-    }
-}
-
-#' Plot function for object of class JD3MBDenton
-#'
-#' @param x an object of class JD3MBDenton
-#' @param \dots further arguments to pass to ts.plot.
-#'
-#' @export
-#'
-#' @examples
-#' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
-#' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- temporaldisaggregationI(Y, indicator = x)
-#' plot(td)
-#'
-plot.JD3MBDenton <- function(x, ...) {
-    if (is.null(x)) {
-        cat("Invalid estimation")
-    } else {
-        td <- x$estimation$disagg
-        td.sd <- x$estimation$edisagg
-        td.lb <- td - 1.96 * td.sd
-        td.ub <- td + 1.96 * td.sd
-        bi <- x$estimation$biratio
-        bi.sd <- x$estimation$ebiratio
-        bi.lb <- bi - 1.96 * bi.sd
-        bi.ub <- bi + 1.96 * bi.sd
-
-        par(mfrow = c(2L, 1L))
-        ts.plot(
-            td, td.lb, td.ub,
-            gpars = list(
-                main = "Disaggragated series and BI ratio with confidence interval",
-                xlab = "",
-                ylab = "disaggragated series",
-                lty = c(1L, 3L, 3L),
-                ...
-            )
-        )
-        ts.plot(
-            bi, bi.lb, bi.ub,
-            gpars = list(
-                xlab = "",
-                ylab = "BI ratio",
-                lty = c(1L, 3L, 3L),
-                ...
-            )
-        )
-    }
-}
-
-# TEMPORARY SOLUTION -> Bug to fix in rjd3toolkit
-# in .proc_likelihood(), argument 'neffective' replaced by 'neffectiveobs'
-.proc_likelihood_modified_tmp <- function (jrslt, prefix) {
-    return(list(ll = .proc_numeric(jrslt, paste0(prefix, "ll")),
-                ssq = .proc_numeric(jrslt, paste0(prefix, "ssqerr")),
-                nobs = .proc_int(jrslt, paste0(prefix, "nobs")),
-                neffective = .proc_int(jrslt, paste0(prefix, "neffectiveobs")),
-                nparams = .proc_int(jrslt, paste0(prefix, "nparams")),
-                df = .proc_int(jrslt, paste0(prefix, "df")),
-                aic = .proc_numeric(jrslt, paste0(prefix, "aic")),
-                aicc = .proc_numeric(jrslt, paste0(prefix, "aicc")),
-                bic = .proc_numeric(jrslt, paste0(prefix, "bic")),
-                bic2 = .proc_numeric(jrslt, paste0(prefix, "bic2")),
-                bicc = .proc_numeric(jrslt, paste0(prefix, "bicc")),
-                hannanquinn = .proc_numeric(jrslt, paste0(prefix, "hannanquinn"))))
-}
 

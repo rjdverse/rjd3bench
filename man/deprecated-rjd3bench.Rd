@@ -3,7 +3,7 @@
 \name{deprecated-rjd3bench}
 \alias{deprecated-rjd3bench}
 \alias{temporaldisaggregation}
-\title{Deprecated functions}
+\title{Deprecated Functions}
 \usage{
 temporaldisaggregation(
   series,
@@ -25,7 +25,9 @@ temporaldisaggregation(
 \arguments{
 \item{series, constant, trend, indicators, model, freq, conversion, conversion.obsposition, rho, rho.fixed, rho.truncated, zeroinitialization, diffuse.algorithm, diffuse.regressors}{Parameters.}
 }
+\value{
+Return the same value as either function that replaces it.
+}
 \description{
-This function is deprecated. You should start using the functions
-temporal_disaggregation() or temporal_interpolation() instead.
+This function is deprecated. Use the function \code{temporal_disaggregation()} or \code{temporal_interpolation()} instead.
 }

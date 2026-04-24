@@ -1,39 +1,52 @@
-#' Temporal disaggregation of a time series with ADL models
+#' @include utils.R
+#' @importFrom stats is.ts
+NULL
+
+#' @title Temporal Disaggregation of a Time Series by ADL Model
 #'
-#' @param series The low frequency time series that will be disaggregated. It must be a ts object.
-#' @param constant Constant term (T/F, T by default)
-#' @param trend Linear trend (T/F, F by default)
-#' @param indicators High-frequency indicator(s). It must be a (list of) ts object(s).
-#' @param average Average conversion (T/F). Default is F, which means additive conversion.
-#' @param phi (Initial) value of the phi parameter
-#' @param phi.fixed Fixed phi (T/F, F by default)
-#' @param phi.truncated Range for phi evaluation (in [phi.truncated, 1[)
-#' @param xar Constraints on the coefficients of the lagged regression variables. See vignette for more information on this.
-#' @param diffuse Indicates if the coefficients of the regression model are diffuse (T) or fixed unknown (F, default)
+#' @description
+#' Perform temporal disaggregation of low-frequency to high-frequency time
+#' series using an Autoregressive Distributed Lag regression model.
 #'
-#' @return An object of class "JD3AdlDisagg"
+#' @param series A low-frequency time series to be disaggregated. It must be `"ts"` object.
+#' @param constant Boolean. Indicates whether a constant term is included in the model. The default is `TRUE`.
+#' @param trend Boolean. Indicates whether a linear trend is included in the model. The default is `FALSE`.
+#' @param indicators One or more high-frequency indicator series. If not NULL (the default), this must be a `"ts"` object or a list of `"ts"` objects.
+#' @param average Boolean. Indicates whether an average conversion should be considered. The default is `FALSE`, corresponding to additive conversion.
+#' @param phi A numeric value giving the (initial) value of the phi parameter
+#' @param phi.fixed Boolean. Specifies whether the supplied value of `phi` is fixed. The default is `FALSE`, which indicates that `phi` is estimated.
+#' @param phi.truncated A numeric value defining the lower bound of the admissible range for `phi`.
+#' The evaluation range is `[phi.truncated, 1[`.
+#' @param xar A character string specifying the constraints imposed on the coefficients of the lagged regression variables. The default is `"FREE"`, which indicates that no constraints are applied. Other options are: `"SAME"`and `"NONE"`.
+#' For additional information, see the package vignette.
+#' @param diffuse Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (`TRUE`) or as fixed unknown (`FALSE`, the default).
 #'
-#' @references  Proietti, P. (2005). Temporal Disaggregation by State Space
-#'   Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
-#'   European Commission, ISSN 1725-4825.
+#' @return An object of class "JD3_ADLDISAGG_RSLTS" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients;
+#' * `estimation` `[[2]]` disaggregated Time-Series and standard deviation, parameter and residuals;
+#' * `likelihood` `[[3]]` likelihood statistics.
+#'
+#' @references  Proietti, P. (2005). Temporal Disaggregation by State Space Methods: Dynamic Regression Methods Revisited. Working papers and Studies, European Commission, ISSN 1725-4825.
 #'
 #' @export
 #'
 #' @seealso For more information, see the vignette:
 #'
-#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+#' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examples
-#' # adl model
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
+#' # ADL model
 #' data("qna_data")
 #' Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 #' x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 #' td1 <- adl_disaggregation(Y, indicators = x, xar = "FREE")
 #' td1$estimation$disagg
 #'
-#' # adl models with constraints
+#' # ADL models with constraints
 #' td2 <- adl_disaggregation(Y, indicators = x, xar = "SAME") # ~ Chow-Lin
-#' td3 <- adl_disaggregation(Y, constant = FALSE, indicators = x, xar = "SAME", phi = 1, phi.fixed = TRUE) # ~ Fernandez
+#' td3 <- adl_disaggregation(Y, constant = FALSE, indicators = x,
+#'                           xar = "SAME", phi = 1, phi.fixed = TRUE) # ~ Fernandez
 #' td4 <- adl_disaggregation(Y, indicators = x, xar = "NONE") # ~ Santos Silva-Cardoso
 #'
 adl_disaggregation <- function(series,
@@ -58,7 +71,7 @@ adl_disaggregation <- function(series,
             for (i in seq_along(indicators)) {
                 jlist[[i]] <- rjd3toolkit::.r2jd_tsdata(indicators[[i]])
             }
-        } else if (is.ts(indicators)) {
+        } else if (stats::is.ts(indicators)) {
             jlist[[1L]] <- rjd3toolkit::.r2jd_tsdata(indicators)
         } else {
             stop("Invalid indicators")
@@ -67,6 +80,7 @@ adl_disaggregation <- function(series,
     } else {
         jindicators <- .jnull("[Ljdplus/toolkit/base/api/timeseries/TsData;")
     }
+
     jrslt <- .jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/ADLResults;",
                     "processADL", jseries, constant, trend, jindicators, conversion,
                     phi, phi.fixed, phi.truncated, xar, "TRANSITION", diffuse)
@@ -91,7 +105,7 @@ adl_disaggregation <- function(series,
         edisagg = rjd3toolkit::.proc_ts(jrslt, "edisagg"),
         parameter = rjd3toolkit::.proc_numeric(jrslt, "parameter"),
         eparameter = rjd3toolkit::.proc_numeric(jrslt, "eparameter"),
-        residuals = .proc_residualsADL(jrslt, diffuse) # (tests yet to add)
+        residuals = .proc_residualsADL(jrslt, diffuse)
     )
     likelihood <- .proc_likelihoodADL(jrslt, diffuse)
 
@@ -100,115 +114,7 @@ adl_disaggregation <- function(series,
         estimation = estimation,
         likelihood = likelihood
     )
-    class(output) <- "JD3AdlDisagg"
+    class(output) <- "JD3_ADLDISAGG_RSLTS"
     return(output)
 }
 
-#' Print function for object of class JD3AdlDisagg
-#'
-#' @param x an object of class JD3AdlDisagg
-#' @param \dots further arguments passed to or from other methods.
-#'
-#' @export
-#'
-#' @examples
-#' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
-#' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- adl_disaggregation(Y, indicators = x, xar = "FREE")
-#' print(td)
-#'
-print.JD3AdlDisagg <- function(x, ...) {
-    if (is.null(x$regression$model)) {
-        cat("Invalid estimation")
-    } else {
-        cat("Model:", x$regression$type, "\n")
-        print(x$regression$model)
-
-        cat("\n")
-        cat("Use summary() for more details. \nUse plot() to see the decomposition of the disaggregated series.")
-    }
-}
-
-#' Plot function for object of class JD3AdlDisagg
-#'
-#' @param x an object of class JD3AdlDisagg
-#' @param \dots further arguments to pass to ts.plot.
-#'
-#' @export
-#'
-#' @examples
-#' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
-#' x <- rjd3toolkit::Retail$FoodAndBeverageStores
-#' td <- adl_disaggregation(Y, indicators = x, xar = "FREE")
-#' plot(td)
-#'
-plot.JD3AdlDisagg <- function(x, ...) {
-    if (is.null(x)) {
-        cat("Invalid estimation")
-
-    } else {
-        td_series <- x$estimation$disagg
-
-        ts.plot(td_series, gpars = list(col = "orange", xlab = "", xaxt = "n", las = 2L, ...))
-        axis(side = 1L, at = start(td_series)[1L]:end(td_series)[1L])
-        legend("topleft", "disaggragated series", lty = 1L, col = "orange", bty = "n", cex = 0.8)
-    }
-}
-
-# TEMPORARY SOLUTIONS
-
-.proc_likelihoodADL <- function (jrslt, diffuse = FALSE){
-    z <- rjd3toolkit::.jd3_object(jrslt, "ADL", TRUE)
-
-    return_sig <- if(diffuse) {
-        "Ljdplus/benchmarking/base/core/benchmarking/extractors/MarginalLikelihoodStatistics;"
-    } else {
-        "Ljdplus/benchmarking/base/core/benchmarking/extractors/ProfileLikelihoodStatistics;"
-    }
-    method <- if(diffuse) "getMarginalLikelihood" else "getProfileLikelihood"
-
-    jll <- tryCatch(.jcall(z$internal, return_sig, method),
-                    error = function(e) NULL)
-
-    nparams <- get_ll_item_adl(jll, "I", "getEstimatedParametersCount")
-    nobs <- get_ll_item_adl(jll, "I", "getObservationsCount")
-    ndiffuse <- get_ll_item_adl(jll, "I", "getDiffuseCount")
-
-    return(list(ll = get_ll_item_adl(jll, "D", "getLogLikelihood"),
-                llc = get_ll_item_adl(jll, "D", "getAdjustedLogLikelihood"),
-                ssq = get_ll_item_adl(jll, "D", "getSsqErr"),
-                nparams = nparams,
-                nobs = nobs,
-                ndiffuse = ndiffuse,
-                df = nobs - nparams - ndiffuse,
-                aic = get_ll_item_adl(jll, "D", "aic"),
-                aicc = get_ll_item_adl(jll, "D", "aicc"),
-                bic = get_ll_item_adl(jll, "D", "bic"),
-                hannanquinn = get_ll_item_adl(jll, "D", "hannanQuinn")))
-}
-
-.proc_residualsADL <- function (jrslt, diffuse = FALSE){
-    z <- rjd3toolkit::.jd3_object(jrslt, "ADL", TRUE)
-
-    return_sig <- if(diffuse) {
-        "Ljdplus/benchmarking/base/core/benchmarking/extractors/MarginalLikelihoodStatistics;"
-    } else {
-        "Ljdplus/benchmarking/base/core/benchmarking/extractors/ProfileLikelihoodStatistics;"
-    }
-    method <- if(diffuse) "getMarginalLikelihood" else "getProfileLikelihood"
-
-    jll <- tryCatch(.jcall(z$internal, return_sig, method), error = function(e) NULL)
-
-    return(tryCatch(.jcall(jll, "Ljdplus/toolkit/base/api/data/DoubleSeq;", "getResiduals") |>
-                        .jcall("[D", "toArray", simplify = TRUE),
-                    error = function(e) NULL))
-}
-
-get_ll_item_adl <- function(jobj, return_sig, method) {
-    rslt_item <- tryCatch(.jcall(jobj, return_sig, method),
-                          error = function(err) NA)
-    if (is.null(rslt_item)) {
-        rslt_item <- NA
-    }
-    return(rslt_item)
-}

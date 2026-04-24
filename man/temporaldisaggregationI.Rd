@@ -2,7 +2,7 @@
 % Please edit documentation in R/tempdisagg.R
 \name{temporaldisaggregationI}
 \alias{temporaldisaggregationI}
-\title{Temporal disaggregation of a time series by means of a reverse regression model.}
+\title{Temporal Disaggregation and Interpolation of a Time Series by means of a Reverse Regression Model.}
 \usage{
 temporaldisaggregationI(
   series,
@@ -15,35 +15,41 @@ temporaldisaggregationI(
 )
 }
 \arguments{
-\item{series}{The time series that will be disaggregated. It must be a ts object.}
+\item{series}{A low-frequency time series to be disaggregated or interpolated. It must be a \code{"ts"} object.}
 
-\item{indicator}{The high-frequency indicator. It must be a ts object.}
+\item{indicator}{A high-frequency indicator series. It must be a \code{"ts"} object.}
 
-\item{conversion}{Conversion mode (Usually "Sum" or "Average")}
+\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"}(the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
-\item{conversion.obsposition}{Integer. Only used with "UserDefined" mode.
-Position of the observed indicator in the aggregated periods (for instance
-7th month of the year)}
+\item{conversion.obsposition}{An integer specifying the position of the low-frequency observations within the interpolated series (e.g. the 7th month of the year).
+This argument is used only for interpolation when \code{conversion = "UserDefined"}.}
 
-\item{rho}{(Initial) value of the parameter.}
+\item{rho}{A numeric value giving the (initial) value of the autoregressive parameter.}
 
-\item{rho.fixed}{Fixed rho (T/F, F by default).}
+\item{rho.fixed}{Boolean. Specifies whether the supplied value of \code{rho} is fixed. The default is \code{FALSE}, which indicates that \code{rho} is estimated.}
 
-\item{rho.truncated}{Range for Rho evaluation (in [rho.truncated, 1[)}
+\item{rho.truncated}{A numeric value defining the lower bound of the admissible range for \code{rho}.
+The evaluation range is \verb{[rho.truncated, 1[}.}
 }
 \value{
-An object of class "JD3TempDisaggI"
+An object of class "JD3_TEMPDISAGGI_RSLTS" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients;
+\item \code{estimation} \verb{[[2]]} disaggregated Time-Series and parameter;
+\item \code{likelihood} \verb{[[3]]} likelihood statistics.
+}
 }
 \description{
-Perform temporal disaggregation and interpolation of low frequency to high
+Perform temporal disaggregation and interpolation of low-frequency to high
 frequency time series by means of a reverse regression model. Unlike the
 usual regression-based models, this approach treats a high-frequency
 indicator as the dependent variable and the unknown target series as the
 independent variable.
 }
 \examples{
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 # Retail data, monthly indicator
-
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::Retail$FoodAndBeverageStores
 td <- temporaldisaggregationI(Y, indicator = x)
@@ -56,14 +62,14 @@ x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_CE"], frequency = 4, start = c(2009,1)
 td <- temporaldisaggregationI(Y, indicator = x)
 td$regression$a
 td$regression$b
-
+\dontshow{\}) # examplesIf}
 }
 \references{
 Bournay J., Laroque G. (1979). Reflexions sur la methode
-  d'elaboration des comptes trimestriels. Annales de l'Insee, n°36, pp.3-30.
+d'elaboration des comptes trimestriels. Annales de l'Insee, n. 36, pp.3-30.
 }
 \seealso{
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }
