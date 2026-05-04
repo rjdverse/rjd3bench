@@ -22,6 +22,8 @@
 
 cran-comments.md
 
+^heylogs\.properties$
+
 ^\.DS_Store$
 
 ^revdep$
