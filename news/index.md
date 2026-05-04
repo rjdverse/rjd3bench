@@ -2,6 +2,8 @@
 
 ## rjd3bench 3.1.2
 
+CRAN release: 2026-05-04
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a
