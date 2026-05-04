@@ -132,7 +132,6 @@ temporal_disaggregation <- function(
 
 
     # Build the S3 result
-    browser()
     bcov <- rjd3toolkit::.proc_matrix(jrslt, "covar")
     vars <- rjd3toolkit::.proc_vector(jrslt, "regnames")
     coef <- rjd3toolkit::.proc_vector(jrslt, "coeff")
@@ -798,6 +797,7 @@ temporaldisaggregationI <- function(series, indicator,
 
 
 #' Multivariate Chow-Lin
+#' @export
 multivariatechowlin <- function(series,
                                 constant = TRUE,
                                 trend = FALSE,
@@ -863,12 +863,16 @@ multivariatechowlin <- function(series,
         }
     }
 
-    if(!is.list(ccseries)) stop("'ccseries' must be a list.")
-    jdic_ccseries <- .jnew("jdplus/toolkit/base/r/util/Dictionary")
-    for (i in seq_along(ccseries)) {
-        .jcall(jdic_ccseries, "V", "add",
-               names(ccseries)[i],
-               rjd3toolkit::.r2jd_tsdata(ccseries[[i]]))
+    if (!is.null(ccseries)) {
+        if(!is.list(ccseries)) stop("'ccseries' must be a list.")
+        jdic_ccseries <- .jnew("jdplus/toolkit/base/r/util/Dictionary")
+        for (i in seq_along(ccseries)) {
+            .jcall(jdic_ccseries, "V", "add",
+                   names(ccseries)[i],
+                   rjd3toolkit::.r2jd_tsdata(ccseries[[i]]))
+        }
+    } else {
+        jdic_ccseries <- .jnull("jdplus/toolkit/base/r/util/Dictionary")
     }
 
     if (is.null(ccdefinition)) {
@@ -892,7 +896,6 @@ multivariatechowlin <- function(series,
     jcst <- .jarray(as.logical(constant), contents.class = "Z")
 
     jvar_mat <- rjd3toolkit::.r2jd_matrix(var.matrix)
-
     jrslt <- .jcall(obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
                     returnSig = "Ljdplus/benchmarking/base/api/multivariate/MultivariateChowLinResults;",
                     method = "multiChowLin",
