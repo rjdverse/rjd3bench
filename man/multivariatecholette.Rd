@@ -42,7 +42,7 @@ and 1. The default is \code{0.8}. See the package vignette for more information
 on the choice of the \code{rho} parameter.}
 
 \item{lambda}{Numeric. The adjustment model parameter. Typical values include
-\code{lambda = 0}, \code{lambda = 0.5} (the default) and \code{lambda = 1}.See the package
+\code{lambda = 0}, \code{lambda = 0.5} (the default) and \code{lambda = 1}. See the package
 vignette for more information on the choice of the \code{lambda} parameter.}
 }
 \value{
@@ -82,7 +82,10 @@ tc <- c("Y1 = sum(x1)", "Y2 = sum(x2)", "Y3 = sum(x3)") # temporal constraints
 cc <- c("z = x1+x2+x3") # (binding) contemporaneous constraint
 cc_nb <- c("0 = x1+x2+x3-z") # non-binding contemporaneous constraint
 
-## Run function with trade-off values for rho and lambda
+## Run function with default values for rho and lambda
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc)
+
+## Run function with some trade-off values for rho and lambda
 multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, lambda = .5)
 
 ## Run function with the value of rho corresponding to Denton or Cholette
