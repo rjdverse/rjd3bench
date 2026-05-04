@@ -19,7 +19,7 @@ temporaldisaggregationI(
 
 \item{indicator}{A high-frequency indicator series. It must be a \code{"ts"} object.}
 
-\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} or \code{"Average"} for disaggregation. The default is \code{"Sum"}.}
+\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"}(the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
 \item{conversion.obsposition}{An integer specifying the position of the low-frequency observations within the interpolated series (e.g. the 7th month of the year).
 This argument is used only for interpolation when \code{conversion = "UserDefined"}.}
@@ -32,7 +32,13 @@ This argument is used only for interpolation when \code{conversion = "UserDefine
 The evaluation range is \verb{[rho.truncated, 1[}.}
 }
 \value{
-An object of class "JD3_TEMPDISAGGI_RSLTS" containing the results of the temporal disaggregation or interpolation procedure.
+An object of class "JD3_TEMPDISAGGI_RSLTS" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients;
+\item \code{estimation} \verb{[[2]]} disaggregated Time-Series and parameter;
+\item \code{likelihood} \verb{[[3]]} likelihood statistics.
+}
 }
 \description{
 Perform temporal disaggregation and interpolation of low-frequency to high

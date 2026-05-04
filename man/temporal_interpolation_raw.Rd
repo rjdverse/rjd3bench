@@ -38,7 +38,7 @@ If \code{NULL} (the default), no indicator is used. When provided, the argument 
 The value must be either 0 or a positive integer (default is 0). This argument is ignored when no indicator is provided.}
 
 \item{model}{A character string specifying the model of the error term at the disaggregated level.
-The options are: \code{"Ar1"} (Chow Lin), \code{"Rw"} (Fernandez), and \code{"RwAr1"} (Litterman).}
+The options are: \code{"Ar1"} (Chow Lin, the default), \code{"Rw"} (Fernandez), and \code{"RwAr1"} (Litterman).}
 
 \item{freqratio}{An integer specifying the frequency ratio between the interpolated series and the low-frequency series.
 This argument is mandatory and must be a positive integer.}
@@ -60,7 +60,7 @@ The evaluation range is \verb{[rho.truncated, 1[}.}
 
 \item{zeroinitialization}{Boolean. If \code{TRUE}, the initial values of the autoregressive model are set to zero. The default is \code{FALSE}.}
 
-\item{diffuse.algorithm}{A character string specifying the algorithm used for diffuse initialization. The default is \code{"SqrtDiffuse"}.}
+\item{diffuse.algorithm}{A character string specifying the algorithm used for diffuse initialization. The default is \code{"SqrtDiffuse"}. Other options are: \code{"Diffuse"} and \code{"Augmented"}.}
 
 \item{diffuse.regressors}{Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (\code{TRUE}) or as fixed unknown (\code{FALSE}, the default).}
 
@@ -71,7 +71,13 @@ This argument is ignored when one or more indicator series is provided.}
 This argument is ignored when one or more indicator series is provided.}
 }
 \value{
-An object of class "JD3_INTERPRAW_RSLTS" containing the results of the temporal interpolation procedure.
+An object of class "JD3_INTERPRAW_RSLTS" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients;
+\item \code{estimation} \verb{[[2]]} interpolated values and standard deviation, regression effects, smoothing part, parameter and residuals;
+\item \code{likelihood} \verb{[[3]]} likelihood statistics.
+}
 }
 \description{
 Perform temporal interpolation of low-frequency to high-frequency time series

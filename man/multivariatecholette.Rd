@@ -8,8 +8,8 @@ multivariatecholette(
   xlist,
   tcvector = NULL,
   ccvector = NULL,
-  rho = 1,
-  lambda = 0.8
+  rho = 0.8,
+  lambda = 0.5
 )
 }
 \arguments{
@@ -25,35 +25,28 @@ high-frequency preliminary series. The names must match those provided in
 \code{xlist}. The default is \code{NULL}, indicating that no temporal constraints are
 considered.}
 
-\item{ccvector}{A character vector defining each contemporaneous constraints.
-Each element must be expressed in the form \code{"z = [w1*]x1 + ... + [wn*]xn"}
-or \code{"c = [w1*]x1 + ... + [wn*]xn"}, where \code{"z"} denotes the name of a
-high-frequency contemporaneous constraint, \code{wj} are optional numeric
-weights, \code{"x1, ..., xn"} are the names of the high-frequency preliminary
-series, and \code{c} is a constant. The \code{"+"} operator may be replaced by \code{"-"}.
-All series names must correspond to elements in \code{xlist}. A series appearing
-on the left‑hand side cannot appear on the right‑hand side of any other
-constraint, since left‑hand side quantities are fixed while right‑hand side
-are adjusted to satisfy the equality. Contemporaneous constraints must also
-be consistent with the temporal constraints (see the consistency check in
-the examples). The default is \code{NULL}, indicating that no contemporaneous
-constraints are imposed, which is equivalent to applying the univariate
-Cholette method to each of the preliminary series separately.}
+\item{ccvector}{NULL (default) or a character vector defining each contemporaneous constraints. If NULL, no contemporaneous constraint is considered.This is equivalent to applying the univariate Cholette method to each of the preliminary series separately. Otherwise, each element of the vector must be written in the form \eqn{z=w_1 x_1+\ldots+w_n x_n} or \eqn{c=w_1 x_1+\ldots+w_n x_n} where:
+\itemize{
+\item \eqn{z} is the name of a high-frequency contemporaneous constraint,
+\item \eqn{(w_1,\ldots,w_n)} are optional numeric weights,
+\item \eqn{(x_1,\ldots,x_n)} are the names of the high-frequency preliminary series and
+\item \eqn{c} is a constant.
+}
 
-\item{rho}{Numeric. A smoothing parameter whose value must lie between 0 and 1.
-See the package vignette for more information on the choice of the \code{rho}
-parameter.}
+The \eqn{+} operator can be replaced by \eqn{-}. The names of the contemporaneous constraint(s) and the preliminary series are the one given in the \code{xlist} argument.
 
-\item{lambda}{Numeric. The adjustment model parameter. Typically, \code{lambda = 0}
-corresponds to additive benchmarking, while values of \code{lambda} close to
-1 approximate proportional benchmarking. Setting \code{lambda = 1} is possible
-but should be used with caution in multivariate model, as it may, in some
-situation, produce benchmarked series whose levels differ substantially
-from the preliminary series. See the package vignette for more information
-on the choice of the \code{lambda} parameter.}
+\strong{Important}: Any series placed on the left-hand side of a constraint cannot appear on the right-hand side of any other constraint. This is because quantities on the left-hand side are fixed, while those on the right-hand side are adjusted to satisfy the equality.}
+
+\item{rho}{Numeric. The smoothing parameter whose value must lie between 0
+and 1. The default is \code{0.8}. See the package vignette for more information
+on the choice of the \code{rho} parameter.}
+
+\item{lambda}{Numeric. The adjustment model parameter. Typical values include
+\code{lambda = 0}, \code{lambda = 0.5} (the default) and \code{lambda = 1}. See the package
+vignette for more information on the choice of the \code{lambda} parameter.}
 }
 \value{
-A named list containing the benchmarked series
+A named list containing the benchmarked series is returned.
 }
 \description{
 This is a multivariate extension of the Cholette benchmarking method which
@@ -68,7 +61,6 @@ reconciliation methods such as the multivariate Denton method.
 }
 \examples{
 \dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
-
 # Example 1: one "standard" contemporaneous constraint: x1+x2+x3 = z
 
 x1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
@@ -90,7 +82,10 @@ tc <- c("Y1 = sum(x1)", "Y2 = sum(x2)", "Y3 = sum(x3)") # temporal constraints
 cc <- c("z = x1+x2+x3") # (binding) contemporaneous constraint
 cc_nb <- c("0 = x1+x2+x3-z") # non-binding contemporaneous constraint
 
-## Run function with trade-off values for rho and lambda
+## Run function with default values for rho and lambda
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc)
+
+## Run function with some trade-off values for rho and lambda
 multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, lambda = .5)
 
 ## Run function with the value of rho corresponding to Denton or Cholette
