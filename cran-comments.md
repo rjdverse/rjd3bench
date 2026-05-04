@@ -1,3 +1,7 @@
+## Submission of {rjd3bench} v3.1.2- 2026-05-04
+
+* Fix default value of parameters and documentation in multivariate Cholette
+* Improve all functions documentation, especially the return value
 
 ## Correction after submission 2026-03-11
 

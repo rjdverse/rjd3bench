@@ -406,7 +406,7 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #'   and 1. The default is `0.8`. See the package vignette for more information
 #'   on the choice of the `rho` parameter.
 #' @param lambda Numeric. The adjustment model parameter. Typical values include
-#'   `lambda = 0`, `lambda = 0.5` (the default) and `lambda = 1`.See the package
+#'   `lambda = 0`, `lambda = 0.5` (the default) and `lambda = 1`. See the package
 #'   vignette for more information on the choice of the `lambda` parameter.
 #'
 #' @return A named list containing the benchmarked series is returned.
@@ -439,7 +439,10 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #' cc <- c("z = x1+x2+x3") # (binding) contemporaneous constraint
 #' cc_nb <- c("0 = x1+x2+x3-z") # non-binding contemporaneous constraint
 #'
-#' ## Run function with trade-off values for rho and lambda
+#' ## Run function with default values for rho and lambda
+#' multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc)
+#'
+#' ## Run function with some trade-off values for rho and lambda
 #' multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, lambda = .5)
 #'
 #' ## Run function with the value of rho corresponding to Denton or Cholette
