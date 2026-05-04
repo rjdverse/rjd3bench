@@ -82,6 +82,7 @@ e.g. `browseVignettes(package = "rjd3bench")`
 ## Examples
 
 ``` r
+
 # Example 1 (from Quenneville et al (2012))
 
 ## Observed data

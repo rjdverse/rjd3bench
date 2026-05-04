@@ -23,7 +23,7 @@ reconciliation methods such as the multivariate Denton method."><meta property="
 
     <a class="navbar-brand me-2" href="../index.html">rjd3bench</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,7 +109,7 @@ on the choice of the <code>rho</code> parameter.</p></dd>
 
 <dt id="arg-lambda">lambda<a class="anchor" aria-label="anchor" href="#arg-lambda"></a></dt>
 <dd><p>Numeric. The adjustment model parameter. Typical values include
-<code>lambda = 0</code>, <code>lambda = 0.5</code> (the default) and <code>lambda = 1</code>.See the package
+<code>lambda = 0</code>, <code>lambda = 0.5</code> (the default) and <code>lambda = 1</code>. See the package
 vignette for more information on the choice of the <code>lambda</code> parameter.</p></dd>
 
 </dl></div>
@@ -151,7 +151,25 @@ vignette for more information on the choice of the <code>lambda</code> parameter
 <span class="r-in"><span><span class="va">cc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z = x1+x2+x3"</span><span class="op">)</span> <span class="co"># (binding) contemporaneous constraint</span></span></span>
 <span class="r-in"><span><span class="va">cc_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0 = x1+x2+x3-z"</span><span class="op">)</span> <span class="co"># non-binding contemporaneous constraint</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Run function with trade-off values for rho and lambda</span></span></span>
+<span class="r-in"><span><span class="co">## Run function with default values for rho and lambda</span></span></span>
+<span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $x1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 7.069397 7.385899 8.058519 7.486185</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 7.961343 6.987044 7.570753 8.080860</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $x2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 18.55572 20.58942 19.80927 21.04559</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 19.16716 19.25396 21.37039 21.40849</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $x3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 1.474880 1.824683 2.032208 2.668230</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 2.171499 1.658994 1.958861 2.310646</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Run function with some trade-off values for rho and lambda</span></span></span>
 <span class="r-in"><span><span class="fu">multivariatecholette</span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc</span>, rho <span class="op">=</span> <span class="fl">.5</span>, lambda <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Qtr1     Qtr2     Qtr3     Qtr4</span>

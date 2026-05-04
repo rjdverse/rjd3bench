@@ -53,6 +53,7 @@ We illustrate the various methods using two datasets:
   statistics and covering the period 2009Q1-2021Q4.
 
 ``` r
+
 library("rjd3bench")
 Retail <- rjd3toolkit::Retail
 qna_data <- rjd3bench::qna_data
@@ -100,36 +101,42 @@ Eurostat (2018) recommends the use of regression-based models for the
 purpose of temporal disaggregation. Among them, we retrieve the Chow-Lin
 method and its variants Fernandez and Litterman.
 
-Let $Y_{T}$, $T = 1,...,m$, and $x_{t}$, $t = 1,...,n$, be, respectively
+Let $`Y_T`$, $`T=1,...,m`$, and $`x_t`$, $`t=1,...,n`$, be, respectively
 the observed low frequency benchmark and the high-frequency indicator of
-an unknown high frequency variable $y_{t}$. Chow-Lin, Fernandez and
+an unknown high frequency variable $`y_t`$. Chow-Lin, Fernandez and
 Litterman can be all expressed with the same equation, but with
-different models for the error term: $$y_{t} = x_{t}\beta + u_{t}$$
+different models for the error term:
+``` math
+y_t = x_t\beta+u_t
+```
 where
 
-$u_{t} = \phi u_{t - 1} + \epsilon_{t}$, with $|\phi| < 1$ (Chow-Lin),
+$`u_t = \phi u_{t-1} + \epsilon_t`$, with $`|\phi| < 1`$ (Chow-Lin),
 
-$u_{t} = u_{t - 1} + \epsilon_{t}$ (Fernandez),
+$`u_t = u_{t-1} + \epsilon_t`$ (Fernandez),
 
-$u_{t} = u_{t - 1} + \phi\left( \Delta u_{t - 1} \right) + \epsilon_{t}$,
-with $|\phi| < 1$ (Litterman)
+$`u_t = u_{t-1} + \phi(\Delta u_{t-1}) + \epsilon_t`$, with
+$`|\phi| < 1`$ (Litterman)
 
-The temporal constraint is: $$Y = Cy,$$ where $C = I_{m} \otimes c$, $c$
-is a row vector of size $s$ which is the frequency ratio between the
-disaggregated/interpolated series and the low frequency benchmark. The
-distinction between temporal disaggregation and interpolation lies in
-the definition of this vector c:
+The temporal constraint is:
+``` math
+Y = Cy,
+```
+where $`C = I_m \otimes c`$, $`c`$ is a row vector of size $`s`$ which
+is the frequency ratio between the disaggregated/interpolated series and
+the low frequency benchmark. The distinction between temporal
+disaggregation and interpolation lies in the definition of this vector
+c:
 
-- Temporal disaggregation: $c = \lbrack 1,1,...,1\rbrack$ for
-  aggregation (e.g., flow variables) and
-  $c = \lbrack 1/s,1/s,...,1/s\rbrack$ for average conversion (e.g.,
-  indexes)
-- Interpolation: $c = \lbrack 0,0,...,1\rbrack$ when the low frequency
-  series corresponds to the last value of the interpolated series,
-  $c = \lbrack 1,0,...,0\rbrack$ when it’s the first value, etc. (e.g.,
-  stock variables)
+- Temporal disaggregation: $`c = [1,1,...,1]`$ for aggregation (e.g.,
+  flow variables) and $`c = [1/s,1/s,...,1/s]`$ for average conversion
+  (e.g., indexes)
+- Interpolation: $`c = [0,0,...,1]`$ when the low frequency series
+  corresponds to the last value of the interpolated series,
+  $`c = [1,0,...,0]`$ when it’s the first value, etc. (e.g., stock
+  variables)
 
-While $x_{t}$ is observed in high frequency, $y_{t}$ is only observed in
+While $`x_t`$ is observed in high frequency, $`y_t`$ is only observed in
 low frequency, and therefore the number of effective observations to
 estimate the parameters are the number of observations in the
 low-frequency benchmark.
@@ -178,6 +185,7 @@ change the argument `zeroinitialization = TRUE` with `constant=TRUE`
 when calling the function.
 
 ``` r
+
 # Example 1: TD using Chow-Lin to disaggregate annual value added in construction sector using a quarterly indicator
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
@@ -225,12 +233,17 @@ Denton method and variants are usually expressed in mathematical terms
 as a constrained minimization problem. For example, the widely used
 Denton proportional first difference (PFD) method is usually expressed
 as follows:
-$$min_{y_{t}}\sum\limits_{t = 2}^{n}\lbrack\frac{y_{t}}{x_{t}} - \frac{y_{t - 1}}{x_{t - 1}}\rbrack^{2}$$
+``` math
+min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
+```
 subject to the temporal constraint (flow variables)
-$$\sum\limits_{t}y_{t} = Y_{T}$$ where $y_{t}$ is the value of the
-estimate of the high frequency series at period t, $x_{t}$ is the value
-of the high frequency indicator at period t and $Y_{T}$ is the value of
-the low frequency series (i.e. the benchmark series) at period T.
+``` math
+\sum_{t} y_t = Y_T
+```
+where $`y_t`$ is the value of the estimate of the high frequency series
+at period t, $`x_t`$ is the value of the high frequency indicator at
+period t and $`Y_T`$ is the value of the low frequency series (i.e. the
+benchmark series) at period T.
 
 Equivalently, the Denton PFD method can also be expressed as a
 statistical model considering the following state space representation
@@ -240,7 +253,7 @@ statistical model considering the following state space representation
 \sigma^2\_{\varepsilon}) \end{aligned} \$\$
 
 where the temporal constraints are taken care of by considering a
-cumulated series $y_{t}^{c}$ instead of the original series $y_{t}$.
+cumulated series $`y^c_t`$ instead of the original series $`y_t`$.
 Hence, the last high frequency period (for example, the last quarter of
 the year) is observed and corresponds to the value of the benchmark. The
 value of the other periods are initially defined as missing and
@@ -272,6 +285,7 @@ function displays the disaggregated series and the BI ratio together
 with their respective 95% confidence interval.
 
 ``` r
+
 # Example: Use of model-based Denton for temporal disaggregation
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
@@ -294,10 +308,13 @@ Distributed Lag model, or ADL(1,1), which takes the form:
 \$\$ y_t = \phi y\_{t-1} + m + gt + x_t'\beta_0 + x\_{t-1}'\beta_1 +
 \varepsilon_t \qquad \varepsilon_t \sim {\sf NID}(0, \sigma^2) \qquad
 (1) \$\$ subject to the temporal constraint (flow variables)
-$$\sum\limits_{t}y_{t} = Y_{T}$$ where $y_{t}$ is the value of the
-estimate of the high frequency series at period t, $x_{t}$ is the value
-of the high frequency indicator at period t and $Y_{T}$ is the value of
-the low frequency series (i.e. the benchmark series) at period T.
+``` math
+\sum_{t} y_t = Y_T
+```
+where $`y_t`$ is the value of the estimate of the high frequency series
+at period t, $`x_t`$ is the value of the high frequency indicator at
+period t and $`Y_T`$ is the value of the low frequency series (i.e. the
+benchmark series) at period T.
 
 The ADL model nests the Chow-Lin model and its variants Fernandez and
 Litterman (for Litterman, the ADL model must be formulated in the first
@@ -305,26 +322,30 @@ differences of the dependent and explanatory variables).
 
 Recall the Chow-Lin model \$\$ y_t = x_t\beta + u_t \\ u_t = \phi
 u\_{t-1} + \varepsilon_t \$\$ Combine it into a single equation and
-substitute for
-$u_{t - 1}$$$y_{t} = x_{t}\beta + \phi\left( y_{t - 1} - x_{t - 1}\beta \right) + \varepsilon_{t}$$
+substitute for $`u_{t-1}`$
+``` math
+y_t = x_t\beta + \phi (y_{t-1} - x_{t-1}\beta) + \varepsilon_t
+```
 So, the ADL model corresponds to the Chow-Lin model if
-$$\beta_{1} = - \phi\beta_{0}\qquad(2)$$ and to the Fernandez model if
-we further assumes that $\phi = 1$.
+``` math
+\beta_1 = -\phi\beta_0 \qquad (2)
+```
+and to the Fernandez model if we further assumes that $`\phi = 1`$.
 
 Recall that the Chow-Lin model relies on the strong assumption of that
-the disaggragated series $y_{t}$ and the indicator(s) $x_{t}$ are fully
+the disaggragated series $`y_t`$ and the indicator(s) $`x_t`$ are fully
 co-integrated (if not stationary). The main benefit of the ADL model
 over Chow-Lin is that it offers an extended modelling framework which
 accounts for the uncertainty about the existence of co-integration
-between $y_{t}$ and $x_{t}$. Hence, by nesting both the Chow-Lin and the
+between $`y_t`$ and $`x_t`$. Hence, by nesting both the Chow-Lin and the
 Fernandez model, it prevents potential spurious regressions between
-$y_{t}$ and $x_{t}$.
+$`y_t`$ and $`x_t`$.
 
 Moreover, as explained in Proietti (2005, section 6.2), the ADL model
 can be an interesting option when the indicator is affected by a
 measurement error, since it can be showed that the model assumes that
-$y_{t}$ is explained by a *filtered* version of $x_{t}$, where the
-weights associated to $x_{t}$ decline geometrically over time. Hence, in
+$`y_t`$ is explained by a *filtered* version of $`x_t`$, where the
+weights associated to $`x_t`$ decline geometrically over time. Hence, in
 such case, the indicator’s excessive volatility won’t be reflected in
 the disaggregated series as it is with Chow-Lin; rather, it will be
 smoothed.
@@ -339,7 +360,7 @@ constraints, and therefore also the relevance of switching from an ADL
 model to a simpler Chow-Lin or Fernandez model, can be assessed by
 computing the Likelihood Ratio (LR) statistic (cfr. example below).
 Finally, you can set the parameter to “NONE”, which means an ADL(1,0)
-model is considered (no lag on $x_{t}$) which corresponds to the method
+model is considered (no lag on $`x_t`$) which corresponds to the method
 suggested by Santos Silva and Cardoso (2001).
 
 The output of the function
@@ -353,6 +374,7 @@ In practice, the ADL model is estimated based on an equivalent state
 space representation.
 
 ``` r
+
 # Example: Use of ADL models for temporal disaggregation
 
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
@@ -396,24 +418,27 @@ the dependent variable, this approach flips the regression and treats
 the high-frequency indicator as the dependent variable and the target
 series as the independent variable.
 
-Let $Y_{T}$, $T = 1,...,m$, and $x_{t}$, $t = 1,...,n$, be, respectively
+Let $`Y_T`$, $`T=1,...,m`$, and $`x_t`$, $`t=1,...,n`$, be, respectively
 the observed low frequency benchmark and a single high-frequency
-indicator of the unknown high frequency target variable $y_{t}$. The
+indicator of the unknown high frequency target variable $`y_t`$. The
 model is defined as:
 
 \$\$ x_t = a + by_t + u_t \\ u_t = \phi u\_{t-1} + \varepsilon_t \$\$
 subject to the temporal constraint (flow variables)
-$$\sum\limits_{t}y_{t} = Y_{T}$$ The choice of which variable is
-dependent and which is independent is far from arbitrary. It changes the
-assumptions and the interpretation of the model, and the outcome may be
-very different too. In particular, if the fit between the benchmark and
-the indicator is globally poor, the smoothing part of the Chow-Lin model
-usually becomes more influential (if constant \> 0), resulting in a
-disaggregated series that is smoother, meaning that the indicator’s
-movements are dampened. Conversely, under the reverse model above, we
-can have a high estimate for parameter $a$ and a low estimate for $b$,
-which may result in a disaggregated series being more volatile,
-effectively amplifying the indicator’s movements.
+``` math
+\sum_{t} y_t = Y_T
+```
+The choice of which variable is dependent and which is independent is
+far from arbitrary. It changes the assumptions and the interpretation of
+the model, and the outcome may be very different too. In particular, if
+the fit between the benchmark and the indicator is globally poor, the
+smoothing part of the Chow-Lin model usually becomes more influential
+(if constant \> 0), resulting in a disaggregated series that is
+smoother, meaning that the indicator’s movements are dampened.
+Conversely, under the reverse model above, we can have a high estimate
+for parameter $`a`$ and a low estimate for $`b`$, which may result in a
+disaggregated series being more volatile, effectively amplifying the
+indicator’s movements.
 
 The reverse regression method can be called with the
 [`temporaldisaggregationI()`](https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.md)
@@ -424,6 +449,7 @@ coefficients. A print(), summary() and plot() functions can be applied
 on the output object.
 
 ``` r
+
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
 td_rv <- temporaldisaggregationI(Y, indicator = x)
@@ -439,6 +465,7 @@ print(td_rv)
 ```
 
 ``` r
+
 # Comparison with Chow-Lin
 td_cl <- temporal_disaggregation(Y, indicators = x)
 y_cl <- td_cl$estimation$disagg
@@ -471,17 +498,19 @@ movement preservation: additive first difference (AFD), proportional
 first difference (PFD), additive second difference (ASD), proportional
 second difference (PSD).
 
-The most widely used is the Denton PFD variant. Let $Y_{T}$,
-$T = 1,...,m$, and $x_{t}$, $t = 1,...,n$, be, respectively the temporal
+The most widely used is the Denton PFD variant. Let $`Y_T`$,
+$`T=1,...,m`$, and $`x_t`$, $`t=1,...,n`$, be, respectively the temporal
 benchmarks and the high-frequency preliminary values of an unknown
-target variable $y_{t}$. The objective function of the Denton PFD method
+target variable $`y_t`$. The objective function of the Denton PFD method
 is as follows (considering the small modification suggested by Cholette
 to deal with the starting conditions of the problem):
-$$min_{y_{t}}\sum\limits_{t = 2}^{n}\lbrack\frac{y_{t}}{x_{t}} - \frac{y_{t - 1}}{x_{t - 1}}\rbrack^{2}$$
+``` math
+min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
+```
 This objective function is minimized subject to the temporal aggregation
-constraints $\sum_{t\epsilon T}y_{t} = Y_{T}$, $T = 1,...,m$ (flows
+constraints $`\sum_{t\epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows
 variables). In other words, the benchmarked series is estimated in such
-a way that the “Benchmark-to-Indicator” ratio $\frac{y_{t}}{x_{t}}$
+a way that the “Benchmark-to-Indicator” ratio $`\frac{y_t}{x_t}`$
 remains as smooth as possible, which is often of key interest in
 benchmarking.
 
@@ -492,7 +521,7 @@ rates of the preliminary series. It is also argued that in many
 applications, Denton PFD is more appropriate than GRP method as it deals
 with a linear problem which is computationally easier, and does not
 suffer from the issues related to time irreversibility and singular
-objective function when $y_{t}$ approaches 0 (see Daalmans et al, 2018).
+objective function when $`y_t`$ approaches 0 (see Daalmans et al, 2018).
 
 Denton methods can be called with the
 [`denton()`](https://rjdverse.github.io/rjd3bench/reference/denton.md)
@@ -511,6 +540,7 @@ functions return the high frequency series benchmarked with the Denton
 method.
 
 ``` r
+
 # Example 1: use of Denton method for benchmarking
 Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
 
@@ -536,21 +566,23 @@ y_denraw <- denton_raw(x, Y, freqratio = 5) # for example, x and Y could be annu
 GRP explicitly preserves the period-to-period growth rates of the
 preliminary series.
 
-Let $Y_{T}$, $T = 1,...,m$, and $x_{t}$, $t = 1,...,n$, be, respectively
+Let $`Y_T`$, $`T=1,...,m`$, and $`x_t`$, $`t=1,...,n`$, be, respectively
 the temporal benchmarks and the high-frequency preliminary values of an
-unknown target variable $y_{t}$. Cauley and Trager(1981) consider the
+unknown target variable $`y_t`$. Cauley and Trager(1981) consider the
 following objective function:
 
-$$f(x) = \sum\limits_{t = 2}^{n}\left( \frac{y_{t}}{y_{t - 1}} - \frac{x_{t}}{x_{t - 1}} \right)^{2}$$
-and look for values $y_{t}^{*}$, $t = 1,...,n$, which minimize it
-subject to the temporal aggregation constraints
-$\sum_{t\epsilon T}y_{t} = Y_{T}$, $T = 1,...,m$ (flows variables). In
+``` math
+f(x) = \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2
+```
+and look for values $`y_t^*`$, $`t=1,...,n`$, which minimize it subject
+to the temporal aggregation constraints
+$`\sum_{t\epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows variables). In
 other words, the benchmarked series is estimated in such a way that its
 temporal dynamics; as expressed by the growth rates
-$\frac{y_{t}^{*}}{y_{t - 1}^{*}}$, $t = 2,...,n$, be “as close as
-possible” to the temporal dynamics of the preliminary series, where the
-“distance” from the preliminary growth rates $\frac{x_{t}}{x_{t - 1}}$
-is given by the sum of the squared differences. (Di Fonzo, Marini, 2011)
+$`\frac{y_t^*}{y_{t-1}^*}`$, $`t=2,...,n`$, be “as close as possible” to
+the temporal dynamics of the preliminary series, where the “distance”
+from the preliminary growth rates $`\frac{x_t}{x_{t-1}}`$ is given by
+the sum of the squared differences. (Di Fonzo, Marini, 2011)
 
 The objective function considered by Cauley and Trager is a natural
 measure of the movement of a time series and as one would expect, it is
@@ -559,7 +591,7 @@ movement of the series (Di Fonzo, Marini, 2011). However, unlike the
 Denton PFD method which deals with a linear problem, GRP solves a more
 difficult nonlinear problem. Furthermore, the GRP method suffers from a
 couple of drawbacks, which are time irreversibility and potential
-singularities in the objective function when $y_{t - 1}$ approaches to
+singularities in the objective function when $`y_{t-1}`$ approaches to
 0, which could lead to undesirable results (see Daalmans et al, 2018).
 
 The standard objective function for GRP considered by Cauley and Trager
@@ -571,11 +603,18 @@ is not equivalent when using GRP method. As altenatives, Daalmans et al
 logarithmic GRP) which are “time symmetric”.
 
 Backward GRP:
-$$f(x) = \sum\limits_{t = 2}^{n}\left( \frac{y_{t - 1}}{y_{t}} - \frac{x_{t - 1}}{x_{t}} \right)^{2}$$
+``` math
+f(x) = \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
+```
 Symmetric GRP:
-$$f(x) = \frac{1}{2}\sum\limits_{t = 2}^{n}\left( \frac{y_{t}}{y_{t - 1}} - \frac{x_{t}}{x_{t - 1}} \right)^{2} + \frac{1}{2}\sum\limits_{t = 2}^{n}\left( \frac{y_{t - 1}}{y_{t}} - \frac{x_{t - 1}}{x_{t}} \right)^{2}$$
+``` math
+f(x) = \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2 +
+\frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
+```
 Logarithmic GRP:
-$$f(x) = \sum\limits_{t = 2}^{n}\left( log\left( \frac{y_{t}}{y_{t - 1}} \right) - log\left( \frac{x_{t}}{x_{t - 1}} \right) \right)^{2}$$
+``` math
+f(x) = \sum_{t=2}^{n}\left(log\left(\frac{y_t}{y_{t-1}}\right) - log\left(\frac{x_t}{x_{t-1}}\right) \right)^2
+```
 
 The GRP method, corresponding to the method of Cauley and Trager, using
 the solution proposed by Di Fonzo and Marini (2011), can be called with
@@ -587,6 +626,7 @@ function returns the high frequency series benchmarked with the GRP
 method.
 
 ``` r
+
 # Example: use GRP method for benchmarking
 Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
 y_den0 <- denton(t = Y, nfreq = 4)
@@ -615,6 +655,7 @@ function returns the high frequency series benchmarked with cubic spline
 method.
 
 ``` r
+
 # Example: use cubic splines for benchmarking
 y_cs1 <- cubicspline(t = Y, nfreq = 4) # without high frequency series (smoothing)
 
@@ -630,47 +671,53 @@ of movement preservation that encompasses other benchmarking methods.
 The Denton method (both the AFD and PFD variants), as well as the naive
 pro-rating method, emerge as particular cases of the Cholette method.
 
-Let $Y_{T}$, $T = 1,...,m$, and $x_{t}$, $t = 1,...,n$, be, respectively
+Let $`Y_T`$, $`T=1,...,m`$, and $`x_t`$, $`t=1,...,n`$, be, respectively
 the temporal benchmarks and the high-frequency preliminary values of an
-unknown target variable $y_{t}$. The objective function of the Cholette
+unknown target variable $`y_t`$. The objective function of the Cholette
 method is as follows (Quenneville et al, 2006):
 
-$$f(x) = \left( 1 - \rho^{2} \right)\left( \frac{x_{1} - y_{1}}{\left| x_{1} \right|^{\lambda}} \right)^{2} + \sum\limits_{t = 2}^{n}\left\lbrack \left( \frac{x_{t} - y_{t}}{\left| x_{t} \right|^{\lambda}} \right) - \rho\left( \frac{x_{t - 1} - y_{t - 1}}{\left| x_{t - 1} \right|^{\lambda}} \right) \right\rbrack^{2}$$
+``` math
+f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \sum_{t=2}^{n}\left[\left(\frac{x_t - y_t}{|x_t|^\lambda}\right) - \rho \left(\frac{x_{t-1} - y_{t-1}}{|x_{t-1}|^\lambda}\right)\right]^2
+```
 This objective function is minimized subject to the temporal aggregation
-constraints $\sum_{t\epsilon T}y_{t} = Y_{T}$, $T = 1,...,m$ (flows
+constraints $`\sum_{t\epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows
 variables). The method is driven by a couple of parameters:
 
-- The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$
-  determines the degree of movement preservation. When $\lambda = 1$,
-  the closer $\rho$ is to 1, the smoother will be the ratios between the
-  benchmarked and the preliminary series, resulting in a better
+- The smoothing parameter $`\rho`$, $`0 \leq \rho \leq 1`$. $`\rho`$
+  determines the degree of movement preservation. When $`\lambda = 1`$,
+  the closer $`\rho`$ is to 1, the smoother will be the ratios between
+  the benchmarked and the preliminary series, resulting in a better
   preservation of the latter’s period‑to‑period growth rates.
 
-- The adjustment model parameter $\lambda$, $\lambda \in {\mathbb{R}}$.
-  Set $\lambda = 0$ for an additive benchmarking model and $\lambda = 1$
-  for a multiplicative benchmarking model. Finally, set $\lambda = 0.5$
-  with $\rho = 0$, for the naive pro-rating method.
+- The adjustment model parameter $`\lambda`$,
+  $`\lambda \in \mathbb{R}`$. Set $`\lambda = 0`$ for an additive
+  benchmarking model and $`\lambda = 1`$ for a multiplicative
+  benchmarking model. Finally, set $`\lambda = 0.5`$ with $`\rho = 0`$,
+  for the naive pro-rating method.
 
 Cholette method also provides for the possibility of considering a bias
 correction factor, which is the expected discrepancy between the
 benchmarks and the high-frequency preliminary series. The additive and
 multiplicative bias correction factor are estimated respectively as:
 
-$$\begin{aligned}
-b_{a} & {= \frac{\sum\limits_{T = 1}^{m}Y_{T} - \sum\limits_{T = 1}^{m}{\sum\limits_{t\epsilon T}x_{t}}}{m}} \\
-b_{m} & {= \frac{\sum\limits_{T = 1}^{m}Y_{T}}{\sum\limits_{T = 1}^{m}{\sum\limits_{t\epsilon T}x_{t}}}}
-\end{aligned}$$ If a bias correction factor is considered, the
-preliminary series is re-scaled in the objective function above:
-$x_{t}^{*}$ replaces $x_{t}$, where $x_{t}^{*} = b_{a} + x_{t}$ in the
-additive case and $x_{t}^{*} = b_{m} \times x_{t}$ in the multiplicative
-case. The rationale for considering a bias correction factor with this
-method is provided in Dagum and Cholette (2006, Ch. 6). It mainly
-impacts the observations at the end of the series that are not covered
-by a benchmark. In particular, when $\rho < 1$, the
-Benchmark-to-Indicator ratios (BI ratios) at the end of the series
-converge to the bias correction factor. By default, no bias is
-considered, meaning that we do not expected a systematic bias between
-the benchmarks and the preliminary series ($b_{a} = 0$ or $b_{m} = 1$).
+``` math
+\begin{aligned}
+b_a &= \frac{\sum_{T=1}^{m}{Y_T} - \sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}{m} \\
+b_m &= \frac{\sum_{T=1}^{m}{Y_T}}{\sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}
+\end{aligned}
+```
+If a bias correction factor is considered, the preliminary series is
+re-scaled in the objective function above: $`x_t^*`$ replaces $`x_t`$,
+where $`x_t^*=b_a+x_t`$ in the additive case and
+$`x_t^*=b_m \times x_t`$ in the multiplicative case. The rationale for
+considering a bias correction factor with this method is provided in
+Dagum and Cholette (2006, Ch. 6). It mainly impacts the observations at
+the end of the series that are not covered by a benchmark. In
+particular, when $`\rho < 1`$, the Benchmark-to-Indicator ratios (BI
+ratios) at the end of the series converge to the bias correction factor.
+By default, no bias is considered, meaning that we do not expected a
+systematic bias between the benchmarks and the preliminary series
+($`b_a = 0`$ or $`b_m = 1`$).
 
 Cholette method has been widely used to benchmark seasonally adjusted
 series to annual totals derived from the raw series. For this purpose,
@@ -680,16 +727,16 @@ observations at the end of the series that are not covered by a
 benchmark. For observations without a benchmark, the best estimate of
 the BI-ratio is the estimated value of the bias; so, repeating the last
 value is not appropriate. Instead, to obtain a smooth transition from
-this last BI-ratio to the bias, one can set $\rho < 1$. For observations
-with a benchmark, the BI-ratios are closer to those obtained with the
-Denton PFD method ($\lambda = 1$) and smoother when
-$\left. \rho\rightarrow 1 \right.$. As a pragmatic benchmarking method
-routinely applicable to large numbers of seasonal time series, Dagum and
-Cholette (2006) recommend the proportional benchmarking method
-($\lambda = 1$) with a value of $\rho = 0.90$ for monthly series and
-$\rho = 0.90^{3} = 0.729$ for quarterly series. An alternative would be
-to estimate the autocorrelation structure of the error instead of using
-those default values.
+this last BI-ratio to the bias, one can set $`\rho < 1`$. For
+observations with a benchmark, the BI-ratios are closer to those
+obtained with the Denton PFD method ($`\lambda = 1`$) and smoother when
+$`\rho \to 1`$. As a pragmatic benchmarking method routinely applicable
+to large numbers of seasonal time series, Dagum and Cholette (2006)
+recommend the proportional benchmarking method ($`\lambda = 1`$) with a
+value of $`\rho = 0.90`$ for monthly series and $`\rho = 0.90^3= 0.729`$
+for quarterly series. An alternative would be to estimate the
+autocorrelation structure of the error instead of using those default
+values.
 
 Cholette method can be called with the
 [`cholette()`](https://rjdverse.github.io/rjd3bench/reference/cholette.md)
@@ -702,6 +749,7 @@ In practice, the benchmarked series is estimated based on an equivalent
 state space representation of the Cholette method described above.
 
 ``` r
+
 # Example: use Cholette method for benchmarking
 Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
 xn <- c(denton(t = Y, nfreq = 4) + rnorm(n = length(Y)*4, mean = 0, sd = 10), 5750, 5800)
@@ -731,21 +779,23 @@ methods such as the multivariate Denton method.
 
 Let
 
-- $Y_{i,T}$, $T = 1,...,m$, $i = 1,...,I$, be the set of temporal
+- $`Y_{i,T}`$, $`T=1,...,m`$, $`i=1,...,I`$, be the set of temporal
   benchmarks
-- $z_{k,t}$, $t = 1,...,n$, $k = 1,...,K$, be the set of contemporaneous
-  constraints
-- $x_{i,t}$ be the high-frequency preliminary values of the set of the
-  unknown target variables $y_{i,t}$.
+- $`z_{k,t}`$, $`t=1,...,n`$, $`k=1,...,K`$, be the set of
+  contemporaneous constraints
+- $`x_{i,t}`$ be the high-frequency preliminary values of the set of the
+  unknown target variables $`y_{i,t}`$.
 
 The objective function of the multivariate Cholette method is:
-$$f(x) = \left( 1 - \rho^{2} \right)\sum\limits_{i = 1}^{I}\left( \frac{x_{i,1} - y_{i,1}}{\left| x_{i,1} \right|^{\lambda}} \right)^{2} + \sum\limits_{i = 1}^{I}\sum\limits_{t = 2}^{n}\left\lbrack \left( \frac{x_{i,t} - y_{i,t}}{\left| x_{i,t} \right|^{\lambda}} \right) - \rho\left( \frac{x_{i,t - 1} - y_{i,t - 1}}{\left| x_{i,t - 1} \right|^{\lambda}} \right) \right\rbrack^{2}$$
+``` math
+f(x) = (1-\rho^2) \sum_{i=1}^{I}\left(\frac{x_{i,1} - y_{i,1}}{|x_{i,1}|^\lambda}\right)^2 + \sum_{i=1}^{I}\sum_{t=2}^{n}\left[\left(\frac{x_{i,t} - y_{i,t}}{|x_{i,t}|^\lambda}\right) - \rho \left(\frac{x_{i,t-1} - y_{i,t-1}}{|x_{i,t-1}|^\lambda}\right)\right]^2
+```
 This objective function is minimized subject to
 
 - the temporal aggregation constraints
-  $\sum_{t\epsilon T}y_{i,t} = Y_{i,T}$, and
+  $`\sum_{t\epsilon T} y_{i,t} = Y_{i,T}`$, and
 - the contemporaneous constraints given by
-  $\sum_{j\epsilon J_{k}}\omega_{k,j}x_{j,t} = z_{k,t}$.
+  $`\sum_{j\epsilon J_k}\omega_{k,j}x_{j,t} = z_{k,t}`$.
 
 Note that consistency between the temporal aggregation constraints and
 the contemporaneous constraints is required (see the consistency check
@@ -761,20 +811,20 @@ each of the preliminary series separately.
 In addition to binding contemporaneous constraints, non-binding
 constraints can also be specified by modifying their formulation in the
 `ccvector` argument. For example, instead of imposing a binding
-condition such as $z_{1} = x_{1} + x_{2} + x_{3}$, one may express a
-non-binding constraint as $0 = x_{1} + x_{2} + x_{3} - z_{1}$, which
-allows the $z_{1}$ series to be adjusted as $x_{1}$, $x_{2}$ and $x_{3}$
-(weights may be introduced if necessary).
+condition such as $`z_1=x_1+x_2+x_3`$, one may express a non-binding
+constraint as $`0=x_1+x_2+x_3-z_1`$, which allows the $`z_1`$ series to
+be adjusted as $`x_1`$, $`x_2`$ and $`x_3`$ (weights may be introduced
+if necessary).
 
 As in the univariate case, the multivariate Cholette method is driven by
 a couple of parameters:
 
-- The smoothing parameter $\rho$, $0 \leq \rho \leq 1$. $\rho$
-  determines the degree of movement preservation. When $\lambda = 1$,
-  values of $\rho$ closer to 1 result in smoother ratios between the
+- The smoothing parameter $`\rho`$, $`0 \leq \rho \leq 1`$. $`\rho`$
+  determines the degree of movement preservation. When $`\lambda = 1`$,
+  values of $`\rho`$ closer to 1 result in smoother ratios between the
   benchmarked and the preliminary series, and lead to a better
   preservation of the latter’s period‑to‑period growth rates. Although
-  setting $\rho = 1$ is an option, it should be used with caution in a
+  setting $`\rho = 1`$ is an option, it should be used with caution in a
   multivariate context. This is because contemporaneous constraints,
   combined with the fact that pure movement preservation specifies
   nothing about the level of the individual reconciled series, may
@@ -783,20 +833,21 @@ a couple of parameters:
   absence of temporal constraints where strong movement preservation
   should not be pursued during reconciliation.
 
-- The adjustment model parameter $\lambda$, $\lambda \in {\mathbb{R}}$.
-  Typical choices include $\lambda = 0$, $\lambda = 0.5$ and
-  $\lambda = 1$. This parameter determines the extent to which the
-  relative size of each time series influences the distribution of the
-  discrepancies. When $\lambda = 0$, the model is purely additive, while
-  $\lambda = 1$ yields a fully multiplicative specification in which
-  larger series absorb a larger share of the adjustment. In particular,
-  the cases $(\lambda = 0,\rho = 1)$ and $(\lambda = 1,\rho = 1)$
-  correspond to the multivariate extensions of the [Denton AFD and PFD
-  method](#denton), respectively. Choosing $\lambda = 0.5$ provides a
-  compromise between the two approaches and results in discrepancies
-  being allocated in proportion to the values of the preliminary series.
-  As in the univariate Cholette method, setting $\lambda = 0.5$ together
-  with $\rho = 0$ yields the naive pro-rating method.
+- The adjustment model parameter $`\lambda`$,
+  $`\lambda \in \mathbb{R}`$. Typical choices include $`\lambda = 0`$,
+  $`\lambda = 0.5`$ and $`\lambda = 1`$. This parameter determines the
+  extent to which the relative size of each time series influences the
+  distribution of the discrepancies. When $`\lambda = 0`$, the model is
+  purely additive, while $`\lambda = 1`$ yields a fully multiplicative
+  specification in which larger series absorb a larger share of the
+  adjustment. In particular, the cases $`(\lambda = 0, \rho = 1)`$ and
+  $`(\lambda = 1, \rho = 1)`$ correspond to the multivariate extensions
+  of the [Denton AFD and PFD method](#denton), respectively. Choosing
+  $`\lambda = 0.5`$ provides a compromise between the two approaches and
+  results in discrepancies being allocated in proportion to the values
+  of the preliminary series. As in the univariate Cholette method,
+  setting $`\lambda = 0.5`$ together with $`\rho = 0`$ yields the naive
+  pro-rating method.
 
 The multivariate Cholette method can be called with the
 [`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)
@@ -810,6 +861,7 @@ state space representation of the multivariate Cholette method described
 above.
 
 ``` r
+
 # Example: use the multivariate Cholette method for reconciliation
 x1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
 x2 <- ts(c(18, 19.5, 19.0, 19.7, 18.5, 19.0, 20.3, 20.0), frequency = 4, start = c(2010, 1))
@@ -831,26 +883,27 @@ tc <- c("Y1 = sum(x1)", "Y2 = sum(x2)", "Y3 = sum(x3)") # temporal constraints
 cc <- c("z = x1+x2+x3") # (binding) contemporaneous constraint
 cc_nb <- c("0 = x1+x2+x3-z") # non-binding contemporaneous constraint
 
-rec1 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, lambda = .5) # trade-off values for rho and lambda
+rec1 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc) # default values for rho and lambda
 print(rec1)
 #> $x1
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 7.051902 7.371871 8.069296 7.506931
-#> 2011 7.916967 6.956146 7.572586 8.154301
+#> 2010 7.069397 7.385899 8.058519 7.486185
+#> 2011 7.961343 6.987044 7.570753 8.080860
 #> 
 #> $x2
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 18.55737 20.59774 19.80615 21.03874
-#> 2011 19.19172 19.27605 21.37229 21.35994
+#> 2010 18.55572 20.58942 19.80927 21.04559
+#> 2011 19.16716 19.25396 21.37039 21.40849
 #> 
 #> $x3
 #>          Qtr1     Qtr2     Qtr3     Qtr4
-#> 2010 1.490728 1.830389 2.024550 2.654333
-#> 2011 2.191317 1.667802 1.955124 2.285758
-rec2 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1) # Denton
-rec3 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729) # Cholette
-rec4 <- multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc) # no temporal constraints
-rec5 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb) # non-binding contemporaneous constraint
+#> 2010 1.474880 1.824683 2.032208 2.668230
+#> 2011 2.171499 1.658994 1.958861 2.310646
+rec2 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, lambda = .5) # trade-off values for rho and lambda
+rec3 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1) # Denton
+rec4 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729) # Cholette
+rec5 <- multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc) # no temporal constraints
+rec6 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb) # non-binding contemporaneous constraint
 ```
 
 ## Calendarization
@@ -873,13 +926,18 @@ Based on the paper from Quenneville et al (2012), the temporal
 disaggregation step is performed by considering a state-space
 representation of the Denton proportional first difference (PFD) method.
 Recall the objective function of the (modified) Denton PFD method
-$$min_{y_{t}}\sum\limits_{t = 2}^{n}\lbrack\frac{y_{t}}{x_{t}} - \frac{y_{t - 1}}{x_{t - 1}}\rbrack^{2}$$
+``` math
+min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
+```
 which is minimized under the temporal aggregation constraints
-$$\sum\limits_{t\epsilon l}y_{t} = Y_{l}$$$Y_{l}$, $l = 1,...,q$, are
-the observed values to be distributed and $x_{t}$, $t = 1,...,n$ are the
-daily indicator values that represent the daily movement of the unknown
-target variable $y_{t}$. In the absence of such information, a constant
-indicator (say, a vector of 1) is used instead.
+``` math
+\sum_{t\epsilon l} y_t = Y_l
+```
+$`Y_l`$, $`l=1,...,q`$, are the observed values to be distributed and
+$`x_t`$, $`t=1,...,n`$ are the daily indicator values that represent the
+daily movement of the unknown target variable $`y_t`$. In the absence of
+such information, a constant indicator (say, a vector of 1) is used
+instead.
 
 The calendarization process can be called with the
 [`calendarization()`](https://rjdverse.github.io/rjd3bench/reference/calendarization.md)
@@ -899,6 +957,7 @@ well as the disaggregated daily values (after running the first step
 only) and their associated errors.
 
 ``` r
+
 # Example of calendarization (from Quenneville et al (2012))
 
 ## Observed data

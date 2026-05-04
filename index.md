@@ -45,12 +45,14 @@ To get the current stable version (from the latest release):
 - From CRAN:
 
 ``` r
+
 install.packages("rjd3bench")
 ```
 
 - From GitHub:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("rjdverse/rjd3toolkit@*release")
 remotes::install_github("rjdverse/rjd3bench@*release", build_vignettes = TRUE)
@@ -59,6 +61,7 @@ remotes::install_github("rjdverse/rjd3bench@*release", build_vignettes = TRUE)
 - From [r-universe](https://rjdverse.r-universe.dev/rjd3bench):
 
 ``` r
+
 install.packages("rjd3bench", repos = c("https://rjdverse.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
@@ -67,6 +70,7 @@ install.packages("rjd3bench", repos = c("https://rjdverse.r-universe.dev", "http
 To get the current development version from GitHub:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("rjdverse/rjd3bench", build_vignettes = TRUE)
 ```

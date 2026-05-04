@@ -77,7 +77,7 @@ multivariatecholette(
 - lambda:
 
   Numeric. The adjustment model parameter. Typical values include
-  `lambda = 0`, `lambda = 0.5` (the default) and `lambda = 1`.See the
+  `lambda = 0`, `lambda = 0.5` (the default) and `lambda = 1`. See the
   package vignette for more information on the choice of the `lambda`
   parameter.
 
@@ -121,7 +121,25 @@ tc <- c("Y1 = sum(x1)", "Y2 = sum(x2)", "Y3 = sum(x3)") # temporal constraints
 cc <- c("z = x1+x2+x3") # (binding) contemporaneous constraint
 cc_nb <- c("0 = x1+x2+x3-z") # non-binding contemporaneous constraint
 
-## Run function with trade-off values for rho and lambda
+## Run function with default values for rho and lambda
+multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc)
+#> $x1
+#>          Qtr1     Qtr2     Qtr3     Qtr4
+#> 2010 7.069397 7.385899 8.058519 7.486185
+#> 2011 7.961343 6.987044 7.570753 8.080860
+#> 
+#> $x2
+#>          Qtr1     Qtr2     Qtr3     Qtr4
+#> 2010 18.55572 20.58942 19.80927 21.04559
+#> 2011 19.16716 19.25396 21.37039 21.40849
+#> 
+#> $x3
+#>          Qtr1     Qtr2     Qtr3     Qtr4
+#> 2010 1.474880 1.824683 2.032208 2.668230
+#> 2011 2.171499 1.658994 1.958861 2.310646
+#> 
+
+## Run function with some trade-off values for rho and lambda
 multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, lambda = .5)
 #> $x1
 #>          Qtr1     Qtr2     Qtr3     Qtr4
