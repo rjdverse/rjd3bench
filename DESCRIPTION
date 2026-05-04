@@ -1,11 +1,12 @@
 Type: Package
 Package: rjd3bench
 Title: Temporal Disaggregation and Benchmarking in 'JDemetra+' 3.x
-Version: 3.1.1.9000
+Version: 3.1.2
 Authors@R: c(
       person("Jean", "Palate", email = "palatejean@gmail.com", role = "aut"),
       person("Corentin", "Lemasson", email ="corentin.lemasson@nbb.be", role = c("aut", "cre")),
-      person("Tanguy", "Barthelemy", email ="tanguy.barthelemy@insee.fr", role = c("ctb", "art"))
+      person("Tanguy", "Barthelemy", email ="tanguy.barthelemy@insee.fr", role = c("ctb", "art")),
+      person("Nikolina", "Rizanovska", email ="nikolina.rizanovska@gov.si", role = "ctb")
   )
 Description: Interface to 'JDemetra+' 3.x (<https://github.com/jdemetra>) 
     time series analysis software. It provides a variety of methods for 
