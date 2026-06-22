@@ -31,7 +31,7 @@ Note that this argument is used only with \code{model = "Ar1"} when \code{zeroin
 
 \item{trend}{Boolean. Indicates whether a linear trend is included in the model. The default is \code{FALSE}.}
 
-\item{indicators}{One or more high‑frequency indicator series used in the interpolation.
+\item{indicators}{One or more high frequency indicator series used in the interpolation.
 If \code{NULL} (the default), no indicator is used. When provided, the argument must be a numeric vector or a matrix.}
 
 \item{startoffset}{The number of initial observations in the indicator series that precede the start of the low-frequency series.

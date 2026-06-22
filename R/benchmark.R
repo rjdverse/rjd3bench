@@ -418,7 +418,7 @@ cholette <- function(s, t, rho = 1., lambda = 1.,
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
 #' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
-#' # Example 1: one "standard" contemporaneous constraint: x1+x2+x3 = z
+#' # Example 1: one "standard" contemporaneous constraint: z=x1+x2+x3
 #'
 #' x1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
 #' x2 <- ts(c(18, 19.5, 19.0, 19.7, 18.5, 19.0, 20.3, 20.0), frequency = 4, start = c(2010, 1))

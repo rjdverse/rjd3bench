@@ -1,5 +1,5 @@
 #' @include utils.R
-#' @importFrom stats frequency is.ts
+#' @importFrom stats frequency is.ts setNames
 NULL
 
 #' @title Temporal Disaggregation of a Time Series by Regression Models.
@@ -533,7 +533,7 @@ temporal_interpolation <- function(
 #' @param constant Boolean. Indicates whether a constant term is included in the model. The default is `TRUE`.
 #' Note that this argument is used only with `model = "Ar1"` when `zeroinitialization = FALSE`. For additional information, see the package vignette.
 #' @param trend Boolean. Indicates whether a linear trend is included in the model. The default is `FALSE`.
-#' @param indicators One or more high‑frequency indicator series used in the interpolation.
+#' @param indicators One or more high frequency indicator series used in the interpolation.
 #' If `NULL` (the default), no indicator is used. When provided, the argument must be a numeric vector or a matrix.
 #' @param startoffset The number of initial observations in the indicator series that precede the start of the low-frequency series.
 #' The value must be either 0 or a positive integer (default is 0). This argument is ignored when no indicator is provided.
@@ -796,8 +796,107 @@ temporaldisaggregationI <- function(series, indicator,
 }
 
 
-#' Multivariate Chow-Lin
+#' @title Multivariate Temporal Disaggregaton of a System of Time Series by Regression Models.
+#'
+#' @description
+#' Performs simultaneous temporal disaggregation of a system of low frequency
+#' time series into higher frequency series, based on the multivariate
+#' extension of the Chow-Lin model or the Random Walk approach (Fernandez).
+#'
+#' @param series A named list of `ts` objects containing the low frequency time series to be disaggregated.
+#' @param constant Either a Boolean or a vector of Booleans. If a vector is provided, each element specifies whether a constant term is included in the model for each series, following the order in which they appear in the `series` object.
+#' The length of the the vector must match the number of series.
+#' If a single Boolean is provided (default if `TRUE`), it is applied to all series.
+#' Note that this argument is used only with Chow-Lin model (i.e., when `rhos` values are strictly less than 1). For further details, see the package vignette.
+#' @param trend Either a Boolean or a vector of Booleans. If a vector is provided, each element specifies whether a linear trend is included in the model for each series, following the order in which they appear in the `series` object.
+#' The length of the the vector must match the number of series.
+#' If a single Boolean is provided (default if `FALSE`), it is applied to all series.
+#' @param indicators a named list of `ts` objects or a named list of a list of `ts` objects. Each element represents one or more high-frequency indicator series associated with each series.
+#' If an element is `NULL`, no indicator is used for the corresponding series. The default value is `NULL`, meaning that no indicators are used for any series.
+#' @param ccseries A named list of `ts` objects containing the contemporaneous constraints. If `NULL` (the default), no contemporaneous constraints can be considered.
+#' @param ccdefinition A character vector defining each contemporaneous constraints. The elements of the vector must be written in the form \eqn{z=w_1 y_1+\ldots+w_n y_n} or \eqn{c=w_1 y_1+\ldots+w_n y_n} where:
+#' * \eqn{z} is the name of a contemporaneous constraint,
+#' * \eqn{(w_1,\ldots,w_n)} are optional numeric weights,
+#' * \eqn{(y_1,\ldots,y_n)} are the names of the time series and
+#' * \eqn{c} is a constant.
+#' The default is `NULL`, meaning that no contemporaneous constraint is considered.
+#' @param freq An integer giving the annual frequency of the disaggregated series.
+#' This argument is ignored when at least one indicator series is provided for any series.
+#' @param rhos Either a numeric value or a vector of numerics. If a vector is provided, each element specifies the value of the `rho` parameter associated to each series, following the order in which they appear in the `series` object.
+#' The length of the the vector must match the number of series.
+#' If a single numeric value is provided (default if `1`, corresponding to the Fernandez model), it is applied to all series.
+#' @param var A character string specifying the method used to estimate the variance-covariance matrix of the innovations.
+#' The default is `"fromUnivariate"`, meaning that is is estimated from the residuals of the univariate models. Others options include `"allEquals"`, which assume a diagonal matrix with identical variances (a strong assumption), and `"userDefined"`, where the matrix is supplied by the user via the `var.matrix` argument. For additional details, see the package vignette.
+#' @param var.matrix The variance-covariance matrix of the innovations.
+#' This argument is only used when `var = "userDefined"` and must be provided in that case.
+#'
+#' @return An object of class "JD3_MULTITEMPDISAGG_RSLTS" is returned. The following are returned
+#' invisibly as a list:
+#' * `regression` `[[1]]` regression coefficients for each series;
+#' * `estimation` `[[2]]` disaggregated Time-Series and standard deviation for each series, regression effects, smoothing part, parameter and variance-covariance matrix;
+#'
 #' @export
+#'
+#' @seealso `multivariatecholette()` for time series reconciliation.
+#'
+#' For more information, see the vignette:
+#'
+#' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
+#'
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
+#' # Low-frequency data
+#' Y1 <- ts(c(30.0, 30.6, 31.2, 31.6), frequency = 1, start = c(2010,1))
+#' Y2 <- ts(c(80.0, 81.2, 82.5, 82.6), frequency = 1, start = c(2010,1))
+#' Y3 <- ts(c(8.0, 8.1, 8.2, 8.2), frequency = 1, start = c(2010,1))
+#' lf_series <- list(y1 = Y1, y2 = Y2, y3 = Y3)
+#'
+#' # Contemporaneous constraint
+#' z <- ts(c(27.1,29.8,29.9,31.2,29.4,27.9,30.9,31.7,29.2,30.2,30.6,31.9,29.3,30.4,30.7,32.0), frequency = 4, start = c(2010,1))
+#'
+#' # High-frequency indicators
+#' x11 <- ts(c(7,7.2,8.1,7.5,8.5,7.8,8.1,8.4,8.6,7.8,8.0,8.3,8.7,7.9,8.0,8.6), frequency=4, start=c(2010,1))
+#' x12 <- ts(c(18,19.5,19.0,19.7,18.5,19.0,20.3,20.0,18.6,19.5,20.4,20.1,18.7,19.1,20.4,20.8), frequency = 4, start = c(2010,1))
+#' x2 <- NULL
+#' x3 <- ts(c(1.5,1.8,2,2.5,2.0,1.5,1.7,2.1,2.1,1.6,1.6,2.2,2.3,1.7,1.9,2.3), frequency = 4, start = c(2010,1))
+#' indic_series = list(y1 = list(x11, x12),
+#'                     y2 = NULL,
+#'                     y3 = x3)
+#'
+#' # Check consistency between temporal and contemporaneous constraints
+#' rowSums(cbind(Y1,Y2,Y3)) - stats::aggregate.ts(z) # ok!
+#'
+#' # Estimate models and get results
+#'
+#' ## Mix Chow-Lin - Fernandez
+#' rslt1 <- multivariatechowlin(series = lf_series,
+#'                              constant = c(FALSE, FALSE, TRUE),
+#'                              trend = c(FALSE, FALSE, FALSE),
+#'                              indicators = indic_series,
+#'                              ccseries = list(z = z),
+#'                              ccdefinition = "z=y1+y2+y3",
+#'                              freq = 4L,
+#'                              rhos = c(0.85, 1.0, 0.9),
+#'                              var = "fromUnivariate",
+#'                              var.matrix = NULL)
+#'
+#' d1 <- do.call(cbind, rslt1$estimation$disagg)
+#' ed1 <- do.call(cbind, rslt1$estimation$edisagg)
+#'
+#' ## Fernandez only (Random walk model) with user-defined variance-covariance matrix
+#' rslt2 <- multivariatechowlin(series = lf_series,
+#'                              constant = FALSE,
+#'                              trend = FALSE,
+#'                              indicators = indic_series,
+#'                              ccseries = list(z = z),
+#'                              ccdefinition = "z=y1+y2+y3",
+#'                              freq = 4L,
+#'                              rhos = 1.0,
+#'                              var = "userDefined",
+#'                              var.matrix = diag(c(0.003,0.01,0.001)))
+#'
+#' d2 <- do.call(cbind, rslt2$estimation$disagg)
+#' ed2 <- do.call(cbind, rslt2$estimation$edisagg)
+#'
 multivariatechowlin <- function(series,
                                 constant = TRUE,
                                 trend = FALSE,
@@ -810,6 +909,12 @@ multivariatechowlin <- function(series,
                                 var.matrix = NULL) {
 
     var <- match.arg(var)
+
+    if(!is.null(var.matrix)) {
+        if (!is.matrix(var.matrix) || any(var.matrix[!diag(nrow(var.matrix), ncol(var.matrix))] != 0)) {
+            stop("Only diagonal variance covariance matrix of the innovations is currently supported.")
+        }
+    }
 
     n <- length(series)
     snames <- names(series)
@@ -990,14 +1095,16 @@ multivariatechowlin <- function(series,
         smoothingpart =
             rjd3toolkit::.jd3_object(jrslt,"MTD", TRUE) |>
             rjd3toolkit::result("smoothingpart"),
-        parameters = rhos
+        parameters = rhos,
         # residuals -> TODO
+        vcov = rjd3toolkit::.proc_matrix(jrslt, "innovationsvarcov")
     )
 
     output <- list(
         regression = regression,
         estimation = estimation
     )
+    class(output) <- "JD3_MULTITEMPDISAGG_RSLTS"
 
     return(output)
 }

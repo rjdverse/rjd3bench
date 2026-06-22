@@ -100,7 +100,6 @@ In practice, Chow-Lin and its variants Fernandez and Litterman are estimated bas
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
 td <- rjd3bench::temporal_disaggregation(Y, indicators = x)
-
 y <- td$estimation$disagg # the disaggregated series
 print(td)
 
@@ -441,7 +440,7 @@ This objective function is minimized subject to
 
 Note that consistency between the temporal aggregation constraints and the contemporaneous constraints is required (see the consistency check in the example).
 
-The method may also be applied in the absence of temporal aggregation constraints. The contemporaneous constraints are then imposed by altering the dynamic movements of the series as little as possible. Conversely, the absence of contemporaneous constraint is less relevant, as this is just equivalent to applying the univariate Cholette method to each of the preliminary series separately. 
+The method may also be applied in the absence of temporal aggregation constraints. The contemporaneous constraints are then imposed by altering the dynamic movements of the series as little as possible. Conversely, the absence of contemporaneous constraint is less relevant, as this is just equivalent to applying the univariate Cholette method to each of the preliminary series separately.
 
 In addition to binding contemporaneous constraints, non-binding constraints can also be specified by modifying their formulation in the `ccvector` argument. For example, instead of imposing a binding condition such as $z_1=x_1+x_2+x_3$, one may express a non-binding constraint as $0=x_1+x_2+x_3-z_1$, which allows the $z_1$ series to be adjusted as $x_1$, $x_2$ and $x_3$ (weights may be introduced if necessary).
 
@@ -484,6 +483,10 @@ rec4 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rh
 rec5 <- multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc) # no temporal constraints
 rec6 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb) # non-binding contemporaneous constraint
 ```
+
+## Multivariate Chow-Lin / Fernandez
+
+(UNDER CONSTRUCTION)
 
 
 # Calendarization
