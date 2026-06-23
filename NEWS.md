@@ -7,6 +7,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+* Add function multivariatechowlin() for multivariate temporal disaggregation
+
 ## [3.1.2] - 2026-05-04
 
 ### Fixed
