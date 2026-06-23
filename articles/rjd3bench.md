@@ -190,7 +190,6 @@ when calling the function.
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
 td <- rjd3bench::temporal_disaggregation(Y, indicators = x)
-
 y <- td$estimation$disagg # the disaggregated series
 print(td)
 #> Model: Ar1 
@@ -905,6 +904,10 @@ rec4 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rh
 rec5 <- multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc) # no temporal constraints
 rec6 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb) # non-binding contemporaneous constraint
 ```
+
+### Multivariate Chow-Lin / Fernandez
+
+(UNDER CONSTRUCTION)
 
 ## Calendarization
 

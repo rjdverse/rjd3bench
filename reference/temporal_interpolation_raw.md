@@ -51,7 +51,7 @@ temporal_interpolation_raw(
 
 - indicators:
 
-  One or more high‑frequency indicator series used in the interpolation.
+  One or more high frequency indicator series used in the interpolation.
   If `NULL` (the default), no indicator is used. When provided, the
   argument must be a numeric vector or a matrix.
 

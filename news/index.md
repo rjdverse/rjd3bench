@@ -10,6 +10,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### [Unreleased](https://github.com/rjdverse/rjd3bench/compare/v3.1.2...HEAD)
 
+#### Added
+
+- Add function multivariatechowlin() for multivariate temporal
+  disaggregation
+
 ### [3.1.2](https://github.com/rjdverse/rjd3bench/compare/v3.1.1...v3.1.2) - 2026-05-04
 
 #### Fixed
