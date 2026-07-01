@@ -2,7 +2,7 @@
 % Please edit documentation in R/tempdisagg.R
 \name{temporal_disaggregation}
 \alias{temporal_disaggregation}
-\title{Temporal disaggregation of a time series by regression models.}
+\title{Temporal Disaggregation of a Time Series by Regression Models.}
 \usage{
 temporal_disaggregation(
   series,
@@ -23,58 +23,67 @@ temporal_disaggregation(
 )
 }
 \arguments{
-\item{series}{The low frequency time series that will be disaggregated. It must be a ts object.}
+\item{series}{A low-frequency time series to be disaggregated. It must be a \code{"ts"} object.}
 
-\item{constant}{Constant term (T/F). Only used with "Ar1" model when zeroinitialization = F.}
+\item{constant}{Boolean. Indicates whether a constant term is included in the model. The default is \code{TRUE}.
+Note that this argument is used only with \code{model = "Ar1"} when \code{zeroinitialization = FALSE}. For additional information, see the package vignette.}
 
-\item{trend}{Linear trend (T/F, F by default)}
+\item{trend}{Boolean. Indicates whether a linear trend is included in the model. The default is \code{FALSE}.}
 
-\item{indicators}{High-frequency indicator(s) used in the temporal disaggregation.
-It must be a (list of) ts object(s).}
+\item{indicators}{One or more high-frequency indicator series used in the temporal disaggregation.
+If \code{NULL} (the default), no indicator is used. When provided, the argument must be a \code{"ts"} object or a list of \code{"ts"} objects.}
 
-\item{model}{Model of the error term (at the disaggregated level).
-"Ar1" = Chow-Lin, "Rw" = Fernandez, "RwAr1" = Litterman.}
+\item{model}{A character string specifying the model of the error term at the disaggregated level.
+The options are: \code{"Ar1"} (Chow Lin, the default), \code{"Rw"} (Fernandez), and \code{"RwAr1"} (Litterman).}
 
-\item{freq}{Integer. Annual frequency of the disaggregated series.
-Ignored when an indicator is provided.}
+\item{freq}{An integer giving the annual frequency of the disaggregated series.
+This argument is ignored when one or more indicator series is provided.}
 
-\item{average}{Average conversion (T/F). Default is F, which means additive conversion.}
+\item{average}{Boolean. Indicates whether an average conversion should be considered. The default is \code{FALSE}, corresponding to additive conversion.}
 
-\item{rho}{(Initial) value of the parameter. Only used with Ar1/RwAr1 models.}
+\item{rho}{A numeric value giving the (initial) value of the autoregressive parameter.
+This argument is used only for \code{"Ar1"} and \code{"RwAr1"} models.}
 
-\item{rho.fixed}{Fixed rho (T/F, F by default)}
+\item{rho.fixed}{Boolean. Specifies whether the supplied value of \code{rho} is fixed. The default is \code{FALSE}, which indicates that \code{rho} is estimated.}
 
-\item{rho.truncated}{Range for rho evaluation (in [rho.truncated, 1[)}
+\item{rho.truncated}{A numeric value defining the lower bound of the admissible range for \code{rho}.
+The evaluation range is \verb{[rho.truncated, 1[}.}
 
-\item{zeroinitialization}{The initial values of an auto-regressive model are
-fixed to 0 (T/F, F by default)}
+\item{zeroinitialization}{Boolean. If \code{TRUE}, the initial values of the autoregressive model are set to zero. The default is \code{FALSE}.}
 
-\item{diffuse.algorithm}{Algorithm used for diffuse initialization.
-"SqrtDiffuse" by default.}
+\item{diffuse.algorithm}{A character string specifying the algorithm used for diffuse initialization. The default is \code{"SqrtDiffuse"}. Other options are: \code{"Diffuse"} and \code{"Augmented"}.}
 
-\item{diffuse.regressors}{Indicates if the coefficients of the regression
-model are diffuse (T) or fixed unknown (F, default)}
+\item{diffuse.regressors}{Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (\code{TRUE}) or as fixed unknown (\code{FALSE}, the default).}
 
-\item{nbcsts}{Number of backcast periods. Ignored when an indicator is provided.}
+\item{nbcsts}{An integer specifying the number of backcast periods.
+This argument is ignored when one or more indicator series is provided.}
 
-\item{nfcsts}{Number of forecast periods. Ignored when an indicator is provided.}
+\item{nfcsts}{An integer specifying the number of forecast periods.
+This argument is ignored when one or more indicator series is provided.}
 }
 \value{
-An object of class "JD3TempDisagg"
+An object of class "JD3_TEMPDISAGG_RSLTS" is returned. The following are returned
+invisibly as a list:
+\itemize{
+\item \code{regression} \verb{[[1]]} regression coefficients;
+\item \code{estimation} \verb{[[2]]} disaggregated Time-Series and standard deviation, regression effects, smoothing part, parameter and residuals;
+\item \code{likelihood} \verb{[[3]]} likelihood statistics.
+}
 }
 \description{
-Perform temporal disaggregation of low frequency to high frequency time
-series by regression models. Models included are Chow-Lin, Fernandez,
-Litterman and some variants of those algorithms.
+Perform temporal disaggregation of low-frequency to high-frequency time
+series by regression models. The implemented models include Chow-Lin,
+Fernandez, Litterman and some variants of those algorithms.
 }
 \examples{
-# chow-lin with monthly indicator
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
+# Chow-lin with a monthly indicator
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 x <- rjd3toolkit::Retail$FoodAndBeverageStores
 td <- temporal_disaggregation(Y, indicators = x)
 td$estimation$disagg
 
-# fernandez with/without quarterly indicator
+# Fernandez with and without a quarterly indicator
 data("qna_data")
 Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 x <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
@@ -84,22 +93,21 @@ td1$estimation$disagg
 td2 <- temporal_disaggregation(Y, model = "Rw", nfcsts = 6)
 td2$estimation$disagg
 
-# chow-lin on index series
+# Chow-lin applied to index series
 Y_index <- 100 * Y / Y[1]
 x_index <- 100 * x / x[1]
 td3 <- temporal_disaggregation(Y, indicators = x, average = TRUE)
 td3$estimation$disagg
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link{temporal_interpolation}} for interpolation,
+\code{temporal_interpolation()} for interpolation,
 
-\code{\link{temporal_disaggregation_raw}} for temporal disaggregation of atypical frequency series,
+\code{temporal_disaggregation_raw()} for temporal disaggregation of atypical frequency series,
 
-\code{\link{temporal_interpolation_raw}} for interpolation of atypical frequency series
-
+\code{temporal_interpolation_raw()} for interpolation of atypical frequency series
 
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

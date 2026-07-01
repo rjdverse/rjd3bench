@@ -2,7 +2,7 @@
 % Please edit documentation in R/benchmark.R
 \name{cubicspline}
 \alias{cubicspline}
-\title{Benchmarking by means of cubic splines}
+\title{Benchmarking by means of Cubic Splines}
 \usage{
 cubicspline(
   s = NULL,
@@ -13,47 +13,49 @@ cubicspline(
 )
 }
 \arguments{
-\item{s}{Preliminary series. If not NULL, it must be the same class as t.}
+\item{s}{A preliminary series. If not \code{NULL}, it must be of the same class as \code{t}.}
 
-\item{t}{Aggregation constraint. Mandatory. it must be either an object of class ts or a numeric vector.}
+\item{t}{The low-frequency aggregation constraint. It must be either an object of class \code{ts} or a numeric vector.}
 
-\item{nfreq}{Integer. Annual frequency of the benchmarked series. Used if no preliminary series is provided.}
+\item{nfreq}{An integer giving the annual frequency of the benchmarked series.
+This argument is used only when no preliminary series is provided.}
 
-\item{conversion}{Conversion rule. Usually "Sum" or "Average". Sum by default.}
+\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} (the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
-\item{obsposition}{Integer. Postion of the observation in the aggregated period (only used with "UserDefined" conversion)}
+\item{obsposition}{An integer specifying the position of the observations of the low-frequency constraint within the benchmarked series (e.g. the 7th month of the year).
+This argument is used only when \code{conversion = "UserDefined"}.}
 }
 \value{
-The benchmarked series is returned
+A \code{"ts"} object with the benchmarked series is returned.
 }
 \description{
-Cubic splines are piecewise cubic functions that are linked together in
-a way to guarantee smoothness at data points. Additivity constraints are
-added for benchmarking purpose and sub-period estimates are derived
-from each spline. When a sub-period indicator (or a preliminary series) is
-used, cubic splines are no longer drawn based on the low frequency data
-but the Benchmark-to-Indicator (BI ratio) is the one being smoothed. Sub-
-period estimates are then simply the product between the smoothed high
-frequency BI ratio and the indicator.
+Cubic splines are piecewise cubic functions that are linked together in a way
+to guarantee smoothness at data points. Additivity constraints are added for
+benchmarking purpose and sub-period estimates are derived from each spline.
+When a preliminary series is used, cubic splines are no longer drawn based on
+the low-frequency constraint but the Benchmark-to-Indicator (BI ratio) is the
+one being smoothed. Sub-period estimates are then simply the product between
+the smoothed high frequency BI ratio and the preliminary series.
 }
 \examples{
+\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
 data("qna_data")
 Y <- ts(qna_data$B1G_Y_data[,"B1G_FF"], frequency = 1, start = c(2009,1))
 
-# cubic spline without preliminary series
+# Cubic spline without preliminary series
 y1 <- cubicspline(t = Y, nfreq = 4L)
 
-# cubic spline with preliminary series
+# Cubic spline with preliminary series
 x1 <- y1 + rnorm(n = length(y1), mean = 0, sd = 10)
 cubicspline(s = x1, t = Y)
 
-# cubic splines used for temporal disaggregation
+# Cubic splines used for temporal disaggregation
 x2 <- ts(qna_data$TURN_Q_data[,"TURN_INDEX_FF"], frequency = 4, start = c(2009,1))
 cubicspline(s = x2, t = Y)
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 For more information, see the vignette:
 
-\code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

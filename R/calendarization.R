@@ -15,24 +15,21 @@ NULL
 #' resulting daily values are aggregated into the desired calendar reference
 #' periods.
 #'
-#' @param calendarobs A named list with the observed data. The list must be
-#'   composed of three elements: start, end and value, the first two
-#'   corresponding to the starting and ending date of the observation. See
-#'   example.
-#' @param freq Annual frequency. If 0, only the daily series are computed.
-#' @param start Starting day of the calendarization. Could be before the
-#'   starting date of the first observation (retropolation).
-#' @param end Ending day of the calendarization. Could be after the ending date
-#' of the last observation (extrapolation).
-#' @param dailyweights Daily indicator values (or weights). Should have the same
-#'   length as the requested series. If available, it typically reflects the
-#'   daily level of activity that may be varying in function for instance of
-#' seasonality, trading day or other calendar effects such as public holidays.
-#' @param stde Boolean. If TRUE, the function also returns the standard errors
-#'   associated to the results. Default is FALSE.
+#' @param calendarobs A named list containing the observed data. The list must
+#'   consist of three elements: `start`, `end` and `value`, where the first two
+#'   indicate the starting and ending dates of the observation. See the example.
+#' @param freq An integer specifying the annual frequency. If set to `0`, only the daily series is computed.
+#' @param start The starting day of the calendarization. This date may precede the first observed data (retropolation).
+#' @param end The ending day of the calendarization. This date may exceed the last observed data (extrapolation).
+#' @param dailyweights A numeric vector of daily indicator values (or weights).
+#'   The vector must have the same length as the requested daily series. When
+#'   available, these weights typically reflects daily levels of activity, which
+#'   may vary due to seasonality, trading day effects, or other calendar effects
+#'   such as public holidays.
+#' @param stde Boolean. If `TRUE`, the function also returns the standard errors associated with the results.
+#' The default is `FALSE`.
 #'
-#' @return a list with the disaggregated daily values, the final aggregated
-#'   results, and their associated errors if requested.
+#' @return A list containing the disaggregated daily values, the final aggregated series, and their associated standard errors if requested.
 #'
 #' @references  Quenneville, B., Picard F., Fortier S. (2012). Calendarization
 #'   with interpolating splines and state space models. Statistics Canada, Appl.
@@ -42,9 +39,9 @@ NULL
 #'
 #' @seealso For more information, see the vignette:
 #'
-#' \code{\link[utils]{browseVignettes}} \code{browseVignettes(package = "rjd3bench")}
+#' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examples
+#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
 #'
 #' # Example 1 (from Quenneville et al (2012))
 #'

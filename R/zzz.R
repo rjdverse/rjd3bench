@@ -1,17 +1,24 @@
 #' @include utils.R
-#' @import rjd3toolkit
 NULL
 
 .onLoad <- function(libname, pkgname) {
+    jars_inst <- file.path(libname, pkgname, "inst", "java") |>
+        list.files(pattern = "\\.jar$", full.names = TRUE, all.files = TRUE)
+    result <- rJava::.jpackage(
+        pkgname,
+        lib.loc = libname,
+        morePaths = jars_inst
+    )
 
-    if (!requireNamespace("rjd3toolkit", quietly = TRUE)) stop("Loading rjd3 libraries failed")
+    if (!result) {
+        stop("Loading java packages failed", call. = FALSE)
+    }
 
-    result <- rJava::.jpackage(pkgname, lib.loc = libname)
-    if (!result) stop("Loading java packages failed")
+    # Loading extractors
+    if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) {
+        rjd3toolkit::reload_dictionaries()
+    }
 
     #  proto.dir <- system.file("proto", package = pkgname)
     #  RProtoBuf::readProtoFiles2(protoPath = proto.dir)
-
-    # reload extractors
-    .jcall("jdplus/toolkit/base/api/information/InformationExtractors", "V", "reloadExtractors")
 }
