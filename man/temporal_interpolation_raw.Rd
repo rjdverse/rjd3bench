@@ -31,7 +31,7 @@ Note that this argument is used only with \code{model = "Ar1"} when \code{zeroin
 
 \item{trend}{Boolean. Indicates whether a linear trend is included in the model. The default is \code{FALSE}.}
 
-\item{indicators}{One or more high‑frequency indicator series used in the interpolation.
+\item{indicators}{One or more high frequency indicator series used in the interpolation.
 If \code{NULL} (the default), no indicator is used. When provided, the argument must be a numeric vector or a matrix.}
 
 \item{startoffset}{The number of initial observations in the indicator series that precede the start of the low-frequency series.
@@ -87,7 +87,7 @@ Litterman and some variants of those algorithms. The
 allowing temporal interpolation for any frequency ratio.
 }
 \examples{
-\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 # Use of Chow-lin method to interpolate a biennial series with an annual
 # indicator (the low-frequency series is consistent with the last value of the
 # interpolated series)

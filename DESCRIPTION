@@ -1,7 +1,7 @@
 Type: Package
 Package: rjd3bench
 Title: Temporal Disaggregation and Benchmarking in 'JDemetra+' 3.x
-Version: 3.1.2
+Version: 3.1.3
 Authors@R: c(
       person("Jean", "Palate", email = "palatejean@gmail.com", role = "aut"),
       person("Corentin", "Lemasson", email ="corentin.lemasson@nbb.be", role = c("aut", "cre")),
@@ -23,8 +23,9 @@ Depends:
   R (>= 4.1.0)
 Imports:
   rJava (>= 1.0-6),
-  rjd3toolkit (>= 3.7.1),
-  RProtoBuf (>= 0.4.20),
+  rjd3jars (>= 0.0.5),
+  rjd3toolkit (>= 3.8.0),
+  RProtoBuf (>= 0.4.25),
   stats,
   graphics
 Encoding: UTF-8

@@ -1,26 +1,42 @@
 #' @include utils.R
 NULL
 
-.onAttach <- function(libname, pkgname) {
-    if (rjd3toolkit::get_java_version() < rjd3toolkit::minimal_java_version) {
-        packageStartupMessage(sprintf("Your java version is %s. %s or higher is needed.",
-                                      rjd3toolkit::get_java_version(), rjd3toolkit::minimal_java_version))
-    }
-}
-
+#' @importFrom rJava .jpackage
+#' @importFrom rjd3jars check_java_version reload_dictionaries
 .onLoad <- function(libname, pkgname) {
-
-    jar_dir <- system.file("java", package = "rjd3bench")
-    jars <- list.files(jar_dir, pattern = "\\.jar$", full.names = TRUE)
-    rJava::.jaddClassPath(jars)
-
-    result <- rJava::.jpackage(pkgname, lib.loc = libname)
-    if (!result) stop("Loading java packages failed", call. = FALSE)
-
-    if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) {
-        rjd3toolkit::reload_dictionaries()
+    # Loading dependencies
+    if (!requireNamespace("rjd3jars", quietly = TRUE)) {
+        stop("Loading {rjd3jars} failed", call. = FALSE)
+    }
+    if (!requireNamespace("rjd3toolkit", quietly = TRUE)) {
+        stop("Loading {rjd3toolkit} failed", call. = FALSE)
     }
 
+    # Loading Java class
+    jar_dir <- file.path(libname, pkgname, "inst", "java")
+    jars_inst <- list.files(
+        jar_dir,
+        pattern = "\\.jar$",
+        full.names = TRUE,
+        all.files = TRUE
+    )
+    result <- rJava::.jpackage(
+        pkgname,
+        lib.loc = libname,
+        morePaths = jars_inst
+    )
+
+    if (!result) {
+        stop("Loading java packages failed")
+    }
+
+    # Loading extractors
+    has_java <- rjd3jars::check_java_version(silent = TRUE)
+    if (has_java) {
+        rjd3jars::reload_dictionaries()
+    }
+
+    # Loading Proto class
     #  proto.dir <- system.file("proto", package = pkgname)
     #  RProtoBuf::readProtoFiles2(protoPath = proto.dir)
 }

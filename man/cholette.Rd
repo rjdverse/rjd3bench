@@ -46,7 +46,7 @@ This method has been widely used for the purpose of benchmarking seasonally
 adjusted series among others.
 }
 \examples{
-\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 ym_true <- rjd3toolkit::Retail$RetailSalesTotal
 yq_true <- rjd3toolkit::aggregate(ym_true, 4)
 Y_full <- rjd3toolkit::aggregate(ym_true, 1)

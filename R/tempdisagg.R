@@ -1,5 +1,5 @@
 #' @include utils.R
-#' @importFrom stats frequency is.ts
+#' @importFrom stats frequency is.ts setNames
 NULL
 
 #' @title Temporal Disaggregation of a Time Series by Regression Models.
@@ -52,7 +52,7 @@ NULL
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' # Chow-lin with a monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
@@ -218,7 +218,7 @@ temporal_disaggregation <- function(
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' # Use of Chow-lin method to disaggregate a biennial series with an annual indicator
 #' Y <- stats::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 0.5)
 #' x <- stats::aggregate(rjd3toolkit::Retail$FoodAndBeverageStores, 1)
@@ -399,7 +399,7 @@ temporal_disaggregation_raw <- function(
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' # Chow-lin / Fernandez when the last value of the interpolated series is
 #' # consistent with the low-frequency series
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
@@ -533,7 +533,7 @@ temporal_interpolation <- function(
 #' @param constant Boolean. Indicates whether a constant term is included in the model. The default is `TRUE`.
 #' Note that this argument is used only with `model = "Ar1"` when `zeroinitialization = FALSE`. For additional information, see the package vignette.
 #' @param trend Boolean. Indicates whether a linear trend is included in the model. The default is `FALSE`.
-#' @param indicators One or more high‑frequency indicator series used in the interpolation.
+#' @param indicators One or more high frequency indicator series used in the interpolation.
 #' If `NULL` (the default), no indicator is used. When provided, the argument must be a numeric vector or a matrix.
 #' @param startoffset The number of initial observations in the indicator series that precede the start of the low-frequency series.
 #' The value must be either 0 or a positive integer (default is 0). This argument is ignored when no indicator is provided.
@@ -574,7 +574,7 @@ temporal_interpolation <- function(
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' # Use of Chow-lin method to interpolate a biennial series with an annual
 #' # indicator (the low-frequency series is consistent with the last value of the
 #' # interpolated series)
@@ -747,7 +747,7 @@ temporal_interpolation_raw <- function(
 #'
 #' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
 #'
-#' @examplesIf rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' # Retail data, monthly indicator
 #' Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 #' x <- rjd3toolkit::Retail$FoodAndBeverageStores
