@@ -1,6 +1,6 @@
 # Changelog
 
-## rjd3bench 3.1.2.9000
+## rjd3bench 3.1.3
 
 All notable changes to this project will be documented in this file.
 
@@ -8,12 +8,18 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### [Unreleased](https://github.com/rjdverse/rjd3bench/compare/v3.1.2...HEAD)
+### [Unreleased](https://github.com/rjdverse/rjd3bench/compare/v3.1.3...HEAD)
 
 #### Added
 
 - Add function multivariatechowlin() for multivariate temporal
   disaggregation
+
+### [3.1.3](https://github.com/rjdverse/rjd3bench/compare/v3.1.2...v3.1.3) - 2026-07-13
+
+#### Fixed
+
+- Fix error in package installation and update dependencies
 
 ### [3.1.2](https://github.com/rjdverse/rjd3bench/compare/v3.1.1...v3.1.2) - 2026-05-04
 
@@ -81,21 +87,29 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Add output on residuals in temporaldisaggregation() function
 
+#### Changed
+
+- New JARS related to version
+  [2.1.0](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v2.1.0)
+
 ### [2.0.1](https://github.com/rjdverse/rjd3bench/compare/v2.0.0...v2.0.1) - 2024-07-12
 
 #### Changed
 
-- new jars related to version
-  [1.2.1](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v1.2.1)\*
+- New JARS related to version
+  [2.0.1](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v2.0.1)
 
 ### [2.0.0](https://github.com/rjdverse/rjd3bench/compare/v1.0.0...v2.0.0) - 2023-12-12
 
-#### Added
+#### Changed
 
-- v2.0.0
+- New JARS related to version
+  [2.0.0](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v2.0.0)
 
 ### [1.0.0](https://github.com/rjdverse/rjd3bench/releases/tag/v1.0.0) - 2023-07-06
 
 #### Added
 
 - Initial commit
+- Initial JARS related to version
+  [1.0.0](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v1.0.0)

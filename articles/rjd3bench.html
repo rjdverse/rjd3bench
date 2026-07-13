@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rjd3bench</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -1027,11 +1027,6 @@ method described above.</p>
 <span><span class="va">rec5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="cn">NULL</span>, ccvector <span class="op">=</span> <span class="va">cc</span><span class="op">)</span> <span class="co"># no temporal constraints</span></span>
 <span><span class="va">rec6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc_nb</span><span class="op">)</span> <span class="co"># non-binding contemporaneous constraint</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="multivariate-chow-lin-fernandez">Multivariate Chow-Lin / Fernandez<a class="anchor" aria-label="anchor" href="#multivariate-chow-lin-fernandez"></a>
-</h3>
-<p>(UNDER CONSTRUCTION)</p>
-</div>
 </div>
 <div class="section level2">
 <h2 id="calendarization">Calendarization<a class="anchor" aria-label="anchor" href="#calendarization"></a>
@@ -1107,7 +1102,7 @@ errors.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $erslt</span></span>
 <span><span class="co">#&gt;            Feb       Mar       Apr       May       Jun</span></span>
-<span><span class="co">#&gt; 2009 0.1758821 0.2712289 0.2517507 0.2588054 0.9227178</span></span>
+<span><span class="co">#&gt; 2009  676.8338 1043.7496  968.7933  995.9412 3550.8251</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $start</span></span>
 <span><span class="co">#&gt; [1] "2009-02-18"</span></span>
@@ -1132,29 +1127,25 @@ errors.</p>
 <span><span class="co">#&gt; [129] 212.1723 212.1723 212.1723 212.1723 212.1723</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $edays</span></span>
-<span><span class="co">#&gt;   [1] 0.02755654 0.02585358 0.02421679 0.02265858 0.02119317 0.01983673</span></span>
-<span><span class="co">#&gt;   [7] 0.01860719 0.01752375 0.01660579 0.01587096 0.01533271 0.01499758</span></span>
-<span><span class="co">#&gt;  [13] 0.01486308 0.01491698 0.01513844 0.01550048 0.01597297 0.01652522</span></span>
-<span><span class="co">#&gt;  [19] 0.01712775 0.01775322 0.01837661 0.01897502 0.01952716 0.02001275</span></span>
-<span><span class="co">#&gt;  [25] 0.02041181 0.02070393 0.02086731 0.02087768 0.02070666 0.02039086</span></span>
-<span><span class="co">#&gt;  [31] 0.01995956 0.01943922 0.01885468 0.01822994 0.01758875 0.01695495</span></span>
-<span><span class="co">#&gt;  [37] 0.01635260 0.01580565 0.01533732 0.01496886 0.01471803 0.01459732</span></span>
-<span><span class="co">#&gt;  [43] 0.01461245 0.01476162 0.01503571 0.01541933 0.01589252 0.01643244</span></span>
-<span><span class="co">#&gt;  [49] 0.01701480 0.01761482 0.01820774 0.01876884 0.01927325 0.01969535</span></span>
-<span><span class="co">#&gt;  [55] 0.02000799 0.02018138 0.02018138 0.02000799 0.01969535 0.01927325</span></span>
-<span><span class="co">#&gt;  [61] 0.01876884 0.01820774 0.01761482 0.01701480 0.01643244 0.01589252</span></span>
-<span><span class="co">#&gt;  [67] 0.01541933 0.01503571 0.01476162 0.01461245 0.01459732 0.01471803</span></span>
-<span><span class="co">#&gt;  [73] 0.01496886 0.01533732 0.01580565 0.01635260 0.01695495 0.01758875</span></span>
-<span><span class="co">#&gt;  [79] 0.01822994 0.01885468 0.01943922 0.01995956 0.02039086 0.02070666</span></span>
-<span><span class="co">#&gt;  [85] 0.02087768 0.02086731 0.02070393 0.02041181 0.02001275 0.01952716</span></span>
-<span><span class="co">#&gt;  [91] 0.01897502 0.01837661 0.01775322 0.01712775 0.01652522 0.01597297</span></span>
-<span><span class="co">#&gt;  [97] 0.01550048 0.01513844 0.01491698 0.01486308 0.01499758 0.01533271</span></span>
-<span><span class="co">#&gt; [103] 0.01587096 0.01660579 0.01752375 0.01860719 0.01983673 0.02119317</span></span>
-<span><span class="co">#&gt; [109] 0.02265858 0.02421679 0.02585358 0.02755654 0.02931489 0.03097358</span></span>
-<span><span class="co">#&gt; [115] 0.03254786 0.03404942 0.03548750 0.03686954 0.03820161 0.03948877</span></span>
-<span><span class="co">#&gt; [121] 0.04073528 0.04194476 0.04312033 0.04426469 0.04538020 0.04646895</span></span>
-<span><span class="co">#&gt; [127] 0.04753276 0.04857327 0.04959196 0.05059015 0.05156901 0.05252964</span></span>
-<span><span class="co">#&gt; [133] 0.05347301</span></span>
+<span><span class="co">#&gt;   [1] 106.04375  99.49037  93.19163  87.19528  81.55608  76.33618  71.60463</span></span>
+<span><span class="co">#&gt;   [8]  67.43533  63.90280  61.07500  59.00370  57.71406  57.19647  57.40389</span></span>
+<span><span class="co">#&gt;  [15]  58.25611  59.64934  61.46758  63.59274  65.91141  68.31836  70.71733</span></span>
+<span><span class="co">#&gt;  [22]  73.02015  75.14490  77.01353  78.54922  79.67335  80.30210  80.34199</span></span>
+<span><span class="co">#&gt;  [29]  79.68387  78.46862  76.80885  74.80648  72.55704  70.15289  67.68544</span></span>
+<span><span class="co">#&gt;  [36]  65.24646  62.92847  60.82369  59.02143  57.60353  56.63829  56.17375</span></span>
+<span><span class="co">#&gt;  [43]  56.23197  56.80603  57.86077  59.33703  61.15798  63.23571  65.47675</span></span>
+<span><span class="co">#&gt;  [50]  67.78577  70.06745  72.22672  74.16780  75.79212  76.99524  77.66246</span></span>
+<span><span class="co">#&gt;  [57]  77.66246  76.99524  75.79212  74.16780  72.22672  70.06745  67.78577</span></span>
+<span><span class="co">#&gt;  [64]  65.47675  63.23571  61.15798  59.33703  57.86077  56.80603  56.23197</span></span>
+<span><span class="co">#&gt;  [71]  56.17375  56.63829  57.60353  59.02143  60.82369  62.92847  65.24646</span></span>
+<span><span class="co">#&gt;  [78]  67.68544  70.15289  72.55704  74.80648  76.80885  78.46862  79.68387</span></span>
+<span><span class="co">#&gt;  [85]  80.34199  80.30210  79.67335  78.54922  77.01353  75.14490  73.02015</span></span>
+<span><span class="co">#&gt;  [92]  70.71733  68.31836  65.91141  63.59274  61.46758  59.64934  58.25611</span></span>
+<span><span class="co">#&gt;  [99]  57.40389  57.19647  57.71406  59.00370  61.07500  63.90280  67.43533</span></span>
+<span><span class="co">#&gt; [106]  71.60463  76.33618  81.55608  87.19528  93.19163  99.49037 106.04375</span></span>
+<span><span class="co">#&gt; [113] 112.81028 119.19330 125.25145 131.02980 136.56387 141.88225 147.00836</span></span>
+<span><span class="co">#&gt; [120] 151.96164 156.75848 161.41284 165.93670 170.34046 174.63320 178.82292</span></span>
+<span><span class="co">#&gt; [127] 182.91670 186.92085 190.84100 194.68223 198.44912 202.14583 205.77613</span></span>
 <span></span>
 <span><span class="co">## calendarization in presence of daily indicator values (or weights)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.0</span>, <span class="fl">1.2</span>, <span class="fl">1.8</span> , <span class="fl">1.6</span>, <span class="fl">0.0</span>, <span class="fl">0.6</span>, <span class="fl">0.8</span><span class="op">)</span>, <span class="fl">19</span><span class="op">)</span></span>
@@ -1215,7 +1206,7 @@ dynamic models. <em>Economic Modelling, 18 (2). pp. 269-280</em>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
