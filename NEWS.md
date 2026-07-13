@@ -5,11 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
 ## [Unreleased]
 
 ### Added
 
 * Add function multivariatechowlin() for multivariate temporal disaggregation
+
 
 ## [3.1.2] - 2026-05-04
 
@@ -17,12 +19,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 * Fix documentation and default value of parameters in multivariate Cholette
 
+
 ## [3.1.1] - 2026-03-31
 
 ### Fixed
 
 * Prepare package for CRAN
 * Enhancing documentation
+
 
 ## [3.1.0] - 2025-12-19
 
@@ -39,6 +43,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 
 * Solve bugs and instability issues in adl_disaggregation()
+
 
 ## [3.0.0] - 2025-05-12
 
@@ -60,25 +65,30 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * Solve issue in residual output when tests fail
 * Solve some instability issue in multivariatecholette() 
 
+
 ## [2.1.0] - 2024-07-18
 
 ### Added
 
 * Add output on residuals in temporaldisaggregation() function
 
+### Changed 
+
+* New JARS related to version [2.1.0](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v2.1.0)
+
 
 ## [2.0.1] - 2024-07-12
 
 ### Changed 
 
-* new jars related to version [1.2.1](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v1.2.1)*
+* New JARS related to version [2.0.1](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v2.0.1)
 
 
 ## [2.0.0] - 2023-12-12
 
-### Added
+### Changed
 
-* v2.0.0
+* New JARS related to version [2.0.0](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v2.0.0)
 
 
 ## [1.0.0] - 2023-07-06
@@ -86,6 +96,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 * Initial commit
+* Initial JARS related to version [1.0.0](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v1.0.0)
 
 
 [Unreleased]: https://github.com/rjdverse/rjd3bench/compare/v3.1.2...HEAD
