@@ -60,7 +60,7 @@ method relies on the principle of movement preservation and encompasses other
 reconciliation methods such as the multivariate Denton method.
 }
 \examples{
-\dontshow{if (rjd3toolkit::get_java_version() >= rjd3toolkit::minimal_java_version) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 # Example 1: one "standard" contemporaneous constraint: z=x1+x2+x3
 
 x1 <- ts(c(7, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))

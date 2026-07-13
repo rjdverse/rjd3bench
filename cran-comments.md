@@ -1,3 +1,8 @@
+## Submission of {rjd3bench} v3.1.3- 2026-07-13
+
+* Fix error in package installation and update dependencies
+* Minor improvements in documentation 
+
 ## Submission of {rjd3bench} v3.1.2- 2026-05-04
 
 * Fix default value of parameters and documentation in multivariate Cholette
