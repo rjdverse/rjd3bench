@@ -905,6 +905,10 @@ rec5 <- multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc) 
 rec6 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb) # non-binding contemporaneous constraint
 ```
 
+### Multivariate Chow-Lin / Fernandez
+
+(UNDER CONSTRUCTION)
+
 ## Calendarization
 
 Time series data do not always coincide with calendar periods (e.g.,
