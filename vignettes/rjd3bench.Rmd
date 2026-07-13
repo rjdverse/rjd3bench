@@ -485,6 +485,11 @@ rec6 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb)
 ```
 
 
+## Multivariate Chow-Lin / Fernandez
+
+(UNDER CONSTRUCTION)
+
+
 # Calendarization
 
 Time series data do not always coincide with calendar periods (e.g., fiscal years starting in March-April or retail data collected in non-monthly intervals). Calendarization is the process of transforming the values of a flow time series observed over varying time intervals into values that cover given calendar intervals such as month, quarter or year.
