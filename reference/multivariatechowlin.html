@@ -55,6 +55,8 @@ extension of the Chow-Lin model or the Random Walk approach (Fernandez).</p>
 <span>  freq <span class="op">=</span> <span class="fl">4L</span>,</span>
 <span>  rhos <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fromUnivariate"</span>, <span class="st">"allEquals"</span>, <span class="st">"userDefined"</span><span class="op">)</span>,</span>
+<span>  var.includeCov <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  var.shrinkCov <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  var.matrix <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -114,9 +116,19 @@ If a single numeric value is provided (default if <code>1</code>, corresponding 
 The default is <code>"fromUnivariate"</code>, meaning that is is estimated from the residuals of the univariate models. Others options include <code>"allEquals"</code>, which assume a diagonal matrix with identical variances (a strong assumption), and <code>"userDefined"</code>, where the matrix is supplied by the user via the <code>var.matrix</code> argument. For additional details, see the package vignette.</p></dd>
 
 
+<dt id="arg-var-includecov">var.includeCov<a class="anchor" aria-label="anchor" href="#arg-var-includecov"></a></dt>
+<dd><p>Boolean. Indicates whether non-diagonal elements of the innovation variance-covariance matrix may as well be estimated from the residuals of the univariate models. The default is <code>FALSE</code>, meaning that only a diagonal matrix is estimated.
+This argument is used only when <code>var = "fromUnivariate"</code>.</p></dd>
+
+
+<dt id="arg-var-shrinkcov">var.shrinkCov<a class="anchor" aria-label="anchor" href="#arg-var-shrinkcov"></a></dt>
+<dd><p>Boolean. Indicates whether a shrinkage covariance estimator should be used. See the vignette for more details.
+This argument is used only when <code>var = "fromUnivariate"</code> and <code>var.includeCov = TRUE</code>.</p></dd>
+
+
 <dt id="arg-var-matrix">var.matrix<a class="anchor" aria-label="anchor" href="#arg-var-matrix"></a></dt>
 <dd><p>The variance-covariance matrix of the innovations.
-This argument is only used when <code>var = "userDefined"</code> and must be provided in that case.</p></dd>
+This argument is used only when <code>var = "userDefined"</code> and must be provided in that case.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -162,7 +174,7 @@ invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> re
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Estimate models and get results</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Mix Chow-Lin - Fernandez</span></span></span>
+<span class="r-in"><span><span class="co">## Mix Chow-Lin - Fernandez, assuming no covariance in the innovations</span></span></span>
 <span class="r-in"><span><span class="va">rslt1</span> <span class="op">&lt;-</span> <span class="fu">multivariatechowlin</span><span class="op">(</span>series <span class="op">=</span> <span class="va">lf_series</span>,</span></span>
 <span class="r-in"><span>                             constant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                             trend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span></span>
@@ -172,13 +184,69 @@ invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> re
 <span class="r-in"><span>                             freq <span class="op">=</span> <span class="fl">4L</span>,</span></span>
 <span class="r-in"><span>                             rhos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">1.0</span>, <span class="fl">0.9</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                             var <span class="op">=</span> <span class="st">"fromUnivariate"</span>,</span></span>
+<span class="r-in"><span>                             var.includeCov <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                             var.shrinkCov <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>                             var.matrix <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">rslt1</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ed1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">rslt1</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">edisagg</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">rslt1</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span><span class="op">)</span> <span class="co"># disaggregated series</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               y1       y2       y3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q1 6.939861 19.07979 1.080352</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q2 7.943542 20.14422 1.712236</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q3 7.103801 20.64915 2.147051</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q4 8.012796 20.12684 3.060361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q1 6.722478 20.39456 2.282963</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q2 7.460648 19.08720 1.352157</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q3 8.389319 20.65066 1.860018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q4 8.027555 21.06758 2.604862</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q1 6.733189 19.97505 2.491760</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q2 7.940522 20.65187 1.607612</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q3 8.411698 20.64922 1.539082</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q4 8.114591 21.22386 2.561545</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q1 6.795370 19.97402 2.530611</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q2 7.800783 21.12535 1.473870</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q3 8.533515 20.43936 1.727128</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q4 8.470332 21.06128 2.468392</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Mix Chow-Lin - Fernandez, using a shrinkage covariance estimator for the innovations</span></span></span>
+<span class="r-in"><span><span class="va">rslt2</span> <span class="op">&lt;-</span> <span class="fu">multivariatechowlin</span><span class="op">(</span>series <span class="op">=</span> <span class="va">lf_series</span>,</span></span>
+<span class="r-in"><span>                             constant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                             trend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                             indicators <span class="op">=</span> <span class="va">indic_series</span>,</span></span>
+<span class="r-in"><span>                             ccseries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>z <span class="op">=</span> <span class="va">z</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                             ccdefinition <span class="op">=</span> <span class="st">"z=y1+y2+y3"</span>,</span></span>
+<span class="r-in"><span>                             freq <span class="op">=</span> <span class="fl">4L</span>,</span></span>
+<span class="r-in"><span>                             rhos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">1.0</span>, <span class="fl">0.9</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                             var <span class="op">=</span> <span class="st">"fromUnivariate"</span>,</span></span>
+<span class="r-in"><span>                             var.includeCov <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                             var.shrinkCov <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                             var.matrix <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">rslt2</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">vcov</span> <span class="co"># variance-covariance matrix of the innovations</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]          [,2]          [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.295161e-03 -0.0011701081 -8.709044e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -1.170108e-03  0.0124887216  3.869829e-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -8.709044e-05  0.0003869829  5.469873e-05</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">rslt2</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               y1       y2       y3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q1 7.032124 18.38361 1.684270</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q2 7.867589 20.02459 1.907825</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q3 7.119255 20.72811 2.052637</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q4 7.981033 20.86370 2.355269</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q1 6.819908 20.48156 2.098528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q2 7.561817 18.55115 1.787037</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q3 8.271285 20.64734 1.981372</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q4 7.946990 21.51995 2.233063</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q1 6.910851 20.10656 2.182591</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q2 7.892070 20.40384 1.904089</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q3 8.348688 20.36685 1.884465</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q4 8.048390 21.62275 2.228855</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q1 6.989663 20.10942 2.200913</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q2 7.713462 20.82079 1.865750</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q3 8.479224 20.27804 1.942738</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q4 8.417651 21.39175 2.190598</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Fernandez only (Random walk model) with user-defined variance-covariance matrix</span></span></span>
-<span class="r-in"><span><span class="va">rslt2</span> <span class="op">&lt;-</span> <span class="fu">multivariatechowlin</span><span class="op">(</span>series <span class="op">=</span> <span class="va">lf_series</span>,</span></span>
+<span class="r-in"><span><span class="va">rslt3</span> <span class="op">&lt;-</span> <span class="fu">multivariatechowlin</span><span class="op">(</span>series <span class="op">=</span> <span class="va">lf_series</span>,</span></span>
 <span class="r-in"><span>                             constant <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>                             trend <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>                             indicators <span class="op">=</span> <span class="va">indic_series</span>,</span></span>
@@ -187,10 +255,32 @@ invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> re
 <span class="r-in"><span>                             freq <span class="op">=</span> <span class="fl">4L</span>,</span></span>
 <span class="r-in"><span>                             rhos <span class="op">=</span> <span class="fl">1.0</span>,</span></span>
 <span class="r-in"><span>                             var <span class="op">=</span> <span class="st">"userDefined"</span>,</span></span>
-<span class="r-in"><span>                             var.matrix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.003</span>,<span class="fl">0.01</span>,<span class="fl">0.001</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                             var.matrix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>                                <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>, <span class="fl">0.002</span>, <span class="fl">0.001</span>,</span></span>
+<span class="r-in"><span>                                  <span class="fl">0.002</span>, <span class="fl">0.010</span>, <span class="fl">0.002</span>,</span></span>
+<span class="r-in"><span>                                  <span class="fl">0.001</span>, <span class="fl">0.002</span>, <span class="fl">0.003</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                nrow <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>                                byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                             <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">d2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">rslt2</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ed2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">rslt2</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">edisagg</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">rslt3</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               y1       y2       y3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q1 6.108983 19.72409 1.266923</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q2 8.107219 19.93250 1.760283</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q3 7.529320 20.21029 2.160388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2010 Q4 8.254477 20.13312 2.812406</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q1 6.686679 20.40719 2.306128</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q2 6.797711 19.73210 1.370185</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q3 8.685776 20.33348 1.880741</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2011 Q4 8.429835 20.72722 2.542946</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q1 6.400284 20.43743 2.362291</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q2 7.685207 20.74189 1.772905</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q3 8.618610 20.41449 1.566905</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2012 Q4 8.495899 20.90620 2.497900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q1 6.451413 20.47755 2.371039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q2 7.378121 21.19157 1.830307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q3 8.590304 20.39480 1.714896</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2013 Q4 9.180162 20.53608 2.283757</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
