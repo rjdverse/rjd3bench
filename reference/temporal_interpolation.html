@@ -69,66 +69,84 @@ Fernandez, Litterman and some variants of those algorithms.</p>
 
 
 <dl><dt id="arg-series">series<a class="anchor" aria-label="anchor" href="#arg-series"></a></dt>
-<dd><p>A low-frequency time series to be interpolated. It must be a <code>"ts"</code> object.</p></dd>
+<dd><p>A low-frequency time series to be interpolated. It must be a
+<code>"ts"</code> object.</p></dd>
 
 
 <dt id="arg-constant">constant<a class="anchor" aria-label="anchor" href="#arg-constant"></a></dt>
-<dd><p>Boolean. Indicates whether a constant term is included in the model. The default is <code>TRUE</code>.
-Note that this argument is used only with <code>model = "Ar1"</code> when <code>zeroinitialization = FALSE</code>. For additional information, see the package vignette.</p></dd>
+<dd><p>Boolean. Indicates whether a constant term is included in
+the model. The default is <code>TRUE</code>.
+Note that this argument is used only with <code>model = "Ar1"</code> when
+<code>zeroinitialization = FALSE</code>. For additional information, see the package
+vignette.</p></dd>
 
 
 <dt id="arg-trend">trend<a class="anchor" aria-label="anchor" href="#arg-trend"></a></dt>
-<dd><p>Boolean. Indicates whether a linear trend is included in the model. The default is <code>FALSE</code>.</p></dd>
+<dd><p>Boolean. Indicates whether a linear trend is included in the
+model. The default is <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-indicators">indicators<a class="anchor" aria-label="anchor" href="#arg-indicators"></a></dt>
-<dd><p>One or more high-frequency indicator series used in the temporal interpolation.
-If <code>NULL</code> (the default), no indicator is used. When provided, the argument must be a <code>"ts"</code> object or a list of <code>"ts"</code> objects.</p></dd>
+<dd><p>One or more high-frequency indicator series used in the
+temporal interpolation.
+If <code>NULL</code> (the default), no indicator is used. When provided, the argument
+must be a <code>"ts"</code> object or a list of <code>"ts"</code> objects.</p></dd>
 
 
 <dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
-<dd><p>A character string specifying the model of the error term at the interpolated level.
+<dd><p>A character string specifying the model of the error term at
+the interpolated level.
 The options are: <code>"Ar1"</code> (Chow Lin, the default), <code>"Rw"</code> (Fernandez), and <code>"RwAr1"</code> (Litterman).</p></dd>
 
 
 <dt id="arg-freq">freq<a class="anchor" aria-label="anchor" href="#arg-freq"></a></dt>
-<dd><p>An integer giving the annual frequency of the interpolated series.
+<dd><p>An integer giving the annual frequency of the interpolated
+series.
 This argument is ignored when one or more indicator series is provided.</p></dd>
 
 
 <dt id="arg-obsposition">obsposition<a class="anchor" aria-label="anchor" href="#arg-obsposition"></a></dt>
 <dd><p>An integer specifying the position of the low-frequency
 observations within the interpolated series (e.g. the 1st month of the
-year, the 2d month, etc.). The value must be a positive integer or <code>-1</code> (the
-default). The default value is equivalent to setting the value of the
-parameter equal to the frequency of the series, meaning that the last value
-of the interpolated series is consistent with the low-frequency series.</p></dd>
+year, the 2d month, etc.). The value must be a positive integer or <code>-1</code>
+(the default). The default value is equivalent to setting the value of the
+parameter equal to the frequency of the series, meaning that the last
+value of the interpolated series is consistent with the low-frequency
+series.</p></dd>
 
 
 <dt id="arg-rho">rho<a class="anchor" aria-label="anchor" href="#arg-rho"></a></dt>
-<dd><p>A numeric value giving the (initial) value of the autoregressive parameter.
+<dd><p>A numeric value giving the (initial) value of the autoregressive
+parameter.
 This argument is used only for <code>"Ar1"</code> and <code>"RwAr1"</code> models.</p></dd>
 
 
 <dt id="arg-rho-fixed">rho.fixed<a class="anchor" aria-label="anchor" href="#arg-rho-fixed"></a></dt>
-<dd><p>Boolean. Specifies whether the supplied value of <code>rho</code> is fixed. The default is <code>FALSE</code>, which indicates that <code>rho</code> is estimated.</p></dd>
+<dd><p>Boolean. Specifies whether the supplied value of <code>rho</code> is
+fixed. The default is <code>FALSE</code>, which indicates that <code>rho</code> is estimated.</p></dd>
 
 
 <dt id="arg-rho-truncated">rho.truncated<a class="anchor" aria-label="anchor" href="#arg-rho-truncated"></a></dt>
-<dd><p>A numeric value defining the lower bound of the admissible range for <code>rho</code>.
+<dd><p>A numeric value defining the lower bound of the
+admissible range for <code>rho</code>.
 The evaluation range is <code>[rho.truncated, 1[</code>.</p></dd>
 
 
 <dt id="arg-zeroinitialization">zeroinitialization<a class="anchor" aria-label="anchor" href="#arg-zeroinitialization"></a></dt>
-<dd><p>Boolean. If <code>TRUE</code>, the initial values of the autoregressive model are set to zero. The default is <code>FALSE</code>.</p></dd>
+<dd><p>Boolean. If <code>TRUE</code>, the initial values of the
+autoregressive model are set to zero. The default is <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-diffuse-algorithm">diffuse.algorithm<a class="anchor" aria-label="anchor" href="#arg-diffuse-algorithm"></a></dt>
-<dd><p>A character string specifying the algorithm used for diffuse initialization. The default is <code>"SqrtDiffuse"</code>. Other options are: <code>"Diffuse"</code> and <code>"Augmented"</code>.</p></dd>
+<dd><p>A character string specifying the algorithm used
+for diffuse initialization. The default is <code>"SqrtDiffuse"</code>. Other options
+are: <code>"Diffuse"</code> and <code>"Augmented"</code>.</p></dd>
 
 
 <dt id="arg-diffuse-regressors">diffuse.regressors<a class="anchor" aria-label="anchor" href="#arg-diffuse-regressors"></a></dt>
-<dd><p>Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (<code>TRUE</code>) or as fixed unknown (<code>FALSE</code>, the default).</p></dd>
+<dd><p>Boolean. Indicates whether the coefficients of the
+regression model are treated as diffuse (<code>TRUE</code>) or as fixed unknown
+(<code>FALSE</code>, the default).</p></dd>
 
 
 <dt id="arg-nbcsts">nbcsts<a class="anchor" aria-label="anchor" href="#arg-nbcsts"></a></dt>
@@ -143,16 +161,18 @@ This argument is ignored when one or more indicator series is provided.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class "JD3_INTERP_RSLTS" is returned. The following are returned
-invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> regression coefficients;</p></li>
-<li><p><code>estimation</code> <code>[[2]]</code> interpolated Time-Series and standard deviation, regression effects and smoothing part, parameter and residuals;</p></li>
+    <p>An object of class "JD3_INTERP_RSLTS" is returned. The following are
+returned invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> regression coefficients;</p></li>
+<li><p><code>estimation</code> <code>[[2]]</code> interpolated Time-Series and standard deviation,
+regression effects and smoothing part, parameter and residuals;</p></li>
 <li><p><code>likelihood</code> <code>[[3]]</code> likelihood statistics.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="temporal_disaggregation.html">temporal_disaggregation()</a></code>,</p>
 <p><code><a href="temporal_interpolation_raw.html">temporal_interpolation_raw()</a></code> for interpolation of atypical frequency series,</p>
-<p><code><a href="temporal_disaggregation_raw.html">temporal_disaggregation_raw()</a></code> for temporal disaggregation of atypical frequency series</p>
+<p><code><a href="temporal_disaggregation_raw.html">temporal_disaggregation_raw()</a></code> for temporal disaggregation of atypical
+frequency series</p>
 <p>For more information, see the vignette:</p>
 <p><code><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">utils::browseVignettes()</a></code>, e.g. <code>browseVignettes(package = "rjd3bench")</code></p></div>
     </div>

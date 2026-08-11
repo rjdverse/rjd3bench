@@ -206,7 +206,7 @@ ti <- temporal_interpolation(Y, indicators = NULL, model = "Rw", freq = 4, nfcst
 y <- ti$estimation$interp # the interpolated series
 
 # Example 3: TD of atypical frequency data using Fernandez with an offset of 1 period
-Y <- c(500,510,525,520)
+Y <- c(500, 510, 525, 520)
 x <- c(97,
        98, 98.5, 99.5, 104, 99,
        100, 100.5, 101, 105.5, 103,
@@ -216,7 +216,7 @@ td_raw <- temporal_disaggregation_raw(Y, indicators = x, startoffset = 1,  model
 y <- td_raw$estimation$disagg # the disaggregated series
 
 # Example 4: interpolation of atypical frequency data using Fernandez without offset, when the first value of the interpolated  series is the one consistent with the low frequency series.
-Y <- c(500,510,525,520)
+Y <- c(500, 510, 525, 520)
 x <- c(490, 492.5, 497.5, 520, 495,
        500, 502.5, 505, 527.5, 515,
        522.5, 517.5, 522.5, 545, 520,
@@ -550,7 +550,7 @@ y_den1 <- denton(s = x, t = Y) # denton PFD (= the default)
 y_den2 <- denton(s = x, t = Y, d = 2, mul = FALSE) # denton ASD
 
 # Example 2: use of of Denton method for benchmarking atypical frequency data
-Y <- c(500,510,525,520)
+Y <- c(500, 510, 525, 520)
 x <- c(97, 98, 98.5, 99.5, 104,
        99, 100, 100.5, 101, 105.5,
        103, 104.5, 103.5, 104.5, 109,
@@ -751,7 +751,7 @@ state space representation of the Cholette method described above.
 
 # Example: use Cholette method for benchmarking
 Y <- ts(qna_data$B1G_Y_data[, "B1G_HH"], frequency = 1, start = c(2009, 1))
-xn <- c(denton(t = Y, nfreq = 4) + rnorm(n = length(Y)*4, mean = 0, sd = 10), 5750, 5800)
+xn <- c(denton(t = Y, nfreq = 4) + rnorm(n = length(Y) * 4, mean = 0, sd = 10), 5750, 5800)
 x <- ts(xn, start = start(Y), frequency = 4)
 
 y_cho1 <- cholette(s = x, t = Y, rho = 0.729, lambda = 1, bias = "Multiplicative")  # proportional benchmarking
@@ -873,14 +873,14 @@ Y2 <- ts(c(80.0, 81.2), frequency = 1, start = c(2010, 1))
 Y3 <- ts(c(8.0, 8.1), frequency = 1, start = c(2010, 1))
 
 ### check consistency between temporal and contemporaneous constraints
-lfs <- cbind(Y1,Y2,Y3)
+lfs <- cbind(Y1, Y2, Y3)
 as.numeric(rowSums(lfs) - stats::aggregate.ts(z)) # should all be 0
 #> [1] 0 0
 
 data_list <- list(x1 = x1, x2 = x2, x3 = x3, z = z, Y1 = Y1, Y2 = Y2, Y3 = Y3)
 tc <- c("Y1 = sum(x1)", "Y2 = sum(x2)", "Y3 = sum(x3)") # temporal constraints
-cc <- c("z = x1+x2+x3") # (binding) contemporaneous constraint
-cc_nb <- c("0 = x1+x2+x3-z") # non-binding contemporaneous constraint
+cc <- "z = x1+x2+x3" # (binding) contemporaneous constraint
+cc_nb <- "0 = x1+x2+x3-z" # non-binding contemporaneous constraint
 
 rec1 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc) # default values for rho and lambda
 print(rec1)
@@ -898,7 +898,7 @@ print(rec1)
 #>          Qtr1     Qtr2     Qtr3     Qtr4
 #> 2010 1.474880 1.824683 2.032208 2.668230
 #> 2011 2.171499 1.658994 1.958861 2.310646
-rec2 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = .5, lambda = .5) # trade-off values for rho and lambda
+rec2 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.5, lambda = 0.5) # trade-off values for rho and lambda
 rec3 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 1) # Denton
 rec4 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc, rho = 0.729) # Cholette
 rec5 <- multivariatecholette(xlist = data_list, tcvector = NULL, ccvector = cc) # no temporal constraints
@@ -968,7 +968,8 @@ obs <- list(
     list(start = "2009-02-18", end = "2009-03-17", value = 9000),
     list(start = "2009-03-18", end = "2009-04-14", value = 5000),
     list(start = "2009-04-15", end = "2009-05-12", value = 9500),
-    list(start = "2009-05-13", end = "2009-06-09", value = 7000))
+    list(start = "2009-05-13", end = "2009-06-09", value = 7000)
+)
 
 ## calendarization in absence of daily indicator values (or weights)
 cal_1 <- calendarization(obs, 12, end = "2009-06-30", dailyweights = NULL, stde = TRUE)
@@ -1030,7 +1031,7 @@ print(cal_1)
 #> [127] 182.91670 186.92085 190.84100 194.68223 198.44912 202.14583 205.77613
 
 ## calendarization in presence of daily indicator values (or weights)
-x <- rep(c(1.0, 1.2, 1.8 , 1.6, 0.0, 0.6, 0.8), 19)
+x <- rep(c(1.0, 1.2, 1.8, 1.6, 0.0, 0.6, 0.8), 19)
 cal_2 <- calendarization(obs, 12, end = "2009-06-30", dailyweights = x, stde = TRUE)
 
 ym_2 <- cal_2$rslt

@@ -61,23 +61,28 @@ series using an Autoregressive Distributed Lag regression model.</p>
 
 
 <dl><dt id="arg-series">series<a class="anchor" aria-label="anchor" href="#arg-series"></a></dt>
-<dd><p>A low-frequency time series to be disaggregated. It must be <code>"ts"</code> object.</p></dd>
+<dd><p>A low-frequency time series to be disaggregated. It must be
+<code>"ts"</code> object.</p></dd>
 
 
 <dt id="arg-constant">constant<a class="anchor" aria-label="anchor" href="#arg-constant"></a></dt>
-<dd><p>Boolean. Indicates whether a constant term is included in the model. The default is <code>TRUE</code>.</p></dd>
+<dd><p>Boolean. Indicates whether a constant term is included in
+the model. The default is <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-trend">trend<a class="anchor" aria-label="anchor" href="#arg-trend"></a></dt>
-<dd><p>Boolean. Indicates whether a linear trend is included in the model. The default is <code>FALSE</code>.</p></dd>
+<dd><p>Boolean. Indicates whether a linear trend is included in the
+model. The default is <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-indicators">indicators<a class="anchor" aria-label="anchor" href="#arg-indicators"></a></dt>
-<dd><p>One or more high-frequency indicator series. If not NULL (the default), this must be a <code>"ts"</code> object or a list of <code>"ts"</code> objects.</p></dd>
+<dd><p>One or more high-frequency indicator series. If not NULL
+(the default), this must be a <code>"ts"</code> object or a list of <code>"ts"</code> objects.</p></dd>
 
 
 <dt id="arg-average">average<a class="anchor" aria-label="anchor" href="#arg-average"></a></dt>
-<dd><p>Boolean. Indicates whether an average conversion should be considered. The default is <code>FALSE</code>, corresponding to additive conversion.</p></dd>
+<dd><p>Boolean. Indicates whether an average conversion should be
+considered. The default is <code>FALSE</code>, corresponding to additive conversion.</p></dd>
 
 
 <dt id="arg-phi">phi<a class="anchor" aria-label="anchor" href="#arg-phi"></a></dt>
@@ -85,33 +90,43 @@ series using an Autoregressive Distributed Lag regression model.</p>
 
 
 <dt id="arg-phi-fixed">phi.fixed<a class="anchor" aria-label="anchor" href="#arg-phi-fixed"></a></dt>
-<dd><p>Boolean. Specifies whether the supplied value of <code>phi</code> is fixed. The default is <code>FALSE</code>, which indicates that <code>phi</code> is estimated.</p></dd>
+<dd><p>Boolean. Specifies whether the supplied value of <code>phi</code> is
+fixed. The default is <code>FALSE</code>, which indicates that <code>phi</code> is estimated.</p></dd>
 
 
 <dt id="arg-phi-truncated">phi.truncated<a class="anchor" aria-label="anchor" href="#arg-phi-truncated"></a></dt>
-<dd><p>A numeric value defining the lower bound of the admissible range for <code>phi</code>.
+<dd><p>A numeric value defining the lower bound of the
+admissible range for <code>phi</code>.
 The evaluation range is <code>[phi.truncated, 1[</code>.</p></dd>
 
 
 <dt id="arg-xar">xar<a class="anchor" aria-label="anchor" href="#arg-xar"></a></dt>
-<dd><p>A character string specifying the constraints imposed on the coefficients of the lagged regression variables. The default is <code>"FREE"</code>, which indicates that no constraints are applied. Other options are: <code>"SAME"</code>and <code>"NONE"</code>.
+<dd><p>A character string specifying the constraints imposed on the
+coefficients of the lagged regression variables. The default is <code>"FREE"</code>,
+which indicates that no constraints are applied.
+Other options are: <code>"SAME"</code>and <code>"NONE"</code>.
 For additional information, see the package vignette.</p></dd>
 
 
 <dt id="arg-diffuse">diffuse<a class="anchor" aria-label="anchor" href="#arg-diffuse"></a></dt>
-<dd><p>Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (<code>TRUE</code>) or as fixed unknown (<code>FALSE</code>, the default).</p></dd>
+<dd><p>Boolean. Indicates whether the coefficients of the regression
+model are treated as diffuse (<code>TRUE</code>) or as fixed unknown (<code>FALSE</code>, the
+default).</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class "JD3_ADLDISAGG_RSLTS" is returned. The following are returned
-invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> regression coefficients;</p></li>
-<li><p><code>estimation</code> <code>[[2]]</code> disaggregated Time-Series and standard deviation, parameter and residuals;</p></li>
+    <p>An object of class "JD3_ADLDISAGG_RSLTS" is returned. The following
+are returned invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> regression coefficients;</p></li>
+<li><p><code>estimation</code> <code>[[2]]</code> disaggregated Time-Series and standard deviation,
+parameter and residuals;</p></li>
 <li><p><code>likelihood</code> <code>[[3]]</code> likelihood statistics.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Proietti, P. (2005). Temporal Disaggregation by State Space Methods: Dynamic Regression Methods Revisited. Working papers and Studies, European Commission, ISSN 1725-4825.</p>
+    <p>Proietti, P. (2005). Temporal Disaggregation by State Space
+Methods: Dynamic Regression Methods Revisited. Working papers and Studies,
+European Commission, ISSN 1725-4825.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

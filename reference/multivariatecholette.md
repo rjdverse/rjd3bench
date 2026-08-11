@@ -44,9 +44,9 @@ multivariatecholette(
 - ccvector:
 
   NULL (default) or a character vector defining each contemporaneous
-  constraints. If NULL, no contemporaneous constraint is considered.This
-  is equivalent to applying the univariate Cholette method to each of
-  the preliminary series separately. Otherwise, each element of the
+  constraints. If NULL, no contemporaneous constraint is considered.
+  This is equivalent to applying the univariate Cholette method to each
+  of the preliminary series separately. Otherwise, each element of the
   vector must be written in the form \\z=w_1 x_1+\ldots+w_n x_n\\ or
   \\c=w_1 x_1+\ldots+w_n x_n\\ where:
 

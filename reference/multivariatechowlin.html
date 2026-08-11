@@ -66,76 +66,116 @@ extension of the Chow-Lin model or the Random Walk approach (Fernandez).</p>
 
 
 <dl><dt id="arg-series">series<a class="anchor" aria-label="anchor" href="#arg-series"></a></dt>
-<dd><p>A named list of <code>ts</code> objects containing the low frequency time series to be disaggregated.</p></dd>
+<dd><p>A named list of <code>ts</code> objects containing the low frequency time
+series to be disaggregated.</p></dd>
 
 
 <dt id="arg-constant">constant<a class="anchor" aria-label="anchor" href="#arg-constant"></a></dt>
-<dd><p>Either a Boolean or a vector of Booleans. If a vector is provided, each element specifies whether a constant term is included in the model for each series, following the order in which they appear in the <code>series</code> object.
+<dd><p>Either a Boolean or a vector of Booleans. If a vector is
+provided, each element specifies whether a constant term is included in
+the model for each series, following the order in which they appear in the
+<code>series</code> object.
 The length of the the vector must match the number of series.
-If a single Boolean is provided (default if <code>TRUE</code>), it is applied to all series.
-Note that this argument is used only with Chow-Lin model (i.e., when <code>rhos</code> values are strictly less than 1). For further details, see the package vignette.</p></dd>
+If a single Boolean is provided (default if <code>TRUE</code>), it is applied to all
+series.
+Note that this argument is used only with Chow-Lin model (i.e., when
+<code>rhos</code> values are strictly less than 1). For further details, see the
+package vignette.</p></dd>
 
 
 <dt id="arg-trend">trend<a class="anchor" aria-label="anchor" href="#arg-trend"></a></dt>
-<dd><p>Either a Boolean or a vector of Booleans. If a vector is provided, each element specifies whether a linear trend is included in the model for each series, following the order in which they appear in the <code>series</code> object.
+<dd><p>Either a Boolean or a vector of Booleans. If a vector is
+provided, each element specifies whether a linear trend is included in the
+model for each series, following the order in which they appear in the
+<code>series</code> object.
 The length of the the vector must match the number of series.
-If a single Boolean is provided (default if <code>FALSE</code>), it is applied to all series.</p></dd>
+If a single Boolean is provided (default if <code>FALSE</code>), it is applied to all
+series.</p></dd>
 
 
 <dt id="arg-indicators">indicators<a class="anchor" aria-label="anchor" href="#arg-indicators"></a></dt>
-<dd><p>a named list of <code>ts</code> objects or a named list of a list of <code>ts</code> objects. Each element represents one or more high-frequency indicator series associated with each series.
-If an element is <code>NULL</code>, no indicator is used for the corresponding series. The default value is <code>NULL</code>, meaning that no indicators are used for any series.</p></dd>
+<dd><p>a named list of <code>ts</code> objects or a named list of a list of
+<code>ts</code> objects. Each element represents one or more high-frequency indicator
+series associated with each series.
+If an element is <code>NULL</code>, no indicator is used for the corresponding
+series. The default value is <code>NULL</code>, meaning that no indicators are used
+for any series.</p></dd>
 
 
 <dt id="arg-ccseries">ccseries<a class="anchor" aria-label="anchor" href="#arg-ccseries"></a></dt>
-<dd><p>A named list of <code>ts</code> objects containing the contemporaneous constraints. If <code>NULL</code> (the default), no contemporaneous constraints can be considered.</p></dd>
+<dd><p>A named list of <code>ts</code> objects containing the contemporaneous
+constraints. If <code>NULL</code> (the default), no contemporaneous constraints can
+be considered.</p></dd>
 
 
 <dt id="arg-ccdefinition">ccdefinition<a class="anchor" aria-label="anchor" href="#arg-ccdefinition"></a></dt>
-<dd><p>A character vector defining each contemporaneous constraints. The elements of the vector must be written in the form \(z=w_1 y_1+\ldots+w_n y_n\) or \(c=w_1 y_1+\ldots+w_n y_n\) where:</p><ul><li><p>\(z\) is the name of a contemporaneous constraint,</p></li>
+<dd><p>A character vector defining each contemporaneous
+constraints. The elements of the vector must be written in the form
+\(z=w_1 y_1+\ldots+w_n y_n\) or \(c=w_1 y_1+\ldots+w_n y_n\) where:</p><ul><li><p>\(z\) is the name of a contemporaneous constraint,</p></li>
 <li><p>\((w_1,\ldots,w_n)\) are optional numeric weights,</p></li>
 <li><p>\((y_1,\ldots,y_n)\) are the names of the time series and</p></li>
 <li><p>\(c\) is a constant.
-The default is <code>NULL</code>, meaning that no contemporaneous constraint is considered.</p></li>
+The default is <code>NULL</code>, meaning that no contemporaneous constraint is
+considered.</p></li>
 </ul></dd>
 
 
 <dt id="arg-freq">freq<a class="anchor" aria-label="anchor" href="#arg-freq"></a></dt>
-<dd><p>An integer giving the annual frequency of the disaggregated series.
-This argument is ignored when at least one indicator series is provided for any series.</p></dd>
+<dd><p>An integer giving the annual frequency of the disaggregated
+series.
+This argument is ignored when at least one indicator series is provided
+for any series.</p></dd>
 
 
 <dt id="arg-rhos">rhos<a class="anchor" aria-label="anchor" href="#arg-rhos"></a></dt>
-<dd><p>Either a numeric value or a vector of numerics. If a vector is provided, each element specifies the value of the <code>rho</code> parameter associated to each series, following the order in which they appear in the <code>series</code> object.
+<dd><p>Either a numeric value or a vector of numerics. If a vector is
+provided, each element specifies the value of the <code>rho</code> parameter
+associated to each series, following the order in which they appear in the
+<code>series</code> object.
 The length of the the vector must match the number of series.
-If a single numeric value is provided (default if <code>1</code>, corresponding to the Fernandez model), it is applied to all series.</p></dd>
+If a single numeric value is provided (default if <code>1</code>, corresponding to
+the Fernandez model), it is applied to all series.</p></dd>
 
 
 <dt id="arg-var">var<a class="anchor" aria-label="anchor" href="#arg-var"></a></dt>
-<dd><p>A character string specifying the method used to estimate the variance-covariance matrix of the innovations.
-The default is <code>"fromUnivariate"</code>, meaning that is is estimated from the residuals of the univariate models. Others options include <code>"allEquals"</code>, which assume a diagonal matrix with identical variances (a strong assumption), and <code>"userDefined"</code>, where the matrix is supplied by the user via the <code>var.matrix</code> argument. For additional details, see the package vignette.</p></dd>
+<dd><p>A character string specifying the method used to estimate the
+variance-covariance matrix of the innovations.
+The default is <code>"fromUnivariate"</code>, meaning that is is estimated from the
+residuals of the univariate models. Others options include <code>"allEquals"</code>,
+which assume a diagonal matrix with identical variances (a strong
+assumption), and <code>"userDefined"</code>, where the matrix is supplied by the user
+via the <code>var.matrix</code> argument. For additional details, see the package
+vignette.</p></dd>
 
 
 <dt id="arg-var-includecov">var.includeCov<a class="anchor" aria-label="anchor" href="#arg-var-includecov"></a></dt>
-<dd><p>Boolean. Indicates whether non-diagonal elements of the innovation variance-covariance matrix may as well be estimated from the residuals of the univariate models. The default is <code>FALSE</code>, meaning that only a diagonal matrix is estimated.
+<dd><p>Boolean. Indicates whether non-diagonal elements of
+the innovation variance-covariance matrix may as well be estimated from
+the residuals of the univariate models. The default is <code>FALSE</code>, meaning
+that only a diagonal matrix is estimated.
 This argument is used only when <code>var = "fromUnivariate"</code>.</p></dd>
 
 
 <dt id="arg-var-shrinkcov">var.shrinkCov<a class="anchor" aria-label="anchor" href="#arg-var-shrinkcov"></a></dt>
-<dd><p>Boolean. Indicates whether a shrinkage covariance estimator should be used. See the vignette for more details.
-This argument is used only when <code>var = "fromUnivariate"</code> and <code>var.includeCov = TRUE</code>.</p></dd>
+<dd><p>Boolean. Indicates whether a shrinkage covariance
+estimator should be used. See the vignette for more details.
+This argument is used only when <code>var = "fromUnivariate"</code> and
+<code>var.includeCov = TRUE</code>.</p></dd>
 
 
 <dt id="arg-var-matrix">var.matrix<a class="anchor" aria-label="anchor" href="#arg-var-matrix"></a></dt>
 <dd><p>The variance-covariance matrix of the innovations.
-This argument is used only when <code>var = "userDefined"</code> and must be provided in that case.</p></dd>
+This argument is used only when <code>var = "userDefined"</code> and must be provided
+in that case.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class "JD3_MULTITEMPDISAGG_RSLTS" is returned. The following are returned
-invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> regression coefficients for each series;</p></li>
-<li><p><code>estimation</code> <code>[[2]]</code> disaggregated Time-Series and standard deviation for each series, regression effects, smoothing part, parameter and variance-covariance matrix;</p></li>
+    <p>An object of class "JD3_MULTITEMPDISAGG_RSLTS" is returned. The
+following are returned invisibly as a list:</p><ul><li><p><code>regression</code> <code>[[1]]</code> regression coefficients for each series;</p></li>
+<li><p><code>estimation</code> <code>[[2]]</code> disaggregated Time-Series and standard deviation for
+each series, regression effects, smoothing part, parameter and
+variance-covariance matrix;</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

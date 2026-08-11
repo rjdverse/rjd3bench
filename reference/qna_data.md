@@ -12,7 +12,7 @@ series derived from VAT-based production indicators, covering the period
 ## Usage
 
 ``` r
-qna_data
+data(qna_data)
 ```
 
 ## Format
