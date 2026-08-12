@@ -30,14 +30,14 @@
 - [`qna_data`](https://rjdverse.github.io/rjd3bench/reference/qna_data.md)
   : Quarterly National Accounts data for temporal disaggregation
 - [`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
-  : Temporal Disaggregation of a Time Series by Regression Models.
+  : Temporal Disaggregation of a Time Series by Regression Models
 - [`temporal_disaggregation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
   : Temporal Disaggregation of an Atypical Frequency Series by
-  Regression Models.
+  Regression Models
 - [`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md)
-  : Interpolation of a Time Series by Regression Models.
+  : Interpolation of a Time Series by Regression Models
 - [`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
-  : Interpolation of an Atypical Frequency Series by Regression Models.
+  : Interpolation of an Atypical Frequency Series by Regression Models
 - [`temporaldisaggregationI()`](https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.md)
   : Temporal Disaggregation and Interpolation of a Time Series by means
-  of a Reverse Regression Model.
+  of a Reverse Regression Model

@@ -71,19 +71,21 @@ cholette(
 
 A `"ts"` object with the benchmarked series is returned.
 
+## Vignette
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+
+- In R: `browseVignettes(package = "rjd3bench")`
+
+- Online: <https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html>
+
 ## References
 
 Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006). Recent
 Developments in Benchmarking to Annual Totals in X12-ARIMA and at
 Statistics Canada. Statistics Canada, Working paper of the Time Series
 Research and Analysis Centre.
-
-## See also
-
-For more information, see the vignette:
-
-[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
-e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 

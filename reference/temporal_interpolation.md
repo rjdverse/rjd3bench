@@ -1,4 +1,4 @@
-# Interpolation of a Time Series by Regression Models.
+# Interpolation of a Time Series by Regression Models
 
 Perform temporal interpolation of low-frequency to high-frequency time
 series by regression models. The implemented models include Chow-Lin,
@@ -129,6 +129,15 @@ returned as a list:
 
 - `likelihood` `[[3]]` likelihood statistics.
 
+## Vignette
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+
+- In R: `browseVignettes(package = "rjd3bench")`
+
+- Online: <https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html>
+
 ## See also
 
 [`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md),
@@ -138,11 +147,6 @@ for interpolation of atypical frequency series,
 
 [`temporal_disaggregation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
 for temporal disaggregation of atypical frequency series
-
-For more information, see the vignette:
-
-[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
-e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 

@@ -82,12 +82,19 @@ denton(
 
 A `"ts"` object with the benchmarked series is returned.
 
+## Vignette
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+
+- In R: `browseVignettes(package = "rjd3bench")`
+
+- Online: <https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html>
+
 ## See also
 
-For more information, see the vignette:
-
-[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
-e.g. `browseVignettes(package = "rjd3bench")`
+[`denton_raw()`](https://rjdverse.github.io/rjd3bench/reference/denton_raw.md)
+for benchmarking of atypical frequency series
 
 ## Examples
 

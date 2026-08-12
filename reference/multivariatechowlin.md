@@ -138,15 +138,19 @@ following are returned as a list:
   for each series, regression effects, smoothing part, parameter and
   variance-covariance matrix;
 
+## Vignette
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+
+- In R: `browseVignettes(package = "rjd3bench")`
+
+- Online: <https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html>
+
 ## See also
 
 [`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)
 for time series reconciliation.
-
-For more information, see the vignette:
-
-[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
-e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 

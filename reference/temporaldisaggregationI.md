@@ -1,4 +1,4 @@
-# Temporal Disaggregation and Interpolation of a Time Series by means of a Reverse Regression Model.
+# Temporal Disaggregation and Interpolation of a Time Series by means of a Reverse Regression Model
 
 Perform temporal disaggregation and interpolation of low-frequency to
 high frequency time series by means of a reverse regression model.
@@ -70,17 +70,19 @@ are returned as a list:
 
 - `likelihood` `[[3]]` likelihood statistics.
 
+## Vignette
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+
+- In R: `browseVignettes(package = "rjd3bench")`
+
+- Online: <https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html>
+
 ## References
 
 Bournay J., Laroque G. (1979). Reflexions sur la methode d'elaboration
 des comptes trimestriels. Annales de l'Insee, n. 36, pp.3-30.
-
-## See also
-
-For more information, see the vignette:
-
-[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
-e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 

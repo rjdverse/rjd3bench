@@ -74,6 +74,15 @@ grp(
 
 A `"ts"` object with the benchmarked series is returned.
 
+## Vignette
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+
+- In R: `browseVignettes(package = "rjd3bench")`
+
+- Online: <https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html>
+
 ## References
 
 Causey, B., and Trager, M.L. (1981). Derivation of Solution to the
@@ -88,13 +97,6 @@ WP/11/179*.
 Daalmans, J., Di Fonzo, T., Mushkudiani, N. and Bikker, R. (2018).
 Growth Rates Preservation (GRP) temporal benchmarking: Drawbacks and
 alternative solutions. *Statistics Canada*.
-
-## See also
-
-For more information, see the vignette:
-
-[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
-e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 

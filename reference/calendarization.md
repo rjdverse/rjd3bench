@@ -66,18 +66,20 @@ calendarization(
 A list containing the disaggregated daily values, the final aggregated
 series, and their associated standard errors if requested.
 
+## Vignette
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+
+- In R: `browseVignettes(package = "rjd3bench")`
+
+- Online: <https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html>
+
 ## References
 
 Quenneville, B., Picard F., Fortier S. (2012). Calendarization with
 interpolating splines and state space models. Statistics Canada, Appl.
 Statistics (2013) 62, part 3, pp 371-399.
-
-## See also
-
-For more information, see the vignette:
-
-[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
-e.g. `browseVignettes(package = "rjd3bench")`
 
 ## Examples
 

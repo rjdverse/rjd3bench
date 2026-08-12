@@ -106,9 +106,11 @@ the observed low frequency benchmark and the high-frequency indicators
 of an unknown high frequency variable $`y_t`$. Chow-Lin, Fernandez and
 Litterman can be all expressed with the same equation, but with
 different models for the error term:
+
 ``` math
 y_t = x_t\beta+u_t
 ```
+
 where
 
 $`u_t = \rho u_{t-1} + \epsilon_t`$, with $`|\rho| < 1`$ (Chow-Lin),
@@ -119,9 +121,11 @@ $`u_t = u_{t-1} + \rho(\Delta u_{t-1}) + \epsilon_t`$, with
 $`|\rho| < 1`$ (Litterman)
 
 The temporal constraint is:
+
 ``` math
 Y = Cy,
 ```
+
 where $`C = I_m \otimes c`$, $`c`$ is a row vector of size $`s`$ which
 is the frequency ratio between the disaggregated or interpolated series
 and the low frequency benchmark. The distinction between temporal
@@ -232,13 +236,16 @@ Denton method and variants are usually expressed in mathematical terms
 as a constrained minimization problem. For example, the widely used
 Denton proportional first difference (PFD) method is usually expressed
 as follows:
+
 ``` math
 min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 ```
+
 subject to the temporal aggregation constraint (flow variables)
 ``` math
 \sum_{t} y_t = Y_T
 ```
+
 where $`y_t`$ is the value of the estimate of the high frequency series
 at period t, $`x_t`$ is the value of the high frequency indicator at
 period t and $`Y_T`$ is the value of the low frequency series (i.e. the
@@ -247,9 +254,12 @@ benchmark series) at period T.
 Equivalently, the Denton PFD method can also be expressed as a
 statistical model considering the following state space representation
 
-\$\$ \begin{align} y_t &= \beta_t x_t \\ \beta\_{t+1} &= \beta_t +
-\varepsilon_t \qquad \varepsilon_t \sim {\sf NID}(0,
-\sigma^2\_{\varepsilon}) \end{align} \$\$
+``` math
+\begin{align}
+y_t &= \beta_t x_t \\
+\beta_{t+1} &= \beta_t + \varepsilon_t \qquad \varepsilon_t \sim \mathrm{NID}(0, \sigma^2_{\varepsilon})
+\end{align}
+```
 
 where the temporal constraints are taken care of by considering a
 cumulated series $`y^c_t`$ instead of the original series $`y_t`$.
@@ -311,10 +321,13 @@ y_t = \phi y_{t-1} + m + gt + x_t'\beta_0 + x_{t-1}'\beta_1 + \varepsilon_t
 \qquad 
 (1)
 ```
+
 subject to the temporal constraint (flow variables)
+
 ``` math
 \sum_{t} y_t = Y_T
 ```
+
 where $`y_t`$ is the value of the estimate of the high frequency series
 at period t, $`x_t`$ is the value of the high frequency indicator at
 period t and $`Y_T`$ is the value of the low frequency series (i.e. the
@@ -325,20 +338,26 @@ Litterman (for Litterman, the ADL model must be formulated in the first
 differences of the dependent and explanatory variables).
 
 Recall the Chow-Lin model
+
 ``` math
 \begin{align}
 y_t &= x_t\beta + u_t \\
 u_t &= \rho u_{t-1} + \varepsilon_t
 \end{align}
 ```
+
 Combine it into a single equation and substitute for $`u_{t-1}`$
+
 ``` math
 y_t = x_t\beta + \rho (y_{t-1} - x_{t-1}\beta) + \varepsilon_t
 ```
+
 So, the ADL model corresponds to the Chow-Lin model if
+
 ``` math
 \beta_1 = -\phi\beta_0 \qquad (2)
 ```
+
 and to the Fernandez model if we further assumes that $`\phi = 1`$.
 
 Recall that the Chow-Lin model relies on the strong assumption of that
@@ -438,10 +457,13 @@ x_t &= a + by_t + u_t \\
 u_t &= \rho u_{t-1} + \varepsilon_t
 \end{align}
 ```
+
 subject to the temporal constraint (flow variables)
+
 ``` math
 \sum_{t} y_t = Y_T
 ```
+
 The choice of which variable is dependent and which is independent is
 far from arbitrary. It changes the assumptions and the interpretation of
 the model, and the outcome may be very different too. In particular, if
@@ -518,9 +540,11 @@ benchmarks and the high-frequency preliminary values of an unknown
 target variable $`y_t`$. The objective function of the Denton PFD method
 is as follows (considering the small modification suggested by Cholette
 to deal with the starting conditions of the problem):
+
 ``` math
 min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 ```
+
 This objective function is minimized subject to the temporal aggregation
 constraints $`\sum_{t\epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows
 variables). In other words, the benchmarked series is estimated in such
@@ -588,6 +612,7 @@ following objective function:
 ``` math
 f(x) = \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2
 ```
+
 and look for values $`y_t^*`$, $`t=1,...,n`$, which minimize it subject
 to the temporal aggregation constraints
 $`\sum_{t\epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows variables). In
@@ -620,11 +645,13 @@ Backward GRP:
 ``` math
 f(x) = \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
 ```
+
 Symmetric GRP:
 ``` math
 f(x) = \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2 +
 \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
 ```
+
 Logarithmic GRP:
 ``` math
 f(x) = \sum_{t=2}^{n}\left(log\left(\frac{y_t}{y_{t-1}}\right) - log\left(\frac{x_t}{x_{t-1}}\right) \right)^2
@@ -693,6 +720,7 @@ method is as follows (Quenneville et al, 2006):
 ``` math
 f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \sum_{t=2}^{n}\left[\left(\frac{x_t - y_t}{|x_t|^\lambda}\right) - \rho \left(\frac{x_{t-1} - y_{t-1}}{|x_{t-1}|^\lambda}\right)\right]^2
 ```
+
 This objective function is minimized subject to the temporal aggregation
 constraints $`\sum_{t\epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows
 variables). The method is driven by a couple of parameters:
@@ -720,6 +748,7 @@ b_a &= \frac{\sum_{T=1}^{m}{Y_T} - \sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}{m} \\
 b_m &= \frac{\sum_{T=1}^{m}{Y_T}}{\sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}
 \end{aligned}
 ```
+
 If a bias correction factor is considered, the preliminary series is
 re-scaled in the objective function above: $`x_t^*`$ replaces $`x_t`$,
 where $`x_t^*=b_a+x_t`$ in the additive case and
@@ -801,13 +830,15 @@ Let
   unknown target variables $`y_{i,t}`$.
 
 The objective function of the multivariate Cholette method is:
+
 ``` math
 f(x) = (1-\rho^2) \sum_{i=1}^{I}\left(\frac{x_{i,1} - y_{i,1}}{|x_{i,1}|^\lambda}\right)^2 + \sum_{i=1}^{I}\sum_{t=2}^{n}\left[\left(\frac{x_{i,t} - y_{i,t}}{|x_{i,t}|^\lambda}\right) - \rho \left(\frac{x_{i,t-1} - y_{i,t-1}}{|x_{i,t-1}|^\lambda}\right)\right]^2
 ```
+
 This objective function is minimized subject to
 
 - the temporal aggregation constraints
-  $`\sum_{t\epsilon T} y_{i,t} = Y_{i,T}`$, and
+  $`\sum_{t\epsilon T} y_{i,t} = Y_{i,T}`$,
 - the contemporaneous constraints given by
   $`\sum_{j\epsilon J_k}\omega_{k,j}x_{j,t} = z_{k,t}`$.
 
@@ -948,9 +979,13 @@ Let
 
 The multivariate Chow-Lin and Fernandez models are defined as:
 
-\$\$ \begin{align} y\_{t,i} &= \sum\_{j=1}^{P_i}{x\_{t,j}
-\beta\_{j,i}}+u\_{t,i} \\ u\_{t,i} &= \rho_i u\_{t-1,i} + \eta\_{t,i},
-\qquad \eta\_{t,i} \sim {\sf NID}(0, \Sigma) \qquad \end{align} \$\$
+``` math
+\begin{align}
+y_{t,i} &= \sum_{j=1}^{P_i}{x_{t,j} \beta_{j,i}} + u_{t,i} \\
+u_{t,i} &= \rho_i u_{t-1,i} + \eta_{t,i}, \qquad \eta_{t,i} \sim \mathrm{NID}(0,\Sigma)
+\end{align}
+```
+
 where:
 
 - $`\rho_i = 1`$ (Fernandez), or $`|\rho_i| < 1`$ (Chow-Lin),
@@ -1044,6 +1079,7 @@ and
 ``` math
 \hat{\lambda} = \min\left\{ 1,\, \frac{\sum_{i \ne j} \widehat{\operatorname{Var}}(r_{ij})} {\sum_{i \ne j} r_{ij}^{2}} \right\}
 ```
+
 Note other variants of the shrinkage estimator can also be considered.
 For instance, shrinkage may applied not only to the covariance terms but
 also to the variances. This can be achieved using packages such as
@@ -1248,13 +1284,17 @@ Based on the paper from Quenneville et al (2012), the temporal
 disaggregation step is performed by considering a state-space
 representation of the Denton proportional first difference (PFD) method.
 Recall the objective function of the (modified) Denton PFD method
+
 ``` math
 min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 ```
+
 which is minimized under the temporal aggregation constraints
+
 ``` math
 \sum_{t\epsilon l} y_t = Y_l
 ```
+
 $`Y_l`$, $`l=1,...,q`$, are the observed values to be distributed and
 $`x_t`$, $`t=1,...,n`$ are the daily indicator values that represent the
 daily movement of the unknown target variable $`y_t`$. In the absence of

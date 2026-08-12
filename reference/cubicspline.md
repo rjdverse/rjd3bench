@@ -55,12 +55,14 @@ cubicspline(
 
 A `"ts"` object with the benchmarked series is returned.
 
-## See also
+## Vignette
 
-For more information, see the vignette:
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
 
-[`utils::browseVignettes()`](https://rdrr.io/r/utils/browseVignettes.html),
-e.g. `browseVignettes(package = "rjd3bench")`
+- In R: `browseVignettes(package = "rjd3bench")`
+
+- Online: <https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html>
 
 ## Examples
 

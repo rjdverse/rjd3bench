@@ -168,10 +168,11 @@ be, respectively the observed low frequency benchmark and the
 high-frequency indicators of an unknown high frequency variable
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>.
 Chow-Lin, Fernandez and Litterman can be all expressed with the same
-equation, but with different models for the error term:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><msub><mi>u</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">
+equation, but with different models for the error term:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><msub><mi>u</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">
 y_t = x_t\beta+u_t
-</annotation></semantics></math> where</p>
+</annotation></semantics></math></p>
+<p>where</p>
 <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>t</mi></msub><mo>=</mo><mi>ρ</mi><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>ϵ</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">u_t = \rho u_{t-1} + \epsilon_t</annotation></semantics></math>,
 with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>ρ</mi><mo stretchy="false" form="prefix">|</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|\rho| &lt; 1</annotation></semantics></math>
@@ -182,10 +183,11 @@ with
 with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>ρ</mi><mo stretchy="false" form="prefix">|</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|\rho| &lt; 1</annotation></semantics></math>
 (Litterman)</p>
-<p>The temporal constraint is:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mi>C</mi><mi>y</mi><mo>,</mo></mrow><annotation encoding="application/x-tex">
+<p>The temporal constraint is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mi>C</mi><mi>y</mi><mo>,</mo></mrow><annotation encoding="application/x-tex">
 Y = Cy,
-</annotation></semantics></math> where
+</annotation></semantics></math></p>
+<p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><msub><mi>I</mi><mi>m</mi></msub><mo>⊗</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">C = I_m \otimes c</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
 is a row vector of size
@@ -293,14 +295,15 @@ change the argument <code>zeroinitialization = TRUE</code> with
 <p>Denton method and variants are usually expressed in mathematical
 terms as a constrained minimization problem. For example, the widely
 used Denton proportional first difference (PFD) method is usually
-expressed as follows:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+expressed as follows:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
 min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
-</annotation></semantics></math> subject to the temporal aggregation
-constraint (flow variables)
+</annotation></semantics></math></p>
+<p>subject to the temporal aggregation constraint (flow variables)
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
 \sum_{t} y_t = Y_T
-</annotation></semantics></math> where
+</annotation></semantics></math></p>
+<p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>
 is the value of the estimate of the high frequency series at period t,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>
@@ -311,13 +314,12 @@ period T.</p>
 <p>Equivalently, the Denton PFD method can also be expressed as a
 statistical model considering the following state space
 representation</p>
-<p><span class="math display">$$
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>y</mi><mi>t</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><msub><mi>β</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>β</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><msub><mi>β</mi><mi>t</mi></msub><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub><mspace width="2.0em"></mspace><msub><mi>ε</mi><mi>t</mi></msub><mo>∼</mo><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">I</mi><mi mathvariant="normal">D</mi></mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><msubsup><mi>σ</mi><mi>ε</mi><mn>2</mn></msubsup><mo stretchy="false" form="postfix">)</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">
 \begin{align}
 y_t &amp;= \beta_t x_t \\
-\beta_{t+1} &amp;= \beta_t + \varepsilon_t \qquad \varepsilon_t \sim
-{\sf NID}(0, \sigma^2_{\varepsilon})
+\beta_{t+1} &amp;= \beta_t + \varepsilon_t \qquad \varepsilon_t \sim \mathrm{NID}(0, \sigma^2_{\varepsilon})
 \end{align}
-$$</span></p>
+</annotation></semantics></math></p>
 <p>where the temporal constraints are taken care of by considering a
 cumulated series
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>y</mi><mi>t</mi><mi>c</mi></msubsup><annotation encoding="application/x-tex">y^c_t</annotation></semantics></math>
@@ -373,11 +375,12 @@ y_t = \phi y_{t-1} + m + gt + x_t'\beta_0 + x_{t-1}'\beta_1 + \varepsilon_t
 \varepsilon_t \sim \mathrm{NID}(0,\sigma^2) 
 \qquad 
 (1)
-</annotation></semantics></math> subject to the temporal constraint
-(flow variables)
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
+</annotation></semantics></math></p>
+<p>subject to the temporal constraint (flow variables)</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
 \sum_{t} y_t = Y_T
-</annotation></semantics></math> where
+</annotation></semantics></math></p>
+<p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>
 is the value of the estimate of the high frequency series at period t,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>
@@ -388,22 +391,23 @@ period T.</p>
 <p>The ADL model nests the Chow-Lin model and its variants Fernandez and
 Litterman (for Litterman, the ADL model must be formulated in the first
 differences of the dependent and explanatory variables).</p>
-<p>Recall the Chow-Lin model
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>y</mi><mi>t</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><msub><mi>u</mi><mi>t</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>u</mi><mi>t</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>ρ</mi><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<p>Recall the Chow-Lin model</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>y</mi><mi>t</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><msub><mi>u</mi><mi>t</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>u</mi><mi>t</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>ρ</mi><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub></mtd></mtr></mtable><annotation encoding="application/x-tex">
 \begin{align}
 y_t &amp;= x_t\beta + u_t \\
 u_t &amp;= \rho u_{t-1} + \varepsilon_t
 \end{align}
-</annotation></semantics></math> Combine it into a single equation and
-substitute for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">u_{t-1}</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mi>β</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">
+</annotation></semantics></math></p>
+<p>Combine it into a single equation and substitute for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">u_{t-1}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mi>β</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">
 y_t = x_t\beta + \rho (y_{t-1} - x_{t-1}\beta) + \varepsilon_t
-</annotation></semantics></math> So, the ADL model corresponds to the
-Chow-Lin model if
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><mi>−</mi><mi>ϕ</mi><msub><mi>β</mi><mn>0</mn></msub><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+</annotation></semantics></math></p>
+<p>So, the ADL model corresponds to the Chow-Lin model if</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><mi>−</mi><mi>ϕ</mi><msub><mi>β</mi><mn>0</mn></msub><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
 \beta_1 = -\phi\beta_0 \qquad (2)
-</annotation></semantics></math> and to the Fernandez model if we
-further assumes that
+</annotation></semantics></math></p>
+<p>and to the Fernandez model if we further assumes that
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\phi = 1</annotation></semantics></math>.</p>
 <p>Recall that the Chow-Lin model relies on the strong assumption of
 that the disaggragated series
@@ -511,19 +515,20 @@ The model is defined as:</p>
 x_t &amp;= a + by_t + u_t \\
 u_t &amp;= \rho u_{t-1} + \varepsilon_t
 \end{align}
-</annotation></semantics></math> subject to the temporal constraint
-(flow variables)
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
+</annotation></semantics></math></p>
+<p>subject to the temporal constraint (flow variables)</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
 \sum_{t} y_t = Y_T
-</annotation></semantics></math> The choice of which variable is
-dependent and which is independent is far from arbitrary. It changes the
-assumptions and the interpretation of the model, and the outcome may be
-very different too. In particular, if the fit between the benchmark and
-the indicator is globally poor, the smoothing part of the Chow-Lin model
-usually becomes more influential (if constant &gt; 0), resulting in a
-disaggregated series that is smoother, meaning that the indicator’s
-movements are dampened. Conversely, under the reverse model above, we
-can have a high estimate for parameter
+</annotation></semantics></math></p>
+<p>The choice of which variable is dependent and which is independent is
+far from arbitrary. It changes the assumptions and the interpretation of
+the model, and the outcome may be very different too. In particular, if
+the fit between the benchmark and the indicator is globally poor, the
+smoothing part of the Chow-Lin model usually becomes more influential
+(if constant &gt; 0), resulting in a disaggregated series that is
+smoother, meaning that the indicator’s movements are dampened.
+Conversely, under the reverse model above, we can have a high estimate
+for parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
 and a low estimate for
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>,
@@ -589,11 +594,12 @@ preliminary values of an unknown target variable
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>.
 The objective function of the Denton PFD method is as follows
 (considering the small modification suggested by Cholette to deal with
-the starting conditions of the problem):
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+the starting conditions of the problem):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
 min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
-</annotation></semantics></math> This objective function is minimized
-subject to the temporal aggregation constraints
+</annotation></semantics></math></p>
+<p>This objective function is minimized subject to the temporal
+aggregation constraints
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_t = Y_T</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>
 (flows variables). In other words, the benchmarked series is estimated
@@ -655,7 +661,8 @@ preliminary values of an unknown target variable
 Cauley and Trager(1981) consider the following objective function:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo>−</mo><mfrac><msub><mi>x</mi><mi>t</mi></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
 f(x) = \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2
-</annotation></semantics></math> and look for values
+</annotation></semantics></math></p>
+<p>and look for values
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>y</mi><mi>t</mi><mo>*</mo></msubsup><annotation encoding="application/x-tex">y_t^*</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
 which minimize it subject to the temporal aggregation constraints
@@ -692,11 +699,13 @@ logarithmic GRP) which are “time symmetric”.</p>
 <p>Backward GRP:
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>y</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
 f(x) = \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
-</annotation></semantics></math> Symmetric GRP:
+</annotation></semantics></math></p>
+<p>Symmetric GRP:
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo>−</mo><mfrac><msub><mi>x</mi><mi>t</mi></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>y</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
 f(x) = \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2 +
 \frac{1}{2} \sum_{t=2}^{n}\left(\frac{y_{t-1}}{y_t} - \frac{x_{t-1}}{x_t}\right)^2
-</annotation></semantics></math> Logarithmic GRP:
+</annotation></semantics></math></p>
+<p>Logarithmic GRP:
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>t</mi></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
 f(x) = \sum_{t=2}^{n}\left(log\left(\frac{y_t}{y_{t-1}}\right) - log\left(\frac{x_t}{x_{t-1}}\right) \right)^2
 </annotation></semantics></math></p>
@@ -758,8 +767,9 @@ The objective function of the Cholette method is as follows (Quenneville
 et al, 2006):</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>ρ</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>−</mo><msub><mi>y</mi><mn>1</mn></msub></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>x</mi><mn>1</mn></msub><msup><mo stretchy="false" form="prefix">|</mo><mi>λ</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>t</mi></msub><mo>−</mo><msub><mi>y</mi><mi>t</mi></msub></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>x</mi><mi>t</mi></msub><msup><mo stretchy="false" form="prefix">|</mo><mi>λ</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ρ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msup><mo stretchy="false" form="prefix">|</mo><mi>λ</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
 f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \sum_{t=2}^{n}\left[\left(\frac{x_t - y_t}{|x_t|^\lambda}\right) - \rho \left(\frac{x_{t-1} - y_{t-1}}{|x_{t-1}|^\lambda}\right)\right]^2
-</annotation></semantics></math> This objective function is minimized
-subject to the temporal aggregation constraints
+</annotation></semantics></math></p>
+<p>This objective function is minimized subject to the temporal
+aggregation constraints
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_t = Y_T</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>
 (flows variables). The method is driven by a couple of parameters:</p>
@@ -797,9 +807,9 @@ multiplicative bias correction factor are estimated respectively as:</p>
 b_a &amp;= \frac{\sum_{T=1}^{m}{Y_T} - \sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}{m} \\
 b_m &amp;= \frac{\sum_{T=1}^{m}{Y_T}}{\sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}
 \end{aligned}
-</annotation></semantics></math> If a bias correction factor is
-considered, the preliminary series is re-scaled in the objective
-function above:
+</annotation></semantics></math></p>
+<p>If a bias correction factor is considered, the preliminary series is
+re-scaled in the objective function above:
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>x</mi><mi>t</mi><mo>*</mo></msubsup><annotation encoding="application/x-tex">x_t^*</annotation></semantics></math>
 replaces
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>,
@@ -898,15 +908,14 @@ be the high-frequency preliminary values of the set of the unknown
 target variables
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">y_{i,t}</annotation></semantics></math>.</li>
 </ul>
-<p>The objective function of the multivariate Cholette method is:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>ρ</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><msup><mo stretchy="false" form="prefix">|</mo><mi>λ</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><msup><mo stretchy="false" form="prefix">|</mo><mi>λ</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ρ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msup><mo stretchy="false" form="prefix">|</mo><mi>λ</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+<p>The objective function of the multivariate Cholette method is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>ρ</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mn>1</mn></mrow></msub><msup><mo stretchy="false" form="prefix">|</mo><mi>λ</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><msup><mo stretchy="false" form="prefix">|</mo><mi>λ</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ρ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msup><mo stretchy="false" form="prefix">|</mo><mi>λ</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
 f(x) = (1-\rho^2) \sum_{i=1}^{I}\left(\frac{x_{i,1} - y_{i,1}}{|x_{i,1}|^\lambda}\right)^2 + \sum_{i=1}^{I}\sum_{t=2}^{n}\left[\left(\frac{x_{i,t} - y_{i,t}}{|x_{i,t}|^\lambda}\right) - \rho \left(\frac{x_{i,t-1} - y_{i,t-1}}{|x_{i,t-1}|^\lambda}\right)\right]^2
-</annotation></semantics></math> This objective function is minimized
-subject to</p>
+</annotation></semantics></math></p>
+<p>This objective function is minimized subject to</p>
 <ul>
 <li>the temporal aggregation constraints
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>Y</mi><mrow><mi>i</mi><mo>,</mo><mi>T</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_{i,t} = Y_{i,T}</annotation></semantics></math>,
-and</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>Y</mi><mrow><mi>i</mi><mo>,</mo><mi>T</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_{i,t} = Y_{i,T}</annotation></semantics></math>,</li>
 <li>the contemporaneous constraints given by
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>j</mi><mi>ϵ</mi><msub><mi>J</mi><mi>k</mi></msub></mrow></msub><msub><mi>ω</mi><mrow><mi>k</mi><mo>,</mo><mi>j</mi></mrow></msub><msub><mi>x</mi><mrow><mi>j</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>z</mi><mrow><mi>k</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\sum_{j\epsilon J_k}\omega_{k,j}x_{j,t} = z_{k,t}</annotation></semantics></math>.</li>
 </ul>
@@ -1077,13 +1086,13 @@ be the set of indicators related to the corresponding target
 variables.</li>
 </ul>
 <p>The multivariate Chow-Lin and Fernandez models are defined as:</p>
-<p><span class="math display">$$
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>y</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>P</mi><mi>i</mi></msub></munderover><mrow><msub><mi>x</mi><mrow><mi>t</mi><mo>,</mo><mi>j</mi></mrow></msub><msub><mi>β</mi><mrow><mi>j</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow><mo>+</mo><msub><mi>u</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>u</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><msub><mi>ρ</mi><mi>i</mi></msub><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>i</mi></mrow></msub><mo>+</mo><msub><mi>η</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>η</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>∼</mo><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">I</mi><mi mathvariant="normal">D</mi></mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mi mathvariant="normal">Σ</mi><mo stretchy="false" form="postfix">)</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">
 \begin{align}
-y_{t,i} &amp;= \sum_{j=1}^{P_i}{x_{t,j} \beta_{j,i}}+u_{t,i} \\
-u_{t,i} &amp;= \rho_i u_{t-1,i} + \eta_{t,i},
-\qquad \eta_{t,i} \sim {\sf NID}(0, \Sigma)  \qquad
+y_{t,i} &amp;= \sum_{j=1}^{P_i}{x_{t,j} \beta_{j,i}} + u_{t,i} \\
+u_{t,i} &amp;= \rho_i u_{t-1,i} + \eta_{t,i}, \qquad \eta_{t,i} \sim \mathrm{NID}(0,\Sigma)
 \end{align}
-$$</span> where:</p>
+</annotation></semantics></math></p>
+<p>where:</p>
 <ul>
 <li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ρ</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\rho_i = 1</annotation></semantics></math>
 (Fernandez), or
@@ -1195,11 +1204,12 @@ r_{ij}^* = (1 - \hat{\lambda})r_{ij}
 </annotation></semantics></math> and
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mrow><mi mathvariant="normal">min</mi><mo>⁡</mo></mrow><mrow><mo stretchy="true" form="prefix">{</mo><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><mfrac><mrow><munder><mo>∑</mo><mrow><mi>i</mi><mo>≠</mo><mi>j</mi></mrow></munder><mover><mi mathvariant="normal">Var</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="prefix">(</mo><msub><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><mrow><munder><mo>∑</mo><mrow><mi>i</mi><mo>≠</mo><mi>j</mi></mrow></munder><msubsup><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup></mrow></mfrac><mo stretchy="true" form="postfix">}</mo></mrow></mrow><annotation encoding="application/x-tex">
 \hat{\lambda} = \min\left\{ 1,\, \frac{\sum_{i \ne j} \widehat{\operatorname{Var}}(r_{ij})} {\sum_{i \ne j} r_{ij}^{2}} \right\}
-</annotation></semantics></math> Note other variants of the shrinkage
-estimator can also be considered. For instance, shrinkage may applied
-not only to the covariance terms but also to the variances. This can be
-achieved using packages such as <strong>‘corpcor’</strong>, with the
-resulting variance-covariance matrix supplied by the user through the
+</annotation></semantics></math></p>
+<p>Note other variants of the shrinkage estimator can also be
+considered. For instance, shrinkage may applied not only to the
+covariance terms but also to the variances. This can be achieved using
+packages such as <strong>‘corpcor’</strong>, with the resulting
+variance-covariance matrix supplied by the user through the
 <code>var.matrix</code> argument.</p>
 <p>The multivariate Chow-Lin and Fernandez methods can be called with
 the <code><a href="../reference/multivariatechowlin.html">multivariatechowlin()</a></code> function. The output of the
@@ -1395,14 +1405,15 @@ reference periods.</li>
 <p>Based on the paper from Quenneville et al (2012), the temporal
 disaggregation step is performed by considering a state-space
 representation of the Denton proportional first difference (PFD) method.
-Recall the objective function of the (modified) Denton PFD method
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+Recall the objective function of the (modified) Denton PFD method</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
 min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
-</annotation></semantics></math> which is minimized under the temporal
-aggregation constraints
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>l</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">
+</annotation></semantics></math></p>
+<p>which is minimized under the temporal aggregation constraints</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>l</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">
 \sum_{t\epsilon l} y_t = Y_l
-</annotation></semantics></math><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>l</mi></msub><annotation encoding="application/x-tex">Y_l</annotation></semantics></math>,
+</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>l</mi></msub><annotation encoding="application/x-tex">Y_l</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">l=1,...,q</annotation></semantics></math>,
 are the observed values to be distributed and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>,
