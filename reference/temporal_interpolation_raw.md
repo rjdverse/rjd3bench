@@ -130,7 +130,7 @@ temporal_interpolation_raw(
 ## Value
 
 An object of class "JD3_INTERPRAW_RSLTS" is returned. The following are
-returned invisibly as a list:
+returned as a list:
 
 - `regression` `[[1]]` regression coefficients;
 

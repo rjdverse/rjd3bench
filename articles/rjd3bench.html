@@ -153,7 +153,7 @@ atypical frequency data and with any frequency ratio. Note that for
 benchmarking, a function <code><a href="../reference/denton_raw.html">denton_raw()</a></code> is also
 available.</p>
 <div class="section level3">
-<h3 id="chow-lin-fernandez-and-litterman">Chow-Lin, Fernandez and Litterman<a class="anchor" aria-label="anchor" href="#chow-lin-fernandez-and-litterman"></a>
+<h3 id="chowlin">Chow-Lin, Fernandez and Litterman<a class="anchor" aria-label="anchor" href="#chowlin"></a>
 </h3>
 <p>Eurostat (2018) recommends the use of regression-based models for the
 purpose of temporal disaggregation. Among them, we retrieve the Chow-Lin
@@ -165,22 +165,22 @@ and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>t</mi></msub><annotation encoding="application/x-tex">x_t</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
 be, respectively the observed low frequency benchmark and the
-high-frequency indicator of an unknown high frequency variable
+high-frequency indicators of an unknown high frequency variable
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>.
 Chow-Lin, Fernandez and Litterman can be all expressed with the same
 equation, but with different models for the error term:
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><msub><mi>u</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">
 y_t = x_t\beta+u_t
 </annotation></semantics></math> where</p>
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>t</mi></msub><mo>=</mo><mi>ϕ</mi><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>ϵ</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">u_t = \phi u_{t-1} + \epsilon_t</annotation></semantics></math>,
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>t</mi></msub><mo>=</mo><mi>ρ</mi><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>ϵ</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">u_t = \rho u_{t-1} + \epsilon_t</annotation></semantics></math>,
 with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>ϕ</mi><mo stretchy="false" form="prefix">|</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|\phi| &lt; 1</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>ρ</mi><mo stretchy="false" form="prefix">|</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|\rho| &lt; 1</annotation></semantics></math>
 (Chow-Lin),</p>
 <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>t</mi></msub><mo>=</mo><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>ϵ</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">u_t = u_{t-1} + \epsilon_t</annotation></semantics></math>
 (Fernandez),</p>
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>t</mi></msub><mo>=</mo><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><mi>ϕ</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">Δ</mi><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msub><mi>ϵ</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">u_t = u_{t-1} + \phi(\Delta u_{t-1}) + \epsilon_t</annotation></semantics></math>,
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>t</mi></msub><mo>=</mo><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">Δ</mi><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msub><mi>ϵ</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">u_t = u_{t-1} + \rho(\Delta u_{t-1}) + \epsilon_t</annotation></semantics></math>,
 with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>ϕ</mi><mo stretchy="false" form="prefix">|</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|\phi| &lt; 1</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>ρ</mi><mo stretchy="false" form="prefix">|</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|\rho| &lt; 1</annotation></semantics></math>
 (Litterman)</p>
 <p>The temporal constraint is:
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mi>C</mi><mi>y</mi><mo>,</mo></mrow><annotation encoding="application/x-tex">
@@ -190,7 +190,7 @@ Y = Cy,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
 is a row vector of size
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
-which is the frequency ratio between the disaggregated/interpolated
+which is the frequency ratio between the disaggregated or interpolated
 series and the low frequency benchmark. The distinction between temporal
 disaggregation and interpolation lies in the definition of this vector
 c:</p>
@@ -294,10 +294,10 @@ change the argument <code>zeroinitialization = TRUE</code> with
 terms as a constrained minimization problem. For example, the widely
 used Denton proportional first difference (PFD) method is usually
 expressed as follows:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><mo minsize="240%" maxsize="240%" stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><msup><mo minsize="240%" maxsize="240%" stretchy="true" form="postfix">]</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
-min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
-</annotation></semantics></math> subject to the temporal constraint
-(flow variables)
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
+</annotation></semantics></math> subject to the temporal aggregation
+constraint (flow variables)
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
 \sum_{t} y_t = Y_T
 </annotation></semantics></math> where
@@ -312,11 +312,11 @@ period T.</p>
 statistical model considering the following state space
 representation</p>
 <p><span class="math display">$$
-\begin{aligned}
+\begin{align}
 y_t &amp;= \beta_t x_t \\
 \beta_{t+1} &amp;= \beta_t + \varepsilon_t \qquad \varepsilon_t \sim
 {\sf NID}(0, \sigma^2_{\varepsilon})
-\end{aligned}
+\end{align}
 $$</span></p>
 <p>where the temporal constraints are taken care of by considering a
 cumulated series
@@ -367,11 +367,14 @@ the BI ratio together with their respective 95% confidence interval.</p>
 </h3>
 <p>Based on Proietti (2005), we consider a first order Autoregressive
 Distributed Lag model, or ADL(1,1), which takes the form:</p>
-<p><span class="math display">$$
-y_t = \phi y_{t-1} + m + gt + x_t'\beta_0 + x_{t-1}'\beta_1 +
-\varepsilon_t \qquad \varepsilon_t \sim {\sf NID}(0, \sigma^2)  \qquad
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><mi>ϕ</mi><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><mi>m</mi><mo>+</mo><mi>g</mi><mi>t</mi><mo>+</mo><msubsup><mi>x</mi><mi>t</mi><mo>′</mo></msubsup><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msubsup><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow><mo>′</mo></msubsup><msub><mi>β</mi><mn>1</mn></msub><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub><mspace width="2.0em"></mspace><msub><mi>ε</mi><mi>t</mi></msub><mo>∼</mo><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">I</mi><mi mathvariant="normal">D</mi></mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+y_t = \phi y_{t-1} + m + gt + x_t'\beta_0 + x_{t-1}'\beta_1 + \varepsilon_t
+\qquad 
+\varepsilon_t \sim \mathrm{NID}(0,\sigma^2) 
+\qquad 
 (1)
-$$</span> subject to the temporal constraint (flow variables)
+</annotation></semantics></math> subject to the temporal constraint
+(flow variables)
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
 \sum_{t} y_t = Y_T
 </annotation></semantics></math> where
@@ -385,12 +388,16 @@ period T.</p>
 <p>The ADL model nests the Chow-Lin model and its variants Fernandez and
 Litterman (for Litterman, the ADL model must be formulated in the first
 differences of the dependent and explanatory variables).</p>
-<p>Recall the Chow-Lin model <span class="math display">$$
-y_t = x_t\beta + u_t \\
-u_t = \phi u_{t-1} + \varepsilon_t
-$$</span> Combine it into a single equation and substitute for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">u_{t-1}</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><mi>ϕ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mi>β</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">
-y_t = x_t\beta + \phi (y_{t-1} - x_{t-1}\beta) + \varepsilon_t
+<p>Recall the Chow-Lin model
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>y</mi><mi>t</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><msub><mi>u</mi><mi>t</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>u</mi><mi>t</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>ρ</mi><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{align}
+y_t &amp;= x_t\beta + u_t \\
+u_t &amp;= \rho u_{t-1} + \varepsilon_t
+\end{align}
+</annotation></semantics></math> Combine it into a single equation and
+substitute for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">u_{t-1}</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>x</mi><mi>t</mi></msub><mi>β</mi><mo>+</mo><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mi>β</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">
+y_t = x_t\beta + \rho (y_{t-1} - x_{t-1}\beta) + \varepsilon_t
 </annotation></semantics></math> So, the ADL model corresponds to the
 Chow-Lin model if
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><mi>−</mi><mi>ϕ</mi><msub><mi>β</mi><mn>0</mn></msub><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
@@ -499,10 +506,13 @@ be, respectively the observed low frequency benchmark and a single
 high-frequency indicator of the unknown high frequency target variable
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>.
 The model is defined as:</p>
-<p><span class="math display">$$
-x_t = a + by_t + u_t \\
-u_t = \phi u_{t-1} + \varepsilon_t
-$$</span> subject to the temporal constraint (flow variables)
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>x</mi><mi>t</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><msub><mi>y</mi><mi>t</mi></msub><mo>+</mo><msub><mi>u</mi><mi>t</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>u</mi><mi>t</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>ρ</mi><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>ε</mi><mi>t</mi></msub></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{align}
+x_t &amp;= a + by_t + u_t \\
+u_t &amp;= \rho u_{t-1} + \varepsilon_t
+\end{align}
+</annotation></semantics></math> subject to the temporal constraint
+(flow variables)
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
 \sum_{t} y_t = Y_T
 </annotation></semantics></math> The choice of which variable is
@@ -580,8 +590,8 @@ preliminary values of an unknown target variable
 The objective function of the Denton PFD method is as follows
 (considering the small modification suggested by Cholette to deal with
 the starting conditions of the problem):
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><mo minsize="240%" maxsize="240%" stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><msup><mo minsize="240%" maxsize="240%" stretchy="true" form="postfix">]</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
-min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 </annotation></semantics></math> This objective function is minimized
 subject to the temporal aggregation constraints
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_t = Y_T</annotation></semantics></math>,
@@ -727,7 +737,7 @@ frequency series benchmarked with cubic spline method.</p>
 <span><span class="va">y_cs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cubicspline.html">cubicspline</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">x</span>, t <span class="op">=</span> <span class="va">Y</span><span class="op">)</span> <span class="co"># with a high frequency preliminary series to benchmark</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="cholette">Cholette method<a class="anchor" aria-label="anchor" href="#cholette"></a>
+<h3 id="cholette">Cholette<a class="anchor" aria-label="anchor" href="#cholette"></a>
 </h3>
 <p>Cholette method is based on a benchmarking methodology developed at
 Statistics Canada. It is a generalized method relying on the principle
@@ -858,7 +868,7 @@ above.</p>
 <h2 id="reconciliation-and-multivariate-temporal-disaggregation">Reconciliation and multivariate temporal disaggregation<a class="anchor" aria-label="anchor" href="#reconciliation-and-multivariate-temporal-disaggregation"></a>
 </h2>
 <div class="section level3">
-<h3 id="multivariate-cholette">Multivariate Cholette<a class="anchor" aria-label="anchor" href="#multivariate-cholette"></a>
+<h3 id="multicholette">Multivariate Cholette<a class="anchor" aria-label="anchor" href="#multicholette"></a>
 </h3>
 <p>This is a multivariate extension of the <a href="#cholette">Cholette
 benchmarking method</a> which can be used for the purpose of
@@ -876,12 +886,12 @@ reconciliation methods such as the multivariate Denton method.</p>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mrow><mi>i</mi><mo>,</mo><mi>T</mi></mrow></msub><annotation encoding="application/x-tex">Y_{i,T}</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">i=1,...,I</annotation></semantics></math>,
-be the set of temporal benchmarks</li>
+be the set of temporal benchmarks,</li>
 <li>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mrow><mi>k</mi><mo>,</mo><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">z_{k,t}</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,...,K</annotation></semantics></math>,
-be the set of contemporaneous constraints</li>
+be the set of contemporaneous constraints,</li>
 <li>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">x_{i,t}</annotation></semantics></math>
 be the high-frequency preliminary values of the set of the unknown
@@ -1028,14 +1038,347 @@ method described above.</p>
 <span><span class="va">rec6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatecholette.html">multivariatecholette</a></span><span class="op">(</span>xlist <span class="op">=</span> <span class="va">data_list</span>, tcvector <span class="op">=</span> <span class="va">tc</span>, ccvector <span class="op">=</span> <span class="va">cc_nb</span><span class="op">)</span> <span class="co"># non-binding contemporaneous constraint</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="multivariate-chow-lin-fernandez">Multivariate Chow-Lin / Fernandez<a class="anchor" aria-label="anchor" href="#multivariate-chow-lin-fernandez"></a>
+<h3 id="multivariate-chow-lin-and-fernandez">Multivariate Chow-Lin and Fernandez<a class="anchor" aria-label="anchor" href="#multivariate-chow-lin-and-fernandez"></a>
 </h3>
-<p>(UNDER CONSTRUCTION)</p>
+<p>Temporal disaggregation is traditionally carried out on a univariate
+basis, considering one time series at a time. The key limitation of this
+approach is that it ignores the relationships that may exist across
+series. This becomes particularly an issue with direct estimations when
+contemporaneous or accounting constraints must be satisfied. The
+multivariate Chow-Lin and Fernandez models, with the latter also
+commonly referred to as the multivariate random walk model, are
+straightforward extensions of the <a href="#chowlin">univariate Chow-Lin
+and Fernandez</a> models. They can be used to simultaneously
+disaggregate a system of time series while satisfying contemporaneous or
+accounting constraints, thereby providing a consistent overall picture
+of the underlying data.</p>
+<p>Let</p>
+<ul>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mrow><mi>i</mi><mo>,</mo><mi>T</mi></mrow></msub><annotation encoding="application/x-tex">Y_{i,T}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">i=1,...,I</annotation></semantics></math>,
+be the set of temporal benchmarks,</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mrow><mi>k</mi><mo>,</mo><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">z_{k,t}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">k=1,...,K</annotation></semantics></math>,
+be the set of contemporaneous constraints,</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">y_{i,t}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">i=1,...,I</annotation></semantics></math>,
+be the set of the unknown target variables to estimate,</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">x_{i,t}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">i=1,...,I</annotation></semantics></math>,
+be the set of indicators related to the corresponding target
+variables.</li>
+</ul>
+<p>The multivariate Chow-Lin and Fernandez models are defined as:</p>
+<p><span class="math display">$$
+\begin{align}
+y_{t,i} &amp;= \sum_{j=1}^{P_i}{x_{t,j} \beta_{j,i}}+u_{t,i} \\
+u_{t,i} &amp;= \rho_i u_{t-1,i} + \eta_{t,i},
+\qquad \eta_{t,i} \sim {\sf NID}(0, \Sigma)  \qquad
+\end{align}
+$$</span> where:</p>
+<ul>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ρ</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\rho_i = 1</annotation></semantics></math>
+(Fernandez), or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>ρ</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|\rho_i| &lt; 1</annotation></semantics></math>
+(Chow-Lin),</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mrow><mi>j</mi><mo>,</mo><mi>i</mi></mrow></msub><annotation encoding="application/x-tex">\beta_{j,i}</annotation></semantics></math>
+is the coefficient linking indicator
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>
+to variable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>,</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub><annotation encoding="application/x-tex">u_{t,i}</annotation></semantics></math>
+is the error term related to variable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math></p></li>
+</ul>
+<p>This is subject to both:</p>
+<ul>
+<li><p>the temporal aggregation constraints:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></msubsup><msub><mi>y</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Y_i = \sum_{t=1}^{N}{y_{t,i}}</annotation></semantics></math>,</p></li>
+<li><p>the contemporaneous constraints:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>k</mi></msub><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></msubsup><mrow><msub><mi>w</mi><mi>i</mi></msub><msub><mi>y</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow></mrow><annotation encoding="application/x-tex">z_k = \sum_{i=1}^{m}{w_i y_{t,i}}</annotation></semantics></math></p></li>
+</ul>
+<p>Note that consistency between the temporal aggregation constraints
+and the contemporaneous constraints is required (see the consistency
+check in the example).</p>
+<p>In addition to binding contemporaneous constraints, non-binding
+constraints can also be specified by modifying their formulation in the
+<code>ccvector</code> argument. For example, instead of imposing a
+binding condition such as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mn>1</mn></msub><mo>=</mo><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>x</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">z_1=x_1+x_2+x_3</annotation></semantics></math>,
+one may express a non-binding constraint as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>x</mi><mn>3</mn></msub><mo>−</mo><msub><mi>z</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">0=x_1+x_2+x_3-z_1</annotation></semantics></math>,
+which allows the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">z_1</annotation></semantics></math>
+series to be adjusted as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="application/x-tex">x_2</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>3</mn></msub><annotation encoding="application/x-tex">x_3</annotation></semantics></math>
+(weights may be introduced if necessary).</p>
+<p>The use of multivariate Chow-Lin and Ferandez models have several
+important implications relative to their univariate counterparts and the
+two-step approach (in which univariate temporal disaggregation
+techniques are carried out first and a reconciliation method, such as
+the <a href="#multicholette">multivariate Cholette</a>, is applied in a
+second stage to restore contemporaneous constraints):</p>
+<ol style="list-style-type: decimal">
+<li><p>The information embedded in the contemporaneous constraints is
+taken into account when estimating the regression coefficients. As a
+result, unlike in the univariate case where the coefficients are
+estimated solely from low-frequency observations, the coefficient
+estimates in the multivariate framework are also influenced by the
+contemporaneous constraints. Consequently, small changes in the
+estimated coefficients may occur when the series is extended with an
+additional high-frequency observation, provided that the contemporaneous
+constraints are updated accordingly.</p></li>
+<li><p>In the two-step approach, discrepancies arising from
+contemporaneous constraints are typically distributed in a
+pre-determined way, often proportionally. In contrast, the multivariate
+Chow-Lin and Fernandez models specifically account for the precision of
+the disaggregated series, since they are adjusted on the basis of their
+relative variances, the more reliable series being less touched than the
+less reliable ones.</p></li>
+<li><p>Existing covariance across series may also be captured in the
+estimation process.</p></li>
+</ol>
+<p>Points (2) and (3) highlight the predominant role played by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>,
+the variance-covariance matrix of the innovations. This matrix may be
+provided by the user, but, by default, it is estimated empirically using
+the sample variance-covariance matrix of the residuals obtained from the
+corresponding univariate models. When necessary, the covariance terms
+can be eliminated by constraining
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
+to be diagonal.</p>
+<p>As an alternative, a shrinkage estimator of the variance-covariance
+matrix may be employed. The rationale is that the sample
+variance-covariance matrix can be a poor estimator of the true matrix
+when the number of observations
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+is small relative to the number of variables
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>,
+leading to substantial estimation error. Moreover, when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+is too small compared to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>,
+it cannot even be calculated. The shrinkage estimator addresses these
+issues and always returns a well-conditioned and positive definite
+matrix. The algorithm implemented here is based on the paper of Schafer
+and Strimmer (2005, Target D). The covariance terms (while leaving the
+variance unchanged) are pulled downwards or ‘shrunk’ towards the
+diagonal matrix. The degree of shrinkage
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+is determined by the variability of the sample correlation matrix, with
+greater shrinkage applied when the estimates are less stable.</p>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">s_{ij}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>s</mi><mrow><mi>i</mi><mi>j</mi></mrow><mo>*</mo></msubsup><annotation encoding="application/x-tex">s_{ij}^*</annotation></semantics></math>
+denote the sample and shrinkage covariance estimates, respectively, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">r_{ij}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow><mo>*</mo></msubsup><annotation encoding="application/x-tex">r_{ij}^*</annotation></semantics></math>
+their correlation counterparts. Then,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>s</mi><mrow><mi>i</mi><mi>j</mi></mrow><mo>*</mo></msubsup><mo>=</mo><msubsup><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow><mo>*</mo></msubsup><msqrt><mrow><msub><mi>v</mi><mi>i</mi></msub><msub><mi>v</mi><mi>j</mi></msub></mrow></msqrt></mrow><annotation encoding="application/x-tex">
+s_{ij}^* = r_{ij}^* \sqrt{v_i v_j}
+</annotation></semantics></math> with
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow><mo>*</mo></msubsup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo><msub><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+r_{ij}^* = (1 - \hat{\lambda})r_{ij}
+</annotation></semantics></math> and
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mrow><mi mathvariant="normal">min</mi><mo>⁡</mo></mrow><mrow><mo stretchy="true" form="prefix">{</mo><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><mfrac><mrow><munder><mo>∑</mo><mrow><mi>i</mi><mo>≠</mo><mi>j</mi></mrow></munder><mover><mi mathvariant="normal">Var</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="prefix">(</mo><msub><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><mrow><munder><mo>∑</mo><mrow><mi>i</mi><mo>≠</mo><mi>j</mi></mrow></munder><msubsup><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup></mrow></mfrac><mo stretchy="true" form="postfix">}</mo></mrow></mrow><annotation encoding="application/x-tex">
+\hat{\lambda} = \min\left\{ 1,\, \frac{\sum_{i \ne j} \widehat{\operatorname{Var}}(r_{ij})} {\sum_{i \ne j} r_{ij}^{2}} \right\}
+</annotation></semantics></math> Note other variants of the shrinkage
+estimator can also be considered. For instance, shrinkage may applied
+not only to the covariance terms but also to the variances. This can be
+achieved using packages such as <strong>‘corpcor’</strong>, with the
+resulting variance-covariance matrix supplied by the user through the
+<code>var.matrix</code> argument.</p>
+<p>The multivariate Chow-Lin and Fernandez methods can be called with
+the <code><a href="../reference/multivariatechowlin.html">multivariatechowlin()</a></code> function. The output of the
+<code><a href="../reference/multivariatechowlin.html">multivariatechowlin()</a></code> function contains the disaggregated
+series and the most important information about the multivariate
+regression including the estimates of model coefficients and the
+decomposition of the disaggregated series. A print() and summary()
+function can also be applied on the output object.</p>
+<p>In practice, the multivariate Chow-Lin and Fernandez models are also
+estimated based on an equivalent state space representation of the
+model. Therefore, the remark made concerning the “hidden” constant term
+in the <a href="#chowlin">univariate Fernandez</a> model remains valid
+in the multivariate case.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example: multivariate Chow-Lin and Fernandez models</span></span>
+<span></span>
+<span><span class="co"># Low-frequency data</span></span>
+<span><span class="va">Y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30.0</span>, <span class="fl">30.6</span>, <span class="fl">31.2</span>, <span class="fl">31.6</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">Y2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">80.0</span>, <span class="fl">81.2</span>, <span class="fl">82.5</span>, <span class="fl">82.6</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">Y3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8.0</span>, <span class="fl">8.1</span>, <span class="fl">8.2</span>, <span class="fl">8.2</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">lf_series</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>y1 <span class="op">=</span> <span class="va">Y1</span>, y2 <span class="op">=</span> <span class="va">Y2</span>, y3 <span class="op">=</span> <span class="va">Y3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Contemporaneous constraint</span></span>
+<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">27.1</span>, <span class="fl">29.8</span>, <span class="fl">29.9</span>, <span class="fl">31.2</span>, <span class="fl">29.4</span>, <span class="fl">27.9</span>, <span class="fl">30.9</span>, <span class="fl">31.7</span>, <span class="fl">29.2</span>, <span class="fl">30.2</span>, <span class="fl">30.6</span>, <span class="fl">31.9</span>, <span class="fl">29.3</span>, <span class="fl">30.4</span>, <span class="fl">30.7</span>, <span class="fl">32.0</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># High-frequency indicators</span></span>
+<span><span class="va">x11</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7.0</span>, <span class="fl">7.2</span>, <span class="fl">8.1</span>, <span class="fl">7.5</span>, <span class="fl">8.5</span>, <span class="fl">7.8</span>, <span class="fl">8.1</span>, <span class="fl">8.4</span>, <span class="fl">8.6</span>, <span class="fl">7.8</span>, <span class="fl">8.0</span>, <span class="fl">8.3</span>, <span class="fl">8.7</span>, <span class="fl">7.9</span>, <span class="fl">8.0</span>, <span class="fl">8.6</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x12</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18.0</span>, <span class="fl">19.5</span>, <span class="fl">19.0</span>, <span class="fl">19.7</span>, <span class="fl">18.5</span>, <span class="fl">19.0</span>, <span class="fl">20.3</span>, <span class="fl">20.0</span>, <span class="fl">18.6</span>, <span class="fl">19.5</span>, <span class="fl">20.4</span>, <span class="fl">20.1</span>, <span class="fl">18.7</span>, <span class="fl">19.1</span>, <span class="fl">20.4</span>, <span class="fl">20.8</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">1.8</span>, <span class="fl">2.0</span>, <span class="fl">2.5</span>, <span class="fl">2.0</span>, <span class="fl">1.5</span>, <span class="fl">1.7</span>, <span class="fl">2.1</span>, <span class="fl">2.1</span>, <span class="fl">1.6</span>, <span class="fl">1.6</span>, <span class="fl">2.2</span>, <span class="fl">2.3</span>, <span class="fl">1.7</span>, <span class="fl">1.9</span>, <span class="fl">2.3</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">indic_series</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>y1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">x11</span>, <span class="va">x12</span><span class="op">)</span>, y2 <span class="op">=</span> <span class="cn">NULL</span>, y3 <span class="op">=</span> <span class="va">x3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check consistency between temporal and contemporaneous constraints</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">Y1</span>, <span class="va">Y2</span>, <span class="va">Y3</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate.ts</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="co"># should all be 0</span></span>
+<span><span class="co">#&gt; Time Series:</span></span>
+<span><span class="co">#&gt; Start = 2010 </span></span>
+<span><span class="co">#&gt; End = 2013 </span></span>
+<span><span class="co">#&gt; Frequency = 1 </span></span>
+<span><span class="co">#&gt; [1]  0.000000e+00  1.421085e-14  0.000000e+00 -1.421085e-14</span></span>
+<span></span>
+<span><span class="co"># Estimate models and get results</span></span>
+<span></span>
+<span><span class="co">## Mix Chow-Lin and Fernandez definitions</span></span>
+<span></span>
+<span><span class="co">### with var-cov matrix estimated from the univariate models, assuming zero covariances</span></span>
+<span><span class="va">mtd1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatechowlin.html">multivariatechowlin</a></span><span class="op">(</span></span>
+<span>    series <span class="op">=</span> <span class="va">lf_series</span>,</span>
+<span>    constant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    trend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>    indicators <span class="op">=</span> <span class="va">indic_series</span>,</span>
+<span>    ccseries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>z <span class="op">=</span> <span class="va">z</span><span class="op">)</span>,</span>
+<span>    ccdefinition <span class="op">=</span> <span class="st">"z=y1+y2+y3"</span>,</span>
+<span>    freq <span class="op">=</span> <span class="fl">4L</span>,</span>
+<span>    rhos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">1.0</span>, <span class="fl">0.9</span><span class="op">)</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"fromUnivariate"</span>,</span>
+<span>    var.includeCov <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    var.shrinkCov <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    var.matrix <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mtd1</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">vcov</span> <span class="co"># variance-covariance matrix of the innovations</span></span>
+<span><span class="co">#&gt;             [,1]       [,2]         [,3]</span></span>
+<span><span class="co">#&gt; [1,] 0.001433366 0.00000000 0.0000000000</span></span>
+<span><span class="co">#&gt; [2,] 0.000000000 0.01248872 0.0000000000</span></span>
+<span><span class="co">#&gt; [3,] 0.000000000 0.00000000 0.0008793077</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">mtd1</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span><span class="op">)</span> <span class="co"># disaggregated series</span></span>
+<span><span class="co">#&gt;               y1       y2       y3</span></span>
+<span><span class="co">#&gt; 2010 Q1 6.939861 19.07979 1.080352</span></span>
+<span><span class="co">#&gt; 2010 Q2 7.943542 20.14422 1.712236</span></span>
+<span><span class="co">#&gt; 2010 Q3 7.103801 20.64915 2.147051</span></span>
+<span><span class="co">#&gt; 2010 Q4 8.012796 20.12684 3.060361</span></span>
+<span><span class="co">#&gt; 2011 Q1 6.722478 20.39456 2.282963</span></span>
+<span><span class="co">#&gt; 2011 Q2 7.460648 19.08720 1.352157</span></span>
+<span><span class="co">#&gt; 2011 Q3 8.389319 20.65066 1.860018</span></span>
+<span><span class="co">#&gt; 2011 Q4 8.027555 21.06758 2.604862</span></span>
+<span><span class="co">#&gt; 2012 Q1 6.733189 19.97505 2.491760</span></span>
+<span><span class="co">#&gt; 2012 Q2 7.940522 20.65187 1.607612</span></span>
+<span><span class="co">#&gt; 2012 Q3 8.411698 20.64922 1.539082</span></span>
+<span><span class="co">#&gt; 2012 Q4 8.114591 21.22386 2.561545</span></span>
+<span><span class="co">#&gt; 2013 Q1 6.795370 19.97402 2.530611</span></span>
+<span><span class="co">#&gt; 2013 Q2 7.800783 21.12535 1.473870</span></span>
+<span><span class="co">#&gt; 2013 Q3 8.533515 20.43936 1.727128</span></span>
+<span><span class="co">#&gt; 2013 Q4 8.470332 21.06128 2.468392</span></span>
+<span></span>
+<span><span class="co">### with var-cov matrix estimated from the univariate models, using a shrinkage estimator for the covariance</span></span>
+<span><span class="va">mtd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatechowlin.html">multivariatechowlin</a></span><span class="op">(</span></span>
+<span>    series <span class="op">=</span> <span class="va">lf_series</span>,</span>
+<span>    constant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    trend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>    indicators <span class="op">=</span> <span class="va">indic_series</span>,</span>
+<span>    ccseries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>z <span class="op">=</span> <span class="va">z</span><span class="op">)</span>,</span>
+<span>    ccdefinition <span class="op">=</span> <span class="st">"z=y1+y2+y3"</span>,</span>
+<span>    freq <span class="op">=</span> <span class="fl">4L</span>,</span>
+<span>    rhos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">1.0</span>, <span class="fl">0.9</span><span class="op">)</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"fromUnivariate"</span>,</span>
+<span>    var.includeCov <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    var.shrinkCov <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    var.matrix <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mtd2</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">vcov</span></span>
+<span><span class="co">#&gt;               [,1]          [,2]          [,3]</span></span>
+<span><span class="co">#&gt; [1,]  1.295161e-03 -0.0011701081 -8.709044e-05</span></span>
+<span><span class="co">#&gt; [2,] -1.170108e-03  0.0124887216  3.869829e-04</span></span>
+<span><span class="co">#&gt; [3,] -8.709044e-05  0.0003869829  5.469873e-05</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">mtd2</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span><span class="op">)</span></span>
+<span><span class="co">#&gt;               y1       y2       y3</span></span>
+<span><span class="co">#&gt; 2010 Q1 7.032124 18.38361 1.684270</span></span>
+<span><span class="co">#&gt; 2010 Q2 7.867589 20.02459 1.907825</span></span>
+<span><span class="co">#&gt; 2010 Q3 7.119255 20.72811 2.052637</span></span>
+<span><span class="co">#&gt; 2010 Q4 7.981033 20.86370 2.355269</span></span>
+<span><span class="co">#&gt; 2011 Q1 6.819908 20.48156 2.098528</span></span>
+<span><span class="co">#&gt; 2011 Q2 7.561817 18.55115 1.787037</span></span>
+<span><span class="co">#&gt; 2011 Q3 8.271285 20.64734 1.981372</span></span>
+<span><span class="co">#&gt; 2011 Q4 7.946990 21.51995 2.233063</span></span>
+<span><span class="co">#&gt; 2012 Q1 6.910851 20.10656 2.182591</span></span>
+<span><span class="co">#&gt; 2012 Q2 7.892070 20.40384 1.904089</span></span>
+<span><span class="co">#&gt; 2012 Q3 8.348688 20.36685 1.884465</span></span>
+<span><span class="co">#&gt; 2012 Q4 8.048390 21.62275 2.228855</span></span>
+<span><span class="co">#&gt; 2013 Q1 6.989663 20.10942 2.200913</span></span>
+<span><span class="co">#&gt; 2013 Q2 7.713462 20.82079 1.865750</span></span>
+<span><span class="co">#&gt; 2013 Q3 8.479224 20.27804 1.942738</span></span>
+<span><span class="co">#&gt; 2013 Q4 8.417651 21.39175 2.190598</span></span>
+<span></span>
+<span><span class="co">## Multivariate random walk model (multivariate Fernandez)</span></span>
+<span></span>
+<span><span class="co">### with var-cov matrix provided by the user</span></span>
+<span><span class="va">mtd3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatechowlin.html">multivariatechowlin</a></span><span class="op">(</span></span>
+<span>    series <span class="op">=</span> <span class="va">lf_series</span>,</span>
+<span>    constant <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    trend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    indicators <span class="op">=</span> <span class="va">indic_series</span>,</span>
+<span>    ccseries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>z <span class="op">=</span> <span class="va">z</span><span class="op">)</span>,</span>
+<span>    ccdefinition <span class="op">=</span> <span class="st">"z=y1+y2+y3"</span>,</span>
+<span>    freq <span class="op">=</span> <span class="fl">4L</span>,</span>
+<span>    rhos <span class="op">=</span> <span class="fl">1.0</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"userDefined"</span>,</span>
+<span>    var.matrix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>            <span class="fl">0.005</span>, <span class="fl">0.002</span>, <span class="fl">0.001</span>,</span>
+<span>            <span class="fl">0.002</span>, <span class="fl">0.010</span>, <span class="fl">0.002</span>,</span>
+<span>            <span class="fl">0.001</span>, <span class="fl">0.002</span>, <span class="fl">0.003</span></span>
+<span>        <span class="op">)</span>,</span>
+<span>        nrow <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>        byrow <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mtd3</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">vcov</span></span>
+<span><span class="co">#&gt;       [,1]  [,2]  [,3]</span></span>
+<span><span class="co">#&gt; [1,] 0.005 0.002 0.001</span></span>
+<span><span class="co">#&gt; [2,] 0.002 0.010 0.002</span></span>
+<span><span class="co">#&gt; [3,] 0.001 0.002 0.003</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">mtd3</span><span class="op">$</span><span class="va">estimation</span><span class="op">$</span><span class="va">disagg</span><span class="op">)</span></span>
+<span><span class="co">#&gt;               y1       y2       y3</span></span>
+<span><span class="co">#&gt; 2010 Q1 6.108983 19.72409 1.266923</span></span>
+<span><span class="co">#&gt; 2010 Q2 8.107219 19.93250 1.760283</span></span>
+<span><span class="co">#&gt; 2010 Q3 7.529320 20.21029 2.160388</span></span>
+<span><span class="co">#&gt; 2010 Q4 8.254477 20.13312 2.812406</span></span>
+<span><span class="co">#&gt; 2011 Q1 6.686679 20.40719 2.306128</span></span>
+<span><span class="co">#&gt; 2011 Q2 6.797711 19.73210 1.370185</span></span>
+<span><span class="co">#&gt; 2011 Q3 8.685776 20.33348 1.880741</span></span>
+<span><span class="co">#&gt; 2011 Q4 8.429835 20.72722 2.542946</span></span>
+<span><span class="co">#&gt; 2012 Q1 6.400284 20.43743 2.362291</span></span>
+<span><span class="co">#&gt; 2012 Q2 7.685207 20.74189 1.772905</span></span>
+<span><span class="co">#&gt; 2012 Q3 8.618610 20.41449 1.566905</span></span>
+<span><span class="co">#&gt; 2012 Q4 8.495899 20.90620 2.497900</span></span>
+<span><span class="co">#&gt; 2013 Q1 6.451413 20.47755 2.371039</span></span>
+<span><span class="co">#&gt; 2013 Q2 7.378121 21.19157 1.830307</span></span>
+<span><span class="co">#&gt; 2013 Q3 8.590304 20.39480 1.714896</span></span>
+<span><span class="co">#&gt; 2013 Q4 9.180162 20.53608 2.283757</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="calendarization">Calendarization<a class="anchor" aria-label="anchor" href="#calendarization"></a>
 </h2>
+<div class="section level3">
+<h3 id="calendarization-with-denton">Calendarization with Denton<a class="anchor" aria-label="anchor" href="#calendarization-with-denton"></a>
+</h3>
 <p>Time series data do not always coincide with calendar periods (e.g.,
 fiscal years starting in March-April or retail data collected in
 non-monthly intervals). Calendarization is the process of transforming
@@ -1053,8 +1396,8 @@ reference periods.</li>
 disaggregation step is performed by considering a state-space
 representation of the Denton proportional first difference (PFD) method.
 Recall the objective function of the (modified) Denton PFD method
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><mo minsize="240%" maxsize="240%" stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><msup><mo minsize="240%" maxsize="240%" stretchy="true" form="postfix">]</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
-min_{y_t}\sum^n_{t=2}\biggl[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\biggr]^2
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><msub><mi>n</mi><msub><mi>y</mi><mi>t</mi></msub></msub><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">[</mo><mfrac><msub><mi>y</mi><mi>t</mi></msub><msub><mi>x</mi><mi>t</mi></msub></mfrac><mo>−</mo><mfrac><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 </annotation></semantics></math> which is minimized under the temporal
 aggregation constraints
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>l</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">
@@ -1083,7 +1426,7 @@ final aggregated results (after running the two steps process described
 above) and their associated errors, as well as the disaggregated daily
 values (after running the first step only) and their associated
 errors.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example of calendarization (from Quenneville et al (2012))</span></span>
 <span></span>
 <span><span class="co">## Observed data</span></span>
@@ -1162,6 +1505,7 @@ errors.</p>
 <span><span class="va">yd_2</span> <span class="op">&lt;-</span> <span class="va">cal_2</span><span class="op">$</span><span class="va">days</span></span>
 <span><span class="va">eyd_2</span> <span class="op">&lt;-</span> <span class="va">cal_2</span><span class="op">$</span><span class="va">edays</span></span></code></pre></div>
 </div>
+</div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
@@ -1200,6 +1544,10 @@ Appl. Statistics (2013) 62, part 3, pp 371-399</em>.</p>
 The view from the trenches. <em>Statistica Neerlandica, Wiley</em>.</p>
 <p>Santos Silva, J., Cardoso, F.N. (2001). The Chow-Lin method using
 dynamic models. <em>Economic Modelling, 18 (2). pp. 269-280</em>.</p>
+<p>Schafer, J., Strimmer, K. (2005). A Shrinkage Approach to Large-Scale
+Covariance Matrix Estimation and Implications for Functional Genomics.
+<em>Statistical Applications in Genetics and Molecular Biology, 4,
+32.</em>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

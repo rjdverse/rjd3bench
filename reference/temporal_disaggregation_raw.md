@@ -125,7 +125,7 @@ temporal_disaggregation_raw(
 ## Value
 
 An object of class "JD3_TEMPDISAGGRAW_RSLTS" is returned. The following
-are returned invisibly as a list:
+are returned as a list:
 
 - `regression` `[[1]]` regression coefficients;
 

@@ -108,7 +108,7 @@ Y2 <- ts(c(80.0, 81.2), frequency = 1, start = c(2010, 1))
 Y3 <- ts(c(8.0, 8.1), frequency = 1, start = c(2010, 1))
 
 ## Check consistency between temporal and contemporaneous constraints
-lfs <- cbind(Y1,Y2,Y3)
+lfs <- cbind(Y1, Y2, Y3)
 rowSums(lfs) - stats::aggregate.ts(z) # should all be 0
 #> Time Series:
 #> Start = 2010 
@@ -232,24 +232,24 @@ multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb)
 #> 2011 29.51845 28.37926 30.72871 31.27357
 #> 
 
-# Example 2: two contemporaneous constraints: x1+3*x2+0.5*x3+x4+x5 = z1 and x1+x2 = x4
+# Example 2: two contemporaneous constraints: z1 = x1+3*x2+0.5*x3+x4+x5 and x4 = x1+x2
 
-x1 <- ts(c(7.0,7.3,8.1,7.5,8.5,7.8,8.1,8.4), frequency=4, start=c(2010,1))
-x2 <- ts(c(1.5,1.8,2.0,2.5,2.0,1.5,1.7,2.0), frequency=4, start=c(2010,1))
-x3 <- ts(c(18.0,19.5,19.0,19.7,18.5,19.0,20.3,20.0), frequency=4, start=c(2010,1))
-x4 <- ts(c(8,9.5,9.0,10.7,8.5,10.0,10.3,9.0), frequency=4, start=c(2010,1))
-x5 <- ts(c(5,9.6,7.2,7.1,4.3,4.6,5.3,5.9), frequency=4, start=c(2010,1))
+x1 <- ts(c(7.0, 7.3, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4), frequency = 4, start = c(2010, 1))
+x2 <- ts(c(1.5, 1.8, 2.0, 2.5, 2.0, 1.5, 1.7, 2.0), frequency = 4, start = c(2010, 1))
+x3 <- ts(c(18.0, 19.5, 19.0, 19.7, 18.5, 19.0, 20.3, 20.0), frequency = 4, start = c(2010, 1))
+x4 <- ts(c(8, 9.5, 9.0, 10.7, 8.5, 10.0, 10.3, 9.0), frequency = 4, start = c(2010, 1))
+x5 <- ts(c(5, 9.6, 7.2, 7.1, 4.3, 4.6, 5.3, 5.9), frequency = 4, start = c(2010, 1))
 
-z1 <- ts(c(38.1,41.8,41.9,43.2,38.8,39.1,41.9,43.7), frequency=4, start=c(2010,1))
+z1 <- ts(c(38.1, 41.8, 41.9, 43.2, 38.8, 39.1, 41.9, 43.7), frequency = 4, start = c(2010, 1))
 
-Y1 <- ts(c(30.0,30.5), frequency=1, start=c(2010,1))
-Y2 <- ts(c(10.0,10.5), frequency=1, start=c(2010,1))
-Y3 <- ts(c(80.0,81.0), frequency=1, start=c(2010,1))
-Y4 <- ts(c(40.0,41.0), frequency=1, start=c(2010,1))
-Y5 <- ts(c(25.0,20.0), frequency=1, start=c(2010,1))
+Y1 <- ts(c(30.0, 30.5), frequency = 1, start = c(2010, 1))
+Y2 <- ts(c(10.0, 10.5), frequency = 1, start = c(2010, 1))
+Y3 <- ts(c(80.0, 81.0), frequency = 1, start = c(2010, 1))
+Y4 <- ts(c(40.0, 41.0), frequency = 1, start = c(2010, 1))
+Y5 <- ts(c(25.0, 20.0), frequency = 1, start = c(2010, 1))
 
 ### check consistency between temporal and contemporaneous constraints
-wlfs <- cbind(Y1,3*Y2,0.5*Y3,Y4,Y5)
+wlfs <- cbind(Y1, 3*Y2, 0.5*Y3, Y4, Y5)
 rowSums(wlfs) - stats::aggregate.ts(z1) # cc1: should all be 0
 #> Time Series:
 #> Start = 2010 
@@ -263,7 +263,7 @@ Y1 + Y2 - Y4 # cc2: should all be 0
 #> Frequency = 1 
 #> [1] 0 0
 
-data.list <- list(x1=x1,x2=x2,x3=x3,x4=x4,x5=x5,z1=z1,Y1=Y1,Y2=Y2,Y3=Y3,Y4=Y4,Y5=Y5)
+data.list <- list(x1=x1, x2=x2, x3=x3, x4=x4, x5=x5, z1=z1, Y1=Y1, Y2=Y2, Y3=Y3, Y4=Y4, Y5=Y5)
 tc <- c("Y1=sum(x1)", "Y2=sum(x2)", "Y3=sum(x3)", "Y4=sum(x4)", "Y5=sum(x5)")
 cc <- c("z1=x1+3*x2+0.5*x3+x4+x5", "0=x1+x2-x4")
 

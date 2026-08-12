@@ -25,8 +25,6 @@ Useful links:
 
 Authors:
 
-- Corentin Lemasson <corentin.lemasson@nbb.be>
-
 - Jean Palate <palatejean@gmail.com>
 
 Other contributors:

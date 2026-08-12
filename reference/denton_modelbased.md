@@ -72,7 +72,7 @@ denton_modelbased(
 ## Value
 
 An object of class "JD3_MBDENTON_RSLTS" is returned. The following are
-returned invisibly as a list:
+returned as a list:
 
 - `estimation` `[[1]]` disaggregated Time-Series, BI ratios and standard
   deviations;

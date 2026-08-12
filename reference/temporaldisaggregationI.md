@@ -62,7 +62,7 @@ temporaldisaggregationI(
 ## Value
 
 An object of class "JD3_TEMPDISAGGI_RSLTS" is returned. The following
-are returned invisibly as a list:
+are returned as a list:
 
 - `regression` `[[1]]` regression coefficients;
 
