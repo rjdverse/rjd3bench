@@ -74,8 +74,8 @@ denton_modelbased(
 An object of class "JD3_MBDENTON_RSLTS" is returned. The following are
 returned as a list:
 
-- `estimation` `[[1]]` disaggregated Time-Series, BI ratios and standard
-  deviations;
+- `estimation` `[[1]]` disaggregated time series, BI ratios and standard
+  errors;
 
 - `likelihood` `[[2]]` likelihood statistics.
 

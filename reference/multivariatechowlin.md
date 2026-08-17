@@ -20,7 +20,8 @@ multivariatechowlin(
   var = c("fromUnivariate", "allEquals", "userDefined"),
   var.includeCov = FALSE,
   var.shrinkCov = FALSE,
-  var.matrix = NULL
+  var.matrix = NULL,
+  rescale.variance = FALSE
 )
 ```
 
@@ -117,15 +118,24 @@ multivariatechowlin(
 
 - var.shrinkCov:
 
-  Boolean. Indicates whether a shrinkage covariance estimator should be
-  used. See the vignette for more details. This argument is used only
-  when `var = "fromUnivariate"` and `var.includeCov = TRUE`.
+  Boolean. Indicates whether a shrinkage estimator should be used for
+  covariance. See the package vignette for more details. This argument
+  is used only when `var = "fromUnivariate"` and
+  `var.includeCov = TRUE`.
 
 - var.matrix:
 
   The variance-covariance matrix of the innovations. This argument is
   used only when `var = "userDefined"` and must be provided in that
   case.
+
+- rescale.variance:
+
+  Boolean. Indicates whether the variance of the estimates should be
+  rescaled based on the model residuals. The default is `FALSE`. This
+  option has no impact on the disaggregated series, but affects the
+  standard errors of both the disaggregated series and the estimated
+  coefficients. See the package vignette for more details.
 
 ## Value
 
@@ -134,9 +144,9 @@ following are returned as a list:
 
 - `regression` `[[1]]` regression coefficients for each series;
 
-- `estimation` `[[2]]` disaggregated Time-Series and standard deviation
-  for each series, regression effects, smoothing part, parameter and
-  variance-covariance matrix;
+- `estimation` `[[2]]` disaggregated time series and standard errors,
+  regression effects, smoothing parts, parameters and
+  variance-covariance matrix of the innovations;
 
 ## Vignette
 
@@ -204,10 +214,9 @@ mtd1 <- multivariatechowlin(series = lf_series,
                             rhos = c(0.85, 1.0, 0.9),
                             var = "fromUnivariate",
                             var.includeCov = FALSE,
-                            var.shrinkCov = FALSE,
-                            var.matrix = NULL)
+                            var.shrinkCov = FALSE)
 
-mtd1$estimation$vcov # variance-covariance matrix of the innovations
+mtd1$estimation$var$vcov # variance-covariance matrix of the innovations
 #>             [,1]       [,2]         [,3]
 #> [1,] 0.001433366 0.00000000 0.0000000000
 #> [2,] 0.000000000 0.01248872 0.0000000000
@@ -230,6 +239,24 @@ do.call(cbind, mtd1$estimation$disagg) # disaggregated series
 #> 2013 Q2 7.800783 21.12535 1.473870
 #> 2013 Q3 8.533515 20.43936 1.727128
 #> 2013 Q4 8.470332 21.06128 2.468392
+do.call(cbind, mtd1$estimation$edisagg) # standard errors of the disaggregated series
+#>                 y1         y2         y3
+#> 2010 Q1        NaN        NaN        NaN
+#> 2010 Q2        NaN        NaN        NaN
+#> 2010 Q3        NaN        NaN        NaN
+#> 2010 Q4        NaN        NaN        NaN
+#> 2011 Q1 0.03913112 0.04196818 0.02434811
+#> 2011 Q2 0.02340147 0.03359607 0.02945418
+#> 2011 Q3 0.02800451 0.03102548 0.01904528
+#> 2011 Q4 0.02767551 0.03865019 0.03038005
+#> 2012 Q1 0.03830267 0.04285251 0.02996976
+#> 2012 Q2 0.02426885 0.03137846 0.02520939
+#> 2012 Q3 0.02668464 0.03353943 0.02737756
+#> 2012 Q4 0.02767089 0.03767300 0.02894481
+#> 2013 Q1 0.04082766 0.04553842 0.03185251
+#> 2013 Q2 0.02391011 0.03567312 0.03129337
+#> 2013 Q3 0.02925037 0.03247505 0.02145259
+#> 2013 Q4 0.03205933 0.04177237 0.02975162
 
 ### with var-cov matrix estimated from the univariate models, using a shrinkage estimator for the covariance
 mtd2 <- multivariatechowlin(series = lf_series,
@@ -242,10 +269,9 @@ mtd2 <- multivariatechowlin(series = lf_series,
                             rhos = c(0.85, 1.0, 0.9),
                             var = "fromUnivariate",
                             var.includeCov = TRUE,
-                            var.shrinkCov = TRUE,
-                            var.matrix = NULL)
+                            var.shrinkCov = TRUE)
 
-mtd2$estimation$vcov
+mtd2$estimation$var$vcov
 #>               [,1]          [,2]          [,3]
 #> [1,]  1.295161e-03 -0.0011701081 -8.709044e-05
 #> [2,] -1.170108e-03  0.0124887216  3.869829e-04
@@ -268,6 +294,24 @@ do.call(cbind, mtd2$estimation$disagg)
 #> 2013 Q2 7.713462 20.82079 1.865750
 #> 2013 Q3 8.479224 20.27804 1.942738
 #> 2013 Q4 8.417651 21.39175 2.190598
+do.call(cbind, mtd2$estimation$edisagg)
+#>                 y1         y2          y3
+#> 2010 Q1        NaN        NaN         NaN
+#> 2010 Q2        NaN        NaN         NaN
+#> 2010 Q3        NaN        NaN         NaN
+#> 2010 Q4        NaN        NaN         NaN
+#> 2011 Q1 0.03864249 0.03703555 0.007587635
+#> 2011 Q2 0.02316806 0.02491433 0.013169227
+#> 2011 Q3 0.02774779 0.02658016 0.005866159
+#> 2011 Q4 0.02773848 0.02863357 0.012295687
+#> 2012 Q1 0.03750810 0.03678671 0.011896099
+#> 2012 Q2 0.02409236 0.02446696 0.010436899
+#> 2012 Q3 0.02617920 0.02674504 0.011862534
+#> 2012 Q4 0.02772939 0.02812739 0.011246403
+#> 2013 Q1 0.04000515 0.03923857 0.012754946
+#> 2013 Q2 0.02372702 0.02587995 0.014001100
+#> 2013 Q3 0.02882478 0.02793242 0.007815651
+#> 2013 Q4 0.03207397 0.03165254 0.010269251
 
 ## Multivariate random walk model (multivariate Fernandez)
 
@@ -287,10 +331,11 @@ mtd3 <- multivariatechowlin(series = lf_series,
                                 0.001, 0.002, 0.003),
                                 nrow = 3,
                                 byrow = TRUE
-                            )
+                            ),
+                            rescale.variance = TRUE
 )
 
-mtd3$estimation$vcov
+mtd3$estimation$var$vcov
 #>       [,1]  [,2]  [,3]
 #> [1,] 0.005 0.002 0.001
 #> [2,] 0.002 0.010 0.002
@@ -313,4 +358,22 @@ do.call(cbind, mtd3$estimation$disagg)
 #> 2013 Q2 7.378121 21.19157 1.830307
 #> 2013 Q3 8.590304 20.39480 1.714896
 #> 2013 Q4 9.180162 20.53608 2.283757
+do.call(cbind, mtd3$estimation$edisagg)
+#>                y1        y2        y3
+#> 2010 Q1       NaN       NaN       NaN
+#> 2010 Q2       NaN       NaN       NaN
+#> 2010 Q3       NaN       NaN       NaN
+#> 2010 Q4       NaN       NaN       NaN
+#> 2011 Q1 0.1887001 0.1721895 0.1313514
+#> 2011 Q2 0.1768384 0.1439582 0.1597332
+#> 2011 Q3 0.1474180 0.1386457 0.1005168
+#> 2011 Q4 0.1655040 0.1632306 0.1581790
+#> 2012 Q1 0.1933443 0.1829683 0.1543762
+#> 2012 Q2 0.1515687 0.1332124 0.1353025
+#> 2012 Q3 0.1447318 0.1504482 0.1356600
+#> 2012 Q4 0.1654931 0.1619985 0.1521338
+#> 2013 Q1 0.2062398 0.1935101 0.1669869
+#> 2013 Q2 0.1987983 0.1584319 0.1710552
+#> 2013 Q3 0.1444905 0.1360310 0.1123450
+#> 2013 Q4 0.2397080 0.2060323 0.1679165
 ```

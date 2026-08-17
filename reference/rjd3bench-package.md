@@ -2,12 +2,12 @@
 
 Interface to 'JDemetra+' 3.x (<https://github.com/jdemetra>) time series
 analysis software. It provides a variety of methods for temporal
-disaggregation & interpolation, benchmarking, reconciliation and
-calendarization. It incorporates statistical methods described in the
-latest European Statistical System (ESS) guidelines on temporal
-disaggregation, benchmarking, and reconciliation (2018 edition). The
-package implements highly efficient algorithms for fast and reliable
-computation.
+disaggregation & interpolation, benchmarking, reconciliation &
+multivariate temporal disaggregation and calendarization. It
+incorporates statistical methods described in the latest European
+Statistical System (ESS) guidelines on temporal disaggregation,
+benchmarking, and reconciliation (2018 edition). The package implements
+highly efficient algorithms for fast and reliable computation.
 
 ## See also
 

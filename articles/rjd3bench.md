@@ -3,12 +3,13 @@
 Abstract
 
 The `rjd3bench` package provides a variety of methods for temporal
-disaggregation, interpolation, benchmarking, reconciliation and
-calendarization. It is part of the interface to the ‘JDemetra+’ 3.x time
-series analysis software and incorporates statistical methods described
-in the latest European Statistical System (ESS) guidelines on temporal
-disaggregation, benchmarking, and reconciliation (2018 edition). Most
-algorithms implemented in the package rely on an equivalent state‑space
+disaggregation, interpolation, benchmarking, reconciliation,
+multivariate temporal disaggregation and calendarization. It is part of
+the interface to the ‘JDemetra+’ 3.x time series analysis software and
+incorporates statistical methods described in the latest European
+Statistical System (ESS) guidelines on temporal disaggregation,
+benchmarking, and reconciliation (2018 edition). Most algorithms
+implemented in the package rely on an equivalent state‑space
 representation of the underlying model or mathematical problem, where
 computational efficiency is further improved by replacing matrix
 operations with functional forms, thereby enabling highly efficient
@@ -811,9 +812,9 @@ y_cho5 <- cholette(s = x, t = Y, rho = 0, lambda = 0.5) # pro-rating
 
 This is a multivariate extension of the [Cholette benchmarking
 method](#cholette) which can be used for the purpose of reconciliation.
-While standard benchmarking methods consider one target series at a
-time, reconciliation techniques aim to restore consistency in a system
-of time series with regards to both contemporaneous and temporal
+While standard benchmarking methods consider one time series at a time,
+reconciliation techniques aim to restore consistency in a system of time
+series with regards to both temporal and contemporaneous (or accounting)
 constraints. Reconciliation techniques are typically needed when the
 total and its components are estimated independently (the so-called
 direct approach). The multivariate Cholette method relies on the
@@ -822,9 +823,9 @@ methods such as the multivariate Denton method.
 
 Let
 
-- $`Y_{i,T}`$, $`T=1,...,m`$, $`i=1,...,I`$, be the set of temporal
+- $`Y_{i,T}`$, $`i=1,...,I`$, $`T=1,...,m`$, be the set of temporal
   benchmarks,
-- $`z_{k,t}`$, $`t=1,...,n`$, $`k=1,...,K`$, be the set of
+- $`z_{k,t}`$, $`k=1,...,K`$, $`t=1,...,n`$, be the set of
   contemporaneous constraints,
 - $`x_{i,t}`$ be the high-frequency preliminary values of the set of the
   unknown target variables $`y_{i,t}`$.
@@ -838,13 +839,13 @@ f(x) = (1-\rho^2) \sum_{i=1}^{I}\left(\frac{x_{i,1} - y_{i,1}}{|x_{i,1}|^\lambda
 This objective function is minimized subject to
 
 - the temporal aggregation constraints
-  $`\sum_{t\epsilon T} y_{i,t} = Y_{i,T}`$,
+  $`Y_{i,T} = \sum_{t\epsilon T} y_{i,t}`$,
 - the contemporaneous constraints given by
-  $`\sum_{j\epsilon J_k}\omega_{k,j}x_{j,t} = z_{k,t}`$.
+  $`z_{k,t} = \sum_{j\epsilon J_k}\omega_{k,j}y_{j,t}`$.
 
-Note that consistency between the temporal aggregation constraints and
-the contemporaneous constraints is required (see the consistency check
-in the example).
+Consistency between the temporal aggregation constraints and the
+contemporaneous constraints is required (see the consistency check in
+the example).
 
 The method may also be applied in the absence of temporal aggregation
 constraints. The contemporaneous constraints are then imposed by
@@ -860,6 +861,13 @@ condition such as $`z_1=x_1+x_2+x_3`$, one may express a non-binding
 constraint as $`0=x_1+x_2+x_3-z_1`$, which allows the $`z_1`$ series to
 be adjusted as $`x_1`$, $`x_2`$ and $`x_3`$ (weights may be introduced
 if necessary).
+
+Unlike the univariate case, no specific argument is provided in the
+function definition to define the conversion type. However, switching
+from an additive to an average conversion is straightforward: it only
+requires to multiply the temporal benchmarks and/or the contemporaneous
+constraints by the frequency ratio or the number of series,
+respectively.
 
 As in the univariate case, the multivariate Cholette method is driven by
 a couple of parameters:
@@ -890,9 +898,9 @@ a couple of parameters:
   of the [Denton AFD and PFD method](#denton), respectively. Choosing
   $`\lambda = 0.5`$ provides a compromise between the two approaches and
   results in discrepancies being allocated in proportion to the values
-  of the preliminary series. As in the univariate Cholette method,
-  setting $`\lambda = 0.5`$ together with $`\rho = 0`$ yields the naive
-  pro-rating method.
+  of the preliminary series. Finally, as in the univariate Cholette
+  method, setting $`\lambda = 0.5`$ together with $`\rho = 0`$ yields
+  the naive pro-rating method.
 
 The multivariate Cholette method can be called with the
 [`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)
@@ -968,21 +976,21 @@ of the underlying data.
 
 Let
 
-- $`Y_{i,T}`$, $`T=1,...,m`$, $`i=1,...,I`$, be the set of temporal
+- $`Y_{i,T}`$, $`i=1,...,I`$, $`T=1,...,m`$, be the set of temporal
   benchmarks,
-- $`z_{k,t}`$, $`t=1,...,n`$, $`k=1,...,K`$, be the set of
+- $`z_{k,t}`$, $`k=1,...,K`$, $`t=1,...,n`$, be the set of
   contemporaneous constraints,
-- $`y_{i,t}`$, $`t=1,...,n`$, $`i=1,...,I`$, be the set of the unknown
+- $`y_{i,t}`$, $`i=1,...,I`$, $`t=1,...,n`$, be the set of the unknown
   target variables to estimate,
-- $`x_{i,t}`$, $`t=1,...,n`$, $`i=1,...,I`$, be the set of indicators
+- $`x_{i,t}`$, $`i=1,...,I`$, $`t=1,...,n`$, be the set of indicators
   related to the corresponding target variables.
 
 The multivariate Chow-Lin and Fernandez models are defined as:
 
 ``` math
 \begin{align}
-y_{t,i} &= \sum_{j=1}^{P_i}{x_{t,j} \beta_{j,i}} + u_{t,i} \\
-u_{t,i} &= \rho_i u_{t-1,i} + \eta_{t,i}, \qquad \eta_{t,i} \sim \mathrm{NID}(0,\Sigma)
+y_{i,t} &= \sum_{j=1}^{P_i}{x_{j,t} \beta_{j,i}} + u_{i,t} \\
+u_{i,t} &= \rho_i u_{i, t-1} + \eta_{i,t}, \qquad \eta_{i,t} \sim \mathrm{NID}(0,\Sigma)
 \end{align}
 ```
 
@@ -993,18 +1001,19 @@ where:
 - $`\beta_{j,i}`$ is the coefficient linking indicator $`j`$ to variable
   $`i`$,
 
-- $`u_{t,i}`$ is the error term related to variable $`i`$
+- $`u_{i,t}`$ is the error term related to variable $`i`$
 
 This is subject to both:
 
 - the temporal aggregation constraints:
-  $`Y_i = \sum_{t=1}^{N}{y_{t,i}}`$,
+  $`Y_{i,T} = \sum_{t \epsilon T} {y_{i,t}}`$,
 
-- the contemporaneous constraints: $`z_k = \sum_{i=1}^{m}{w_i y_{t,i}}`$
+- the contemporaneous constraints:
+  $`z_{k,t} = \sum_{j\epsilon J_k}\omega_{k,j}y_{j,t}`$.
 
-Note that consistency between the temporal aggregation constraints and
-the contemporaneous constraints is required (see the consistency check
-in the example).
+Consistency between the temporal aggregation constraints and the
+contemporaneous constraints is required (see the consistency check in
+the example).
 
 In addition to binding contemporaneous constraints, non-binding
 constraints can also be specified by modifying their formulation in the
@@ -1013,6 +1022,13 @@ condition such as $`z_1=x_1+x_2+x_3`$, one may express a non-binding
 constraint as $`0=x_1+x_2+x_3-z_1`$, which allows the $`z_1`$ series to
 be adjusted as $`x_1`$, $`x_2`$ and $`x_3`$ (weights may be introduced
 if necessary).
+
+Unlike the univariate case, no specific argument is provided in the
+function definition to define the conversion type. However, switching
+from an additive to an average conversion is straightforward: it only
+requires to multiply the temporal benchmarks and/or the contemporaneous
+constraints by the frequency ratio or the number of series,
+respectively.
 
 The use of multivariate Chow-Lin and Ferandez models have several
 important implications relative to their univariate counterparts and the
@@ -1060,9 +1076,9 @@ well-conditioned and positive definite matrix. The algorithm implemented
 here is based on the paper of Schafer and Strimmer (2005, Target D). The
 covariance terms (while leaving the variance unchanged) are pulled
 downwards or ‘shrunk’ towards the diagonal matrix. The degree of
-shrinkage $`\lambda`$ is determined by the variability of the sample
-correlation matrix, with greater shrinkage applied when the estimates
-are less stable.
+shrinkage, given by the shrinkage parameter $`\lambda`$, is determined
+by the variability of the sample correlation matrix, with greater
+shrinkage applied when the estimates are less stable.
 
 Let $`s_{ij}`$ and $`s_{ij}^*`$ denote the sample and shrinkage
 covariance estimates, respectively, and $`r_{ij}`$ and $`r_{ij}^*`$
@@ -1080,11 +1096,21 @@ and
 \hat{\lambda} = \min\left\{ 1,\, \frac{\sum_{i \ne j} \widehat{\operatorname{Var}}(r_{ij})} {\sum_{i \ne j} r_{ij}^{2}} \right\}
 ```
 
-Note other variants of the shrinkage estimator can also be considered.
-For instance, shrinkage may applied not only to the covariance terms but
-also to the variances. This can be achieved using packages such as
-**‘corpcor’**, with the resulting variance-covariance matrix supplied by
-the user through the `var.matrix` argument.
+Other variants of the shrinkage estimator can also be considered. For
+instance, shrinkage may applied not only to the covariance terms but
+also to the variances. This option is not implemented in the package,
+but it can be achieved using other packages such as **‘corpcor’**, with
+the resulting variance-covariance matrix supplied by the user through
+the `var.matrix` argument.
+
+Finally, the `rescale.variance` argument can be used to rescale the
+variance of the final estimates based on the model residuals. Although
+this option does not affect the disaggregated series themselves, it does
+influence the standard errors associated with both the disaggregated
+series and the estimated coefficients. Disabled by default, this option
+reflects whether the estimated or user-supplied innovation
+variance-covariance matrix should be considered as exact, or if a
+proportional adjustment is still needed afterwards.
 
 The multivariate Chow-Lin and Fernandez methods can be called with the
 [`multivariatechowlin()`](https://rjdverse.github.io/rjd3bench/reference/multivariatechowlin.md)
@@ -1092,8 +1118,9 @@ function. The output of the
 [`multivariatechowlin()`](https://rjdverse.github.io/rjd3bench/reference/multivariatechowlin.md)
 function contains the disaggregated series and the most important
 information about the multivariate regression including the estimates of
-model coefficients and the decomposition of the disaggregated series. A
-print() and summary() function can also be applied on the output object.
+model coefficients, the variance-covariance matrix of the innovations
+and the decomposition of the disaggregated series. A print() and
+summary() function can also be applied on the output object.
 
 In practice, the multivariate Chow-Lin and Fernandez models are also
 estimated based on an equivalent state space representation of the
@@ -1122,11 +1149,7 @@ x3 <- ts(c(1.5, 1.8, 2.0, 2.5, 2.0, 1.5, 1.7, 2.1, 2.1, 1.6, 1.6, 2.2, 2.3, 1.7,
 indic_series <- list(y1 = list(x11, x12), y2 = NULL, y3 = x3)
 
 # Check consistency between temporal and contemporaneous constraints
-rowSums(cbind(Y1, Y2, Y3)) - stats::aggregate.ts(z) # should all be 0
-#> Time Series:
-#> Start = 2010 
-#> End = 2013 
-#> Frequency = 1 
+as.numeric(rowSums(cbind(Y1, Y2, Y3)) - stats::aggregate.ts(z)) # should all be 0
 #> [1]  0.000000e+00  1.421085e-14  0.000000e+00 -1.421085e-14
 
 # Estimate models and get results
@@ -1145,11 +1168,10 @@ mtd1 <- multivariatechowlin(
     rhos = c(0.85, 1.0, 0.9),
     var = "fromUnivariate",
     var.includeCov = FALSE,
-    var.shrinkCov = FALSE,
-    var.matrix = NULL
+    var.shrinkCov = FALSE
 )
 
-mtd1$estimation$vcov # variance-covariance matrix of the innovations
+mtd1$estimation$var$vcov # variance-covariance matrix of the innovations
 #>             [,1]       [,2]         [,3]
 #> [1,] 0.001433366 0.00000000 0.0000000000
 #> [2,] 0.000000000 0.01248872 0.0000000000
@@ -1185,33 +1207,8 @@ mtd2 <- multivariatechowlin(
     rhos = c(0.85, 1.0, 0.9),
     var = "fromUnivariate",
     var.includeCov = TRUE,
-    var.shrinkCov = TRUE,
-    var.matrix = NULL
+    var.shrinkCov = TRUE
 )
-
-mtd2$estimation$vcov
-#>               [,1]          [,2]          [,3]
-#> [1,]  1.295161e-03 -0.0011701081 -8.709044e-05
-#> [2,] -1.170108e-03  0.0124887216  3.869829e-04
-#> [3,] -8.709044e-05  0.0003869829  5.469873e-05
-do.call(cbind, mtd2$estimation$disagg)
-#>               y1       y2       y3
-#> 2010 Q1 7.032124 18.38361 1.684270
-#> 2010 Q2 7.867589 20.02459 1.907825
-#> 2010 Q3 7.119255 20.72811 2.052637
-#> 2010 Q4 7.981033 20.86370 2.355269
-#> 2011 Q1 6.819908 20.48156 2.098528
-#> 2011 Q2 7.561817 18.55115 1.787037
-#> 2011 Q3 8.271285 20.64734 1.981372
-#> 2011 Q4 7.946990 21.51995 2.233063
-#> 2012 Q1 6.910851 20.10656 2.182591
-#> 2012 Q2 7.892070 20.40384 1.904089
-#> 2012 Q3 8.348688 20.36685 1.884465
-#> 2012 Q4 8.048390 21.62275 2.228855
-#> 2013 Q1 6.989663 20.10942 2.200913
-#> 2013 Q2 7.713462 20.82079 1.865750
-#> 2013 Q3 8.479224 20.27804 1.942738
-#> 2013 Q4 8.417651 21.39175 2.190598
 
 ## Multivariate random walk model (multivariate Fernandez)
 
@@ -1234,32 +1231,9 @@ mtd3 <- multivariatechowlin(
         ),
         nrow = 3,
         byrow = TRUE
-    )
+    ),
+    rescale.variance = TRUE
 )
-
-mtd3$estimation$vcov
-#>       [,1]  [,2]  [,3]
-#> [1,] 0.005 0.002 0.001
-#> [2,] 0.002 0.010 0.002
-#> [3,] 0.001 0.002 0.003
-do.call(cbind, mtd3$estimation$disagg)
-#>               y1       y2       y3
-#> 2010 Q1 6.108983 19.72409 1.266923
-#> 2010 Q2 8.107219 19.93250 1.760283
-#> 2010 Q3 7.529320 20.21029 2.160388
-#> 2010 Q4 8.254477 20.13312 2.812406
-#> 2011 Q1 6.686679 20.40719 2.306128
-#> 2011 Q2 6.797711 19.73210 1.370185
-#> 2011 Q3 8.685776 20.33348 1.880741
-#> 2011 Q4 8.429835 20.72722 2.542946
-#> 2012 Q1 6.400284 20.43743 2.362291
-#> 2012 Q2 7.685207 20.74189 1.772905
-#> 2012 Q3 8.618610 20.41449 1.566905
-#> 2012 Q4 8.495899 20.90620 2.497900
-#> 2013 Q1 6.451413 20.47755 2.371039
-#> 2013 Q2 7.378121 21.19157 1.830307
-#> 2013 Q3 8.590304 20.39480 1.714896
-#> 2013 Q4 9.180162 20.53608 2.283757
 ```
 
 ## Calendarization

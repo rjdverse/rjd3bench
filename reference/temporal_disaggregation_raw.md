@@ -129,7 +129,7 @@ are returned as a list:
 
 - `regression` `[[1]]` regression coefficients;
 
-- `estimation` `[[2]]` disaggregated values and standard deviation,
+- `estimation` `[[2]]` disaggregated values and standard errors,
   regression effects, smoothing part, parameter and residuals;
 
 - `likelihood` `[[3]]` likelihood statistics.
