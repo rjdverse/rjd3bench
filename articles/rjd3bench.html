@@ -1144,7 +1144,7 @@ and
 function definition to define the conversion type. However, switching
 from an additive to an average conversion is straightforward: it only
 requires to multiply the temporal benchmarks and/or the contemporaneous
-constraints by the frequency ratio or the number of series,
+constraints by the frequency ratio and/or the number of series,
 respectively.</p>
 <p>The use of multivariate Chow-Lin and Ferandez models have several
 important implications relative to their univariate counterparts and the
@@ -1165,18 +1165,19 @@ constraints are updated accordingly.</p></li>
 <li><p>In the two-step approach, discrepancies arising from
 contemporaneous constraints are typically distributed in a
 pre-determined way, often proportionally. In contrast, the multivariate
-Chow-Lin and Fernandez models specifically account for the precision of
-the disaggregated series, since they are adjusted on the basis of their
-relative variances, the more reliable series being less touched than the
-less reliable ones.</p></li>
+Chow-Lin and Fernandez models have the advantage of accounting
+specifically for the precision of the disaggregated series, since they
+are adjusted based on the relative variance of the innovations, the more
+reliable series being less touched than the less reliable ones.</p></li>
 <li><p>Existing covariance across series may also be captured in the
 estimation process.</p></li>
 </ol>
 <p>Points (2) and (3) highlight the predominant role played by
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>,
 the variance-covariance matrix of the innovations. This matrix may be
-provided by the user, but, by default, it is estimated empirically using
-the sample variance-covariance matrix of the residuals obtained from the
+provided by the user, either exactly or up to a scaling factor (see
+below). But, by default, it is estimated empirically using the sample
+variance-covariance matrix of the residuals obtained from the
 corresponding univariate models. When necessary, the covariance terms
 can be eliminated by constraining
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
@@ -1227,14 +1228,20 @@ but it can be achieved using other packages such as
 <strong>‘corpcor’</strong>, with the resulting variance-covariance
 matrix supplied by the user through the <code>var.matrix</code>
 argument.</p>
-<p>Finally, the <code>rescale.variance</code> argument can be used to
-rescale the variance of the final estimates based on the model
-residuals. Although this option does not affect the disaggregated series
+<p>As mentioned earlier, the variance-covariance matrix of the
+innovations that is considered can be assumed to correspond either
+exactly to the true matrix, or only up to a scaling factor. When
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
+is estimated empirically from the residuals of the corresponding
+univariate models, as is done by default, the former assumption seems a
+natural choice. However, when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
+is supplied by the user, accounting for an unknown scaling factor may be
+more appropriate. Setting <code>rescale.variance = TRUE</code> rescales
+the variance of the estimates using the residuals of the multivariate
+model. While this option does not affect the disaggregated series
 themselves, it does influence the standard errors associated with both
-the disaggregated series and the estimated coefficients. Disabled by
-default, this option reflects whether the estimated or user-supplied
-innovation variance-covariance matrix should be considered as exact, or
-if a proportional adjustment is still needed afterwards.</p>
+the disaggregated series and the estimated coefficients.</p>
 <p>The multivariate Chow-Lin and Fernandez methods can be called with
 the <code><a href="../reference/multivariatechowlin.html">multivariatechowlin()</a></code> function. The output of the
 <code><a href="../reference/multivariatechowlin.html">multivariatechowlin()</a></code> function contains the disaggregated
@@ -1284,7 +1291,7 @@ in the multivariate case.</p>
 <span>    ccseries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>z <span class="op">=</span> <span class="va">z</span><span class="op">)</span>,</span>
 <span>    ccdefinition <span class="op">=</span> <span class="st">"z=y1+y2+y3"</span>,</span>
 <span>    freq <span class="op">=</span> <span class="fl">4L</span>,</span>
-<span>    rhos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">1.0</span>, <span class="fl">0.9</span><span class="op">)</span>,</span>
+<span>    rho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">1.0</span>, <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>    var <span class="op">=</span> <span class="st">"fromUnivariate"</span>,</span>
 <span>    var.includeCov <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    var.shrinkCov <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -1323,7 +1330,7 @@ in the multivariate case.</p>
 <span>    ccseries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>z <span class="op">=</span> <span class="va">z</span><span class="op">)</span>,</span>
 <span>    ccdefinition <span class="op">=</span> <span class="st">"z=y1+y2+y3"</span>,</span>
 <span>    freq <span class="op">=</span> <span class="fl">4L</span>,</span>
-<span>    rhos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">1.0</span>, <span class="fl">0.9</span><span class="op">)</span>,</span>
+<span>    rho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">1.0</span>, <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>    var <span class="op">=</span> <span class="st">"fromUnivariate"</span>,</span>
 <span>    var.includeCov <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    var.shrinkCov <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -1340,7 +1347,7 @@ in the multivariate case.</p>
 <span>    ccseries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>z <span class="op">=</span> <span class="va">z</span><span class="op">)</span>,</span>
 <span>    ccdefinition <span class="op">=</span> <span class="st">"z=y1+y2+y3"</span>,</span>
 <span>    freq <span class="op">=</span> <span class="fl">4L</span>,</span>
-<span>    rhos <span class="op">=</span> <span class="fl">1.0</span>,</span>
+<span>    rho <span class="op">=</span> <span class="fl">1.0</span>,</span>
 <span>    var <span class="op">=</span> <span class="st">"userDefined"</span>,</span>
 <span>    var.matrix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>

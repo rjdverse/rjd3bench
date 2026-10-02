@@ -1027,7 +1027,7 @@ Unlike the univariate case, no specific argument is provided in the
 function definition to define the conversion type. However, switching
 from an additive to an average conversion is straightforward: it only
 requires to multiply the temporal benchmarks and/or the contemporaneous
-constraints by the frequency ratio or the number of series,
+constraints by the frequency ratio and/or the number of series,
 respectively.
 
 The use of multivariate Chow-Lin and Ferandez models have several
@@ -1050,18 +1050,19 @@ stage to restore contemporaneous constraints):
 2.  In the two-step approach, discrepancies arising from contemporaneous
     constraints are typically distributed in a pre-determined way, often
     proportionally. In contrast, the multivariate Chow-Lin and Fernandez
-    models specifically account for the precision of the disaggregated
-    series, since they are adjusted on the basis of their relative
-    variances, the more reliable series being less touched than the less
-    reliable ones.
+    models have the advantage of accounting specifically for the
+    precision of the disaggregated series, since they are adjusted based
+    on the relative variance of the innovations, the more reliable
+    series being less touched than the less reliable ones.
 
 3.  Existing covariance across series may also be captured in the
     estimation process.
 
 Points (2) and (3) highlight the predominant role played by $`\Sigma`$,
 the variance-covariance matrix of the innovations. This matrix may be
-provided by the user, but, by default, it is estimated empirically using
-the sample variance-covariance matrix of the residuals obtained from the
+provided by the user, either exactly or up to a scaling factor (see
+below). But, by default, it is estimated empirically using the sample
+variance-covariance matrix of the residuals obtained from the
 corresponding univariate models. When necessary, the covariance terms
 can be eliminated by constraining $`\Sigma`$ to be diagonal.
 
@@ -1103,14 +1104,18 @@ but it can be achieved using other packages such as **‘corpcor’**, with
 the resulting variance-covariance matrix supplied by the user through
 the `var.matrix` argument.
 
-Finally, the `rescale.variance` argument can be used to rescale the
-variance of the final estimates based on the model residuals. Although
-this option does not affect the disaggregated series themselves, it does
-influence the standard errors associated with both the disaggregated
-series and the estimated coefficients. Disabled by default, this option
-reflects whether the estimated or user-supplied innovation
-variance-covariance matrix should be considered as exact, or if a
-proportional adjustment is still needed afterwards.
+As mentioned earlier, the variance-covariance matrix of the innovations
+that is considered can be assumed to correspond either exactly to the
+true matrix, or only up to a scaling factor. When $`\Sigma`$ is
+estimated empirically from the residuals of the corresponding univariate
+models, as is done by default, the former assumption seems a natural
+choice. However, when $`\Sigma`$ is supplied by the user, accounting for
+an unknown scaling factor may be more appropriate. Setting
+`rescale.variance = TRUE` rescales the variance of the estimates using
+the residuals of the multivariate model. While this option does not
+affect the disaggregated series themselves, it does influence the
+standard errors associated with both the disaggregated series and the
+estimated coefficients.
 
 The multivariate Chow-Lin and Fernandez methods can be called with the
 [`multivariatechowlin()`](https://rjdverse.github.io/rjd3bench/reference/multivariatechowlin.md)
@@ -1165,7 +1170,7 @@ mtd1 <- multivariatechowlin(
     ccseries = list(z = z),
     ccdefinition = "z=y1+y2+y3",
     freq = 4L,
-    rhos = c(0.85, 1.0, 0.9),
+    rho = c(0.85, 1.0, 0.9),
     var = "fromUnivariate",
     var.includeCov = FALSE,
     var.shrinkCov = FALSE
@@ -1204,7 +1209,7 @@ mtd2 <- multivariatechowlin(
     ccseries = list(z = z),
     ccdefinition = "z=y1+y2+y3",
     freq = 4L,
-    rhos = c(0.85, 1.0, 0.9),
+    rho = c(0.85, 1.0, 0.9),
     var = "fromUnivariate",
     var.includeCov = TRUE,
     var.shrinkCov = TRUE
@@ -1221,7 +1226,7 @@ mtd3 <- multivariatechowlin(
     ccseries = list(z = z),
     ccdefinition = "z=y1+y2+y3",
     freq = 4L,
-    rhos = 1.0,
+    rho = 1.0,
     var = "userDefined",
     var.matrix = matrix(
         c(
