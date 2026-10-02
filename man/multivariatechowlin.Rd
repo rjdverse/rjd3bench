@@ -6,13 +6,13 @@
 \usage{
 multivariatechowlin(
   series,
-  constant = TRUE,
+  constant = FALSE,
   trend = FALSE,
   indicators = NULL,
   ccseries = NULL,
   ccdefinition = NULL,
   freq = 4L,
-  rhos = 1,
+  rho = 1,
   var = c("fromUnivariate", "allEquals", "userDefined"),
   var.includeCov = FALSE,
   var.shrinkCov = FALSE,
@@ -29,10 +29,10 @@ provided, each element specifies whether a constant term is included in
 the model for each series, following the order in which they appear in the
 \code{series} object.
 The length of the the vector must match the number of series.
-If a single Boolean is provided (default if \code{TRUE}), it is applied to all
+If a single Boolean is provided (default if \code{FALSE}), it is applied to all
 series.
 Note that this argument is used only with Chow-Lin model (i.e., when
-\code{rhos} values are strictly less than 1). For further details, see the
+\code{rho} values are strictly less than 1). For further details, see the
 package vignette.}
 
 \item{trend}{Either a Boolean or a vector of Booleans. If a vector is
@@ -71,10 +71,9 @@ series.
 This argument is ignored when at least one indicator series is provided
 for any series.}
 
-\item{rhos}{Either a numeric value or a vector of numerics. If a vector is
+\item{rho}{Either a numeric value or a vector of numeric. If a vector is
 provided, each element specifies the value of the \code{rho} parameter
 associated to each series, following the order in which they appear in the
-\code{series} object.
 The length of the the vector must match the number of series.
 If a single numeric value is provided (default if \code{1}, corresponding to
 the Fernandez model), it is applied to all series.}
@@ -83,10 +82,9 @@ the Fernandez model), it is applied to all series.}
 variance-covariance matrix of the innovations. The default is
 \code{"fromUnivariate"}, meaning that it is estimated empirically from the
 residuals of the univariate models. Others options include \code{"allEquals"},
-which assume a diagonal matrix with identical variances (a strong
-assumption), and \code{"userDefined"}, where the matrix is supplied by the user
-via the \code{var.matrix} argument. For additional details, see the package
-vignette.}
+which assume a diagonal matrix with identical variances, and
+\code{"userDefined"}, where the matrix is supplied by the user via the
+\code{var.matrix} argument. For additional details, see the package vignette.}
 
 \item{var.includeCov}{Boolean. Indicates whether non-diagonal elements of
 the innovation variance-covariance matrix may as well be estimated from
@@ -103,11 +101,13 @@ This argument is used only when \code{var = "fromUnivariate"} and
 This argument is used only when \code{var = "userDefined"} and must be provided
 in that case.}
 
-\item{rescale.variance}{Boolean. Indicates whether the variance of the
-estimates should be rescaled based on the model residuals. The default is
-\code{FALSE}. This option has no impact on the disaggregated series, but affects
-the standard errors of both the disaggregated series and the estimated
-coefficients. See the package vignette for more details.}
+\item{rescale.variance}{Boolean. Indicates whether the innovation
+variance-covariance matrix is assumed to correspond exactly to the true
+matrix (the default, which is a natural choice when \code{var = "fromUnivariate"}), or only up to a scaling factor. When set to \code{TRUE}, the
+variance of the estimates are rescaled based on the model residuals. This
+option has no impact on the disaggregated series, but affects the standard
+errors of both the disaggregated series and the estimated coefficients. See
+the package vignette for more details.}
 }
 \value{
 An object of class "JD3_MULTITEMPDISAGG_RSLTS" is returned. The
@@ -121,8 +121,9 @@ matrix of the innovations;
 }
 \description{
 Performs simultaneous temporal disaggregation of a system of low frequency
-time series into higher frequency series, based on the multivariate
-extension of the Chow-Lin model or the Random Walk approach (Fernandez).
+time series into higher frequency series, based on the multivariate extension
+of the Chow-Lin model. By default, when the the \code{rho} argument is left at its
+default value, the function adopts the Random Walk approach (Fernandez).
 }
 \section{Vignette}{
 
@@ -173,34 +174,38 @@ rowSums(cbind(Y1,Y2,Y3)) - stats::aggregate.ts(z) # should all be 0
 ## Mix Chow-Lin and Fernandez definitions
 
 ### with var-cov matrix estimated from the univariate models, assuming zero covariances
-mtd1 <- multivariatechowlin(series = lf_series,
-                            constant = c(FALSE, FALSE, TRUE),
-                            trend = c(FALSE, FALSE, FALSE),
-                            indicators = indic_series,
-                            ccseries = list(z = z),
-                            ccdefinition = "z=y1+y2+y3",
-                            freq = 4L,
-                            rhos = c(0.85, 1.0, 0.9),
-                            var = "fromUnivariate",
-                            var.includeCov = FALSE,
-                            var.shrinkCov = FALSE)
+mtd1 <- multivariatechowlin(
+    series = lf_series,
+    constant = c(FALSE, FALSE, TRUE),
+    trend = c(FALSE, FALSE, FALSE),
+    indicators = indic_series,
+    ccseries = list(z = z),
+    ccdefinition = "z=y1+y2+y3",
+    freq = 4L,
+    rho = c(0.85, 1.0, 0.9),
+    var = "fromUnivariate",
+    var.includeCov = FALSE,
+    var.shrinkCov = FALSE
+)
 
 mtd1$estimation$var$vcov # variance-covariance matrix of the innovations
 do.call(cbind, mtd1$estimation$disagg) # disaggregated series
 do.call(cbind, mtd1$estimation$edisagg) # standard errors of the disaggregated series
 
 ### with var-cov matrix estimated from the univariate models, using a shrinkage estimator for the covariance
-mtd2 <- multivariatechowlin(series = lf_series,
-                            constant = c(FALSE, FALSE, TRUE),
-                            trend = c(FALSE, FALSE, FALSE),
-                            indicators = indic_series,
-                            ccseries = list(z = z),
-                            ccdefinition = "z=y1+y2+y3",
-                            freq = 4L,
-                            rhos = c(0.85, 1.0, 0.9),
-                            var = "fromUnivariate",
-                            var.includeCov = TRUE,
-                            var.shrinkCov = TRUE)
+mtd2 <- multivariatechowlin(
+    series = lf_series,
+    constant = c(FALSE, FALSE, TRUE),
+    trend = c(FALSE, FALSE, FALSE),
+    indicators = indic_series,
+    ccseries = list(z = z),
+    ccdefinition = "z=y1+y2+y3",
+    freq = 4L,
+    rho = c(0.85, 1.0, 0.9),
+    var = "fromUnivariate",
+    var.includeCov = TRUE,
+    var.shrinkCov = TRUE
+)
 
 mtd2$estimation$var$vcov
 do.call(cbind, mtd2$estimation$disagg)
@@ -209,23 +214,24 @@ do.call(cbind, mtd2$estimation$edisagg)
 ## Multivariate random walk model (multivariate Fernandez)
 
 ### with var-cov matrix provided by the user
-mtd3 <- multivariatechowlin(series = lf_series,
-                            constant = FALSE,
-                            trend = FALSE,
-                            indicators = indic_series,
-                            ccseries = list(z = z),
-                            ccdefinition = "z=y1+y2+y3",
-                            freq = 4L,
-                            rhos = 1.0,
-                            var = "userDefined",
-                            var.matrix = matrix(
-                                c(0.005, 0.002, 0.001,
-                                0.002, 0.010, 0.002,
-                                0.001, 0.002, 0.003),
-                                nrow = 3,
-                                byrow = TRUE
-                            ),
-                            rescale.variance = TRUE
+mtd3 <- multivariatechowlin(
+    series = lf_series,
+    constant = FALSE,
+    trend = FALSE,
+    indicators = indic_series,
+    ccseries = list(z = z),
+    ccdefinition = "z=y1+y2+y3",
+    freq = 4L,
+    rho = 1.0,
+    var = "userDefined",
+    var.matrix = matrix(
+        c(0.005, 0.002, 0.001,
+          0.002, 0.010, 0.002,
+          0.001, 0.002, 0.003),
+        nrow = 3,
+        byrow = TRUE
+    ),
+    rescale.variance = TRUE
 )
 
 mtd3$estimation$var$vcov
