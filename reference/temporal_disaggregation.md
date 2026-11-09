@@ -1,8 +1,8 @@
 # Temporal Disaggregation of a Time Series by Regression Models
 
 Perform temporal disaggregation of low-frequency to high-frequency time
-series by regression models. The implemented models include Chow-Lin,
-Fernandez, Litterman and some variants of those algorithms.
+series by regression models. The implemented methods include Chow-Lin,
+Fernandez, Litterman and some variants of these algorithms.
 
 ## Usage
 
@@ -37,8 +37,9 @@ temporal_disaggregation(
 
   Boolean. Indicates whether a constant term is included in the model.
   The default is `TRUE`. Note that this argument is used only with
-  `model = "Ar1"` when `zeroinitialization = FALSE`. For additional
-  information, see the package vignette.
+  `model = "Ar1"` when `zeroinitialization = FALSE` (default). For
+  additional information, see the Details section or the package
+  vignette.
 
 - trend:
 
@@ -123,6 +124,24 @@ returned as a list:
   regression effects, smoothing part, parameter and residuals;
 
 - `likelihood` `[[3]]` likelihood statistics.
+
+## Details
+
+The Chow-Lin, Fernandez and Litterman methods are estimated using an
+equivalent state-space representation of the underlying model. While
+this approach is mathematically equivalent to the classical matrix
+formulation, the parametrization differs slightly.
+
+For the Fernandez and Litterman methods, a diffuse initialization of the
+states is used by default. As a result, a constant is implicitly
+included and absorbed into the initial state vector. The high-frequency
+estimates are therefore identical to those obtained from the classical
+formulation with a constant term, even though the latter does not appear
+explicitly in the output.
+
+To recover the usual parametrization and obtain an explicit estimate of
+the constant, set `zeroinitialization = TRUE` together with
+`constant = TRUE`.
 
 ## Vignette
 

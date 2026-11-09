@@ -38,19 +38,22 @@ multivariatechowlin(
   Either a Boolean or a vector of Booleans. If a vector is provided,
   each element specifies whether a constant term is included in the
   model for each series, following the order in which they appear in the
-  `series` object. The length of the the vector must match the number of
-  series. If a single Boolean is provided (default if `FALSE`), it is
-  applied to all series. Note that this argument is used only with
-  Chow-Lin model (i.e., when `rho` values are strictly less than 1). For
-  further details, see the package vignette.
+  `series` object. The length of the vector must match the number of
+  series. If a single Boolean is provided (default is `FALSE`), it is
+  applied to all series. Note that this argument is only used when
+  `rho < 1` (Chow-Lin). For `rho = 1` (Fernandez), a constant term is
+  automatically and implicitly included. See the package vignette or the
+  Details section of the univariate
+  [`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
+  function for further information on this.
 
 - trend:
 
   Either a Boolean or a vector of Booleans. If a vector is provided,
   each element specifies whether a linear trend is included in the model
   for each series, following the order in which they appear in the
-  `series` object. The length of the the vector must match the number of
-  series. If a single Boolean is provided (default if `FALSE`), it is
+  `series` object. The length of the vector must match the number of
+  series. If a single Boolean is provided (default is `FALSE`), it is
   applied to all series.
 
 - indicators:
@@ -93,9 +96,9 @@ multivariatechowlin(
   Either a numeric value or a vector of numeric. If a vector is
   provided, each element specifies the value of the `rho` parameter
   associated to each series, following the order in which they appear in
-  the The length of the the vector must match the number of series. If a
-  single numeric value is provided (default if `1`, corresponding to the
-  Fernandez model), it is applied to all series.
+  the `series` object. The length of the vector must match the number of
+  series. If a single numeric value is provided (default is `1`,
+  corresponding to the Fernandez model), it is applied to all series.
 
 - var:
 

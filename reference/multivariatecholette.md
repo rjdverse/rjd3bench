@@ -70,16 +70,17 @@ multivariatecholette(
 
 - rho:
 
-  Numeric. The smoothing parameter whose value must lie between 0 and 1.
-  The default is `0.8`. See the package vignette for more information on
-  the choice of the `rho` parameter.
+  Numeric. The smoothing parameter whose value must lie between 0 and 1
+  and which determines the degree of movement preservation. The default
+  is `0.8`. See the package vignette for more information on the choice
+  of the `rho` parameter.
 
 - lambda:
 
-  Numeric. The adjustment model parameter. Typical values include
-  `lambda = 0`, `lambda = 0.5` (the default) and `lambda = 1`. See the
-  package vignette for more information on the choice of the `lambda`
-  parameter.
+  Numeric. The adjustment model parameter which determines how
+  discrepancies are allocated. Typical values include `lambda = 0`,
+  `lambda = 0.5` (the default) and `lambda = 1`. See the package
+  vignette for more information on the choice of the `lambda` parameter.
 
 ## Value
 

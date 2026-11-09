@@ -35,14 +35,16 @@ cholette(
 
 - rho:
 
-  Numeric. A smoothing parameter whose value must lie between 0 and 1.
-  See the package vignette for more information on the choice of the
-  `rho` parameter.
+  Numeric. The smoothing parameter whose value must lie between 0 and 1,
+  and which determines the degree of movement preservation. The default
+  is `1`. See the package vignette for more information on the choice of
+  the `rho` parameter.
 
 - lambda:
 
-  Numeric. The adjustment model parameter. Typical choices include
-  `lambda = 1` for proportional benchmarking, `lambda = 0` for additive
+  Numeric. The adjustment model parameter which determines how
+  discrepancies are allocated. Typical choices include `lambda = 1` (the
+  default) for multiplicative benchmarking, `lambda = 0` for additive
   benchmarking, and `lambda = 0.5` with `rho = 0` for the naive
   pro-rating method. See the package vignette for more information on
   the choice of the `lambda` parameter.

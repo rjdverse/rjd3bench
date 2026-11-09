@@ -16,6 +16,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   [`multivariatechowlin()`](https://rjdverse.github.io/rjd3bench/reference/multivariatechowlin.md)
   for multivariate temporal disaggregation
 
+#### Changed
+
+- Update vignette and function documentation
+
 ### [3.1.3](https://github.com/rjdverse/rjd3bench/compare/v3.1.2...v3.1.3) - 2026-07-13
 
 #### Fixed

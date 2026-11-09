@@ -3,55 +3,57 @@
 Abstract
 
 The `rjd3bench` package provides a variety of methods for temporal
-disaggregation, interpolation, benchmarking, reconciliation,
-multivariate temporal disaggregation and calendarization. It is part of
+disaggregation and interpolation, benchmarking, reconciliation and
+multivariate temporal disaggregation, and calendarization. It is part of
 the interface to the ‘JDemetra+’ 3.x time series analysis software and
 incorporates statistical methods described in the latest European
 Statistical System (ESS) guidelines on temporal disaggregation,
-benchmarking, and reconciliation (2018 edition). Most algorithms
-implemented in the package rely on an equivalent state‑space
-representation of the underlying model or mathematical problem, where
-computational efficiency is further improved by replacing matrix
-operations with functional forms, thereby enabling highly efficient
-estimates.
+benchmarking, and reconciliation. The package relies on highly efficient
+algorithms. Most are based on an equivalent state‑space representation
+of the underlying model or mathematical problem, with computational
+efficiency further enhanced by replacing matrix operations with
+functional forms.
 
 ## Introduction
 
 The methods implemented in the package `rjd3bench` intend to bridge the
 gap when there is a lack of high frequency time series or when there are
-temporal and/or contemporaneous inconsistencies between the high
+temporal (and contemporaneous) inconsistencies between the high
 frequency series and the corresponding low frequency series. Although
 this can be an issue in any fields of research dealing with time series,
-methods of temporal disaggregation, interpolation, benchmarking,
-reconciliation and calendarization are often encountered in the
-production of official statistics. For example, National Accounts are
-often compiled according to two frequencies of production: annual
-series, the low frequency data, based on precise and detailed sources
-and quarterly series, the high frequency data, which usually rely on
-less accurate sources but give information on a timelier basis. In such
-case, the use of temporal disaggregation, benchmarking, and
-reconciliation methods can be used to achieve consistency between annual
-and quarterly national accounts over time.
+methods of temporal disaggregation and interpolation, benchmarking,
+reconciliation and multivariate temporal disaggregation, and
+calendarization are extensively used in the production of official
+statistics. For example, National Accounts are usually compiled
+according to different frequencies of production: annual series, the low
+frequency data, based on precise and detailed sources and quarterly or
+monthly series, the high frequency data, which usually rely on less
+accurate sources but give information on a timelier basis. In such case,
+the use of temporal disaggregation and benchmarking methods can be used
+to achieve consistency between annual and quarterly or monthly national
+accounts over time.
 
 The package `rjd3bench` is an interface to the highly efficient
-algorithms and modeling developed in the official ‘JDemetra+’ 3.x time
-series software. It provides a wide variety of methods, included those
-suggested in the *ESS guidelines on temporal disaggregation,
-benchmarking and reconciliation (Eurostat, 2018)*.
+algorithms developed in the official ‘JDemetra+’ 3.x time series
+software. Most algorithms are based on an equivalent state‑space
+representation of the underlying model or mathematical problem, with
+computational efficiency further enhanced by replacing matrix operations
+with functional forms. The package provides a wide variety of methods,
+included those suggested in the *ESS guidelines on temporal
+disaggregation, benchmarking and reconciliation (Eurostat, 2018)*.
 
 ## Set-up & Data
 
-We illustrate the various methods using two datasets:
+The various methods are illustrated using two datasets:
 
 - The *Retail* dataset contains monthly figures over retail activity of
   various categories of goods and services from 1992 to 2010.
-- The *qna_data* is a list of two datasets. The first data set
-  ‘B1G_Y_data’ includes three annual benchmark series which are the
-  Belgian annual value added on the period 2009-2020 in chemical
-  industry (CE), construction (FF) and transport services (HH). The
-  second data set ‘TURN_Q_data’ includes the corresponding quarterly
-  indicators which are (modified) production indicators derived from VAT
-  statistics and covering the period 2009Q1-2021Q4.
+- *qna_data* contains two datasets. The first dataset, ‘B1G_Y_data’,
+  consists of three annual benchmark series representing Belgian value
+  added in the chemical industry (CE), construction (FF) and transport
+  services (HH) over the period 2009-2020. The second dataset,
+  ‘TURN_Q_data’, contains the corresponding quarterly indicators, namely
+  turnover indicators, covering the period 2009Q1-2021Q4.
 
 ``` r
 
@@ -62,8 +64,8 @@ qna_data <- rjd3bench::qna_data
 
 ## Temporal disaggregation and interpolation methods
 
-Temporal disaggregation and interpolation are related to each other (and
-to benchmarking). They share similar properties and methods but they
+Temporal disaggregation and interpolation are related to each other and
+to benchmarking. They share similar properties and methods but they
 differ in their purpose.
 
 Temporal disaggregation is usually associated with flow series. The
@@ -71,36 +73,41 @@ purpose is to break down a low frequency time series into a higher
 frequency time series, where the low frequency series correspond to the
 sum or average of the corresponding higher frequency series.
 
-Interpolation usually arises in the context of stock series. The purpose
-is to estimate missing values at time points between the known data
-points given by the low frequency series. For example, an annual series
-can typically corresponds to the fourth quarter or twelfth month of a
-quarterly or a monthly series and the purpose would be to obtain
-estimates for the other quarters or months.
+Interpolation is typically applied to stock series and aims to estimate
+missing values between the observed data points given by the
+low-frequency series. For example, an annual observation may correspond
+to the value recorded in the fourth quarter or twelfth month of a
+higher-frequency series. The objective is then to derive estimates for
+the intervening quarters or months.
 
-For the Chow-Lin method and its variants, a separate function is
-considered for temporal disaggregation and interpolation. This is not
-the case of the other methods where the two are integrated in a single
-function.
+For the Chow-Lin method and its variants Fernandez and Litterman,
+temporal disaggregation and interpolation are implemented in separate
+functions, namely
+[`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
+and
+[`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md).
+In contrast, for the other methods, both operations are integrated into
+a single function.
 
-Furthermore, there are *raw* version available for the functions
+Furthermore, *raw* versions of the
 [`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
 and
 [`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md)
-related to Chow-Lin method and its variants. The functions
+functions are available for the Chow-Lin method and its variants
+Fernandez and Litterman. The functions
 [`temporal_disaggregation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
 and
 [`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
-enable the user to deal with atypical frequency data and with any
-frequency ratio. Note that for benchmarking, a function
+allow users to work with atypical frequency data and with any frequency
+ratio. Note that for benchmarking, a function
 [`denton_raw()`](https://rjdverse.github.io/rjd3bench/reference/denton_raw.md)
-is also available.
+is also provided.
 
 ### Chow-Lin, Fernandez and Litterman
 
 Eurostat (2018) recommends the use of regression-based models for the
-purpose of temporal disaggregation. Among them, we retrieve the Chow-Lin
-method and its variants Fernandez and Litterman.
+purpose of temporal disaggregation and interpolation. These include the
+Chow-Lin method and its variants Fernandez and Litterman.
 
 Let $`Y_T`$, $`T=1,...,m`$, and $`x_t`$, $`t=1,...,n`$, be, respectively
 the observed low frequency benchmark and the high-frequency indicators
@@ -121,7 +128,19 @@ $`u_t = u_{t-1} + \epsilon_t`$ (Fernandez),
 $`u_t = u_{t-1} + \rho(\Delta u_{t-1}) + \epsilon_t`$, with
 $`|\rho| < 1`$ (Litterman)
 
-The temporal constraint is:
+The high-frequency estimates must satisfy the temporal constraint. For
+example, in the case of temporal disaggregation of flow variables with
+additive conversion, it is:
+
+``` math
+\sum_{t \epsilon T} y_t = Y_T
+```
+
+where $`t \epsilon T`$ denotes all high-frequency periods belonging to
+the low-frequency period T.
+
+More generally, the temporal constraint can also be written in matrix
+form as:
 
 ``` math
 Y = Cy,
@@ -135,31 +154,43 @@ c:
 
 - Temporal disaggregation: $`c = [1,1,...,1]`$ for aggregation (e.g.,
   flow variables) and $`c = [1/s,1/s,...,1/s]`$ for average conversion
-  (e.g., indexes)
-- Interpolation: $`c = [0,0,...,1]`$ when the low frequency series
+  (e.g., indexes).
+- Interpolation: $`c = [0,0,...,1]`$ when the low-frequency observations
   corresponds to the last value of the interpolated series,
-  $`c = [1,0,...,0]`$ when it’s the first value, etc. (e.g., stock
-  variables)
+  $`c = [1,0,...,0]`$ when it corresponds to the first value, and
+  similarly for other positions (e.g., stock variables).
 
-While $`x_t`$ is observed in high frequency, $`y_t`$ is only observed in
-low frequency, and therefore the number of effective observations to
-estimate the parameters are the number of observations in the
-low-frequency benchmark.
+In this package, the Chow-Lin, Fernandez and Litterman methods are
+estimated using an equivalent state-space representation of the
+underlying model. While mathematically equivalent to the classical
+matrix formulation, some differences arise in the parametrization of the
+model.
 
-The regression-based Chow-Lin method and its variants Fernandez and
-Litterman can be called with the functions
+In particular, for the Fernandez and Litterman methods, a diffuse
+initialization of the states is used by default. As a result, a constant
+is implicitly included and absorbed into the initial state vector, and
+therefore does not appear explicitly in the output. The resulting
+high-frequency estimates are identical to those obtained from the
+classical formulation with a constant term, but the latter is
+effectively hidden. To recover the usual parametrization and obtain an
+explicit estimate of the constant, set `zeroinitialization = TRUE`
+together with `constant = TRUE` when calling the function.
+
+The Chow-Lin, Fernandez and Litterman methods can be estimated using the
+functions
 [`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
-or
+and
 [`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md).
-Those two functions require a ts object as input series and only deal
-with usual frequency conversion (i.e. annual to quarterly, annual to
-monthly or quarterly to monthly). Alternatively, the functions
+These functions take `ts` objects as input and support standard
+frequency conversions only (i.e., annual-to-quarterly,
+annual-to-monthly, and quarterly-to-monthly). Alternatively, the
+functions
 [`temporal_disaggregation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation_raw.md)
 and
 [`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
-require a numeric vector as input series and extend the previous
-functions in a way that they can deal with atypical frequency series and
-with any frequency ratio.
+require numeric vectors as input and extend the previous functions in a
+way that they can deal with atypical frequency series and with any
+frequency ratio.
 
 The output of the functions
 [`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md),
@@ -169,29 +200,23 @@ and
 [`temporal_interpolation_raw()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation_raw.md)
 contains the most important information about the regression including
 the estimates of model coefficients and their covariance matrix, the
-decomposition of the disaggregated/interpolated series and information
-about the residuals. A print() and summary() functions can be applied on
-the output object. The plot() function, which displays the decomposition
-of the disaggregated/interpolated series between regression and
-smoothing effect, can be applied on the output object of the functions
+decomposition of the disaggregated or interpolated series, and
+information about the residuals. A
+[`print()`](https://rdrr.io/r/base/print.html) and
+[`summary()`](https://rdrr.io/r/base/summary.html) functions can be
+applied on the output object. In addition, a
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) function is
+available for outputs produced by
 [`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
 and
 [`temporal_interpolation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_interpolation.md).
-
-In practice, Chow-Lin and its variants Fernandez and Litterman are
-estimated based on an equivalent state space representation of the
-model. By default, for Fernandez and Litterman, a diffuse initialization
-is considered for the estimation of the initial values of the states so
-that those integrate the estimate of the constant term. The latter is
-thus ‘hidden’ and does not appear explicitly in the output. To make the
-estimates of the constant term visible - thus recovering the usual
-output from the classic formulation of the model - one option is to
-change the argument `zeroinitialization = TRUE` with `constant=TRUE`
-when calling the function.
+It shows a decomposition of the estimated high-frequency series into its
+regression and smoothing components.
 
 ``` r
 
-# Example 1: TD using Chow-Lin to disaggregate annual value added in construction sector using a quarterly indicator
+# Example 1: Temporal disaggregation of annual value added in the construction sector using the
+# Chow-Lin method and a quarterly indicator
 Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
 td <- rjd3bench::temporal_disaggregation(Y, indicators = x)
@@ -205,12 +230,14 @@ print(td)
 #> Use summary() for more details. 
 #> Use plot() to see the decomposition of the disaggregated series.
 
-# Example 2: interpolation using Fernandez without indicator when the last value (default) of the interpolated series is the one consistent with the low frequency series.
+# Example 2: Interpolation using the Fernandez method without indicators, when the low-frequency
+# observations corresponds to the last value of the interpolated series (which is the default)
 Y <- rjd3toolkit::aggregate(rjd3toolkit::Retail$RetailSalesTotal, 1)
 ti <- temporal_interpolation(Y, indicators = NULL, model = "Rw", freq = 4, nfcsts = 2)
 y <- ti$estimation$interp # the interpolated series
 
-# Example 3: TD of atypical frequency data using Fernandez with an offset of 1 period
+# Example 3: Temporal disaggregation of atypical-frequency data using the Fernandez method
+# with a one-period offset
 Y <- c(500, 510, 525, 520)
 x <- c(97,
        98, 98.5, 99.5, 104, 99,
@@ -220,7 +247,8 @@ x <- c(97,
 td_raw <- temporal_disaggregation_raw(Y, indicators = x, startoffset = 1,  model = "Rw", freqratio = 5)
 y <- td_raw$estimation$disagg # the disaggregated series
 
-# Example 4: interpolation of atypical frequency data using Fernandez without offset, when the first value of the interpolated  series is the one consistent with the low frequency series.
+# Example 4: Interpolation of atypical frequency data using the Fernandez method without offset,
+# when the low-frequency observations corresponds to the first value of the interpolated series
 Y <- c(500, 510, 525, 520)
 x <- c(490, 492.5, 497.5, 520, 495,
        500, 502.5, 505, 527.5, 515,
@@ -233,18 +261,18 @@ y <- ti_raw$estimation$interp
 
 ### Model-based Denton
 
-Denton method and variants are usually expressed in mathematical terms
-as a constrained minimization problem. For example, the widely used
-Denton proportional first difference (PFD) method is usually expressed
-as follows:
+Denton method variants are generally expressed in mathematical terms as
+a constrained minimization problem. For example, the widely used Denton
+proportional first difference (PFD) method is usually expressed as
+follows:
 
 ``` math
 min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 ```
 
-subject to the temporal aggregation constraint (flow variables)
+subject to the temporal constraint (flow variables, additive conversion)
 ``` math
-\sum_{t} y_t = Y_T
+\sum_{t \epsilon T} y_t = Y_T
 ```
 
 where $`y_t`$ is the value of the estimate of the high frequency series
@@ -252,8 +280,8 @@ at period t, $`x_t`$ is the value of the high frequency indicator at
 period t and $`Y_T`$ is the value of the low frequency series (i.e. the
 benchmark series) at period T.
 
-Equivalently, the Denton PFD method can also be expressed as a
-statistical model considering the following state space representation
+But, equivalently, the Denton PFD method can also be expressed as a
+statistical model considering the following state space representation:
 
 ``` math
 \begin{align}
@@ -262,37 +290,40 @@ y_t &= \beta_t x_t \\
 \end{align}
 ```
 
-where the temporal constraints are taken care of by considering a
-cumulated series $`y^c_t`$ instead of the original series $`y_t`$.
-Hence, the last high frequency period (for example, the last quarter of
-the year) is observed and corresponds to the value of the benchmark. The
-value of the other periods are initially defined as missing and
-estimated by maximum likelihood.
+where the temporal constraint is handled by considering the cumulated
+series $`y^c_t`$ rather than the original series $`y_t`$. As a result,
+the last high-frequency observation within each low-frequency period
+(e.g. the last quarter of the year) is observed and matches the
+benchmark value. The remaining high-frequency observations are treated
+as missing and estimated by maximum likelihood.
 
-This alternative representation of Denton PFD method is interesting as
-it allows more flexibility. We might now include outliers - namely,
-level shift(s) in the Benchmark to Indicator ratio - that could
-otherwise induce undesirable wave effects. Outliers and their intensity
-are defined by changing the value of the innovation variances. There is
-also the possibility to freeze the disaggregated series at some specific
-period(s) or prior a certain date by fixing the high-frequency BI
-ratio(s). Following the principle of movement preservation inherent to
-Denton, the model-based Denton PFD method constitutes an interesting
-alternative for temporal disaggregation, interpolation and benchmarking.
-Here is a [link](https://www.youtube.com/watch?v=PC0tj2jMcuU) to a
-presentation on the subject which include some comparison with the
-regression-based methods for temporal disaggregation.
+This alternative representation of the Denton PFD method provides
+greater flexibility. Outliers, in particular level shifts in the
+benchmark-to-indicator (BI) ratio, can be explicitly accommodated,
+thereby preventing the emergence of undesirable wave effects. This is
+achieved by temporarily increasing the innovation variance
+$`\sigma^2_{\varepsilon}`$. In addition, high-frequency BI ratios can be
+fixed over selected periods, allowing the disaggregated series to be
+frozen over specific intervals or prior to a given date. By preserving
+the movements of the indicator series while providing such extensions,
+the model-based Denton PFD method constitutes a compelling alternative
+for temporal disaggregation, interpolation, and benchmarking. A
+presentation of the approach, including comparisons with
+regression-based methods, is available
+[here](https://www.youtube.com/watch?v=PC0tj2jMcuU).
 
-The model-base Denton method can be applied with the
+The model-based Denton method can be applied using the
 [`denton_modelbased()`](https://rjdverse.github.io/rjd3bench/reference/denton_modelbased.md)
-function. The output of the
-[`denton_modelbased()`](https://rjdverse.github.io/rjd3bench/reference/denton_modelbased.md)
-function contains information about the disaggregated/interpolated
-series and the BI ratio as well as their respecting errors making it
-possible to construct confidence intervals. The print(), summary() and
-plot() functions can also be applied on the output object.The plot()
-function displays the disaggregated series and the BI ratio together
-with their respective 95% confidence interval.
+function. Its output includes the disaggregated or interpolated series
+and the BI ratios, together with their respective standard errors,
+allowing confidence intervals to be constructed. The
+[`print()`](https://rdrr.io/r/base/print.html),
+[`summary()`](https://rdrr.io/r/base/summary.html) and
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) functions can
+be applied to the resulting object. The
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) function
+displays the disaggregated series and the BI ratios along with their
+corresponding 95% confidence intervals.
 
 ``` r
 
@@ -301,7 +332,7 @@ Y <- ts(qna_data$B1G_Y_data[, "B1G_FF"], frequency = 1, start = c(2009, 1))
 x <- ts(qna_data$TURN_Q_data[, "TURN_INDEX_FF"], frequency = 4, start = c(2009, 1))
 td_mbd <- denton_modelbased(Y, x, outliers = list("2020-01-01" = 100, "2020-04-01" = 100))
 
-y_mbd <- td_mbd$estimation$disagg
+y_mbd <- td_mbd$estimation$disagg # the disaggregated series
 print(td_mbd)
 #> Available output:
 #> [1] "disagg"   "edisagg"  "biratio"  "ebiratio"
@@ -323,10 +354,10 @@ y_t = \phi y_{t-1} + m + gt + x_t'\beta_0 + x_{t-1}'\beta_1 + \varepsilon_t
 (1)
 ```
 
-subject to the temporal constraint (flow variables)
+subject to the temporal constraint (flow variables, additive conversion)
 
 ``` math
-\sum_{t} y_t = Y_T
+\sum_{t \epsilon T} y_t = Y_T
 ```
 
 where $`y_t`$ is the value of the estimate of the high frequency series
@@ -359,16 +390,19 @@ So, the ADL model corresponds to the Chow-Lin model if
 \beta_1 = -\phi\beta_0 \qquad (2)
 ```
 
-and to the Fernandez model if we further assumes that $`\phi = 1`$.
+and to the Fernandez model if we further assume that $`\phi = 1`$.
 
-Recall that the Chow-Lin model relies on the strong assumption of that
-the disaggragated series $`y_t`$ and the indicator(s) $`x_t`$ are fully
-co-integrated (if not stationary). The main benefit of the ADL model
-over Chow-Lin is that it offers an extended modelling framework which
-accounts for the uncertainty about the existence of co-integration
-between $`y_t`$ and $`x_t`$. Hence, by nesting both the Chow-Lin and the
-Fernandez model, it prevents potential spurious regressions between
-$`y_t`$ and $`x_t`$.
+In this package, the ADL model is estimated based on a state space
+representation of the underlying model, which is mathematically
+equivalent to the classical matrix formulation.
+
+The Chow-Lin model relies on the assumption of that the disaggragated
+series $`y_t`$ and the indicator(s) $`x_t`$ are fully co-integrated (if
+not stationary). The main benefit of the ADL model over Chow-Lin is that
+it offers an extended modelling framework which accounts for the
+uncertainty about the existence of co-integration between $`y_t`$ and
+$`x_t`$. Hence, by nesting both the Chow-Lin and the Fernandez model, it
+prevents potential spurious regressions between $`y_t`$ and $`x_t`$.
 
 Moreover, as explained in Proietti (2005, section 6.2), the ADL model
 can be an interesting option when the indicator is affected by a
@@ -381,26 +415,26 @@ smoothed.
 
 The ADL disaggregation method can be called with the
 [`adl_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.md)
-function. The ‘xar’ parameter allows you to set constraints on the
+function. The `xar` parameter allows you to set constraints on the
 coefficients of the lagged regression variables. As an alternative to
 the default value “FREE” (no constraint), setting the parameter to
-“SAME” corresponds to imposing the constraint (2). Note that those
-constraints, and therefore also the relevance of switching from an ADL
-model to a simpler Chow-Lin or Fernandez model, can be assessed by
-computing the Likelihood Ratio (LR) statistic (cfr. example below).
-Finally, you can set the parameter to “NONE”, which means an ADL(1,0)
-model is considered (no lag on $`x_t`$) which corresponds to the method
-suggested by Santos Silva and Cardoso (2001).
+“SAME” corresponds to imposing the constraint (2). Such constraints, and
+therefore also the relevance of switching from an ADL model to a simpler
+Chow-Lin or Fernandez model, can be assessed by computing the Likelihood
+Ratio (LR) statistic (cfr. example below). Finally, setting the value of
+the parameter to “NONE” means that an ADL(1,0) model is considered (no
+lag on $`x_t`$), which corresponds to the method suggested by Santos
+Silva and Cardoso (2001).
 
 The output of the function
 [`adl_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.md)
 contains the most important information about the regression including
 the estimates of model coefficients and their covariance matrix, the
-disaggregated series and information about the residuals. A print(),
-summary() and plot() functions can be applied on the output object.
-
-In practice, the ADL model is estimated based on an equivalent state
-space representation.
+disaggregated series, and information about the residuals. A
+[`print()`](https://rdrr.io/r/base/print.html),
+[`summary()`](https://rdrr.io/r/base/summary.html) and
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) functions can
+be applied on the output object.
 
 ``` r
 
@@ -459,10 +493,10 @@ u_t &= \rho u_{t-1} + \varepsilon_t
 \end{align}
 ```
 
-subject to the temporal constraint (flow variables)
+subject to the temporal constraint (flow variables, additive conversion)
 
 ``` math
-\sum_{t} y_t = Y_T
+\sum_{t \epsilon T} y_t = Y_T
 ```
 
 The choice of which variable is dependent and which is independent is
@@ -482,8 +516,10 @@ The reverse regression method can be called with the
 function. The output of the function
 [`temporaldisaggregationI()`](https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.md)
 contains the disaggregated series as well as the estimates of the model
-coefficients. A print(), summary() and plot() functions can be applied
-on the output object.
+coefficients. A [`print()`](https://rdrr.io/r/base/print.html),
+[`summary()`](https://rdrr.io/r/base/summary.html) and
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) functions can
+be applied on the output object.
 
 ``` r
 
@@ -519,13 +555,13 @@ reliable than the low frequency series, referred to as the benchmark.
 Thus, benchmarking is the process of adjusting the high frequency series
 to make it consistent with the more reliable low frequency series.
 
-As for the temporal disaggregation/interpolation method Chow-Lin and its
-variants, a *raw* version of the
+As for the temporal disaggregation and interpolation method Chow-Lin and
+its variants, a *raw* version of the
 [`denton()`](https://rjdverse.github.io/rjd3bench/reference/denton.md)
-benchamrking method is made available to the user. The function
+benchmarking method is available. The function
 [`denton_raw()`](https://rjdverse.github.io/rjd3bench/reference/denton_raw.md)
-enables the user to deal with atypical frequency data and with any
-frequency ratio.
+allows users to deal with atypical frequency data and with any frequency
+ratio.
 
 ### Denton
 
@@ -547,9 +583,9 @@ min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 ```
 
 This objective function is minimized subject to the temporal aggregation
-constraints $`\sum_{t\epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows
+constraints $`\sum_{t \epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows
 variables). In other words, the benchmarked series is estimated in such
-a way that the “Benchmark-to-Indicator” ratio $`\frac{y_t}{x_t}`$
+a way that the benchmark-to-indicator (BI) ratio $`\frac{y_t}{x_t}`$
 remains as smooth as possible, which is often of key interest in
 benchmarking.
 
@@ -616,7 +652,7 @@ f(x) = \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2
 
 and look for values $`y_t^*`$, $`t=1,...,n`$, which minimize it subject
 to the temporal aggregation constraints
-$`\sum_{t\epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows variables). In
+$`\sum_{t \epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows variables). In
 other words, the benchmarked series is estimated in such a way that its
 temporal dynamics; as expressed by the growth rates
 $`\frac{y_t^*}{y_{t-1}^*}`$, $`t=2,...,n`$, be “as close as possible” to
@@ -726,17 +762,24 @@ This objective function is minimized subject to the temporal aggregation
 constraints $`\sum_{t\epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows
 variables). The method is driven by a couple of parameters:
 
-- The smoothing parameter $`\rho`$, $`0 \leq \rho \leq 1`$. $`\rho`$
-  determines the degree of movement preservation. When $`\lambda = 1`$,
-  the closer $`\rho`$ is to 1, the smoother will be the ratios between
-  the benchmarked and the preliminary series, resulting in a better
-  preservation of the latter’s period‑to‑period growth rates.
+- The smoothing parameter $`\rho`$ ($`0 \leq \rho \leq 1`$), which
+  determines the degree of movement preservation. Values close to 0
+  favour preservation of the level of the preliminary series, whereas
+  values close to 1 favour preservation of its movement. For instance,
+  in the multiplicative case ($`\lambda = 1`$), values of $`\rho`$ close
+  to 1 tend to preserve period-to-period growth rates, as it penalizes
+  variations in the benchmark-to-indicator (BI) ratios (see
+  [Denton](#denton)).
 
 - The adjustment model parameter $`\lambda`$,
-  $`\lambda \in \mathbb{R}`$. Set $`\lambda = 0`$ for an additive
-  benchmarking model and $`\lambda = 1`$ for a multiplicative
-  benchmarking model. Finally, set $`\lambda = 0.5`$ with $`\rho = 0`$,
-  for the naive pro-rating method.
+  ($`\lambda \in \mathbb{R}`$), which determines how discrepancies are
+  allocated. With $`\lambda = 0`$, discrepancies are distributed
+  equally, regardless of the series values (additive model). With
+  $`\lambda = 1`$, larger values absorb a greater share of the
+  adjustment (multiplicative model). Intermediate values (e.g.,
+  $`\lambda = 0.5`$) provide a compromise between the additive and
+  multiplicative cases. The naive pro-rating method is obtained by
+  setting $`\lambda = 0.5`$ and $`\rho = 0`$.
 
 Cholette method also provides for the possibility of considering a bias
 correction factor, which is the expected discrepancy between the
@@ -787,10 +830,9 @@ Cholette method can be called with the
 function. The
 [`cholette()`](https://rjdverse.github.io/rjd3bench/reference/cholette.md)
 function returns the high frequency series benchmarked with the Cholette
-method.
-
-In practice, the benchmarked series is estimated based on an equivalent
-state space representation of the Cholette method described above.
+method. Note that, in this package, it is estimated based on an
+equivalent state space representation of the objective function
+described above.
 
 ``` r
 
@@ -872,46 +914,46 @@ respectively.
 As in the univariate case, the multivariate Cholette method is driven by
 a couple of parameters:
 
-- The smoothing parameter $`\rho`$, $`0 \leq \rho \leq 1`$. $`\rho`$
-  determines the degree of movement preservation. When $`\lambda = 1`$,
-  values of $`\rho`$ closer to 1 result in smoother ratios between the
-  benchmarked and the preliminary series, and lead to a better
-  preservation of the latter’s period‑to‑period growth rates. Although
-  setting $`\rho = 1`$ is an option, it should be used with caution in a
-  multivariate context. This is because contemporaneous constraints,
-  combined with the fact that pure movement preservation specifies
-  nothing about the level of the individual reconciled series, may
-  sometimes produce substantial differences in level between the
-  preliminary and the benchmarked series. This is especially true in the
-  absence of temporal constraints where strong movement preservation
-  should not be pursued during reconciliation.
+- The smoothing parameter $`\rho`$ ($`0 \leq \rho \leq 1`$), which
+  determines the degree of movement preservation. Values close to 0
+  favour preservation of the level of the preliminary series, whereas
+  values close to 1 favour preservation of its movement. For instance,
+  in the multiplicative case ($`\lambda = 1`$), values of $`\rho`$ close
+  to 1 tend to preserve period-to-period growth rates, as it penalizes
+  variations in the benchmark-to-indicator (BI) ratios (see
+  [Denton](#denton)). Although setting $`\rho = 1`$ is an option, it
+  should be used with caution in a multivariate context. This is because
+  contemporaneous constraints, combined with the fact that pure movement
+  preservation specifies nothing about the level of the individual
+  reconciled series, may sometimes produce substantial differences in
+  level between the preliminary and the benchmarked series. This is
+  especially true in the absence of temporal constraints where strong
+  movement preservation should not be pursued during reconciliation.
 
 - The adjustment model parameter $`\lambda`$,
-  $`\lambda \in \mathbb{R}`$. Typical choices include $`\lambda = 0`$,
-  $`\lambda = 0.5`$ and $`\lambda = 1`$. This parameter determines the
-  extent to which the relative size of each time series influences the
-  distribution of the discrepancies. When $`\lambda = 0`$, the model is
-  purely additive, while $`\lambda = 1`$ yields a fully multiplicative
-  specification in which larger series absorb a larger share of the
-  adjustment. In particular, the cases $`(\lambda = 0, \rho = 1)`$ and
-  $`(\lambda = 1, \rho = 1)`$ correspond to the multivariate extensions
-  of the [Denton AFD and PFD method](#denton), respectively. Choosing
-  $`\lambda = 0.5`$ provides a compromise between the two approaches and
-  results in discrepancies being allocated in proportion to the values
-  of the preliminary series. Finally, as in the univariate Cholette
-  method, setting $`\lambda = 0.5`$ together with $`\rho = 0`$ yields
-  the naive pro-rating method.
+  ($`\lambda \in \mathbb{R}`$), which determines how discrepancies are
+  allocated. Typical choices include $`\lambda = 0`$ (additive model),
+  $`\lambda = 0.5`$ and $`\lambda = 1`$ (multiplicative model). With
+  $`\lambda = 0`$, discrepancies are distributed equally, regardless of
+  the series level. With $`\lambda = 1`$, larger values and series
+  absorb a greater share of the adjustment. The two cases
+  $`(\lambda = 0, \rho = 1)`$ and $`(\lambda = 1, \rho = 1)`$ correspond
+  to the multivariate extension of the [Denton AFD and Denton PFD
+  method](#denton), respectively. Choosing $`\lambda = 0.5`$ provides a
+  compromise between the additive and multiplicative approaches, and
+  results in discrepancies being allocated in proportion to the
+  preliminary series. As in the univariate [Cholette method](#cholette),
+  the naive pro-rating method is obtained by setting $`\lambda = 0.5`$
+  and $`\rho = 0`$.
 
 The multivariate Cholette method can be called with the
 [`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)
 function. The
 [`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)
 function returns a list of benchmarked series, fulfilling both the
-contemporary and the temporal constraints (if any).
-
-In practice, the benchmarked series are estimated based on an equivalent
-state space representation of the multivariate Cholette method described
-above.
+contemporary and the temporal constraints (if any). Note that, in this
+package, the benchmarked series are estimated based on an equivalent
+state space representation of the objective function described above.
 
 ``` r
 
@@ -1014,6 +1056,14 @@ This is subject to both:
 Consistency between the temporal aggregation constraints and the
 contemporaneous constraints is required (see the consistency check in
 the example).
+
+In this package, the multivariate Chow-Lin and Fernandez methods are
+estimated using an equivalent state-space representation of the
+underlying model. Although mathematically equivalent to the classical
+matrix formulation, this representation has some impacts on the model
+parametrization, as in the univariate case. In particular, the remarks
+regarding the “hidden” constant term in the [univariate
+Fernandez](#chowlin) model also apply in the multivariate case.
 
 In addition to binding contemporaneous constraints, non-binding
 constraints can also be specified by modifying their formulation in the
@@ -1126,12 +1176,6 @@ information about the multivariate regression including the estimates of
 model coefficients, the variance-covariance matrix of the innovations
 and the decomposition of the disaggregated series. A print() and
 summary() function can also be applied on the output object.
-
-In practice, the multivariate Chow-Lin and Fernandez models are also
-estimated based on an equivalent state space representation of the
-model. Therefore, the remark made concerning the “hidden” constant term
-in the [univariate Fernandez](#chowlin) model remains valid in the
-multivariate case.
 
 ``` r
 
