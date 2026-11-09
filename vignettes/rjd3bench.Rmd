@@ -13,8 +13,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 abstract: The `rjd3bench` package provides a variety of methods for temporal disaggregation and interpolation, benchmarking, reconciliation and multivariate temporal disaggregation, and calendarization. It is part of the interface to the 'JDemetra+' 3.x time series analysis software and incorporates statistical methods described in the latest European Statistical System (ESS) guidelines on temporal disaggregation, benchmarking, and reconciliation. The package relies on highly efficient algorithms. Most are based on an equivalent state‑space representation of the underlying model or mathematical problem, with computational efficiency further enhanced by replacing matrix operations with functional forms.
 compress_html:
-  clippings: all
-  blanklines: true
+clippings: all
+blanklines: true
 ---
 ```{r setup, include = FALSE}
 is_cran <- identical(Sys.getenv("_R_CHECK_CRAN_INCOMING_"), "TRUE")
