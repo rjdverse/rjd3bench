@@ -134,7 +134,7 @@ td_raw <- temporal_disaggregation_raw(Y, indicators = x, startoffset = 1,  model
 y <- td_raw$estimation$disagg # the disaggregated series
 
 # Example 4: Interpolation of atypical frequency data using the Fernandez method without offset,
-# when the low-frequency observations corresponds to the first value of the interpolated series 
+# when the low-frequency observations corresponds to the first value of the interpolated series
 Y <- c(500, 510, 525, 520)
 x <- c(490, 492.5, 497.5, 520, 495,
        500, 502.5, 505, 527.5, 515,
