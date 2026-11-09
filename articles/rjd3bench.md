@@ -34,13 +34,24 @@ to achieve consistency between annual and quarterly or monthly national
 accounts over time.
 
 The package `rjd3bench` is an interface to the highly efficient
-algorithms developed in the official ‘JDemetra+’ 3.x time series
-software. Most algorithms are based on an equivalent state‑space
-representation of the underlying model or mathematical problem, with
-computational efficiency further enhanced by replacing matrix operations
-with functional forms. The package provides a wide variety of methods,
-included those suggested in the *ESS guidelines on temporal
-disaggregation, benchmarking and reconciliation (Eurostat, 2018)*.
+algorithms developed in the official [‘JDemetra+’ 3.x time series
+software](https://github.com/jdemetra). Most algorithms are based on an
+equivalent state‑space representation of the underlying model or
+mathematical problem, with computational efficiency further enhanced by
+replacing matrix operations with functional forms. The package provides
+a wide variety of methods, included those suggested in the *ESS
+guidelines on temporal disaggregation, benchmarking and reconciliation
+(Eurostat, 2018)*.
+
+General documentation for JDemetra+ is available
+[here](https://jdemetra-new-documentation.netlify.app/). Several
+temporal disaggregation and benchmarking methods of this package are
+also available through the graphical user interface (GUI) of JDemetra+.
+Practical guidance on the use of the temporal disaggregation and
+benchmarking algorithms provided in JDemetra+ can be found in the
+dedicated [Benchmarking and Temporal
+Disaggregation](https://jdemetra-new-documentation.netlify.app/a-benchmarking)
+section of the documentation.
 
 ## Set-up & Data
 
