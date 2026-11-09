@@ -6,16 +6,16 @@ NULL
 #'
 #' @description
 #' Perform temporal disaggregation of low-frequency to high-frequency time
-#' series by regression models. The implemented models include Chow-Lin,
-#' Fernandez, Litterman and some variants of those algorithms.
+#' series by regression models. The implemented methods include Chow-Lin,
+#' Fernandez, Litterman and some variants of these algorithms.
 #'
 #' @param series A low-frequency time series to be disaggregated. It must be a
 #'   `"ts"` object.
 #' @param constant Boolean. Indicates whether a constant term is included in
 #'   the model. The default is `TRUE`.
 #'   Note that this argument is used only with `model = "Ar1"` when
-#'   `zeroinitialization = FALSE`. For additional information, see the package
-#'   vignette.
+#'   `zeroinitialization = FALSE` (default). For additional information, see the
+#'   Details section or the package vignette.
 #' @param trend Boolean. Indicates whether a linear trend is included in the
 #'   model. The default is `FALSE`.
 #' @param indicators One or more high-frequency indicator series used in the
@@ -60,6 +60,22 @@ NULL
 #' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
+#'
+#' @details
+#' The Chow-Lin, Fernandez and Litterman methods are estimated using an
+#' equivalent state-space representation of the underlying model. While this
+#' approach is mathematically equivalent to the classical matrix formulation,
+#' the parametrization differs slightly.
+#'
+#' For the Fernandez and Litterman methods, a diffuse initialization of the
+#' states is used by default. As a result, a constant is implicitly included and
+#' absorbed into the initial state vector. The high-frequency estimates are
+#' therefore identical to those obtained from the classical formulation with a
+#' constant term, even though the latter does not appear explicitly in the
+#' output.
+#'
+#' To recover the usual parametrization and obtain an explicit estimate of the
+#' constant, set `zeroinitialization = TRUE` together with `constant = TRUE`.
 #'
 #' @seealso `temporal_interpolation()` for interpolation,
 #'
@@ -223,7 +239,7 @@ temporal_disaggregation <- function(
 #'
 #' @description
 #' Perform temporal disaggregation of low-frequency to high-frequency time
-#' series by regression models. The implemented models include Chow-Lin,
+#' series by regression models. The implemented methods include Chow-Lin,
 #' Fernandez, Litterman and some variants of those algorithms. The
 #' `temporal_disaggregation_raw()` function extends `temporal_disaggregation()`
 #' by allowing temporal disaggregation for any frequency ratio.
@@ -233,8 +249,8 @@ temporal_disaggregation <- function(
 #' @param constant Boolean. Indicates whether a constant term is included in
 #'   the model. The default is `TRUE`.
 #'   Note that this argument is used only with `model = "Ar1"` when
-#'   `zeroinitialization = FALSE`. For additional information on this, see the
-#'   package vignette.
+#'   `zeroinitialization = FALSE` (default). For additional information, see the
+#'   Details section or the package vignette.
 #' @param trend Boolean. Indicates whether a linear trend is included in the
 #'   model. The default is `FALSE`.
 #' @param indicators One or more high-frequency indicator series used in the
@@ -283,6 +299,22 @@ temporal_disaggregation <- function(
 #' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
+#'
+#' @details
+#' The Chow-Lin, Fernandez and Litterman methods are estimated using an
+#' equivalent state-space representation of the underlying model. While this
+#' approach is mathematically equivalent to the classical matrix formulation,
+#' the parametrization differs slightly.
+#'
+#' For the Fernandez and Litterman methods, a diffuse initialization of the
+#' states is used by default. As a result, a constant is implicitly included and
+#' absorbed into the initial state vector. The high-frequency estimates are
+#' therefore identical to those obtained from the classical formulation with a
+#' constant term, even though the latter does not appear explicitly in the
+#' output.
+#'
+#' To recover the usual parametrization and obtain an explicit estimate of the
+#' constant, set `zeroinitialization = TRUE` together with `constant = TRUE`.
 #'
 #' @seealso `temporal_interpolation_raw()`
 #'
@@ -454,7 +486,7 @@ temporal_disaggregation_raw <- function(
 #'
 #' @description
 #' Perform temporal interpolation of low-frequency to high-frequency time
-#' series by regression models. The implemented models include Chow-Lin,
+#' series by regression models. The implemented methods include Chow-Lin,
 #' Fernandez, Litterman and some variants of those algorithms.
 #'
 #' @param series A low-frequency time series to be interpolated. It must be a
@@ -462,8 +494,8 @@ temporal_disaggregation_raw <- function(
 #' @param constant Boolean. Indicates whether a constant term is included in
 #'   the model. The default is `TRUE`.
 #'   Note that this argument is used only with `model = "Ar1"` when
-#'   `zeroinitialization = FALSE`. For additional information, see the package
-#'   vignette.
+#'   `zeroinitialization = FALSE` (default). For additional information, see the
+#'   Details section or the package vignette.
 #' @param trend Boolean. Indicates whether a linear trend is included in the
 #'   model. The default is `FALSE`.
 #' @param indicators One or more high-frequency indicator series used in the
@@ -512,6 +544,22 @@ temporal_disaggregation_raw <- function(
 #' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
+#'
+#' @details
+#' The Chow-Lin, Fernandez and Litterman methods are estimated using an
+#' equivalent state-space representation of the underlying model. While this
+#' approach is mathematically equivalent to the classical matrix formulation,
+#' the parametrization differs slightly.
+#'
+#' For the Fernandez and Litterman methods, a diffuse initialization of the
+#' states is used by default. As a result, a constant is implicitly included and
+#' absorbed into the initial state vector. The high-frequency estimates are
+#' therefore identical to those obtained from the classical formulation with a
+#' constant term, even though the latter does not appear explicitly in the
+#' output.
+#'
+#' To recover the usual parametrization and obtain an explicit estimate of the
+#' constant, set `zeroinitialization = TRUE` together with `constant = TRUE`.
 #'
 #' @seealso `temporal_disaggregation()`,
 #'
@@ -679,7 +727,7 @@ temporal_interpolation <- function(
 #'
 #' @description
 #' Perform temporal interpolation of low-frequency to high-frequency time series
-#' by regression models. The implemented models include Chow-Lin, Fernandez,
+#' by regression models. The implemented methods include Chow-Lin, Fernandez,
 #' Litterman and some variants of those algorithms. The
 #' `temporal_interpolation_raw()` function extends `temporal_interpolation()` by
 #' allowing temporal interpolation for any frequency ratio.
@@ -689,8 +737,8 @@ temporal_interpolation <- function(
 #' @param constant Boolean. Indicates whether a constant term is included in
 #'   the model. The default is `TRUE`.
 #'   Note that this argument is used only with `model = "Ar1"` when
-#'   `zeroinitialization = FALSE`. For additional information, see the package
-#'   vignette.
+#'   `zeroinitialization = FALSE` (default). For additional information, see the
+#'   Details section or the package vignette.
 #' @param trend Boolean. Indicates whether a linear trend is included in the
 #'   model. The default is `FALSE`.
 #' @param indicators One or more high frequency indicator series used in the
@@ -743,6 +791,22 @@ temporal_interpolation <- function(
 #' * `likelihood` `[[3]]` likelihood statistics.
 #'
 #' @export
+#'
+#' @details
+#' The Chow-Lin, Fernandez and Litterman methods are estimated using an
+#' equivalent state-space representation of the underlying model. While this
+#' approach is mathematically equivalent to the classical matrix formulation,
+#' the parametrization differs slightly.
+#'
+#' For the Fernandez and Litterman methods, a diffuse initialization of the
+#' states is used by default. As a result, a constant is implicitly included and
+#' absorbed into the initial state vector. The high-frequency estimates are
+#' therefore identical to those obtained from the classical formulation with a
+#' constant term, even though the latter does not appear explicitly in the
+#' output.
+#'
+#' To recover the usual parametrization and obtain an explicit estimate of the
+#' constant, set `zeroinitialization = TRUE` together with `constant = TRUE`.
 #'
 #' @seealso `temporal_disaggregation_raw()`
 #'
@@ -1054,18 +1118,19 @@ temporaldisaggregationI <- function(
 #'   provided, each element specifies whether a constant term is included in
 #'   the model for each series, following the order in which they appear in the
 #'   `series` object.
-#'   The length of the the vector must match the number of series.
-#'   If a single Boolean is provided (default if `FALSE`), it is applied to all
+#'   The length of the vector must match the number of series.
+#'   If a single Boolean is provided (default is `FALSE`), it is applied to all
 #'   series.
-#'   Note that this argument is used only with Chow-Lin model (i.e., when
-#'   `rho` values are strictly less than 1). For further details, see the
-#'   package vignette.
+#'   Note that this argument is only used when `rho < 1` (Chow-Lin). For `rho =
+#'   1` (Fernandez), a constant term is automatically and implicitly included.
+#'   See the package vignette or the Details section of the univariate
+#'   `temporal_disaggregation()` function for further information on this.
 #' @param trend Either a Boolean or a vector of Booleans. If a vector is
 #'   provided, each element specifies whether a linear trend is included in the
 #'   model for each series, following the order in which they appear in the
 #'   `series` object.
-#'   The length of the the vector must match the number of series.
-#'   If a single Boolean is provided (default if `FALSE`), it is applied to all
+#'   The length of the vector must match the number of series.
+#'   If a single Boolean is provided (default is `FALSE`), it is applied to all
 #'   series.
 #' @param indicators a named list of `ts` objects or a named list of a list of
 #'   `ts` objects. Each element represents one or more high-frequency indicator
@@ -1092,8 +1157,9 @@ temporaldisaggregationI <- function(
 #' @param rho Either a numeric value or a vector of numeric. If a vector is
 #'   provided, each element specifies the value of the `rho` parameter
 #'   associated to each series, following the order in which they appear in the
-#'   The length of the the vector must match the number of series.
-#'   If a single numeric value is provided (default if `1`, corresponding to
+#'   `series` object.
+#'   The length of the vector must match the number of series.
+#'   If a single numeric value is provided (default is `1`, corresponding to
 #'   the Fernandez model), it is applied to all series.
 #' @param var A character string specifying the method used to estimate the
 #'   variance-covariance matrix of the innovations. The default is

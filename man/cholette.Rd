@@ -20,16 +20,16 @@ cholette(
 \item{t}{The low-frequency aggregation constraint. It must be either a
 \code{"ts"} object or a numeric vector.}
 
-\item{rho}{Numeric. A smoothing parameter whose value must lie between 0
-and 1.
-See the package vignette for more information on the choice of the \code{rho}
-parameter.}
+\item{rho}{Numeric. The smoothing parameter whose value must lie between 0
+and 1, and which determines the degree of movement preservation. The
+default is \code{1}. See the package vignette for more information on the choice
+of the \code{rho} parameter.}
 
-\item{lambda}{Numeric. The adjustment model parameter. Typical choices
-include \code{lambda = 1} for proportional benchmarking, \code{lambda = 0} for
-additive benchmarking, and \code{lambda = 0.5} with \code{rho = 0} for the naive
-pro-rating method.
-See the package vignette for more information on the choice of the
+\item{lambda}{Numeric. The adjustment model parameter which determines how
+discrepancies are allocated. Typical choices include \code{lambda = 1} (the
+default) for multiplicative benchmarking, \code{lambda = 0} for additive
+benchmarking, and \code{lambda = 0.5} with \code{rho = 0} for the naive pro-rating
+method. See the package vignette for more information on the choice of the
 \code{lambda} parameter.}
 
 \item{bias}{Character. Specifies the bias-correction factor. By default, no

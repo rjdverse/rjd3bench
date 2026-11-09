@@ -6,12 +6,14 @@ NULL
 #' @description
 #' The Denton proportional first difference (PFD) method can be expressed as a
 #' statistical model in a state-space representation. This formulation provides
-#' increased flexibility, including the ability to incorporate outliers, which
-#' correspond to level shifts in the Benchmark‑to‑Indicator (BI) ratio, that
-#' would otherwise induce unintended wave effects under the standard Denton PFD
-#' method. In addition, the approach allows the disaggregated series to be
-#' constrained (or 'frozen') at specific periods or prior to a given date by
-#' fixing the corresponding high‑frequency BI ratios.
+#' greater flexibility. Outliers, in particular level shifts in the
+#' benchmark-to-indicator (BI) ratio, can be explicitly accommodated, thereby
+#' preventing the emergence of undesirable wave effects. In addition,
+#' high-frequency BI ratios can be fixed over selected periods, allowing the
+#' disaggregated series to be frozen over specific intervals or prior to a given
+#' date. By preserving the movements of the indicator series while providing
+#' such extensions, the model-based Denton PFD method constitutes a compelling
+#' alternative for temporal disaggregation, interpolation, and benchmarking.
 #'
 #' @param series A low-frequency time series to be disaggregated or
 #'   interpolated. It must be either a `"ts"` object or a numeric vector.
@@ -26,13 +28,14 @@ NULL
 #'   low-frequency observations within the interpolated series (e.g. the 7th
 #'   month of the year). This argument is used only for interpolation when
 #'   `conversion = "UserDefined"`.
-#' @param outliers A list specifying the outlier periods and their magnitude.
-#'   Each element must be provided as `"YYYY-MM-DD" = value`, where the date
-#'   identifies the period. The numeric value specifies the intensity of the
-#'   outlier and corresponds to the relative value of the innovation variance
-#'   (with `1` indicating the normal situation).
-#' @param fixedBIratios A list specifying the periods for which the
-#'   Benchmark‑to‑Indicator (BI) ratios should be fixed. Each element must be
+#' @param outliers A list specifying the level shifts in the
+#'   benchmark-to-indicator (BI) ratio and their magnitude. Each element must be
+#'   provided as `"YYYY-MM-DD" = value`, where the date identifies the period.
+#'   The numeric value specifies the intensity of the outlier and corresponds to
+#'   the relative value of the innovation variance (with `1` indicating the
+#'   normal situation).
+#' @param fixedBIratios A list specifying periods for which the high-frequency
+#'   benchmark‑to‑indicator (BI) ratio is fixed. Each element must be
 #'   provided as `"YYYY-MM-DD" = value`, where the date identifies the period
 #'   and the numeric value specifies the fixed BI ratio.
 #'
