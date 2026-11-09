@@ -49,13 +49,13 @@ because quantities on the left-hand side are fixed, while those on the
 right-hand side are adjusted to satisfy the equality.}
 
 \item{rho}{Numeric. The smoothing parameter whose value must lie between 0
-and 1. The default is \code{0.8}. See the package vignette for more information
-on the choice of the \code{rho} parameter.}
+and 1 and which determines the degree of movement preservation. The default
+is \code{0.8}. See the package vignette for more information on the choice of
+the \code{rho} parameter.}
 
-\item{lambda}{Numeric. The adjustment model parameter. Typical values include
-\code{lambda = 0}, \code{lambda = 0.5} (the default) and \code{lambda = 1}. See the
-package vignette for more information on the choice of the \code{lambda}
-parameter.}
+\item{lambda}{Numeric. The adjustment model parameter which determines how
+discrepancies are allocated. Typical values include \code{lambda = 0}, \code{lambda = 0.5} (the default) and \code{lambda = 1}. See the package vignette for more
+information on the choice of the \code{lambda} parameter.}
 }
 \value{
 A named list containing the benchmarked series is returned.

@@ -28,19 +28,19 @@ series to be disaggregated.}
 provided, each element specifies whether a constant term is included in
 the model for each series, following the order in which they appear in the
 \code{series} object.
-The length of the the vector must match the number of series.
-If a single Boolean is provided (default if \code{FALSE}), it is applied to all
+The length of the vector must match the number of series.
+If a single Boolean is provided (default is \code{FALSE}), it is applied to all
 series.
-Note that this argument is used only with Chow-Lin model (i.e., when
-\code{rho} values are strictly less than 1). For further details, see the
-package vignette.}
+Note that this argument is only used when \code{rho < 1} (Chow-Lin). For \code{rho = 1} (Fernandez), a constant term is automatically and implicitly included.
+See the package vignette or the Details section of the univariate
+\code{temporal_disaggregation()} function for further information on this.}
 
 \item{trend}{Either a Boolean or a vector of Booleans. If a vector is
 provided, each element specifies whether a linear trend is included in the
 model for each series, following the order in which they appear in the
 \code{series} object.
-The length of the the vector must match the number of series.
-If a single Boolean is provided (default if \code{FALSE}), it is applied to all
+The length of the vector must match the number of series.
+If a single Boolean is provided (default is \code{FALSE}), it is applied to all
 series.}
 
 \item{indicators}{a named list of \code{ts} objects or a named list of a list of
@@ -74,8 +74,9 @@ for any series.}
 \item{rho}{Either a numeric value or a vector of numeric. If a vector is
 provided, each element specifies the value of the \code{rho} parameter
 associated to each series, following the order in which they appear in the
-The length of the the vector must match the number of series.
-If a single numeric value is provided (default if \code{1}, corresponding to
+\code{series} object.
+The length of the vector must match the number of series.
+If a single numeric value is provided (default is \code{1}, corresponding to
 the Fernandez model), it is applied to all series.}
 
 \item{var}{A character string specifying the method used to estimate the

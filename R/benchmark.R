@@ -447,15 +447,15 @@ cubicspline <- function(
 #' @param s A preliminary series. It must be of the same class as `t`.
 #' @param t The low-frequency aggregation constraint. It must be either a
 #'   `"ts"` object or a numeric vector.
-#' @param rho Numeric. A smoothing parameter whose value must lie between 0
-#'   and 1.
-#'   See the package vignette for more information on the choice of the `rho`
-#'   parameter.
-#' @param lambda Numeric. The adjustment model parameter. Typical choices
-#'   include `lambda = 1` for proportional benchmarking, `lambda = 0` for
-#'   additive benchmarking, and `lambda = 0.5` with `rho = 0` for the naive
-#'   pro-rating method.
-#'   See the package vignette for more information on the choice of the
+#' @param rho Numeric. The smoothing parameter whose value must lie between 0
+#'   and 1, and which determines the degree of movement preservation. The
+#'   default is `1`. See the package vignette for more information on the choice
+#'   of the `rho` parameter.
+#' @param lambda Numeric. The adjustment model parameter which determines how
+#'   discrepancies are allocated. Typical choices include `lambda = 1` (the
+#'   default) for multiplicative benchmarking, `lambda = 0` for additive
+#'   benchmarking, and `lambda = 0.5` with `rho = 0` for the naive pro-rating
+#'   method. See the package vignette for more information on the choice of the
 #'   `lambda` parameter.
 #' @param bias Character. Specifies the bias-correction factor. By default, no
 #'   systematic bias is considered. Other options are: "Additive" and
@@ -589,12 +589,13 @@ cholette <- function(
 #'   because quantities on the left-hand side are fixed, while those on the
 #'   right-hand side are adjusted to satisfy the equality.
 #' @param rho Numeric. The smoothing parameter whose value must lie between 0
-#'   and 1. The default is `0.8`. See the package vignette for more information
-#'   on the choice of the `rho` parameter.
-#' @param lambda Numeric. The adjustment model parameter. Typical values include
-#'   `lambda = 0`, `lambda = 0.5` (the default) and `lambda = 1`. See the
-#'   package vignette for more information on the choice of the `lambda`
-#'   parameter.
+#'   and 1 and which determines the degree of movement preservation. The default
+#'   is `0.8`. See the package vignette for more information on the choice of
+#'   the `rho` parameter.
+#' @param lambda Numeric. The adjustment model parameter which determines how
+#'   discrepancies are allocated. Typical values include `lambda = 0`, `lambda =
+#'   0.5` (the default) and `lambda = 1`. See the package vignette for more
+#'   information on the choice of the `lambda` parameter.
 #'
 #' @return A named list containing the benchmarked series is returned.
 #'
