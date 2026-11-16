@@ -25,7 +25,7 @@
 - [`multivariatecholette()`](https://rjdverse.github.io/rjd3bench/reference/multivariatecholette.md)
   : Reconciliation by means of the Multivariate Cholette Method
 - [`multivariatechowlin()`](https://rjdverse.github.io/rjd3bench/reference/multivariatechowlin.md)
-  : Multivariate Temporal Disaggregaton of a System of Time Series by
+  : Multivariate Temporal Disaggregation of a System of Time Series by
   Regression Models.
 - [`qna_data`](https://rjdverse.github.io/rjd3bench/reference/qna_data.md)
   : Quarterly National Accounts data for temporal disaggregation

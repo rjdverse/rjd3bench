@@ -1,10 +1,13 @@
-# Multivariate Temporal Disaggregaton of a System of Time Series by Regression Models.
+# Multivariate Temporal Disaggregation of a System of Time Series by Regression Models.
 
-Performs simultaneous temporal disaggregation of a system of low
-frequency time series into higher frequency series, based on the
-multivariate extension of the Chow-Lin model. By default, when the the
-`rho` argument is left at its default value, the function adopts the
-Random Walk approach (Fernandez).
+Performs simultaneous temporal disaggregation of a system of
+low-frequency time series into higher-frequency series using the
+multivariate extension of the Chow-Lin model. When `rho = 1` (the
+default), the method coincides with the multivariate extension of the
+Fernandez model, also known as the multivariate Random Walk model.
+Additive conversion is assumed, although average constraints can be
+accommodated through simple rescaling of the low-frequency series and
+the contemporaneous constraints; see the package vignette for details.
 
 ## Usage
 
@@ -40,10 +43,10 @@ multivariatechowlin(
   model for each series, following the order in which they appear in the
   `series` object. The length of the vector must match the number of
   series. If a single Boolean is provided (default is `FALSE`), it is
-  applied to all series. Note that this argument is only used when
-  `rho < 1` (Chow-Lin). For `rho = 1` (Fernandez), a constant term is
-  automatically and implicitly included. See the package vignette or the
-  Details section of the univariate
+  applied to all series. Note that this argument is only used for series
+  with `rho < 1` (Chow-Lin). For series with `rho = 1` (Fernandez), a
+  constant term is automatically and implicitly included. See the
+  package vignette or the Details section of the univariate
   [`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
   function for further information on this.
 
@@ -58,9 +61,9 @@ multivariatechowlin(
 
 - indicators:
 
-  a named list of `ts` objects or a named list of a list of `ts`
-  objects. Each element represents one or more high-frequency indicator
-  series associated with each series. If an element is `NULL`, no
+  A named list of `ts` objects or a named list of a list of `ts`
+  objects. Each element specifies one or more high-frequency
+  indicator(s) associated with one series. If an element is `NULL`, no
   indicator is used for the corresponding series. The default value is
   `NULL`, meaning that no indicators are used for any series.
 
@@ -68,7 +71,7 @@ multivariatechowlin(
 
   A named list of `ts` objects containing the contemporaneous
   constraints. If `NULL` (the default), no contemporaneous constraints
-  can be considered.
+  are considered.
 
 - ccdefinition:
 
@@ -83,7 +86,7 @@ multivariatechowlin(
   - \\(y_1,\ldots,y_n)\\ are the names of the time series and
 
   - \\c\\ is a constant. The default is `NULL`, meaning that no
-    contemporaneous constraint is considered.
+    contemporaneous constraints are considered.
 
 - freq:
 
@@ -93,7 +96,7 @@ multivariatechowlin(
 
 - rho:
 
-  Either a numeric value or a vector of numeric. If a vector is
+  Either a numeric value or a vector of numeric values. If a vector is
   provided, each element specifies the value of the `rho` parameter
   associated to each series, following the order in which they appear in
   the `series` object. The length of the vector must match the number of
@@ -105,16 +108,16 @@ multivariatechowlin(
   A character string specifying the method used to estimate the
   variance-covariance matrix of the innovations. The default is
   `"fromUnivariate"`, meaning that it is estimated empirically from the
-  residuals of the univariate models. Others options include
-  `"allEquals"`, which assume a diagonal matrix with identical
+  residuals of the univariate models. Other options include
+  `"allEquals"`, which assumes a diagonal matrix with identical
   variances, and `"userDefined"`, where the matrix is supplied by the
   user via the `var.matrix` argument. For additional details, see the
   package vignette.
 
 - var.includeCov:
 
-  Boolean. Indicates whether non-diagonal elements of the innovation
-  variance-covariance matrix may as well be estimated from the residuals
+  Boolean. Indicates whether off-diagonal elements of the innovation
+  variance-covariance matrix should also be estimated from the residuals
   of the univariate models. The default is `FALSE`, meaning that only a
   diagonal matrix is estimated. This argument is used only when
   `var = "fromUnivariate"`.
@@ -122,8 +125,8 @@ multivariatechowlin(
 - var.shrinkCov:
 
   Boolean. Indicates whether a shrinkage estimator should be used for
-  covariance. See the package vignette for more details. This argument
-  is used only when `var = "fromUnivariate"` and
+  covariance estimation. See the package vignette for more details. This
+  argument is used only when `var = "fromUnivariate"` and
   `var.includeCov = TRUE`.
 
 - var.matrix:
@@ -135,23 +138,23 @@ multivariatechowlin(
 - rescale.variance:
 
   Boolean. Indicates whether the innovation variance-covariance matrix
-  is assumed to correspond exactly to the true matrix (the default,
-  which is a natural choice when `var = "fromUnivariate"`), or only up
-  to a scaling factor. When set to `TRUE`, the variance of the estimates
-  are rescaled based on the model residuals. This option has no impact
-  on the disaggregated series, but affects the standard errors of both
-  the disaggregated series and the estimated coefficients. See the
-  package vignette for more details.
+  is assumed to be known exactly (the default, which is a natural choice
+  when `var = "fromUnivariate"`) or only up to a scaling factor. When
+  set to `TRUE`, the variances of the estimates are rescaled based on
+  the model residuals. This option has no impact on the disaggregated
+  series, but affects the standard errors of both the disaggregated
+  series and the estimated coefficients. See the package vignette for
+  more details.
 
 ## Value
 
-An object of class "JD3_MULTITEMPDISAGG_RSLTS" is returned. The
+An object of class `"JD3_MULTITEMPDISAGG_RSLTS"` is returned. The
 following are returned as a list:
 
 - `regression` `[[1]]` regression coefficients for each series;
 
 - `estimation` `[[2]]` disaggregated time series and standard errors,
-  regression effects, smoothing parts, parameters and
+  regression effects, smoothing parts, estimated parameters, and
   variance-covariance matrix of the innovations;
 
 ## Vignette
@@ -185,7 +188,7 @@ z <- ts(c(27.1, 29.8, 29.9, 31.2, 29.4, 27.9, 30.9, 31.7, 29.2, 30.2, 30.6, 31.9
 # High-frequency indicators
 x11 <- ts(c(7.0, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4, 8.6, 7.8, 8.0, 8.3, 8.7, 7.9, 8.0, 8.6),
           frequency = 4,
-          start=c(2010, 1))
+          start = c(2010, 1))
 x12 <- ts(c(18.0, 19.5, 19.0, 19.7, 18.5, 19.0, 20.3, 20.0, 18.6, 19.5, 20.4, 20.1, 18.7, 19.1, 20.4, 20.8),
           frequency = 4,
           start = c(2010, 1))
@@ -266,7 +269,7 @@ do.call(cbind, mtd1$estimation$edisagg) # standard errors of the disaggregated s
 #> 2013 Q3 0.02925037 0.03247505 0.02145259
 #> 2013 Q4 0.03205933 0.04177237 0.02975162
 
-### with var-cov matrix estimated from the univariate models, using a shrinkage estimator for the covariance
+### using a shrinkage estimator for covariance
 mtd2 <- multivariatechowlin(
     series = lf_series,
     constant = c(FALSE, FALSE, TRUE),
@@ -337,9 +340,9 @@ mtd3 <- multivariatechowlin(
     rho = 1.0,
     var = "userDefined",
     var.matrix = matrix(
-        c(0.005, 0.002, 0.001,
-          0.002, 0.010, 0.002,
-          0.001, 0.002, 0.003),
+        c(5, 2, 1,
+          2, 10, 2,
+          1, 2, 3),
         nrow = 3,
         byrow = TRUE
     ),
@@ -347,10 +350,10 @@ mtd3 <- multivariatechowlin(
 )
 
 mtd3$estimation$var$vcov
-#>       [,1]  [,2]  [,3]
-#> [1,] 0.005 0.002 0.001
-#> [2,] 0.002 0.010 0.002
-#> [3,] 0.001 0.002 0.003
+#>      [,1] [,2] [,3]
+#> [1,]    5    2    1
+#> [2,]    2   10    2
+#> [3,]    1    2    3
 do.call(cbind, mtd3$estimation$disagg)
 #>               y1       y2       y3
 #> 2010 Q1 6.108983 19.72409 1.266923

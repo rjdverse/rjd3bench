@@ -144,11 +144,11 @@ example, in the case of temporal disaggregation of flow variables with
 additive conversion, it is:
 
 ``` math
-\sum_{t \epsilon T} y_t = Y_T
+\sum_{t \in T} y_t = Y_T
 ```
 
-where $`t \epsilon T`$ denotes all high-frequency periods belonging to
-the low-frequency period T.
+where $`t \in T`$ denotes all high-frequency periods belonging to the
+low-frequency period T.
 
 More generally, the temporal constraint can also be written in matrix
 form as:
@@ -212,11 +212,11 @@ and
 contains the most important information about the regression including
 the estimates of model coefficients and their covariance matrix, the
 decomposition of the disaggregated or interpolated series, and
-information about the residuals. A
+information about the residuals. Standard
 [`print()`](https://rdrr.io/r/base/print.html) and
-[`summary()`](https://rdrr.io/r/base/summary.html) functions can be
-applied on the output object. In addition, a
-[`plot()`](https://rdrr.io/r/graphics/plot.default.html) function is
+[`summary()`](https://rdrr.io/r/base/summary.html) methods can be
+applied to the resulting object. In addition, a
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) method is
 available for outputs produced by
 [`temporal_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/temporal_disaggregation.md)
 and
@@ -283,7 +283,7 @@ min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 
 subject to the temporal constraint (flow variables, additive conversion)
 ``` math
-\sum_{t \epsilon T} y_t = Y_T
+\sum_{t \in T} y_t = Y_T
 ```
 
 where $`y_t`$ is the value of the estimate of the high frequency series
@@ -327,13 +327,13 @@ The model-based Denton method can be applied using the
 [`denton_modelbased()`](https://rjdverse.github.io/rjd3bench/reference/denton_modelbased.md)
 function. Its output includes the disaggregated or interpolated series
 and the BI ratios, together with their respective standard errors,
-allowing confidence intervals to be constructed. The
+allowing confidence intervals to be constructed. Standard
 [`print()`](https://rdrr.io/r/base/print.html),
 [`summary()`](https://rdrr.io/r/base/summary.html) and
-[`plot()`](https://rdrr.io/r/graphics/plot.default.html) functions can
-be applied to the resulting object. The
-[`plot()`](https://rdrr.io/r/graphics/plot.default.html) function
-displays the disaggregated series and the BI ratios along with their
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) methods can be
+applied to the resulting object. The
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) method displays
+the disaggregated series and the BI ratios along with their
 corresponding 95% confidence intervals.
 
 ``` r
@@ -368,7 +368,7 @@ y_t = \phi y_{t-1} + m + gt + x_t'\beta_0 + x_{t-1}'\beta_1 + \varepsilon_t
 subject to the temporal constraint (flow variables, additive conversion)
 
 ``` math
-\sum_{t \epsilon T} y_t = Y_T
+\sum_{t \in T} y_t = Y_T
 ```
 
 where $`y_t`$ is the value of the estimate of the high frequency series
@@ -441,11 +441,11 @@ The output of the function
 [`adl_disaggregation()`](https://rjdverse.github.io/rjd3bench/reference/adl_disaggregation.md)
 contains the most important information about the regression including
 the estimates of model coefficients and their covariance matrix, the
-disaggregated series, and information about the residuals. A
+disaggregated series, and information about the residuals. Standard
 [`print()`](https://rdrr.io/r/base/print.html),
 [`summary()`](https://rdrr.io/r/base/summary.html) and
-[`plot()`](https://rdrr.io/r/graphics/plot.default.html) functions can
-be applied on the output object.
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) methods can be
+applied to the resulting object.
 
 ``` r
 
@@ -507,7 +507,7 @@ u_t &= \rho u_{t-1} + \varepsilon_t
 subject to the temporal constraint (flow variables, additive conversion)
 
 ``` math
-\sum_{t \epsilon T} y_t = Y_T
+\sum_{t \in T} y_t = Y_T
 ```
 
 The choice of which variable is dependent and which is independent is
@@ -527,10 +527,10 @@ The reverse regression method can be called with the
 function. The output of the function
 [`temporaldisaggregationI()`](https://rjdverse.github.io/rjd3bench/reference/temporaldisaggregationI.md)
 contains the disaggregated series as well as the estimates of the model
-coefficients. A [`print()`](https://rdrr.io/r/base/print.html),
+coefficients. Standard [`print()`](https://rdrr.io/r/base/print.html),
 [`summary()`](https://rdrr.io/r/base/summary.html) and
-[`plot()`](https://rdrr.io/r/graphics/plot.default.html) functions can
-be applied on the output object.
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) methods can be
+applied to the resulting object.
 
 ``` r
 
@@ -594,7 +594,7 @@ min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 ```
 
 This objective function is minimized subject to the temporal aggregation
-constraints $`\sum_{t \epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows
+constraints $`\sum_{t \in T} y_t = Y_T`$, $`T=1,...,m`$ (flows
 variables). In other words, the benchmarked series is estimated in such
 a way that the benchmark-to-indicator (BI) ratio $`\frac{y_t}{x_t}`$
 remains as smooth as possible, which is often of key interest in
@@ -662,14 +662,14 @@ f(x) = \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2
 ```
 
 and look for values $`y_t^*`$, $`t=1,...,n`$, which minimize it subject
-to the temporal aggregation constraints
-$`\sum_{t \epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows variables). In
-other words, the benchmarked series is estimated in such a way that its
-temporal dynamics; as expressed by the growth rates
-$`\frac{y_t^*}{y_{t-1}^*}`$, $`t=2,...,n`$, be “as close as possible” to
-the temporal dynamics of the preliminary series, where the “distance”
-from the preliminary growth rates $`\frac{x_t}{x_{t-1}}`$ is given by
-the sum of the squared differences. (Di Fonzo, Marini, 2011)
+to the temporal aggregation constraints $`\sum_{t \in T} y_t = Y_T`$,
+$`T=1,...,m`$ (flows variables). In other words, the benchmarked series
+is estimated in such a way that its temporal dynamics; as expressed by
+the growth rates $`\frac{y_t^*}{y_{t-1}^*}`$, $`t=2,...,n`$, be “as
+close as possible” to the temporal dynamics of the preliminary series,
+where the “distance” from the preliminary growth rates
+$`\frac{x_t}{x_{t-1}}`$ is given by the sum of the squared differences.
+(Di Fonzo, Marini, 2011)
 
 The objective function considered by Cauley and Trager is a natural
 measure of the movement of a time series and as one would expect, it is
@@ -770,7 +770,7 @@ f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \sum_{t=2}^{n
 ```
 
 This objective function is minimized subject to the temporal aggregation
-constraints $`\sum_{t\epsilon T} y_t = Y_T`$, $`T=1,...,m`$ (flows
+constraints $`\sum_{t \in T} y_t = Y_T`$, $`T=1,...,m`$ (flows
 variables). The method is driven by a couple of parameters:
 
 - The smoothing parameter $`\rho`$ ($`0 \leq \rho \leq 1`$), which
@@ -799,8 +799,8 @@ multiplicative bias correction factor are estimated respectively as:
 
 ``` math
 \begin{aligned}
-b_a &= \frac{\sum_{T=1}^{m}{Y_T} - \sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}{m} \\
-b_m &= \frac{\sum_{T=1}^{m}{Y_T}}{\sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}
+b_a &= \frac{\sum_{T=1}^{m}{Y_T} - \sum_{T=1}^{m}{\sum_{t\in T}x_t}}{m} \\
+b_m &= \frac{\sum_{T=1}^{m}{Y_T}}{\sum_{T=1}^{m}{\sum_{t\in T}x_t}}
 \end{aligned}
 ```
 
@@ -892,9 +892,9 @@ f(x) = (1-\rho^2) \sum_{i=1}^{I}\left(\frac{x_{i,1} - y_{i,1}}{|x_{i,1}|^\lambda
 This objective function is minimized subject to
 
 - the temporal aggregation constraints
-  $`Y_{i,T} = \sum_{t\epsilon T} y_{i,t}`$,
+  $`Y_{i,T} = \sum_{t\in T} y_{i,t}`$,
 - the contemporaneous constraints given by
-  $`z_{k,t} = \sum_{j\epsilon J_k}\omega_{k,j}y_{j,t}`$.
+  $`z_{k,t} = \sum_{j\in J_k}\omega_{k,j}y_{j,t}`$.
 
 Consistency between the temporal aggregation constraints and the
 contemporaneous constraints is required (see the consistency check in
@@ -908,19 +908,19 @@ as this is just equivalent to applying the univariate Cholette method to
 each of the preliminary series separately.
 
 In addition to binding contemporaneous constraints, non-binding
-constraints can also be specified by modifying their formulation in the
-`ccvector` argument. For example, instead of imposing a binding
-condition such as $`z_1=x_1+x_2+x_3`$, one may express a non-binding
-constraint as $`0=x_1+x_2+x_3-z_1`$, which allows the $`z_1`$ series to
-be adjusted as $`x_1`$, $`x_2`$ and $`x_3`$ (weights may be introduced
-if necessary).
+constraints can be specified through the `ccvector` argument. For
+example, instead of imposing the binding constraint $`z_1=x_1+x_2+x_3`$,
+one may write $`0=x_1+x_2+x_3-z_1`$, thereby allowing $`z_1`$ to be
+adjusted as $`x_1`$, $`x_2`$ and $`x_3`$. Note that weights may also be
+introduced if necessary.
 
-Unlike the univariate case, no specific argument is provided in the
-function definition to define the conversion type. However, switching
-from an additive to an average conversion is straightforward: it only
-requires to multiply the temporal benchmarks and/or the contemporaneous
-constraints by the frequency ratio or the number of series,
-respectively.
+Unlike the univariate implementation, the multivariate implementation
+assumes additive conversion and does not provide a dedicated argument to
+specify the conversion type. However, average constraints can still be
+handled straightforwardly through a simple rescaling of the temporal
+benchmarks and contemporaneous constraints prior to estimation,
+typically by multiplying the temporal benchmarks by the frequency ratio
+and the contemporaneous constraints by the number of series.
 
 As in the univariate case, the multivariate Cholette method is driven by
 a couple of parameters:
@@ -1015,8 +1015,8 @@ rec6 <- multivariatecholette(xlist = data_list, tcvector = tc, ccvector = cc_nb)
 ### Multivariate Chow-Lin and Fernandez
 
 Temporal disaggregation is traditionally carried out on a univariate
-basis, considering one time series at a time. The key limitation of this
-approach is that it ignores the relationships that may exist across
+basis, considering one time series at a time. The main limitation of
+this approach is that it ignores the relationships that may exist across
 series. This becomes particularly an issue with direct estimations when
 contemporaneous or accounting constraints must be satisfied. The
 multivariate Chow-Lin and Fernandez models, with the latter also
@@ -1024,8 +1024,8 @@ commonly referred to as the multivariate random walk model, are
 straightforward extensions of the [univariate Chow-Lin and
 Fernandez](#chowlin) models. They can be used to simultaneously
 disaggregate a system of time series while satisfying contemporaneous or
-accounting constraints, thereby providing a consistent overall picture
-of the underlying data.
+accounting constraints, thereby ensuring consistency across all series
+and constraints.
 
 Let
 
@@ -1059,10 +1059,10 @@ where:
 This is subject to both:
 
 - the temporal aggregation constraints:
-  $`Y_{i,T} = \sum_{t \epsilon T} {y_{i,t}}`$,
+  $`Y_{i,T} = \sum_{t \in T} {y_{i,t}}`$,
 
 - the contemporaneous constraints:
-  $`z_{k,t} = \sum_{j\epsilon J_k}\omega_{k,j}y_{j,t}`$.
+  $`z_{k,t} = \sum_{j \in J_k}\omega_{k,j}y_{j,t}`$.
 
 Consistency between the temporal aggregation constraints and the
 contemporaneous constraints is required (see the consistency check in
@@ -1071,27 +1071,27 @@ the example).
 In this package, the multivariate Chow-Lin and Fernandez methods are
 estimated using an equivalent state-space representation of the
 underlying model. Although mathematically equivalent to the classical
-matrix formulation, this representation has some impacts on the model
-parametrization, as in the univariate case. In particular, the remarks
-regarding the “hidden” constant term in the [univariate
+matrix formulation, this representation has some implications for the
+model parametrization, as in the univariate case. In particular, the
+remarks regarding the “hidden” constant term in the [univariate
 Fernandez](#chowlin) model also apply in the multivariate case.
 
 In addition to binding contemporaneous constraints, non-binding
-constraints can also be specified by modifying their formulation in the
-`ccvector` argument. For example, instead of imposing a binding
-condition such as $`z_1=x_1+x_2+x_3`$, one may express a non-binding
-constraint as $`0=x_1+x_2+x_3-z_1`$, which allows the $`z_1`$ series to
-be adjusted as $`x_1`$, $`x_2`$ and $`x_3`$ (weights may be introduced
-if necessary).
+constraints can be specified through the `ccdefinition` argument. For
+example, instead of imposing the binding constraint $`z_1=x_1+x_2+x_3`$,
+one may write $`0=x_1+x_2+x_3-z_1`$, thereby allowing $`z_1`$ to be
+adjusted as $`x_1`$, $`x_2`$ and $`x_3`$. Note that weights may also be
+introduced if necessary.
 
-Unlike the univariate case, no specific argument is provided in the
-function definition to define the conversion type. However, switching
-from an additive to an average conversion is straightforward: it only
-requires to multiply the temporal benchmarks and/or the contemporaneous
-constraints by the frequency ratio and/or the number of series,
-respectively.
+Unlike the univariate implementation, the multivariate implementation
+assumes additive conversion and does not provide a dedicated argument to
+specify the conversion type. However, average constraints can still be
+handled straightforwardly through a simple rescaling of the temporal
+benchmarks and contemporaneous constraints prior to estimation,
+typically by multiplying the temporal benchmarks by the frequency ratio
+and the contemporaneous constraints by the number of series.
 
-The use of multivariate Chow-Lin and Ferandez models have several
+The use of multivariate Chow-Lin and Fernandez models have several
 important implications relative to their univariate counterparts and the
 two-step approach (in which univariate temporal disaggregation
 techniques are carried out first and a reconciliation method, such as
@@ -1103,9 +1103,9 @@ stage to restore contemporaneous constraints):
     result, unlike in the univariate case where the coefficients are
     estimated solely from low-frequency observations, the coefficient
     estimates in the multivariate framework are also influenced by the
-    contemporaneous constraints. Consequently, small changes in the
-    estimated coefficients may occur when the series is extended with an
-    additional high-frequency observation, provided that the
+    contemporaneous constraints. Consequently, the estimated
+    coefficients may change slightly when the series is extended with
+    additional high-frequency observations, provided that the
     contemporaneous constraints are updated accordingly.
 
 2.  In the two-step approach, discrepancies arising from contemporaneous
@@ -1113,11 +1113,11 @@ stage to restore contemporaneous constraints):
     proportionally. In contrast, the multivariate Chow-Lin and Fernandez
     models have the advantage of accounting specifically for the
     precision of the disaggregated series, since they are adjusted based
-    on the relative variance of the innovations, the more reliable
-    series being less touched than the less reliable ones.
+    on the relative variance of the innovations, more reliable series
+    being adjusted less than less reliable ones.
 
-3.  Existing covariance across series may also be captured in the
-    estimation process.
+3.  Cross-series covariance may also be captured into the estimation
+    process.
 
 Points (2) and (3) highlight the predominant role played by $`\Sigma`$,
 the variance-covariance matrix of the innovations. This matrix may be
@@ -1137,10 +1137,11 @@ shrinkage estimator addresses these issues and always returns a
 well-conditioned and positive definite matrix. The algorithm implemented
 here is based on the paper of Schafer and Strimmer (2005, Target D). The
 covariance terms (while leaving the variance unchanged) are pulled
-downwards or ‘shrunk’ towards the diagonal matrix. The degree of
-shrinkage, given by the shrinkage parameter $`\lambda`$, is determined
-by the variability of the sample correlation matrix, with greater
-shrinkage applied when the estimates are less stable.
+downwards or ‘shrunk’, thereby moving the estimator closer to a diagonal
+matrix. The degree of shrinkage, given by the shrinkage parameter
+$`\lambda`$, is determined by the variability of the sample correlation
+matrix, with greater shrinkage applied when the estimates are less
+stable.
 
 Let $`s_{ij}`$ and $`s_{ij}^*`$ denote the sample and shrinkage
 covariance estimates, respectively, and $`r_{ij}`$ and $`r_{ij}^*`$
@@ -1158,25 +1159,25 @@ and
 \hat{\lambda} = \min\left\{ 1,\, \frac{\sum_{i \ne j} \widehat{\operatorname{Var}}(r_{ij})} {\sum_{i \ne j} r_{ij}^{2}} \right\}
 ```
 
-Other variants of the shrinkage estimator can also be considered. For
-instance, shrinkage may applied not only to the covariance terms but
-also to the variances. This option is not implemented in the package,
-but it can be achieved using other packages such as **‘corpcor’**, with
-the resulting variance-covariance matrix supplied by the user through
-the `var.matrix` argument.
+Alternative shrinkage estimators can also be considered. For instance,
+shrinkage may be applied not only to the covariance terms but also to
+the variances. This option is not implemented in the package, but it can
+be achieved using other packages such as **‘corpcor’**, with the
+resulting variance-covariance matrix supplied by the user through the
+`var.matrix` argument.
 
 As mentioned earlier, the variance-covariance matrix of the innovations
 that is considered can be assumed to correspond either exactly to the
-true matrix, or only up to a scaling factor. When $`\Sigma`$ is
-estimated empirically from the residuals of the corresponding univariate
-models, as is done by default, the former assumption seems a natural
-choice. However, when $`\Sigma`$ is supplied by the user, accounting for
-an unknown scaling factor may be more appropriate. Setting
-`rescale.variance = TRUE` rescales the variance of the estimates using
-the residuals of the multivariate model. While this option does not
-affect the disaggregated series themselves, it does influence the
-standard errors associated with both the disaggregated series and the
-estimated coefficients.
+true matrix, or only up to a multiplicative scaling factor. When
+$`\Sigma`$ is estimated empirically from the residuals of the
+corresponding univariate models, as is done by default, the former
+assumption seems a natural choice. However, when $`\Sigma`$ is supplied
+by the user, accounting for an unknown scaling factor may be more
+appropriate. Setting `rescale.variance = TRUE` rescales the variance of
+the estimates using the residuals of the multivariate model. While this
+option does not affect the disaggregated series themselves, it does
+influence the standard errors associated with both the disaggregated
+series and the estimated coefficients.
 
 The multivariate Chow-Lin and Fernandez methods can be called with the
 [`multivariatechowlin()`](https://rjdverse.github.io/rjd3bench/reference/multivariatechowlin.md)
@@ -1185,8 +1186,10 @@ function. The output of the
 function contains the disaggregated series and the most important
 information about the multivariate regression including the estimates of
 model coefficients, the variance-covariance matrix of the innovations
-and the decomposition of the disaggregated series. A print() and
-summary() function can also be applied on the output object.
+and the decomposition of the disaggregated series. Standard
+[`print()`](https://rdrr.io/r/base/print.html) and
+[`summary()`](https://rdrr.io/r/base/summary.html) methods are also
+available for the resulting object.
 
 ``` r
 
@@ -1255,7 +1258,7 @@ do.call(cbind, mtd1$estimation$disagg) # disaggregated series
 #> 2013 Q3 8.533515 20.43936 1.727128
 #> 2013 Q4 8.470332 21.06128 2.468392
 
-### with var-cov matrix estimated from the univariate models, using a shrinkage estimator for the covariance
+### using a shrinkage estimator for covariance
 mtd2 <- multivariatechowlin(
     series = lf_series,
     constant = c(FALSE, FALSE, TRUE),
@@ -1285,9 +1288,9 @@ mtd3 <- multivariatechowlin(
     var = "userDefined",
     var.matrix = matrix(
         c(
-            0.005, 0.002, 0.001,
-            0.002, 0.010, 0.002,
-            0.001, 0.002, 0.003
+            5, 2, 1,
+            2, 10, 2,
+            1, 2, 3
         ),
         nrow = 3,
         byrow = TRUE
@@ -1326,7 +1329,7 @@ min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 which is minimized under the temporal aggregation constraints
 
 ``` math
-\sum_{t\epsilon l} y_t = Y_l
+\sum_{t\in l} y_t = Y_l
 ```
 
 $`Y_l`$, $`l=1,...,q`$, are the observed values to be distributed and

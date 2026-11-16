@@ -198,11 +198,11 @@ with
 <p>The high-frequency estimates must satisfy the temporal constraint.
 For example, in the case of temporal disaggregation of flow variables
 with additive conversion, it is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
-\sum_{t \epsilon T} y_t = Y_T
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
+\sum_{t \in T} y_t = Y_T
 </annotation></semantics></math></p>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">t \epsilon T</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">t \in T</annotation></semantics></math>
 denotes all high-frequency periods belonging to the low-frequency period
 T.</p>
 <p>More generally, the temporal constraint can also be written in matrix
@@ -265,9 +265,9 @@ atypical frequency series and with any frequency ratio.</p>
 information about the regression including the estimates of model
 coefficients and their covariance matrix, the decomposition of the
 disaggregated or interpolated series, and information about the
-residuals. A <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> functions
-can be applied on the output object. In addition, a <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
-function is available for outputs produced by
+residuals. Standard <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>
+methods can be applied to the resulting object. In addition, a
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method is available for outputs produced by
 <code><a href="../reference/temporal_disaggregation.html">temporal_disaggregation()</a></code> and
 <code><a href="../reference/temporal_interpolation.html">temporal_interpolation()</a></code>. It shows a decomposition of the
 estimated high-frequency series into its regression and smoothing
@@ -328,8 +328,8 @@ min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 </annotation></semantics></math></p>
 <p>subject to the temporal constraint (flow variables, additive
 conversion)
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
-\sum_{t \epsilon T} y_t = Y_T
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
+\sum_{t \in T} y_t = Y_T
 </annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>
@@ -375,11 +375,10 @@ available <a href="https://www.youtube.com/watch?v=PC0tj2jMcuU" class="external-
 <code><a href="../reference/denton_modelbased.html">denton_modelbased()</a></code> function. Its output includes the
 disaggregated or interpolated series and the BI ratios, together with
 their respective standard errors, allowing confidence intervals to be
-constructed. The <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and
-<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> functions can be applied to the resulting object.
-The <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> function displays the disaggregated series and
-the BI ratios along with their corresponding 95% confidence
-intervals.</p>
+constructed. Standard <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> methods can be applied to the resulting object. The
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method displays the disaggregated series and the BI
+ratios along with their corresponding 95% confidence intervals.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: Use of model-based Denton for temporal disaggregation</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -408,8 +407,8 @@ y_t = \phi y_{t-1} + m + gt + x_t'\beta_0 + x_{t-1}'\beta_1 + \varepsilon_t
 </annotation></semantics></math></p>
 <p>subject to the temporal constraint (flow variables, additive
 conversion)</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
-\sum_{t \epsilon T} y_t = Y_T
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
+\sum_{t \in T} y_t = Y_T
 </annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>t</mi></msub><annotation encoding="application/x-tex">y_t</annotation></semantics></math>
@@ -488,9 +487,9 @@ which corresponds to the method suggested by Santos Silva and Cardoso
 <p>The output of the function <code><a href="../reference/adl_disaggregation.html">adl_disaggregation()</a></code> contains
 the most important information about the regression including the
 estimates of model coefficients and their covariance matrix, the
-disaggregated series, and information about the residuals. A
+disaggregated series, and information about the residuals. Standard
 <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
-functions can be applied on the output object.</p>
+methods can be applied to the resulting object.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: Use of ADL models for temporal disaggregation</span></span>
 <span></span>
@@ -552,8 +551,8 @@ u_t &amp;= \rho u_{t-1} + \varepsilon_t
 </annotation></semantics></math></p>
 <p>subject to the temporal constraint (flow variables, additive
 conversion)</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
-\sum_{t \epsilon T} y_t = Y_T
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">
+\sum_{t \in T} y_t = Y_T
 </annotation></semantics></math></p>
 <p>The choice of which variable is dependent and which is independent is
 far from arbitrary. It changes the assumptions and the interpretation of
@@ -573,8 +572,8 @@ effectively amplifying the indicator’s movements.</p>
 <code><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI()</a></code> function. The output of the
 function <code><a href="../reference/temporaldisaggregationI.html">temporaldisaggregationI()</a></code> contains the
 disaggregated series as well as the estimates of the model coefficients.
-A <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
-functions can be applied on the output object.</p>
+Standard <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> methods can be applied to the resulting object.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">B1G_Y_data</span><span class="op">[</span>, <span class="st">"B1G_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">1</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">qna_data</span><span class="op">$</span><span class="va">TURN_Q_data</span><span class="op">[</span>, <span class="st">"TURN_INDEX_FF"</span><span class="op">]</span>, frequency <span class="op">=</span> <span class="fl">4</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2009</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -635,7 +634,7 @@ min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 </annotation></semantics></math></p>
 <p>This objective function is minimized subject to the temporal
 aggregation constraints
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t \epsilon T} y_t = Y_T</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t \in T} y_t = Y_T</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>
 (flows variables). In other words, the benchmarked series is estimated
 in such a way that the benchmark-to-indicator (BI) ratio
@@ -701,7 +700,7 @@ f(x) = \sum_{t=2}^{n}\left(\frac{y_t}{y_{t-1}} - \frac{x_t}{x_{t-1}}\right)^2
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>y</mi><mi>t</mi><mo>*</mo></msubsup><annotation encoding="application/x-tex">y_t^*</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">t=1,...,n</annotation></semantics></math>,
 which minimize it subject to the temporal aggregation constraints
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t \epsilon T} y_t = Y_T</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t \in T} y_t = Y_T</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>
 (flows variables). In other words, the benchmarked series is estimated
 in such a way that its temporal dynamics; as expressed by the growth
@@ -805,7 +804,7 @@ f(x) = (1-\rho^2) \left(\frac{x_1 - y_1}{|x_1|^\lambda}\right)^2 + \sum_{t=2}^{n
 </annotation></semantics></math></p>
 <p>This objective function is minimized subject to the temporal
 aggregation constraints
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t\epsilon T} y_t = Y_T</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></msub><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">\sum_{t \in T} y_t = Y_T</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">T=1,...,m</annotation></semantics></math>
 (flows variables). The method is driven by a couple of parameters:</p>
 <ul>
@@ -842,10 +841,10 @@ and
 bias correction factor, which is the expected discrepancy between the
 benchmarks and the high-frequency preliminary series. The additive and
 multiplicative bias correction factor are estimated respectively as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>b</mi><mi>a</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><msub><mi>Y</mi><mi>T</mi></msub><mo>−</mo><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></munder><msub><mi>x</mi><mi>t</mi></msub></mrow></mrow><mi>m</mi></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>b</mi><mi>m</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><msub><mi>Y</mi><mi>T</mi></msub></mrow><mrow><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></munder><msub><mi>x</mi><mi>t</mi></msub></mrow></mrow></mfrac></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>b</mi><mi>a</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><msub><mi>Y</mi><mi>T</mi></msub><mo>−</mo><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></munder><msub><mi>x</mi><mi>t</mi></msub></mrow></mrow><mi>m</mi></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>b</mi><mi>m</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><msub><mi>Y</mi><mi>T</mi></msub></mrow><mrow><munderover><mo>∑</mo><mrow><mi>T</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></munder><msub><mi>x</mi><mi>t</mi></msub></mrow></mrow></mfrac></mtd></mtr></mtable><annotation encoding="application/x-tex">
 \begin{aligned}
-b_a &amp;= \frac{\sum_{T=1}^{m}{Y_T} - \sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}{m} \\
-b_m &amp;= \frac{\sum_{T=1}^{m}{Y_T}}{\sum_{T=1}^{m}{\sum_{t\epsilon T}x_t}}
+b_a &amp;= \frac{\sum_{T=1}^{m}{Y_T} - \sum_{T=1}^{m}{\sum_{t\in T}x_t}}{m} \\
+b_m &amp;= \frac{\sum_{T=1}^{m}{Y_T}}{\sum_{T=1}^{m}{\sum_{t\in T}x_t}}
 \end{aligned}
 </annotation></semantics></math></p>
 <p>If a bias correction factor is considered, the preliminary series is
@@ -954,9 +953,9 @@ f(x) = (1-\rho^2) \sum_{i=1}^{I}\left(\frac{x_{i,1} - y_{i,1}}{|x_{i,1}|^\lambda
 <p>This objective function is minimized subject to</p>
 <ul>
 <li>the temporal aggregation constraints
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mo>,</mo><mi>T</mi></mrow></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Y_{i,T} = \sum_{t\epsilon T} y_{i,t}</annotation></semantics></math>,</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mo>,</mo><mi>T</mi></mrow></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></msub><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Y_{i,T} = \sum_{t\in T} y_{i,t}</annotation></semantics></math>,</li>
 <li>the contemporaneous constraints given by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mrow><mi>k</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>j</mi><mi>ϵ</mi><msub><mi>J</mi><mi>k</mi></msub></mrow></msub><msub><mi>ω</mi><mrow><mi>k</mi><mo>,</mo><mi>j</mi></mrow></msub><msub><mi>y</mi><mrow><mi>j</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">z_{k,t} = \sum_{j\epsilon J_k}\omega_{k,j}y_{j,t}</annotation></semantics></math>.</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mrow><mi>k</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><msub><mi>J</mi><mi>k</mi></msub></mrow></msub><msub><mi>ω</mi><mrow><mi>k</mi><mo>,</mo><mi>j</mi></mrow></msub><msub><mi>y</mi><mrow><mi>j</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">z_{k,t} = \sum_{j\in J_k}\omega_{k,j}y_{j,t}</annotation></semantics></math>.</li>
 </ul>
 <p>Consistency between the temporal aggregation constraints and the
 contemporaneous constraints is required (see the consistency check in
@@ -968,26 +967,26 @@ Conversely, the absence of contemporaneous constraint is less relevant,
 as this is just equivalent to applying the univariate Cholette method to
 each of the preliminary series separately.</p>
 <p>In addition to binding contemporaneous constraints, non-binding
-constraints can also be specified by modifying their formulation in the
-<code>ccvector</code> argument. For example, instead of imposing a
-binding condition such as
+constraints can be specified through the <code>ccvector</code> argument.
+For example, instead of imposing the binding constraint
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mn>1</mn></msub><mo>=</mo><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>x</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">z_1=x_1+x_2+x_3</annotation></semantics></math>,
-one may express a non-binding constraint as
+one may write
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>x</mi><mn>3</mn></msub><mo>−</mo><msub><mi>z</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">0=x_1+x_2+x_3-z_1</annotation></semantics></math>,
-which allows the
+thereby allowing
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">z_1</annotation></semantics></math>
-series to be adjusted as
+to be adjusted as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="application/x-tex">x_2</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>3</mn></msub><annotation encoding="application/x-tex">x_3</annotation></semantics></math>
-(weights may be introduced if necessary).</p>
-<p>Unlike the univariate case, no specific argument is provided in the
-function definition to define the conversion type. However, switching
-from an additive to an average conversion is straightforward: it only
-requires to multiply the temporal benchmarks and/or the contemporaneous
-constraints by the frequency ratio or the number of series,
-respectively.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>3</mn></msub><annotation encoding="application/x-tex">x_3</annotation></semantics></math>.
+Note that weights may also be introduced if necessary.</p>
+<p>Unlike the univariate implementation, the multivariate implementation
+assumes additive conversion and does not provide a dedicated argument to
+specify the conversion type. However, average constraints can still be
+handled straightforwardly through a simple rescaling of the temporal
+benchmarks and contemporaneous constraints prior to estimation,
+typically by multiplying the temporal benchmarks by the frequency ratio
+and the contemporaneous constraints by the number of series.</p>
 <p>As in the univariate case, the multivariate Cholette method is driven
 by a couple of parameters:</p>
 <ul>
@@ -1098,8 +1097,8 @@ objective function described above.</p>
 <h3 id="multivariate-chow-lin-and-fernandez">Multivariate Chow-Lin and Fernandez<a class="anchor" aria-label="anchor" href="#multivariate-chow-lin-and-fernandez"></a>
 </h3>
 <p>Temporal disaggregation is traditionally carried out on a univariate
-basis, considering one time series at a time. The key limitation of this
-approach is that it ignores the relationships that may exist across
+basis, considering one time series at a time. The main limitation of
+this approach is that it ignores the relationships that may exist across
 series. This becomes particularly an issue with direct estimations when
 contemporaneous or accounting constraints must be satisfied. The
 multivariate Chow-Lin and Fernandez models, with the latter also
@@ -1107,8 +1106,8 @@ commonly referred to as the multivariate random walk model, are
 straightforward extensions of the <a href="#chowlin">univariate Chow-Lin
 and Fernandez</a> models. They can be used to simultaneously
 disaggregate a system of time series while satisfying contemporaneous or
-accounting constraints, thereby providing a consistent overall picture
-of the underlying data.</p>
+accounting constraints, thereby ensuring consistency across all series
+and constraints.</p>
 <p>Let</p>
 <ul>
 <li>
@@ -1158,9 +1157,9 @@ is the error term related to variable
 <p>This is subject to both:</p>
 <ul>
 <li><p>the temporal aggregation constraints:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mo>,</mo><mi>T</mi></mrow></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>T</mi></mrow></msub><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Y_{i,T} = \sum_{t \epsilon T} {y_{i,t}}</annotation></semantics></math>,</p></li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mo>,</mo><mi>T</mi></mrow></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow></msub><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Y_{i,T} = \sum_{t \in T} {y_{i,t}}</annotation></semantics></math>,</p></li>
 <li><p>the contemporaneous constraints:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mrow><mi>k</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>j</mi><mi>ϵ</mi><msub><mi>J</mi><mi>k</mi></msub></mrow></msub><msub><mi>ω</mi><mrow><mi>k</mi><mo>,</mo><mi>j</mi></mrow></msub><msub><mi>y</mi><mrow><mi>j</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">z_{k,t} = \sum_{j\epsilon J_k}\omega_{k,j}y_{j,t}</annotation></semantics></math>.</p></li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mrow><mi>k</mi><mo>,</mo><mi>t</mi></mrow></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><msub><mi>J</mi><mi>k</mi></msub></mrow></msub><msub><mi>ω</mi><mrow><mi>k</mi><mo>,</mo><mi>j</mi></mrow></msub><msub><mi>y</mi><mrow><mi>j</mi><mo>,</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">z_{k,t} = \sum_{j \in J_k}\omega_{k,j}y_{j,t}</annotation></semantics></math>.</p></li>
 </ul>
 <p>Consistency between the temporal aggregation constraints and the
 contemporaneous constraints is required (see the consistency check in
@@ -1168,32 +1167,32 @@ the example).</p>
 <p>In this package, the multivariate Chow-Lin and Fernandez methods are
 estimated using an equivalent state-space representation of the
 underlying model. Although mathematically equivalent to the classical
-matrix formulation, this representation has some impacts on the model
-parametrization, as in the univariate case. In particular, the remarks
-regarding the “hidden” constant term in the <a href="#chowlin">univariate Fernandez</a> model also apply in the
+matrix formulation, this representation has some implications for the
+model parametrization, as in the univariate case. In particular, the
+remarks regarding the “hidden” constant term in the <a href="#chowlin">univariate Fernandez</a> model also apply in the
 multivariate case.</p>
 <p>In addition to binding contemporaneous constraints, non-binding
-constraints can also be specified by modifying their formulation in the
-<code>ccvector</code> argument. For example, instead of imposing a
-binding condition such as
+constraints can be specified through the <code>ccdefinition</code>
+argument. For example, instead of imposing the binding constraint
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mn>1</mn></msub><mo>=</mo><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>x</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">z_1=x_1+x_2+x_3</annotation></semantics></math>,
-one may express a non-binding constraint as
+one may write
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>x</mi><mn>3</mn></msub><mo>−</mo><msub><mi>z</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">0=x_1+x_2+x_3-z_1</annotation></semantics></math>,
-which allows the
+thereby allowing
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">z_1</annotation></semantics></math>
-series to be adjusted as
+to be adjusted as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="application/x-tex">x_2</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>3</mn></msub><annotation encoding="application/x-tex">x_3</annotation></semantics></math>
-(weights may be introduced if necessary).</p>
-<p>Unlike the univariate case, no specific argument is provided in the
-function definition to define the conversion type. However, switching
-from an additive to an average conversion is straightforward: it only
-requires to multiply the temporal benchmarks and/or the contemporaneous
-constraints by the frequency ratio and/or the number of series,
-respectively.</p>
-<p>The use of multivariate Chow-Lin and Ferandez models have several
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>3</mn></msub><annotation encoding="application/x-tex">x_3</annotation></semantics></math>.
+Note that weights may also be introduced if necessary.</p>
+<p>Unlike the univariate implementation, the multivariate implementation
+assumes additive conversion and does not provide a dedicated argument to
+specify the conversion type. However, average constraints can still be
+handled straightforwardly through a simple rescaling of the temporal
+benchmarks and contemporaneous constraints prior to estimation,
+typically by multiplying the temporal benchmarks by the frequency ratio
+and the contemporaneous constraints by the number of series.</p>
+<p>The use of multivariate Chow-Lin and Fernandez models have several
 important implications relative to their univariate counterparts and the
 two-step approach (in which univariate temporal disaggregation
 techniques are carried out first and a reconciliation method, such as
@@ -1205,19 +1204,19 @@ taken into account when estimating the regression coefficients. As a
 result, unlike in the univariate case where the coefficients are
 estimated solely from low-frequency observations, the coefficient
 estimates in the multivariate framework are also influenced by the
-contemporaneous constraints. Consequently, small changes in the
-estimated coefficients may occur when the series is extended with an
-additional high-frequency observation, provided that the contemporaneous
+contemporaneous constraints. Consequently, the estimated coefficients
+may change slightly when the series is extended with additional
+high-frequency observations, provided that the contemporaneous
 constraints are updated accordingly.</p></li>
 <li><p>In the two-step approach, discrepancies arising from
 contemporaneous constraints are typically distributed in a
 pre-determined way, often proportionally. In contrast, the multivariate
 Chow-Lin and Fernandez models have the advantage of accounting
 specifically for the precision of the disaggregated series, since they
-are adjusted based on the relative variance of the innovations, the more
-reliable series being less touched than the less reliable ones.</p></li>
-<li><p>Existing covariance across series may also be captured in the
-estimation process.</p></li>
+are adjusted based on the relative variance of the innovations, more
+reliable series being adjusted less than less reliable ones.</p></li>
+<li><p>Cross-series covariance may also be captured into the estimation
+process.</p></li>
 </ol>
 <p>Points (2) and (3) highlight the predominant role played by
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>,
@@ -1244,9 +1243,9 @@ it cannot even be calculated. The shrinkage estimator addresses these
 issues and always returns a well-conditioned and positive definite
 matrix. The algorithm implemented here is based on the paper of Schafer
 and Strimmer (2005, Target D). The covariance terms (while leaving the
-variance unchanged) are pulled downwards or ‘shrunk’ towards the
-diagonal matrix. The degree of shrinkage, given by the shrinkage
-parameter
+variance unchanged) are pulled downwards or ‘shrunk’, thereby moving the
+estimator closer to a diagonal matrix. The degree of shrinkage, given by
+the shrinkage parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
 is determined by the variability of the sample correlation matrix, with
 greater shrinkage applied when the estimates are less stable.</p>
@@ -1268,8 +1267,8 @@ r_{ij}^* = (1 - \hat{\lambda})r_{ij}
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mrow><mi mathvariant="normal">min</mi><mo>⁡</mo></mrow><mrow><mo stretchy="true" form="prefix">{</mo><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><mfrac><mrow><munder><mo>∑</mo><mrow><mi>i</mi><mo>≠</mo><mi>j</mi></mrow></munder><mover><mi mathvariant="normal">Var</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="prefix">(</mo><msub><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><mrow><munder><mo>∑</mo><mrow><mi>i</mi><mo>≠</mo><mi>j</mi></mrow></munder><msubsup><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup></mrow></mfrac><mo stretchy="true" form="postfix">}</mo></mrow></mrow><annotation encoding="application/x-tex">
 \hat{\lambda} = \min\left\{ 1,\, \frac{\sum_{i \ne j} \widehat{\operatorname{Var}}(r_{ij})} {\sum_{i \ne j} r_{ij}^{2}} \right\}
 </annotation></semantics></math></p>
-<p>Other variants of the shrinkage estimator can also be considered. For
-instance, shrinkage may applied not only to the covariance terms but
+<p>Alternative shrinkage estimators can also be considered. For
+instance, shrinkage may be applied not only to the covariance terms but
 also to the variances. This option is not implemented in the package,
 but it can be achieved using other packages such as
 <strong>‘corpcor’</strong>, with the resulting variance-covariance
@@ -1277,7 +1276,8 @@ matrix supplied by the user through the <code>var.matrix</code>
 argument.</p>
 <p>As mentioned earlier, the variance-covariance matrix of the
 innovations that is considered can be assumed to correspond either
-exactly to the true matrix, or only up to a scaling factor. When
+exactly to the true matrix, or only up to a multiplicative scaling
+factor. When
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
 is estimated empirically from the residuals of the corresponding
 univariate models, as is done by default, the former assumption seems a
@@ -1295,8 +1295,9 @@ the <code><a href="../reference/multivariatechowlin.html">multivariatechowlin()<
 series and the most important information about the multivariate
 regression including the estimates of model coefficients, the
 variance-covariance matrix of the innovations and the decomposition of
-the disaggregated series. A print() and summary() function can also be
-applied on the output object.</p>
+the disaggregated series. Standard <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> methods are also available for the resulting
+object.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: multivariate Chow-Lin and Fernandez models</span></span>
 <span></span>
@@ -1363,7 +1364,7 @@ applied on the output object.</p>
 <span><span class="co">#&gt; 2013 Q3 8.533515 20.43936 1.727128</span></span>
 <span><span class="co">#&gt; 2013 Q4 8.470332 21.06128 2.468392</span></span>
 <span></span>
-<span><span class="co">### with var-cov matrix estimated from the univariate models, using a shrinkage estimator for the covariance</span></span>
+<span><span class="co">### using a shrinkage estimator for covariance</span></span>
 <span><span class="va">mtd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/multivariatechowlin.html">multivariatechowlin</a></span><span class="op">(</span></span>
 <span>    series <span class="op">=</span> <span class="va">lf_series</span>,</span>
 <span>    constant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -1393,9 +1394,9 @@ applied on the output object.</p>
 <span>    var <span class="op">=</span> <span class="st">"userDefined"</span>,</span>
 <span>    var.matrix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>            <span class="fl">0.005</span>, <span class="fl">0.002</span>, <span class="fl">0.001</span>,</span>
-<span>            <span class="fl">0.002</span>, <span class="fl">0.010</span>, <span class="fl">0.002</span>,</span>
-<span>            <span class="fl">0.001</span>, <span class="fl">0.002</span>, <span class="fl">0.003</span></span>
+<span>            <span class="fl">5</span>, <span class="fl">2</span>, <span class="fl">1</span>,</span>
+<span>            <span class="fl">2</span>, <span class="fl">10</span>, <span class="fl">2</span>,</span>
+<span>            <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span></span>
 <span>        <span class="op">)</span>,</span>
 <span>        nrow <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>        byrow <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -1431,8 +1432,8 @@ Recall the objective function of the (modified) Denton PFD method</p>
 min_{y_t}\sum^n_{t=2}\left[\frac{y_t}{x_t}-\frac{y_{t-1}}{x_{t-1}}\right]^2
 </annotation></semantics></math></p>
 <p>which is minimized under the temporal aggregation constraints</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mi>ϵ</mi><mi>l</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">
-\sum_{t\epsilon l} y_t = Y_l
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>l</mi></mrow></munder><msub><mi>y</mi><mi>t</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">
+\sum_{t\in l} y_t = Y_l
 </annotation></semantics></math></p>
 <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>l</mi></msub><annotation encoding="application/x-tex">Y_l</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">l=1,...,q</annotation></semantics></math>,
