@@ -2,7 +2,7 @@
 % Please edit documentation in R/tempdisagg.R
 \name{multivariatechowlin}
 \alias{multivariatechowlin}
-\title{Multivariate Temporal Disaggregaton of a System of Time Series by Regression Models.}
+\title{Multivariate Temporal Disaggregation of a System of Time Series by Regression Models.}
 \usage{
 multivariatechowlin(
   series,
@@ -31,9 +31,11 @@ the model for each series, following the order in which they appear in the
 The length of the vector must match the number of series.
 If a single Boolean is provided (default is \code{FALSE}), it is applied to all
 series.
-Note that this argument is only used when \code{rho < 1} (Chow-Lin). For \code{rho = 1} (Fernandez), a constant term is automatically and implicitly included.
-See the package vignette or the Details section of the univariate
-\code{temporal_disaggregation()} function for further information on this.}
+Note that this argument is only used for series with \code{rho < 1} (Chow-Lin).
+For series with \code{rho = 1} (Fernandez), a constant term is automatically and
+implicitly included. See the package vignette or the Details section of the
+univariate \code{temporal_disaggregation()} function for further information on
+this.}
 
 \item{trend}{Either a Boolean or a vector of Booleans. If a vector is
 provided, each element specifies whether a linear trend is included in the
@@ -43,16 +45,16 @@ The length of the vector must match the number of series.
 If a single Boolean is provided (default is \code{FALSE}), it is applied to all
 series.}
 
-\item{indicators}{a named list of \code{ts} objects or a named list of a list of
-\code{ts} objects. Each element represents one or more high-frequency indicator
-series associated with each series.
+\item{indicators}{A named list of \code{ts} objects or a named list of a list of
+\code{ts} objects. Each element specifies one or more high-frequency
+indicator(s) associated with one series.
 If an element is \code{NULL}, no indicator is used for the corresponding
 series. The default value is \code{NULL}, meaning that no indicators are used
 for any series.}
 
 \item{ccseries}{A named list of \code{ts} objects containing the contemporaneous
-constraints. If \code{NULL} (the default), no contemporaneous constraints can
-be considered.}
+constraints. If \code{NULL} (the default), no contemporaneous constraints are
+considered.}
 
 \item{ccdefinition}{A character vector defining each contemporaneous
 constraints. The elements of the vector must be written in the form
@@ -62,7 +64,7 @@ constraints. The elements of the vector must be written in the form
 \item \eqn{(w_1,\ldots,w_n)} are optional numeric weights,
 \item \eqn{(y_1,\ldots,y_n)} are the names of the time series and
 \item \eqn{c} is a constant.
-The default is \code{NULL}, meaning that no contemporaneous constraint is
+The default is \code{NULL}, meaning that no contemporaneous constraints are
 considered.
 }}
 
@@ -71,8 +73,8 @@ series.
 This argument is ignored when at least one indicator series is provided
 for any series.}
 
-\item{rho}{Either a numeric value or a vector of numeric. If a vector is
-provided, each element specifies the value of the \code{rho} parameter
+\item{rho}{Either a numeric value or a vector of numeric values. If a vector
+is provided, each element specifies the value of the \code{rho} parameter
 associated to each series, following the order in which they appear in the
 \code{series} object.
 The length of the vector must match the number of series.
@@ -82,19 +84,20 @@ the Fernandez model), it is applied to all series.}
 \item{var}{A character string specifying the method used to estimate the
 variance-covariance matrix of the innovations. The default is
 \code{"fromUnivariate"}, meaning that it is estimated empirically from the
-residuals of the univariate models. Others options include \code{"allEquals"},
-which assume a diagonal matrix with identical variances, and
+residuals of the univariate models. Other options include \code{"allEquals"},
+which assumes a diagonal matrix with identical variances, and
 \code{"userDefined"}, where the matrix is supplied by the user via the
 \code{var.matrix} argument. For additional details, see the package vignette.}
 
-\item{var.includeCov}{Boolean. Indicates whether non-diagonal elements of
-the innovation variance-covariance matrix may as well be estimated from
+\item{var.includeCov}{Boolean. Indicates whether off-diagonal elements of
+the innovation variance-covariance matrix should also be estimated from
 the residuals of the univariate models. The default is \code{FALSE}, meaning
 that only a diagonal matrix is estimated.
 This argument is used only when \code{var = "fromUnivariate"}.}
 
-\item{var.shrinkCov}{Boolean. Indicates whether a shrinkage estimator
-should be used for covariance. See the package vignette for more details.
+\item{var.shrinkCov}{Boolean. Indicates whether a shrinkage estimator should
+be used for covariance estimation. See the package vignette for more
+details.
 This argument is used only when \code{var = "fromUnivariate"} and
 \code{var.includeCov = TRUE}.}
 
@@ -103,28 +106,33 @@ This argument is used only when \code{var = "userDefined"} and must be provided
 in that case.}
 
 \item{rescale.variance}{Boolean. Indicates whether the innovation
-variance-covariance matrix is assumed to correspond exactly to the true
-matrix (the default, which is a natural choice when \code{var = "fromUnivariate"}), or only up to a scaling factor. When set to \code{TRUE}, the
-variance of the estimates are rescaled based on the model residuals. This
-option has no impact on the disaggregated series, but affects the standard
-errors of both the disaggregated series and the estimated coefficients. See
-the package vignette for more details.}
+variance-covariance matrix is assumed to be known exactly (the default,
+which is a natural choice when \code{var = "fromUnivariate"}) or only up to a
+scaling factor. When set to \code{TRUE}, the variances of the estimates are
+rescaled based on the model residuals. This option has no impact on the
+disaggregated series, but affects the standard errors of both the
+disaggregated series and the estimated coefficients. See the package
+vignette for more details.}
 }
 \value{
-An object of class "JD3_MULTITEMPDISAGG_RSLTS" is returned. The
+An object of class \code{"JD3_MULTITEMPDISAGG_RSLTS"} is returned. The
 following are returned as a list:
 \itemize{
 \item \code{regression} \verb{[[1]]} regression coefficients for each series;
 \item \code{estimation} \verb{[[2]]} disaggregated time series and standard errors,
-regression effects, smoothing parts, parameters and variance-covariance
-matrix of the innovations;
+regression effects, smoothing parts, estimated parameters, and
+variance-covariance matrix of the innovations;
 }
 }
 \description{
-Performs simultaneous temporal disaggregation of a system of low frequency
-time series into higher frequency series, based on the multivariate extension
-of the Chow-Lin model. By default, when the the \code{rho} argument is left at its
-default value, the function adopts the Random Walk approach (Fernandez).
+Performs simultaneous temporal disaggregation of a system of low-frequency
+time series into higher-frequency series using the multivariate extension of
+the Chow-Lin model. When \code{rho = 1} (the default), the method coincides with
+the multivariate extension of the Fernandez model, also known as the
+multivariate Random Walk model. Additive conversion is assumed, although
+average constraints can be accommodated through simple rescaling of the
+low-frequency series and the contemporaneous constraints; see the package
+vignette for details.
 }
 \section{Vignette}{
 
@@ -155,7 +163,7 @@ z <- ts(c(27.1, 29.8, 29.9, 31.2, 29.4, 27.9, 30.9, 31.7, 29.2, 30.2, 30.6, 31.9
 # High-frequency indicators
 x11 <- ts(c(7.0, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4, 8.6, 7.8, 8.0, 8.3, 8.7, 7.9, 8.0, 8.6),
           frequency = 4,
-          start=c(2010, 1))
+          start = c(2010, 1))
 x12 <- ts(c(18.0, 19.5, 19.0, 19.7, 18.5, 19.0, 20.3, 20.0, 18.6, 19.5, 20.4, 20.1, 18.7, 19.1, 20.4, 20.8),
           frequency = 4,
           start = c(2010, 1))
@@ -193,7 +201,7 @@ mtd1$estimation$var$vcov # variance-covariance matrix of the innovations
 do.call(cbind, mtd1$estimation$disagg) # disaggregated series
 do.call(cbind, mtd1$estimation$edisagg) # standard errors of the disaggregated series
 
-### with var-cov matrix estimated from the univariate models, using a shrinkage estimator for the covariance
+### using a shrinkage estimator for covariance
 mtd2 <- multivariatechowlin(
     series = lf_series,
     constant = c(FALSE, FALSE, TRUE),
@@ -226,9 +234,9 @@ mtd3 <- multivariatechowlin(
     rho = 1.0,
     var = "userDefined",
     var.matrix = matrix(
-        c(0.005, 0.002, 0.001,
-          0.002, 0.010, 0.002,
-          0.001, 0.002, 0.003),
+        c(5, 2, 1,
+          2, 10, 2,
+          1, 2, 3),
         nrow = 3,
         byrow = TRUE
     ),
