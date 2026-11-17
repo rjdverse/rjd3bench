@@ -70,8 +70,7 @@ typically needed when the total and its components are estimated
 independently (the so-called direct approach). The multivariate Cholette
 method relies on the principle of movement preservation and encompasses other
 reconciliation methods such as the multivariate Denton method. Additive
-conversion is assumed, although average constraints can be accommodated
-through simple rescaling of the benchmarks and contemporaneous constraints;
+conversion is assumed, although average conversion can be accommodated too;
 see the package vignette for details.
 }
 \section{Vignette}{
