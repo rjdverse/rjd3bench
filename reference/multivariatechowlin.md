@@ -5,9 +5,8 @@ low-frequency time series into higher-frequency series using the
 multivariate extension of the Chow-Lin model. When `rho = 1` (the
 default), the method coincides with the multivariate extension of the
 Fernandez model, also known as the multivariate Random Walk model.
-Additive conversion is assumed, although average constraints can be
-accommodated through simple rescaling of the low-frequency series and
-the contemporaneous constraints; see the package vignette for details.
+Additive conversion is assumed, although average conversion can be
+accommodated too; see the package vignette for details.
 
 ## Usage
 

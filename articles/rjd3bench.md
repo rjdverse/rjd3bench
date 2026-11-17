@@ -914,13 +914,12 @@ one may write $`0=x_1+x_2+x_3-z_1`$, thereby allowing $`z_1`$ to be
 adjusted as $`x_1`$, $`x_2`$ and $`x_3`$. Note that weights may also be
 introduced if necessary.
 
-Unlike the univariate implementation, the multivariate implementation
-assumes additive conversion and does not provide a dedicated argument to
-specify the conversion type. However, average constraints can still be
-handled straightforwardly through a simple rescaling of the temporal
-benchmarks and contemporaneous constraints prior to estimation,
-typically by multiplying the temporal benchmarks by the frequency ratio
-and the contemporaneous constraints by the number of series.
+The implementation of the multivariate Cholette method assumes additive
+conversion and does not provide a dedicated argument to specify the
+conversion type. Nevertheless, average conversion can still be handled
+straightforwardly by pre-multiplying the temporal benchmarks and the
+contemporaneous constraints by the frequency ratio and the number of
+series, respectively.
 
 As in the univariate case, the multivariate Cholette method is driven by
 a couple of parameters:
@@ -1083,13 +1082,12 @@ one may write $`0=x_1+x_2+x_3-z_1`$, thereby allowing $`z_1`$ to be
 adjusted as $`x_1`$, $`x_2`$ and $`x_3`$. Note that weights may also be
 introduced if necessary.
 
-Unlike the univariate implementation, the multivariate implementation
+The implementation of the multivariate Chow-Lin and Fernandez models
 assumes additive conversion and does not provide a dedicated argument to
-specify the conversion type. However, average constraints can still be
-handled straightforwardly through a simple rescaling of the temporal
-benchmarks and contemporaneous constraints prior to estimation,
-typically by multiplying the temporal benchmarks by the frequency ratio
-and the contemporaneous constraints by the number of series.
+specify the conversion type. Nevertheless, average conversion can still
+be handled straightforwardly by pre-multiplying the temporal benchmarks
+and the contemporaneous constraints by the frequency ratio and the
+number of series, respectively.
 
 The use of multivariate Chow-Lin and Fernandez models have several
 important implications relative to their univariate counterparts and the

@@ -980,13 +980,12 @@ to be adjusted as
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>3</mn></msub><annotation encoding="application/x-tex">x_3</annotation></semantics></math>.
 Note that weights may also be introduced if necessary.</p>
-<p>Unlike the univariate implementation, the multivariate implementation
-assumes additive conversion and does not provide a dedicated argument to
-specify the conversion type. However, average constraints can still be
-handled straightforwardly through a simple rescaling of the temporal
-benchmarks and contemporaneous constraints prior to estimation,
-typically by multiplying the temporal benchmarks by the frequency ratio
-and the contemporaneous constraints by the number of series.</p>
+<p>The implementation of the multivariate Cholette method assumes
+additive conversion and does not provide a dedicated argument to specify
+the conversion type. Nevertheless, average conversion can still be
+handled straightforwardly by pre-multiplying the temporal benchmarks and
+the contemporaneous constraints by the frequency ratio and the number of
+series, respectively.</p>
 <p>As in the univariate case, the multivariate Cholette method is driven
 by a couple of parameters:</p>
 <ul>
@@ -1185,13 +1184,12 @@ to be adjusted as
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>3</mn></msub><annotation encoding="application/x-tex">x_3</annotation></semantics></math>.
 Note that weights may also be introduced if necessary.</p>
-<p>Unlike the univariate implementation, the multivariate implementation
+<p>The implementation of the multivariate Chow-Lin and Fernandez models
 assumes additive conversion and does not provide a dedicated argument to
-specify the conversion type. However, average constraints can still be
-handled straightforwardly through a simple rescaling of the temporal
-benchmarks and contemporaneous constraints prior to estimation,
-typically by multiplying the temporal benchmarks by the frequency ratio
-and the contemporaneous constraints by the number of series.</p>
+specify the conversion type. Nevertheless, average conversion can still
+be handled straightforwardly by pre-multiplying the temporal benchmarks
+and the contemporaneous constraints by the frequency ratio and the
+number of series, respectively.</p>
 <p>The use of multivariate Chow-Lin and Fernandez models have several
 important implications relative to their univariate counterparts and the
 two-step approach (in which univariate temporal disaggregation
