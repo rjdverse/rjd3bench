@@ -149,30 +149,80 @@ available in the package, see the package vignette:
 \examples{
 \dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 # Low-frequency data
-Y1 <- ts(c(30.0, 30.6, 31.2, 31.6), frequency = 1, start = c(2010, 1))
-Y2 <- ts(c(80.0, 81.2, 82.5, 82.6), frequency = 1, start = c(2010, 1))
-Y3 <- ts(c(8.0, 8.1, 8.2, 8.2), frequency = 1, start = c(2010, 1))
-lf_series <- list(y1 = Y1, y2 = Y2, y3 = Y3)
+Y1 <- ts(
+  c(30.0, 30.6, 31.2, 31.6),
+  frequency = 1,
+  start = c(2010, 1)
+)
+
+Y2 <- ts(
+  c(80.0, 81.2, 82.5, 82.6),
+  frequency = 1,
+  start = c(2010, 1)
+)
+
+Y3 <- ts(
+  c(8.0, 8.1, 8.2, 8.2),
+  frequency = 1,
+  start = c(2010, 1)
+)
+
+lf_series <- list(
+  y1 = Y1,
+  y2 = Y2,
+  y3 = Y3
+)
 
 # Contemporaneous constraint
-z <- ts(c(27.1, 29.8, 29.9, 31.2, 29.4, 27.9, 30.9, 31.7, 29.2, 30.2, 30.6, 31.9, 29.3, 30.4, 30.7, 32.0),
-        frequency = 4,
-        start = c(2010, 1))
+z <- ts(
+  c(
+    27.1, 29.8, 29.9, 31.2,
+    29.4, 27.9, 30.9, 31.7,
+    29.2, 30.2, 30.6, 31.9,
+    29.3, 30.4, 30.7, 32.0
+  ),
+  frequency = 4,
+  start = c(2010, 1)
+)
 
 # High-frequency indicators
-x11 <- ts(c(7.0, 7.2, 8.1, 7.5, 8.5, 7.8, 8.1, 8.4, 8.6, 7.8, 8.0, 8.3, 8.7, 7.9, 8.0, 8.6),
-          frequency = 4,
-          start = c(2010, 1))
-x12 <- ts(c(18.0, 19.5, 19.0, 19.7, 18.5, 19.0, 20.3, 20.0, 18.6, 19.5, 20.4, 20.1, 18.7, 19.1, 20.4, 20.8),
-          frequency = 4,
-          start = c(2010, 1))
-x2 <- NULL
-x3 <- ts(c(1.5, 1.8, 2.0, 2.5, 2.0, 1.5, 1.7, 2.1, 2.1, 1.6, 1.6, 2.2, 2.3, 1.7, 1.9, 2.3),
-         frequency = 4,
-         start = c(2010, 1))
-indic_series <- list(y1 = list(x11, x12),
-                     y2 = NULL,
-                     y3 = x3)
+x11 <- ts(
+  c(
+    7.0, 7.2, 8.1, 7.5,
+    8.5, 7.8, 8.1, 8.4,
+    8.6, 7.8, 8.0, 8.3,
+    8.7, 7.9, 8.0, 8.6
+  ),
+  frequency = 4,
+  start = c(2010, 1)
+)
+x12 <- ts(
+  c(
+    18.0, 19.5, 19.0, 19.7,
+    18.5, 19.0, 20.3, 20.0,
+    18.6, 19.5, 20.4, 20.1,
+    18.7, 19.1, 20.4, 20.8
+  ),
+  frequency = 4,
+  start = c(2010, 1)
+)
+
+x3 <- ts(
+  c(
+    1.5, 1.8, 2.0, 2.5,
+    2.0, 1.5, 1.7, 2.1,
+    2.1, 1.6, 1.6, 2.2,
+    2.3, 1.7, 1.9, 2.3
+  ),
+  frequency = 4,
+  start = c(2010, 1)
+)
+
+indic_series <- list(
+  y1 = list(x11, x12),
+  y2 = NULL,
+  y3 = x3
+)
 
 # Check consistency between temporal and contemporaneous constraints
 rowSums(cbind(Y1,Y2,Y3)) - stats::aggregate.ts(z) # should all be 0
