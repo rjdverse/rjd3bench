@@ -10,18 +10,19 @@ status](https://www.r-pkg.org/badges/version/rjd3bench)](https://CRAN.R-project.
 [![Mentioned in Awesome Official
 Statistics](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 
-[![R-CMD-check](https://github.com/rjdverse/rjd3bench/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rjdverse/rjd3bench/actions/workflows/R-CMD-check.yaml)
-[![lint](https://github.com/rjdverse/rjd3bench/actions/workflows/lint.yaml/badge.svg)](https://github.com/rjdverse/rjd3bench/actions/workflows/lint.yaml)
+[![R-CMD-check](https://github.com/rjdverse/rjd3bench/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/rjdverse/rjd3bench/actions/workflows/R-CMD-check.yml)
+[![lint](https://github.com/rjdverse/rjd3bench/actions/workflows/lint.yml/badge.svg)](https://github.com/rjdverse/rjd3bench/actions/workflows/lint.yml)
 
 [![GH Pages
-built](https://github.com/rjdverse/rjd3bench/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/rjdverse/rjd3bench/actions/workflows/pkgdown.yaml)
+built](https://github.com/rjdverse/rjd3bench/actions/workflows/pkgdown.yml/badge.svg)](https://github.com/rjdverse/rjd3bench/actions/workflows/pkgdown.yml)
 <!-- badges: end -->
 
 ## Overview
 
 The package `rjd3bench` provides a variety of methods for temporal
-disaggregation, interpolation, benchmarking, reconciliation and
-calendarization, using highly efficient algorithms.
+disaggregation & interpolation, benchmarking, reconciliation &
+multivariate temporal disaggregation and calendarization, using highly
+efficient algorithms.
 
 Temporal disaggregation & interpolation:
 
@@ -40,14 +41,17 @@ Benchmarking:
 Reconciliation and multivariate temporal disaggregation:
 
 - Multivariate Cholette
+- Multivariate Chow-Lin and Fernandez
 
 Calendarization
+
+- Calendarization with Denton
 
 ## Installation
 
 Running rjd3 packages requires **Java 21 or higher**. How to set up such
 a configuration in R is explained
-[here](https://doc.jdemetra.org/#Rconfig)
+[here](https://jdemetra-new-documentation.netlify.app/#Rconfig)
 
 ### Latest release
 
@@ -93,4 +97,4 @@ should be added or updated.
 
 The code of this project is licensed under the [European Union Public
 Licence
-(EUPL)](https://interoperable-europe.ec.europa.eu:443/collection/eupl/eupl-text-eupl-12).
+(EUPL)](https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12).

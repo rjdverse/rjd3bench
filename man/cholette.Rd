@@ -17,20 +17,33 @@ cholette(
 \arguments{
 \item{s}{A preliminary series. It must be of the same class as \code{t}.}
 
-\item{t}{The low-frequency aggregation constraint. It must be either a \code{"ts"} object or a numeric vector.}
+\item{t}{The low-frequency aggregation constraint. It must be either a
+\code{"ts"} object or a numeric vector.}
 
-\item{rho}{Numeric. A smoothing parameter whose value must lie between 0 and 1.
-See the package vignette for more information on the choice of the \code{rho} parameter.}
+\item{rho}{Numeric. The smoothing parameter whose value must lie between 0
+and 1, and which determines the degree of movement preservation. The
+default is \code{1}. See the package vignette for more information on the choice
+of the \code{rho} parameter.}
 
-\item{lambda}{Numeric. The adjustment model parameter. Typical choices include \code{lambda = 1} for proportional benchmarking, \code{lambda = 0} for additive benchmarking, and \code{lambda = 0.5} with \code{rho = 0} for the naive pro-rating method.
-See the package vignette for more information on the choice of the \code{lambda} parameter.}
+\item{lambda}{Numeric. The adjustment model parameter which determines how
+discrepancies are allocated. Typical choices include \code{lambda = 1} (the
+default) for multiplicative benchmarking, \code{lambda = 0} for additive
+benchmarking, and \code{lambda = 0.5} with \code{rho = 0} for the naive pro-rating
+method. See the package vignette for more information on the choice of the
+\code{lambda} parameter.}
 
-\item{bias}{Character. Specifies the bias-correction factor. By default, no systematic bias is considered. Other options are: "Additive" and "Multiplicative". See vignette for more details.
+\item{bias}{Character. Specifies the bias-correction factor. By default, no
+systematic bias is considered. Other options are: "Additive" and
+"Multiplicative". See vignette for more details.
 See the package vignette for more information on the other alternatives.}
 
-\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} (the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
+\item{conversion}{A character string specifying the conversion mode,
+typically \code{"Sum"} (the default) or \code{"Average"}. Other options are:
+\code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
-\item{obsposition}{An integer specifying the position of the observations of the low-frequency constraint within the benchmarked series (e.g. the 7th month of the year).
+\item{obsposition}{An integer specifying the position of the observations of
+the low-frequency constraint within the benchmarked series (e.g. the 7th
+month of the year).
 This argument is used only when \code{conversion = "UserDefined"}.}
 }
 \value{
@@ -45,6 +58,19 @@ pro-rating method, emerge as particular cases of the Cholette method.
 This method has been widely used for the purpose of benchmarking seasonally
 adjusted series among others.
 }
+\section{Vignette}{
+
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+\itemize{
+\item In R:
+\code{browseVignettes(package = "rjd3bench")}
+\item Online:
+\url{https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html}
+}
+}
+
 \examples{
 \dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 ym_true <- rjd3toolkit::Retail$RetailSalesTotal
@@ -79,9 +105,4 @@ Quenneville, B., Fortier S., Chen Z.-G., Latendresse E. (2006).
 Recent Developments in Benchmarking to Annual Totals in X12-ARIMA and at
 Statistics Canada. Statistics Canada, Working paper of the Time Series
 Research and Analysis Centre.
-}
-\seealso{
-For more information, see the vignette:
-
-\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

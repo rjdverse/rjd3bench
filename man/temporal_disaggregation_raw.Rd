@@ -2,7 +2,7 @@
 % Please edit documentation in R/tempdisagg.R
 \name{temporal_disaggregation_raw}
 \alias{temporal_disaggregation_raw}
-\title{Temporal Disaggregation of an Atypical Frequency Series by Regression Models.}
+\title{Temporal Disaggregation of an Atypical Frequency Series by Regression Models}
 \usage{
 temporal_disaggregation_raw(
   series,
@@ -24,40 +24,61 @@ temporal_disaggregation_raw(
 )
 }
 \arguments{
-\item{series}{A low-frequency time series to be disaggregated. It must be a numeric vector.}
+\item{series}{A low-frequency time series to be disaggregated. It must be a
+numeric vector.}
 
-\item{constant}{Boolean. Indicates whether a constant term is included in the model. The default is \code{TRUE}.
-Note that this argument is used only with \code{model = "Ar1"} when \code{zeroinitialization = FALSE}. For additional information on this, see the package vignette.}
+\item{constant}{Boolean. Indicates whether a constant term is included in
+the model. The default is \code{TRUE}.
+Note that this argument is used only with \code{model = "Ar1"} when
+\code{zeroinitialization = FALSE} (default). For additional information, see the
+Details section or the package vignette.}
 
-\item{trend}{Boolean. Indicates whether a linear trend is included in the model. The default is \code{FALSE}.}
+\item{trend}{Boolean. Indicates whether a linear trend is included in the
+model. The default is \code{FALSE}.}
 
-\item{indicators}{One or more high-frequency indicator series used in the temporal disaggregation.
-If \code{NULL} (the default), no indicator is used. When provided, the argument must be a numeric vector or a matrix.}
+\item{indicators}{One or more high-frequency indicator series used in the
+temporal disaggregation.
+If \code{NULL} (the default), no indicator is used. When provided, the argument
+must be a numeric vector or a matrix.}
 
-\item{startoffset}{The number of initial observations in the indicator series that precede the start of the low-frequency series.
-The value must be either 0 or a positive integer (default is 0). This argument is ignored when no indicator is provided.}
+\item{startoffset}{The number of initial observations in the indicator
+series that precede the start of the low-frequency series.
+The value must be either 0 or a positive integer (default is 0). This
+argument is ignored when no indicator is provided.}
 
-\item{model}{A character string specifying the model of the error term at the disaggregated level.
-The options are: \code{"Ar1"} (Chow Lin, the default), \code{"Rw"} (Fernandez), and \code{"RwAr1"} (Litterman).}
+\item{model}{A character string specifying the model of the error term at
+the disaggregated level.
+The options are: \code{"Ar1"} (Chow Lin, the default), \code{"Rw"} (Fernandez), and
+\code{"RwAr1"} (Litterman).}
 
-\item{freqratio}{An integer specifying the frequency ratio between the disaggregated series and the low-frequency series.
+\item{freqratio}{An integer specifying the frequency ratio between the
+disaggregated series and the low-frequency series.
 This argument is mandatory and must be a positive integer.}
 
-\item{average}{Boolean. Indicates whether an average conversion should be considered. The default is \code{FALSE}, corresponding to additive conversion.}
+\item{average}{Boolean. Indicates whether an average conversion should be
+considered. The default is \code{FALSE}, corresponding to additive conversion.}
 
-\item{rho}{A numeric value giving the (initial) value of the autoregressive parameter.
+\item{rho}{A numeric value giving the (initial) value of the autoregressive
+parameter.
 This argument is used only for \code{"Ar1"} and \code{"RwAr1"} models.}
 
-\item{rho.fixed}{Boolean. Specifies whether the supplied value of \code{rho} is fixed. The default is \code{FALSE}, which indicates that \code{rho} is estimated.}
+\item{rho.fixed}{Boolean. Specifies whether the supplied value of \code{rho} is
+fixed. The default is \code{FALSE}, which indicates that \code{rho} is estimated.}
 
-\item{rho.truncated}{A numeric value defining the lower bound of the admissible range for \code{rho}.
+\item{rho.truncated}{A numeric value defining the lower bound of the
+admissible range for \code{rho}.
 The evaluation range is \verb{[rho.truncated, 1[}.}
 
-\item{zeroinitialization}{Boolean. If \code{TRUE}, the initial values of the autoregressive model are set to zero. The default is \code{FALSE}.}
+\item{zeroinitialization}{Boolean. If \code{TRUE}, the initial values of the
+autoregressive model are set to zero. The default is \code{FALSE}.}
 
-\item{diffuse.algorithm}{A character string specifying the algorithm used for diffuse initialization. The default is \code{"SqrtDiffuse"}. Other options are: \code{"Diffuse"} and \code{"Augmented"}.}
+\item{diffuse.algorithm}{A character string specifying the algorithm used
+for diffuse initialization. The default is \code{"SqrtDiffuse"}. Other options
+are: \code{"Diffuse"} and \code{"Augmented"}.}
 
-\item{diffuse.regressors}{Boolean. Indicates whether the coefficients of the regression model are treated as diffuse (\code{TRUE}) or as fixed unknown (\code{FALSE}, the default).}
+\item{diffuse.regressors}{Boolean. Indicates whether the coefficients of the
+regression model are treated as diffuse (\code{TRUE}) or as fixed unknown
+(\code{FALSE}, the default).}
 
 \item{nbcsts}{An integer specifying the number of backcast periods.
 This argument is ignored when one or more indicator series is provided.}
@@ -66,21 +87,51 @@ This argument is ignored when one or more indicator series is provided.}
 This argument is ignored when one or more indicator series is provided.}
 }
 \value{
-An object of class "JD3_TEMPDISAGGRAW_RSLTS" is returned. The following are returned
-invisibly as a list:
+An object of class "JD3_TEMPDISAGGRAW_RSLTS" is returned. The
+following are returned as a list:
 \itemize{
 \item \code{regression} \verb{[[1]]} regression coefficients;
-\item \code{estimation} \verb{[[2]]} disaggregated values and standard deviation, regression effects, smoothing part, parameter and residuals;
+\item \code{estimation} \verb{[[2]]} disaggregated values and standard errors,
+regression effects, smoothing part, parameter and residuals;
 \item \code{likelihood} \verb{[[3]]} likelihood statistics.
 }
 }
 \description{
 Perform temporal disaggregation of low-frequency to high-frequency time
-series by regression models. The implemented models include Chow-Lin,
+series by regression models. The implemented methods include Chow-Lin,
 Fernandez, Litterman and some variants of those algorithms. The
 \code{temporal_disaggregation_raw()} function extends \code{temporal_disaggregation()}
 by allowing temporal disaggregation for any frequency ratio.
 }
+\details{
+The Chow-Lin, Fernandez and Litterman methods are estimated using an
+equivalent state-space representation of the underlying model. While this
+approach is mathematically equivalent to the classical matrix formulation,
+the parametrization differs slightly.
+
+For the Fernandez and Litterman methods, a diffuse initialization of the
+states is used by default. As a result, a constant is implicitly included and
+absorbed into the initial state vector. The high-frequency estimates are
+therefore identical to those obtained from the classical formulation with a
+constant term, even though the latter does not appear explicitly in the
+output.
+
+To recover the usual parametrization and obtain an explicit estimate of the
+constant, set \code{zeroinitialization = TRUE} together with \code{constant = TRUE}.
+}
+\section{Vignette}{
+
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+\itemize{
+\item In R:
+\code{browseVignettes(package = "rjd3bench")}
+\item Online:
+\url{https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html}
+}
+}
+
 \examples{
 \dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 # Use of Chow-lin method to disaggregate a biennial series with an annual indicator
@@ -110,8 +161,4 @@ td3$estimation$disagg
 }
 \seealso{
 \code{temporal_interpolation_raw()}
-
-For more information, see the vignette:
-
-\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

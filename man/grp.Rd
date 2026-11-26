@@ -20,18 +20,26 @@ grp(
 
 \item{t}{The low-frequency aggregation constraint. It must be a \code{"ts"} object.}
 
-\item{objective}{A character string specifying the objective function. The default is \code{"Forward"}. Other options are: \code{"Backward"}, \code{"Symmetric"} and \code{"Log"}. For additional information on this, see the package vignette.}
+\item{objective}{A character string specifying the objective function. The
+default is \code{"Forward"}. Other options are: \code{"Backward"}, \code{"Symmetric"} and
+\code{"Log"}. For additional information on this, see the package vignette.}
 
-\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} (the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
+\item{conversion}{A character string specifying the conversion mode,
+typically \code{"Sum"} (the default) or \code{"Average"}. Other options are:
+\code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
-\item{obsposition}{An integer specifying the position of the observations of the low-frequency constraint within the benchmarked series (e.g. the 7th month of the year).
+\item{obsposition}{An integer specifying the position of the observations
+of the low-frequency constraint within the benchmarked series (e.g. the
+7th month of the year).
 This argument is used only when \code{conversion = "UserDefined"}.}
 
 \item{eps}{A numeric value specifying the convergence tolerance. The BFGS
 algorithm proceeds until the reduction in the objective function is within
-this tolerance (default is \code{1e-12}) or until the maximum number of iterations is reached.}
+this tolerance (default is \code{1e-12}) or until the maximum number of
+iterations is reached.}
 
-\item{iter}{An integer giving the maximum number of iterations allowed in the BFGS algorithm.
+\item{iter}{An integer giving the maximum number of iterations allowed in
+the BFGS algorithm.
 The default is \code{500}.}
 
 \item{dentoninitialization}{Boolean. Indicates whether the series obtained
@@ -50,6 +58,19 @@ of the preliminary series. It corresponds to the method of Cauley and Trager
 used as line-search algorithm for the reduced unconstrained minimization
 problem.
 }
+\section{Vignette}{
+
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+\itemize{
+\item In R:
+\code{browseVignettes(package = "rjd3bench")}
+\item Online:
+\url{https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html}
+}
+}
+
 \examples{
 \dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 data("qna_data")
@@ -72,9 +93,4 @@ WP/11/179}.
 Daalmans, J., Di Fonzo, T., Mushkudiani, N. and Bikker, R. (2018). Growth
 Rates Preservation (GRP) temporal benchmarking: Drawbacks and alternative
 solutions. \emph{Statistics Canada}.
-}
-\seealso{
-For more information, see the vignette:
-
-\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

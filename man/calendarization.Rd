@@ -18,11 +18,14 @@ calendarization(
 consist of three elements: \code{start}, \code{end} and \code{value}, where the first two
 indicate the starting and ending dates of the observation. See the example.}
 
-\item{freq}{An integer specifying the annual frequency. If set to \code{0}, only the daily series is computed.}
+\item{freq}{An integer specifying the annual frequency. If set to \code{0}, only
+the daily series is computed.}
 
-\item{start}{The starting day of the calendarization. This date may precede the first observed data (retropolation).}
+\item{start}{The starting day of the calendarization. This date may precede
+the first observed data (retropolation).}
 
-\item{end}{The ending day of the calendarization. This date may exceed the last observed data (extrapolation).}
+\item{end}{The ending day of the calendarization. This date may exceed the
+last observed data (extrapolation).}
 
 \item{dailyweights}{A numeric vector of daily indicator values (or weights).
 The vector must have the same length as the requested daily series. When
@@ -30,11 +33,12 @@ available, these weights typically reflects daily levels of activity, which
 may vary due to seasonality, trading day effects, or other calendar effects
 such as public holidays.}
 
-\item{stde}{Boolean. If \code{TRUE}, the function also returns the standard errors associated with the results.
-The default is \code{FALSE}.}
+\item{stde}{Boolean. If \code{TRUE}, the function also returns the standard errors
+associated with the results. The default is \code{FALSE}.}
 }
 \value{
-A list containing the disaggregated daily values, the final aggregated series, and their associated standard errors if requested.
+A list containing the disaggregated daily values, the final
+aggregated series, and their associated standard errors if requested.
 }
 \description{
 Time series data do not always coincide with calendar periods (e.g., fiscal
@@ -48,6 +52,19 @@ disaggregation of the observed data into daily values. After that, the
 resulting daily values are aggregated into the desired calendar reference
 periods.
 }
+\section{Vignette}{
+
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+\itemize{
+\item In R:
+\code{browseVignettes(package = "rjd3bench")}
+\item Online:
+\url{https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html}
+}
+}
+
 \examples{
 \dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
@@ -93,9 +110,4 @@ yq_2 <- cal_2$rslt
 Quenneville, B., Picard F., Fortier S. (2012). Calendarization
 with interpolating splines and state space models. Statistics Canada, Appl.
 Statistics (2013) 62, part 3, pp 371-399.
-}
-\seealso{
-For more information, see the vignette:
-
-\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

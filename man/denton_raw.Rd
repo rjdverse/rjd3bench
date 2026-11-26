@@ -21,23 +21,33 @@ denton_raw(
 \arguments{
 \item{s}{A preliminary series. If not \code{NULL}, it must be a numeric vector.}
 
-\item{t}{The low-frequency aggregation constraint. It must be a numeric vector.}
+\item{t}{The low-frequency aggregation constraint. It must be a numeric
+vector.}
 
-\item{freqratio}{An integer specifying the frequency ratio between the benchmarked series and the low-frequency constraint.
+\item{freqratio}{An integer specifying the frequency ratio between the
+benchmarked series and the low-frequency constraint.
 This argument is mandatory and must be a positive integer.}
 
 \item{d}{An integer specifying the differencing order. The default is \code{1}.}
 
-\item{mul}{Boolean. Indicates whether benchmarking is multiplicative (\code{TRUE}) or additive (\code{FALSE}). The default is multiplicative.}
+\item{mul}{Boolean. Indicates whether benchmarking is multiplicative
+(\code{TRUE}) or additive (\code{FALSE}). The default is multiplicative.}
 
-\item{modified}{Boolean. Specifies whether the modified Denton method (\code{TRUE}) or the unmodified Denton method (\code{FALSE}) is applied. The default is \code{TRUE}.}
+\item{modified}{Boolean. Specifies whether the modified Denton method
+(\code{TRUE}) or the unmodified Denton method (\code{FALSE}) is applied. The default
+is \code{TRUE}.}
 
-\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} (the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
+\item{conversion}{A character string specifying the conversion mode,
+typically \code{"Sum"} (the default) or \code{"Average"}. Other options are:
+\code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
-\item{obsposition}{An integer specifying the position of the observations of the low-frequency constraint within the benchmarked series (e.g. the 7th month of the year).
+\item{obsposition}{An integer specifying the position of the observations
+of the low-frequency constraint within the benchmarked series (e.g. the
+7th month of the year).
 This argument is used only when \code{conversion = "UserDefined"}.}
 
-\item{startoffset}{The number of initial observations in the preliminary series that precede the start of the low-frequency constraint.
+\item{startoffset}{The number of initial observations in the preliminary
+series that precede the start of the low-frequency constraint.
 The value must be either 0 or a positive integer (default is 0).
 This argument is ignored when no preliminary series is provided.}
 
@@ -60,6 +70,19 @@ additive second difference (ASD), proportional second difference (PSD), etc.
 The default and most widely used is the Denton PFD method. The \code{denton_raw()}
 function extends \code{denton()} by allowing benchmarking for any frequency ratio.
 }
+\section{Vignette}{
+
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+\itemize{
+\item In R:
+\code{browseVignettes(package = "rjd3bench")}
+\item Online:
+\url{https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html}
+}
+}
+
 \examples{
 \dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 Y <- c(500,510,525,520)
@@ -89,9 +112,4 @@ denton_raw(x2, Y, freqratio = 5, conversion = "Last")
 denton_raw(x2, Y, freqratio = 5, conversion = "Last", startoffset = 1)
 
 \dontshow{\}) # examplesIf}
-}
-\seealso{
-For more information, see the vignette:
-
-\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

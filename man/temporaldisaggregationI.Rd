@@ -2,7 +2,7 @@
 % Please edit documentation in R/tempdisagg.R
 \name{temporaldisaggregationI}
 \alias{temporaldisaggregationI}
-\title{Temporal Disaggregation and Interpolation of a Time Series by means of a Reverse Regression Model.}
+\title{Temporal Disaggregation and Interpolation of a Time Series by means of a Reverse Regression Model}
 \usage{
 temporaldisaggregationI(
   series,
@@ -15,25 +15,35 @@ temporaldisaggregationI(
 )
 }
 \arguments{
-\item{series}{A low-frequency time series to be disaggregated or interpolated. It must be a \code{"ts"} object.}
+\item{series}{A low-frequency time series to be disaggregated or
+interpolated. It must be a \code{"ts"} object.}
 
-\item{indicator}{A high-frequency indicator series. It must be a \code{"ts"} object.}
+\item{indicator}{A high-frequency indicator series. It must be a \code{"ts"}
+object.}
 
-\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"}(the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
+\item{conversion}{A character string specifying the conversion mode,
+typically \code{"Sum"}(the default) or \code{"Average"}. Other options are:
+\code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
-\item{conversion.obsposition}{An integer specifying the position of the low-frequency observations within the interpolated series (e.g. the 7th month of the year).
-This argument is used only for interpolation when \code{conversion = "UserDefined"}.}
+\item{conversion.obsposition}{An integer specifying the position of the
+low-frequency observations within the interpolated series (e.g. the 7th
+month of the year).
+This argument is used only for interpolation when
+\code{conversion = "UserDefined"}.}
 
-\item{rho}{A numeric value giving the (initial) value of the autoregressive parameter.}
+\item{rho}{A numeric value giving the (initial) value of the autoregressive
+parameter.}
 
-\item{rho.fixed}{Boolean. Specifies whether the supplied value of \code{rho} is fixed. The default is \code{FALSE}, which indicates that \code{rho} is estimated.}
+\item{rho.fixed}{Boolean. Specifies whether the supplied value of \code{rho} is
+fixed. The default is \code{FALSE}, which indicates that \code{rho} is estimated.}
 
-\item{rho.truncated}{A numeric value defining the lower bound of the admissible range for \code{rho}.
+\item{rho.truncated}{A numeric value defining the lower bound of the
+admissible range for \code{rho}.
 The evaluation range is \verb{[rho.truncated, 1[}.}
 }
 \value{
-An object of class "JD3_TEMPDISAGGI_RSLTS" is returned. The following are returned
-invisibly as a list:
+An object of class "JD3_TEMPDISAGGI_RSLTS" is returned. The
+following are returned as a list:
 \itemize{
 \item \code{regression} \verb{[[1]]} regression coefficients;
 \item \code{estimation} \verb{[[2]]} disaggregated Time-Series and parameter;
@@ -47,6 +57,19 @@ usual regression-based models, this approach treats a high-frequency
 indicator as the dependent variable and the unknown target series as the
 independent variable.
 }
+\section{Vignette}{
+
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+\itemize{
+\item In R:
+\code{browseVignettes(package = "rjd3bench")}
+\item Online:
+\url{https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html}
+}
+}
+
 \examples{
 \dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 # Retail data, monthly indicator
@@ -67,9 +90,4 @@ td$regression$b
 \references{
 Bournay J., Laroque G. (1979). Reflexions sur la methode
 d'elaboration des comptes trimestriels. Annales de l'Insee, n. 36, pp.3-30.
-}
-\seealso{
-For more information, see the vignette:
-
-\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

@@ -6,38 +6,56 @@ NULL
 #' @description
 #' The Denton proportional first difference (PFD) method can be expressed as a
 #' statistical model in a state-space representation. This formulation provides
-#' increased flexibility, including the ability to incorporate outliers, which
-#' correspond to level shifts in the Benchmark‑to‑Indicator (BI) ratio, that
-#' would otherwise induce unintended wave effects under the standard Denton PFD
-#' method. In addition, the approach allows the disaggregated series to be
-#' constrained (or 'frozen') at specific periods or prior to a given date by
-#' fixing the corresponding high‑frequency BI ratios.
+#' greater flexibility. Outliers, in particular level shifts in the
+#' benchmark-to-indicator (BI) ratio, can be explicitly accommodated, thereby
+#' preventing the emergence of undesirable wave effects. In addition,
+#' high-frequency BI ratios can be fixed over selected periods, allowing the
+#' disaggregated series to be frozen over specific intervals or prior to a given
+#' date. By preserving the movements of the indicator series while providing
+#' such extensions, the model-based Denton PFD method constitutes a compelling
+#' alternative for temporal disaggregation, interpolation, and benchmarking.
 #'
-#' @param series A low-frequency time series to be disaggregated or interpolated. It must be either a `"ts"` object or a numeric vector.
-#' @param indicator A high-frequency indicator series. It must be of the same class as `series`.
-#' @param differencing Not yet implemented. This should be left equal to `1` (corresponding to the Denton PFD method).
-#' @param conversion A character string specifying the conversion mode, typically `"Sum"` (the default) or `"Average"`. Other options are: `"Last"`, `"First"` and `"UserDefined"`.
-#' @param conversion.obsposition An integer specifying the position of the low-frequency observations within the interpolated series (e.g. the 7th month of the year).
-#' This argument is used only for interpolation when `conversion = "UserDefined"`.
-#' @param outliers A list specifying the outlier periods and their magnitude.
-#'   Each element must be provided as `"YYYY-MM-DD" = value`, where the date
-#'   identifies the period. The numeric value specifies the intensity of the
-#'   outlier and corresponds to the relative value of the innovation variance
-#'   (with `1` indicating the normal situation).
-#' @param fixedBIratios A list specifying the periods for which the
-#'   Benchmark‑to‑Indicator (BI) ratios should be fixed. Each element must be
+#' @param series A low-frequency time series to be disaggregated or
+#'   interpolated. It must be either a `"ts"` object or a numeric vector.
+#' @param indicator A high-frequency indicator series. It must be of the same
+#'   class as `series`.
+#' @param differencing Not yet implemented. This should be left equal to `1`
+#'   (corresponding to the Denton PFD method).
+#' @param conversion A character string specifying the conversion mode,
+#'   typically `"Sum"` (the default) or `"Average"`. Other options are:
+#'   `"Last"`, `"First"` and `"UserDefined"`.
+#' @param conversion.obsposition An integer specifying the position of the
+#'   low-frequency observations within the interpolated series (e.g. the 7th
+#'   month of the year). This argument is used only for interpolation when
+#'   `conversion = "UserDefined"`.
+#' @param outliers A list specifying the level shifts in the
+#'   benchmark-to-indicator (BI) ratio and their magnitude. Each element must be
+#'   provided as `"YYYY-MM-DD" = value`, where the date identifies the period.
+#'   The numeric value specifies the intensity of the outlier and corresponds to
+#'   the relative value of the innovation variance (with `1` indicating the
+#'   normal situation).
+#' @param fixedBIratios A list specifying periods for which the high-frequency
+#'   benchmark‑to‑indicator (BI) ratio is fixed. Each element must be
 #'   provided as `"YYYY-MM-DD" = value`, where the date identifies the period
 #'   and the numeric value specifies the fixed BI ratio.
 #'
-#' @return An object of class "JD3_MBDENTON_RSLTS" is returned. The following are returned invisibly as a list:
-#' * `estimation` `[[1]]` disaggregated Time-Series, BI ratios and standard deviations;
+#' @return An object of class "JD3_MBDENTON_RSLTS" is returned. The following
+#'   are returned as a list:
+#' * `estimation` `[[1]]` disaggregated time series, BI ratios and standard errors;
 #' * `likelihood` `[[2]]` likelihood statistics.
 #'
 #' @export
 #'
-#' @seealso For more information, see the vignette:
+#' @section Vignette:
 #'
-#' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
+#' For more information on the method, its arguments, and the other methods
+#' available in the package, see the package vignette:
+#'
+#' * In R:
+#'   `browseVignettes(package = "rjd3bench")`
+#'
+#' * Online:
+#'   <https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html>
 #'
 #' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' # Retail data, monthly indicator
@@ -69,14 +87,14 @@ NULL
 #'                  legend = c("td1", "td2"))
 #'
 denton_modelbased <- function(
-        series,
-        indicator,
-        differencing = 1L,
-        conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-        conversion.obsposition = 1L,
-        outliers = NULL,
-        fixedBIratios = NULL) {
-
+    series,
+    indicator,
+    differencing = 1L,
+    conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
+    conversion.obsposition = 1L,
+    outliers = NULL,
+    fixedBIratios = NULL
+) {
     conversion <- match.arg(conversion)
 
     jseries <- rjd3toolkit::.r2jd_tsdata(series)
@@ -95,9 +113,20 @@ denton_modelbased <- function(
         fdates <- .jarray(names(fixedBIratios))
         fvars <- .jarray(as.numeric(fixedBIratios))
     }
-    jrslt <- .jcall("jdplus/benchmarking/base/r/TemporalDisaggregation", "Ljdplus/benchmarking/base/core/univariate/ModelBasedDentonResults;",
-                    "processModelBasedDenton", jseries, jindicator, 1L, conversion, as.integer(conversion.obsposition), odates, ovars,
-                    fdates, fvars)
+    jrslt <- .jcall(
+        "jdplus/benchmarking/base/r/TemporalDisaggregation",
+        "Ljdplus/benchmarking/base/core/univariate/ModelBasedDentonResults;",
+        "processModelBasedDenton",
+        jseries,
+        jindicator,
+        1L,
+        conversion,
+        as.integer(conversion.obsposition),
+        odates,
+        ovars,
+        fdates,
+        fvars
+    )
     # Build the S3 result
     estimation <- list(
         disagg = rjd3toolkit::.proc_ts(jrslt, "disagg"),
@@ -115,6 +144,3 @@ denton_modelbased <- function(
 
     return(output)
 }
-
-
-

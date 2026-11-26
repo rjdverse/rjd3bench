@@ -15,45 +15,69 @@ denton_modelbased(
 )
 }
 \arguments{
-\item{series}{A low-frequency time series to be disaggregated or interpolated. It must be either a \code{"ts"} object or a numeric vector.}
+\item{series}{A low-frequency time series to be disaggregated or
+interpolated. It must be either a \code{"ts"} object or a numeric vector.}
 
-\item{indicator}{A high-frequency indicator series. It must be of the same class as \code{series}.}
+\item{indicator}{A high-frequency indicator series. It must be of the same
+class as \code{series}.}
 
-\item{differencing}{Not yet implemented. This should be left equal to \code{1} (corresponding to the Denton PFD method).}
+\item{differencing}{Not yet implemented. This should be left equal to \code{1}
+(corresponding to the Denton PFD method).}
 
-\item{conversion}{A character string specifying the conversion mode, typically \code{"Sum"} (the default) or \code{"Average"}. Other options are: \code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
+\item{conversion}{A character string specifying the conversion mode,
+typically \code{"Sum"} (the default) or \code{"Average"}. Other options are:
+\code{"Last"}, \code{"First"} and \code{"UserDefined"}.}
 
-\item{conversion.obsposition}{An integer specifying the position of the low-frequency observations within the interpolated series (e.g. the 7th month of the year).
-This argument is used only for interpolation when \code{conversion = "UserDefined"}.}
+\item{conversion.obsposition}{An integer specifying the position of the
+low-frequency observations within the interpolated series (e.g. the 7th
+month of the year). This argument is used only for interpolation when
+\code{conversion = "UserDefined"}.}
 
-\item{outliers}{A list specifying the outlier periods and their magnitude.
-Each element must be provided as \code{"YYYY-MM-DD" = value}, where the date
-identifies the period. The numeric value specifies the intensity of the
-outlier and corresponds to the relative value of the innovation variance
-(with \code{1} indicating the normal situation).}
+\item{outliers}{A list specifying the level shifts in the
+benchmark-to-indicator (BI) ratio and their magnitude. Each element must be
+provided as \code{"YYYY-MM-DD" = value}, where the date identifies the period.
+The numeric value specifies the intensity of the outlier and corresponds to
+the relative value of the innovation variance (with \code{1} indicating the
+normal situation).}
 
-\item{fixedBIratios}{A list specifying the periods for which the
-Benchmark‑to‑Indicator (BI) ratios should be fixed. Each element must be
+\item{fixedBIratios}{A list specifying periods for which the high-frequency
+benchmark‑to‑indicator (BI) ratio is fixed. Each element must be
 provided as \code{"YYYY-MM-DD" = value}, where the date identifies the period
 and the numeric value specifies the fixed BI ratio.}
 }
 \value{
-An object of class "JD3_MBDENTON_RSLTS" is returned. The following are returned invisibly as a list:
+An object of class "JD3_MBDENTON_RSLTS" is returned. The following
+are returned as a list:
 \itemize{
-\item \code{estimation} \verb{[[1]]} disaggregated Time-Series, BI ratios and standard deviations;
+\item \code{estimation} \verb{[[1]]} disaggregated time series, BI ratios and standard errors;
 \item \code{likelihood} \verb{[[2]]} likelihood statistics.
 }
 }
 \description{
 The Denton proportional first difference (PFD) method can be expressed as a
 statistical model in a state-space representation. This formulation provides
-increased flexibility, including the ability to incorporate outliers, which
-correspond to level shifts in the Benchmark‑to‑Indicator (BI) ratio, that
-would otherwise induce unintended wave effects under the standard Denton PFD
-method. In addition, the approach allows the disaggregated series to be
-constrained (or 'frozen') at specific periods or prior to a given date by
-fixing the corresponding high‑frequency BI ratios.
+greater flexibility. Outliers, in particular level shifts in the
+benchmark-to-indicator (BI) ratio, can be explicitly accommodated, thereby
+preventing the emergence of undesirable wave effects. In addition,
+high-frequency BI ratios can be fixed over selected periods, allowing the
+disaggregated series to be frozen over specific intervals or prior to a given
+date. By preserving the movements of the indicator series while providing
+such extensions, the model-based Denton PFD method constitutes a compelling
+alternative for temporal disaggregation, interpolation, and benchmarking.
 }
+\section{Vignette}{
+
+
+For more information on the method, its arguments, and the other methods
+available in the package, see the package vignette:
+\itemize{
+\item In R:
+\code{browseVignettes(package = "rjd3bench")}
+\item Online:
+\url{https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html}
+}
+}
+
 \examples{
 \dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 # Retail data, monthly indicator
@@ -84,9 +108,4 @@ stats::ts.plot(y2, y1, main = "Disaggregated series",
 graphics::legend("topleft", lty = 1, col = c("black", "red"),
                  legend = c("td1", "td2"))
 \dontshow{\}) # examplesIf}
-}
-\seealso{
-For more information, see the vignette:
-
-\code{utils::browseVignettes()}, e.g. \code{browseVignettes(package = "rjd3bench")}
 }

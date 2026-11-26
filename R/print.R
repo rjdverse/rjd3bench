@@ -10,7 +10,9 @@ print.JD3_TEMPDISAGG_RSLTS <- function(x, ...) {
         print(x$regression$model)
 
         cat("\n")
-        cat("Use summary() for more details. \nUse plot() to see the decomposition of the disaggregated series.")
+        cat(
+            "Use summary() for more details. \nUse plot() to see the decomposition of the disaggregated series."
+        )
     }
 }
 
@@ -33,7 +35,9 @@ print.JD3_INTERP_RSLTS <- function(x, ...) {
         print(x$regression$model)
 
         cat("\n")
-        cat("Use summary() for more details. \nUse plot() to see the decomposition of the interpolated series.")
+        cat(
+            "Use summary() for more details. \nUse plot() to see the decomposition of the interpolated series."
+        )
     }
 }
 
@@ -53,12 +57,16 @@ print.JD3_TEMPDISAGGI_RSLTS <- function(x, ...) {
     if (is.null(x$estimation$parameter)) {
         cat("Invalid estimation")
     } else {
-        model <- data.frame(coef = c(round(x$regression$a, 4L), round(x$regression$b, 4L)))
+        model <- data.frame(
+            coef = c(round(x$regression$a, 4L), round(x$regression$b, 4L))
+        )
         row.names(model) <- c("a", "b")
         print(model)
 
         cat("\n")
-        cat("Use summary() for more details. \nUse plot() to visualize the disaggregated series.")
+        cat(
+            "Use summary() for more details. \nUse plot() to visualize the disaggregated series."
+        )
     }
 }
 
@@ -71,9 +79,11 @@ print.JD3_MBDENTON_RSLTS <- function(x, ...) {
         print.default(names(x$estimation), ...)
 
         cat("\n")
-        cat("Use summary() for more details.\n",
+        cat(
+            "Use summary() for more details.\n",
             "Use plot() to see the disaggregated series and BI ratio",
-            "with their respective confidence interval.")
+            "with their respective confidence interval."
+        )
     }
 }
 
@@ -86,8 +96,20 @@ print.JD3_ADLDISAGG_RSLTS <- function(x, ...) {
         print(x$regression$model)
 
         cat("\n")
-        cat("Use summary() for more details. \nUse plot() to see the decomposition of the disaggregated series.")
+        cat(
+            "Use summary() for more details. \nUse plot() to see the decomposition of the disaggregated series."
+        )
     }
+    return(invisible(x))
+}
+
+#' @export
+print.JD3_MULTITEMPDISAGG_RSLTS <- function(x, ...) {
+    print(display_mtd_model(x$regression$model), row.names = FALSE)
+
+    cat("\n")
+    cat("Use summary() for more details.")
+
     return(invisible(x))
 }
 
@@ -115,7 +137,6 @@ summary.JD3_INTERPRAW_RSLTS <- function(object, ...) {
 summary.JD3_MBDENTON_RSLTS <- function(object, ...) {
     if (is.null(object)) {
         cat("Invalid estimation")
-
     } else {
         cat("\n")
         cat("Likelihood statistics", "\n")
@@ -144,7 +165,6 @@ summary.JD3_ADLDISAGG_RSLTS <- function(object, ...) {
 summary.JD3_TEMPDISAGGI_RSLTS <- function(object, ...) {
     if (is.null(object)) {
         cat("Invalid estimation")
-
     } else {
         cat("\n")
         cat("Likelihood statistics", "\n")
@@ -160,11 +180,40 @@ summary.JD3_TEMPDISAGGI_RSLTS <- function(object, ...) {
         cat("\n")
         cat("\n")
         cat("Model:", object$regression$type, "\n")
-        model <- data.frame(coef = c(round(object$regression$a, 4L), round(object$regression$b, 4L)))
+        model <- data.frame(
+            coef = c(
+                round(object$regression$a, 4L),
+                round(object$regression$b, 4L)
+            )
+        )
         row.names(model) <- c("a", "b")
         print(model)
     }
 }
+
+#' @export
+summary.JD3_MULTITEMPDISAGG_RSLTS <- function(object, ...) {
+    snames <- names(object$regression$model)
+
+    cat("\n")
+    cat("Regression", "\n")
+    print(display_mtd_model(object$regression$model))
+
+    cat("\n")
+    cat("Errors", "\n")
+    print(matrix(
+        data = round(object$estimation$parameters, 2),
+        nrow = 1,
+        dimnames = list("rho", snames)
+    ))
+
+    cat("\n")
+    cat("Variance-covariance matrix of the innovations", "\n")
+    vcov <- object$estimation$var$vcov
+    rownames(vcov) <- colnames(vcov) <- snames
+    print(vcov)
+}
+
 
 #' @export
 #' @importFrom stats ts ts.plot start end
@@ -172,20 +221,25 @@ summary.JD3_TEMPDISAGGI_RSLTS <- function(object, ...) {
 plot.JD3_TEMPDISAGG_RSLTS <- function(x, ...) {
     if (is.null(x)) {
         cat("Invalid estimation")
-
     } else {
         td_series <- x$estimation$disagg
         reg_effect <- x$estimation$regeffect
 
-        if(is.null(reg_effect)){
-            reg_effect <- stats::ts(rep(0, length(td_series)), start =  stats::start(td_series), frequency = stats::frequency(td_series))
+        if (is.null(reg_effect)) {
+            reg_effect <- stats::ts(
+                rep(0, length(td_series)),
+                start = stats::start(td_series),
+                frequency = stats::frequency(td_series)
+            )
             smoothing_effect <- td_series
-        }else{
+        } else {
             smoothing_effect <- td_series - reg_effect
         }
 
         stats::ts.plot(
-            td_series, reg_effect, smoothing_effect,
+            td_series,
+            reg_effect,
+            smoothing_effect,
             gpars = list(
                 main = "Decomposition",
                 col = c("orange", "green", "blue"),
@@ -195,13 +249,18 @@ plot.JD3_TEMPDISAGG_RSLTS <- function(x, ...) {
                 ...
             )
         )
-        graphics::axis(side = 1L, at = stats::start(td_series)[1L]:stats::end(td_series)[1L])
-        graphics::legend("topleft",
-                         c("disaggragated series", "regression effect", "smoothing effect"),
-                         lty = 1L,
-                         col = c("orange", "green", "blue"),
-                         bty = "n",
-                         cex = 0.8)
+        graphics::axis(
+            side = 1L,
+            at = stats::start(td_series)[1L]:stats::end(td_series)[1L]
+        )
+        graphics::legend(
+            "topleft",
+            c("disaggragated series", "regression effect", "smoothing effect"),
+            lty = 1L,
+            col = c("orange", "green", "blue"),
+            bty = "n",
+            cex = 0.8
+        )
     }
 }
 
@@ -211,20 +270,25 @@ plot.JD3_TEMPDISAGG_RSLTS <- function(x, ...) {
 plot.JD3_INTERP_RSLTS <- function(x, ...) {
     if (is.null(x)) {
         cat("Invalid estimation")
-
     } else {
         ti_series <- x$estimation$interp
         reg_effect <- x$estimation$regeffect
 
-        if(is.null(reg_effect)){
-            reg_effect <- stats::ts(rep(0, length(ti_series)), start =  stats::start(ti_series), frequency = stats::frequency(ti_series))
+        if (is.null(reg_effect)) {
+            reg_effect <- stats::ts(
+                rep(0, length(ti_series)),
+                start = stats::start(ti_series),
+                frequency = stats::frequency(ti_series)
+            )
             smoothing_effect <- ti_series
-        }else{
+        } else {
             smoothing_effect <- ti_series - reg_effect
         }
 
         stats::ts.plot(
-            ti_series, reg_effect, smoothing_effect,
+            ti_series,
+            reg_effect,
+            smoothing_effect,
             gpars = list(
                 main = "Decomposition",
                 col = c("orange", "green", "blue"),
@@ -234,13 +298,18 @@ plot.JD3_INTERP_RSLTS <- function(x, ...) {
                 ...
             )
         )
-        graphics::axis(side = 1L, at = stats::start(ti_series)[1L]:stats::end(ti_series)[1L])
-        graphics::legend("topleft",
-                         c("interpolated series", "regression effect", "smoothing effect"),
-                         lty = 1L,
-                         col = c("orange", "green", "blue"),
-                         bty = "n",
-                         cex = 0.8)
+        graphics::axis(
+            side = 1L,
+            at = stats::start(ti_series)[1L]:stats::end(ti_series)[1L]
+        )
+        graphics::legend(
+            "topleft",
+            c("interpolated series", "regression effect", "smoothing effect"),
+            lty = 1L,
+            col = c("orange", "green", "blue"),
+            bty = "n",
+            cex = 0.8
+        )
     }
 }
 
@@ -268,7 +337,9 @@ plot.JD3_MBDENTON_RSLTS <- function(x, ...) {
         graphics::par(mfrow = c(2L, 1L))
 
         stats::ts.plot(
-            td, td.lb, td.ub,
+            td,
+            td.lb,
+            td.ub,
             gpars = list(
                 main = "Disaggragated series and BI ratio",
                 xlab = "",
@@ -278,7 +349,9 @@ plot.JD3_MBDENTON_RSLTS <- function(x, ...) {
             )
         )
         stats::ts.plot(
-            bi, bi.lb, bi.ub,
+            bi,
+            bi.lb,
+            bi.ub,
             gpars = list(
                 xlab = "",
                 ylab = "BI ratio",
@@ -295,13 +368,25 @@ plot.JD3_MBDENTON_RSLTS <- function(x, ...) {
 plot.JD3_ADLDISAGG_RSLTS <- function(x, ...) {
     if (is.null(x)) {
         cat("Invalid estimation")
-
     } else {
         td_series <- x$estimation$disagg
 
-        stats::ts.plot(td_series, gpars = list(col = "orange", xlab = "", xaxt = "n", las = 2L, ...))
-        graphics::axis(side = 1L, at = stats::start(td_series)[1L]:stats::end(td_series)[1L])
-        graphics::legend("topleft", "disaggragated series", lty = 1L, col = "orange", bty = "n", cex = 0.8)
+        stats::ts.plot(
+            td_series,
+            gpars = list(col = "orange", xlab = "", xaxt = "n", las = 2L, ...)
+        )
+        graphics::axis(
+            side = 1L,
+            at = stats::start(td_series)[1L]:stats::end(td_series)[1L]
+        )
+        graphics::legend(
+            "topleft",
+            "disaggragated series",
+            lty = 1L,
+            col = "orange",
+            bty = "n",
+            cex = 0.8
+        )
     }
     return(invisible(x))
 }
@@ -312,10 +397,15 @@ plot.JD3_ADLDISAGG_RSLTS <- function(x, ...) {
 plot.JD3_TEMPDISAGGI_RSLTS <- function(x, ...) {
     if (is.null(x)) {
         cat("Invalid estimation")
-
     } else {
         td_series <- x$estimation$disagg
-        stats::ts.plot(td_series, gpars = list(xlab = "", ylab = "disaggragated series", xaxt = "n"))
-        graphics::axis(side = 1L, at = stats::start(td_series)[1L]:stats::end(td_series)[1L])
+        stats::ts.plot(
+            td_series,
+            gpars = list(xlab = "", ylab = "disaggragated series", xaxt = "n")
+        )
+        graphics::axis(
+            side = 1L,
+            at = stats::start(td_series)[1L]:stats::end(td_series)[1L]
+        )
     }
 }

@@ -56,5 +56,10 @@ rsconnect/
 
 # produced README.html
 README.html
-/doc/
-/Meta/
+
+# pom files
+pom.xml.versionsBackup
+
+# Quarto related files
+**/.quarto/
+.quarto

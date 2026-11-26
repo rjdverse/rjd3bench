@@ -18,18 +18,22 @@ NULL
 #' @param calendarobs A named list containing the observed data. The list must
 #'   consist of three elements: `start`, `end` and `value`, where the first two
 #'   indicate the starting and ending dates of the observation. See the example.
-#' @param freq An integer specifying the annual frequency. If set to `0`, only the daily series is computed.
-#' @param start The starting day of the calendarization. This date may precede the first observed data (retropolation).
-#' @param end The ending day of the calendarization. This date may exceed the last observed data (extrapolation).
+#' @param freq An integer specifying the annual frequency. If set to `0`, only
+#'   the daily series is computed.
+#' @param start The starting day of the calendarization. This date may precede
+#'   the first observed data (retropolation).
+#' @param end The ending day of the calendarization. This date may exceed the
+#'   last observed data (extrapolation).
 #' @param dailyweights A numeric vector of daily indicator values (or weights).
 #'   The vector must have the same length as the requested daily series. When
 #'   available, these weights typically reflects daily levels of activity, which
 #'   may vary due to seasonality, trading day effects, or other calendar effects
 #'   such as public holidays.
-#' @param stde Boolean. If `TRUE`, the function also returns the standard errors associated with the results.
-#' The default is `FALSE`.
+#' @param stde Boolean. If `TRUE`, the function also returns the standard errors
+#'   associated with the results. The default is `FALSE`.
 #'
-#' @return A list containing the disaggregated daily values, the final aggregated series, and their associated standard errors if requested.
+#' @return A list containing the disaggregated daily values, the final
+#'   aggregated series, and their associated standard errors if requested.
 #'
 #' @references  Quenneville, B., Picard F., Fortier S. (2012). Calendarization
 #'   with interpolating splines and state space models. Statistics Canada, Appl.
@@ -37,9 +41,16 @@ NULL
 #'
 #' @export
 #'
-#' @seealso For more information, see the vignette:
+#' @section Vignette:
 #'
-#' `utils::browseVignettes()`, e.g. `browseVignettes(package = "rjd3bench")`
+#' For more information on the method, its arguments, and the other methods
+#' available in the package, see the package vignette:
+#'
+#' * In R:
+#'   `browseVignettes(package = "rjd3bench")`
+#'
+#' * Online:
+#'   <https://rjdverse.github.io/rjd3bench/articles/rjd3bench.html>
 #'
 #' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
@@ -80,7 +91,14 @@ NULL
 #'
 #' yq_2 <- cal_2$rslt
 #'
-calendarization <- function(calendarobs, freq, start = NULL, end = NULL, dailyweights = NULL, stde = FALSE) {
+calendarization <- function(
+    calendarobs,
+    freq,
+    start = NULL,
+    end = NULL,
+    dailyweights = NULL,
+    stde = FALSE
+) {
     jcal <- rjd3toolkit::r2jd_calendarts(calendarobs)
     if (is.null(dailyweights)) {
         jw <- .jnull("[D")
@@ -97,8 +115,17 @@ calendarization <- function(calendarobs, freq, start = NULL, end = NULL, dailywe
     } else {
         jend <- as.character(end)
     }
-    jrslt <- .jcall("jdplus/benchmarking/base/r/Calendarization", "Ljdplus/benchmarking/base/api/calendarization/CalendarizationResults;",
-                    "process", jcal, as.integer(freq), jstart, jend, jw, as.logical(stde))
+    jrslt <- .jcall(
+        "jdplus/benchmarking/base/r/Calendarization",
+        "Ljdplus/benchmarking/base/api/calendarization/CalendarizationResults;",
+        "process",
+        jcal,
+        as.integer(freq),
+        jstart,
+        jend,
+        jw,
+        as.logical(stde)
+    )
 
     if (stde) {
         rslt <- rjd3toolkit::.proc_ts(jrslt, "agg")
@@ -106,7 +133,13 @@ calendarization <- function(calendarobs, freq, start = NULL, end = NULL, dailywe
         start <- as.Date(rjd3toolkit::.proc_str(jrslt, "start"))
         days <- rjd3toolkit::.proc_vector(jrslt, "days")
         edays <- rjd3toolkit::.proc_vector(jrslt, "edays")
-        return(list(rslt = rslt, erslt = erslt, start = start, days = days, edays = edays))
+        return(list(
+            rslt = rslt,
+            erslt = erslt,
+            start = start,
+            days = days,
+            edays = edays
+        ))
     } else {
         rslt <- rjd3toolkit::.proc_ts(jrslt, "agg")
         start <- as.Date(rjd3toolkit::.proc_str(jrslt, "start"))

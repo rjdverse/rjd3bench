@@ -1,9 +1,17 @@
-## Submission of {rjd3bench} v3.1.3- 2026-07-13
+## Unreleased
+
+## Submission of {rjd3bench} v3.2.0 - 2026-11-26
+
+* Add function `multivariatechowlin()` for multivariate temporal disaggregation
+* Improve vignette and functions documentation 
+* Linting
+
+## Submission of {rjd3bench} v3.1.3 - 2026-07-13
 
 * Fix error in package installation and update dependencies
 * Minor improvements in documentation 
 
-## Submission of {rjd3bench} v3.1.2- 2026-05-04
+## Submission of {rjd3bench} v3.1.2 - 2026-05-04
 
 * Fix default value of parameters and documentation in multivariate Cholette
 * Improve all functions documentation, especially the return value

@@ -15,23 +15,25 @@ NULL
 #'
 #' @export
 temporaldisaggregation <- function(
-        series,
-        constant = TRUE,
-        trend = FALSE,
-        indicators = NULL,
-        model = c("Ar1", "Rw", "RwAr1"),
-        freq = 4L,
-        conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
-        conversion.obsposition = 1L,
-        rho = 0.0,
-        rho.fixed = FALSE,
-        rho.truncated = 0.0,
-        zeroinitialization = FALSE,
-        diffuse.algorithm = c("SqrtDiffuse", "Diffuse", "Augmented"),
-        diffuse.regressors = FALSE) {
-
-    .Deprecated(new = NULL,
-                msg = "`temporaldisaggregation()` is deprecated. Use `temporal_disaggregation()` or `temporal_interpolation()` instead.")
+    series,
+    constant = TRUE,
+    trend = FALSE,
+    indicators = NULL,
+    model = c("Ar1", "Rw", "RwAr1"),
+    freq = 4L,
+    conversion = c("Sum", "Average", "Last", "First", "UserDefined"),
+    conversion.obsposition = 1L,
+    rho = 0.0,
+    rho.fixed = FALSE,
+    rho.truncated = 0.0,
+    zeroinitialization = FALSE,
+    diffuse.algorithm = c("SqrtDiffuse", "Diffuse", "Augmented"),
+    diffuse.regressors = FALSE
+) {
+    .Deprecated(
+        new = NULL,
+        msg = "`temporaldisaggregation()` is deprecated. Use `temporal_disaggregation()` or `temporal_interpolation()` instead."
+    )
 
     model <- match.arg(model)
     conversion <- match.arg(conversion)
@@ -51,7 +53,10 @@ temporaldisaggregation <- function(
         } else {
             stop("Invalid indicators")
         }
-        jindicators <- .jarray(jlist, contents.class = "jdplus/toolkit/base/api/timeseries/TsData")
+        jindicators <- .jarray(
+            jlist,
+            contents.class = "jdplus/toolkit/base/api/timeseries/TsData"
+        )
         n_ext <- 0L
     } else {
         jindicators <- .jnull("[Ljdplus/toolkit/base/api/timeseries/TsData;")
@@ -61,9 +66,21 @@ temporaldisaggregation <- function(
         obj = "jdplus/benchmarking/base/r/TemporalDisaggregation",
         returnSig = "Ljdplus/benchmarking/base/core/univariate/TemporalDisaggregationResults;",
         method = "process",
-        jseries, constant, trend, jindicators, model, as.integer(freq), as.integer(n_ext),
-        conversion, as.integer(conversion.obsposition), rho, rho.fixed, rho.truncated,
-        zeroinitialization, diffuse.algorithm, diffuse.regressors
+        jseries,
+        constant,
+        trend,
+        jindicators,
+        model,
+        as.integer(freq),
+        as.integer(n_ext),
+        conversion,
+        as.integer(conversion.obsposition),
+        rho,
+        rho.fixed,
+        rho.truncated,
+        zeroinitialization,
+        diffuse.algorithm,
+        diffuse.regressors
     )
 
     # Build the S3 result
