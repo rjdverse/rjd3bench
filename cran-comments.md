@@ -1,5 +1,9 @@
 ## Unreleased
 
+## Submission of {rjd3bench} v3.2.0 - 2026-11-26
+
+* Add function `multivariatechowlin()` for multivariate temporal disaggregation
+* Improve vignette and functions documentation 
 * Linting
 
 ## Submission of {rjd3bench} v3.1.3 - 2026-07-13
