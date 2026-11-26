@@ -1,6 +1,6 @@
 # Changelog
 
-## rjd3bench 3.1.3.9000
+## rjd3bench 3.2.0
 
 All notable changes to this project will be documented in this file.
 
@@ -8,7 +8,9 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### [Unreleased](https://github.com/rjdverse/rjd3bench/compare/v3.1.3...HEAD)
+### [Unreleased](https://github.com/rjdverse/rjd3bench/compare/v3.2.0...HEAD)
+
+### [3.2.0](https://github.com/rjdverse/rjd3bench/compare/v3.1.3...v3.2.0) - 2026-11-26
 
 #### Added
 
@@ -18,7 +20,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 #### Changed
 
-- Update vignette and function documentation
+- Updated vignette and function documentation
 
 ### [3.1.3](https://github.com/rjdverse/rjd3bench/compare/v3.1.2...v3.1.3) - 2026-07-13
 
