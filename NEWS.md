@@ -7,13 +7,17 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+
+## [3.2.0] - 2026-11-26
+
 ### Added
 
 * Add function `multivariatechowlin()` for multivariate temporal disaggregation
 
 ### Changed 
 
-* Update vignette and function documentation
+* Updated vignette and function documentation
+
 
 ## [3.1.3] - 2026-07-13
 
@@ -108,7 +112,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * Initial JARS related to version [1.0.0](https://github.com/jdemetra/jdplus-benchmarking/releases/tag/v1.0.0)
 
 
-[Unreleased]: https://github.com/rjdverse/rjd3bench/compare/v3.1.3...HEAD
+[Unreleased]: https://github.com/rjdverse/rjd3bench/compare/v3.2.0...HEAD
+[3.2.0]: https://github.com/rjdverse/rjd3bench/compare/v3.1.3...v3.2.0
 [3.1.3]: https://github.com/rjdverse/rjd3bench/compare/v3.1.2...v3.1.3
 [3.1.2]: https://github.com/rjdverse/rjd3bench/compare/v3.1.1...v3.1.2
 [3.1.1]: https://github.com/rjdverse/rjd3bench/compare/v3.1.0...v3.1.1
